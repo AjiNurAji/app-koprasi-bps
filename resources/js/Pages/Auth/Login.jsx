@@ -1,10 +1,11 @@
 import { useEffect } from "react";
-import { Head, Link, useForm } from "@inertiajs/react";
+import { Head, useForm } from "@inertiajs/react";
 import Logo from "@/assets/images/icon-bps.png";
 import Checkbox from "@/Components/FormElements/Checkbox";
+import ProcessLogin from "@/Libs/processLogin";
 
-export default function Login({ status }) {
-    const { data, setData, post, processing, errors, reset } = useForm({
+const Login = () => {
+    const { data, setData, reset } = useForm({
         username: "",
         password: "",
         remember: false,
@@ -16,16 +17,16 @@ export default function Login({ status }) {
         };
     }, []);
 
-    const submit = (e) => {
+    const submit = async (e) => {
         e.preventDefault();
-
-        post(route("login"));
+        
+        await ProcessLogin(route('login_admin'), data);
     };
 
     const handleValue = (e) => {
         setData({
             ...data,
-            [e.target.name]: e.target.value
+            [e.target.name]: e.target.value,
         });
     };
 
@@ -102,4 +103,6 @@ export default function Login({ status }) {
             </div>
         </>
     );
-}
+};
+
+export default Login;

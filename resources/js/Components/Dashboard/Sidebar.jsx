@@ -1,13 +1,15 @@
 import { Link } from "@inertiajs/react";
-import { useRef } from "react";
+import { Fragment, useRef, useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
+import Logo from "@/assets/images/dark-logo.png";
+import SidebarLinkGroup from "./El/SidebarLinkGroup";
 
-const Sidebar = () => {
+const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
     const location = useLocation();
     const { pathname } = location;
 
-    const trigger = useRef();
-    const sidebar = useRef();
+    const trigger = useRef(false);
+    const sidebar = useRef(false);
 
     const storedSidebarExpanded = localStorage.getItem("sidebar-expanded");
     const [sidebarExpanded, setSidebarExpanded] = useState(
@@ -109,7 +111,7 @@ const Sidebar = () => {
                             >
                                 {(handleClick, open) => {
                                     return (
-                                        <React.Fragment>
+                                        <Fragment>
                                             <Link
                                                 href="#"
                                                 className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${
@@ -196,7 +198,7 @@ const Sidebar = () => {
                                                 </ul>
                                             </div>
                                             {/* <!-- Dropdown Menu End --> */}
-                                        </React.Fragment>
+                                        </Fragment>
                                     );
                                 }}
                             </SidebarLinkGroup>
@@ -269,7 +271,7 @@ const Sidebar = () => {
                             >
                                 {(handleClick, open) => {
                                     return (
-                                        <React.Fragment>
+                                        <Fragment>
                                             <Link
                                                 to="#"
                                                 className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${
@@ -374,7 +376,7 @@ const Sidebar = () => {
                                                 </ul>
                                             </div>
                                             {/* <!-- Dropdown Menu End --> */}
-                                        </React.Fragment>
+                                        </Fragment>
                                     );
                                 }}
                             </SidebarLinkGroup>
@@ -523,7 +525,7 @@ const Sidebar = () => {
                             >
                                 {(handleClick, open) => {
                                     return (
-                                        <React.Fragment>
+                                        <Fragment>
                                             <Link
                                                 href="#"
                                                 className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${
@@ -632,7 +634,7 @@ const Sidebar = () => {
                                                 </ul>
                                             </div>
                                             {/* <!-- Dropdown Menu End --> */}
-                                        </React.Fragment>
+                                        </Fragment>
                                     );
                                 }}
                             </SidebarLinkGroup>
@@ -647,7 +649,7 @@ const Sidebar = () => {
                             >
                                 {(handleClick, open) => {
                                     return (
-                                        <React.Fragment>
+                                        <Fragment>
                                             <Link
                                                 href="#"
                                                 className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${
@@ -752,7 +754,7 @@ const Sidebar = () => {
                                                 </ul>
                                             </div>
                                             {/* <!-- Dropdown Menu End --> */}
-                                        </React.Fragment>
+                                        </Fragment>
                                     );
                                 }}
                             </SidebarLinkGroup>

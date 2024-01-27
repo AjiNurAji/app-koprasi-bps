@@ -33,7 +33,7 @@ const Checkbox = ({ data, setData }) => {
                         }}
                     />
                     <div
-                        className={`mr-4 flex h-4 w-4 items-center justify-center rounded border ${
+                        className={`mr-2 flex h-4 w-4 items-center border-stroke dark:border-form-strokedark justify-center rounded border ${
                             isChecked &&
                             "border-primary bg-gray dark:bg-transparent"
                         }`}
