@@ -3,27 +3,30 @@ import { Link } from "@inertiajs/react";
 
 import UserOne from "@/assets/images/user-01.webp";
 
-const DropdownUser = () => {
+const DropdownUser = ({ user }) => {
     const [dropdownOpen, setDropdownOpen] = useState(false);
 
     const trigger = useRef(null);
     const dropdown = useRef(null);
 
     // close on click outside
-    const clickHandler = ({ target }) => {
-        if (!dropdown.current) return;
-        if (
-            !dropdownOpen ||
-            dropdown.current.contains(target) ||
-            trigger.current.contains(target)
-        )
-            return;
-        setDropdownOpen(false);
-    };
     useEffect(() => {
+        const clickHandler = ({ target }) => {
+            if (!dropdown.current) return;
+            if (
+                !dropdownOpen ||
+                dropdown.current.contains(target) ||
+                trigger.current.contains(target)
+            )
+                return;
+            if(!dropdown.current.contains(target) ||
+            !trigger.current.contains(target)) {
+                setDropdownOpen(false);
+            }
+        };
         document.addEventListener("click", clickHandler);
         return () => document.removeEventListener("click", clickHandler);
-    }, []);
+    });
 
     // close if the esc key is pressed
     useEffect(() => {
@@ -33,7 +36,7 @@ const DropdownUser = () => {
         };
         document.addEventListener("keydown", keyHandler);
         return () => document.removeEventListener("keydown", keyHandler);
-    }, []);
+    });
 
     return (
         <div className="relative">
@@ -44,9 +47,9 @@ const DropdownUser = () => {
             >
                 <span className="hidden text-right lg:block">
                     <span className="block text-sm font-medium text-black dark:text-white">
-                        Thomas Anree
+                        {user.name}
                     </span>
-                    <span className="block text-xs">UX Designer</span>
+                    <span className="block text-xs">{user.role ? user.role : 'anggota'}</span>
                 </span>
 
                 <span className="h-12 w-12 rounded-full">

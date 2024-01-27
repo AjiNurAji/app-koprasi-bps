@@ -3,6 +3,7 @@ import { Head, useForm } from "@inertiajs/react";
 import Logo from "@/assets/images/icon-bps.png";
 import Checkbox from "@/Components/FormElements/Checkbox";
 import ProcessLogin from "@/Libs/processLogin";
+import { router } from "@inertiajs/react";
 
 const Login = () => {
     const { data, setData, reset } = useForm({
@@ -19,8 +20,12 @@ const Login = () => {
 
     const submit = async (e) => {
         e.preventDefault();
-        
-        await ProcessLogin(route('login_admin'), data);
+
+        const prosess = await ProcessLogin(route("login_admin"), data);
+
+        if (prosess) {
+            router.replace(route("dashboard"));
+        }
     };
 
     const handleValue = (e) => {
@@ -89,13 +94,23 @@ const Login = () => {
                                 <Checkbox data={data} setData={setData} />
                             </div>
                             <div className="w-full">
-                                <button
-                                    type="submit"
-                                    name="button-sumbit"
-                                    className="w-full cursor-pointer rounded-lg border border-primary bg-primary p-2 text-white transition hover:bg-opacity-90"
-                                >
-                                    Log in
-                                </button>
+                                {true ? (
+                                    <button
+                                        type="button"
+                                        disabled
+                                        className="w-full cursor-pointer rounded-lg border border-primary bg-primary p-2 text-white transition hover:bg-opacity-90"
+                                    >
+                                        Log in
+                                    </button>
+                                ) : (
+                                    <button
+                                        type="submit"
+                                        name="button-sumbit"
+                                        className="w-full cursor-pointer rounded-lg border border-primary bg-primary p-2 text-white transition hover:bg-opacity-90"
+                                    >
+                                        Log in
+                                    </button>
+                                )}
                             </div>
                         </form>
                     </div>

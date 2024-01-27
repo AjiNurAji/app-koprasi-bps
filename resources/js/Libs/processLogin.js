@@ -1,9 +1,7 @@
 import { toast } from "react-hot-toast";
 import axios from "axios";
-import { useNavigate } from 'react-router-dom';
 
 const ProcessLogin = async (url, data) => {
-    const navigate = useNavigate();
     const toastLoading = toast.loading("Loading...");
 
     try {
@@ -15,23 +13,24 @@ const ProcessLogin = async (url, data) => {
         });
 
         if (response.data) {
-            navigate(route('dashboard'));
-            return toast.success(response.data.message, {
+            toast.success(response.data.message, {
                 id: toastLoading,
                 duration: 3000,
             });
-
+            return true;
         }
 
-        return toast.error(response.message, {
+        toast.error(response.message, {
             id: toastLoading,
             duration: 3000,
         });
+        return;
     } catch (error) {
-        return toast.error(error.response.data.message, {
+        toast.error(error.response.data.message, {
             id: toastLoading,
             duration: 3000,
         });
+        return;
     }
 }
 

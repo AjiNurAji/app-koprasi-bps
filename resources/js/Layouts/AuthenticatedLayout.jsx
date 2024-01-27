@@ -1,9 +1,10 @@
+import Footer from "@/Components/Dashboard/Footer";
 import Header from "@/Components/Dashboard/Header";
 import Sidebar from "@/Components/Dashboard/Sidebar";
 import { useState } from "react";
 import { BrowserRouter } from "react-router-dom";
 
-export default function Authenticated({ user, children }) {
+const Authenticated = ({ user, children }) => {
     const [sidebarOpen, setSidebarOpen] = useState(false);
 
     return (
@@ -22,6 +23,7 @@ export default function Authenticated({ user, children }) {
                     <div className="relative flex flex-1 flex-col overflow-y-auto overflow-x-hidden">
                         {/* <!-- ===== Header Start ===== --> */}
                         <Header
+                            user={user}
                             sidebarOpen={sidebarOpen}
                             setSidebarOpen={setSidebarOpen}
                         />
@@ -34,6 +36,7 @@ export default function Authenticated({ user, children }) {
                             </div>
                         </main>
                         {/* <!-- ===== Main Content End ===== --> */}
+                        <Footer />
                     </div>
                     {/* <!-- ===== Content Area End ===== --> */}
                 </div>
@@ -42,3 +45,5 @@ export default function Authenticated({ user, children }) {
         </BrowserRouter>
     );
 }
+
+export default Authenticated;
