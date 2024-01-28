@@ -21,8 +21,6 @@
 
 <body class="font-satoshi antialiased">
     @inertia
-
-    @vite(['resources/js/Libs/preload.js'])
 </body>
 
 </html>

@@ -15,7 +15,7 @@ const Footer = () => {
     });
     return (
         <footer className={`${position ? 'sticky' : 'relative'} border-t border-t-bodydark bottom-0 w-full bg-white drop-shadow-1 dark:bg-boxdark dark:drop-shadow-none py-3 px-4 shadow-2 md:px-6 2xl:px-11`}>
-            <div className="flex justify-between items-center w-full">
+            <div className="flex flex-col gap-1 sm:flex-row justify-between items-center w-full">
                 <p className="text-xs">
                     &copy; {new Date().getFullYear()} - BPS Kabupaten Kuningan.
                 </p>
