@@ -39,3 +39,18 @@
 *::-webkit-scrollbar-thumb:active {
     background-color: #8a99af;
 }
+
+#loader {
+    opacity: 0;
+    visibility: hidden;
+    transition: all .3s ease-in-out;
+    -webkit-transition: all .3s ease-in-out;
+    -moz-transition: all .3s ease-in-out;
+    -ms-transition: all .3s ease-in-out;
+    -o-transition: all .3s ease-in-out;
+}
+
+.nprogress-busy #loader {
+    opacity: 1;
+    visibility: visible;
+}

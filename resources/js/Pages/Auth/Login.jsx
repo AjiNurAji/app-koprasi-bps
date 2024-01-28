@@ -1,31 +1,35 @@
-import { useEffect } from "react";
+import { useRef, useState } from "react";
 import { Head, useForm } from "@inertiajs/react";
 import Logo from "@/assets/images/icon-bps.png";
 import Checkbox from "@/Components/FormElements/Checkbox";
 import ProcessLogin from "@/Libs/processLogin";
 import { router } from "@inertiajs/react";
+import ButtonLoading from "@/Components/ButtonLoading";
 
 const Login = () => {
-    const { data, setData, reset } = useForm({
+    const [processing, setProcess] = useState(false);
+    const { data, setData } = useForm({
         username: "",
         password: "",
         remember: false,
     });
-
-    useEffect(() => {
-        return () => {
-            reset("password");
-        };
-    }, []);
+    const inputUsername = useRef(null)
+    const form = useRef(null)
 
     const submit = async (e) => {
         e.preventDefault();
+        setProcess(true)
 
         const prosess = await ProcessLogin(route("login_admin"), data);
 
         if (prosess) {
+            form.current.reset();
+            setProcess(false)
             router.replace(route("dashboard"));
         }
+
+        inputUsername.current.focus();
+        setProcess(false)
     };
 
     const handleValue = (e) => {
@@ -50,6 +54,7 @@ const Login = () => {
                             </h1>
                         </div>
                         <form
+                            ref={form}
                             onSubmit={submit}
                             method="post"
                             className="flex flex-col justify-start gap-5 items-start"
@@ -66,6 +71,7 @@ const Login = () => {
                                     autoComplete="username"
                                     id="username"
                                     name="username"
+                                    ref={inputUsername}
                                     required
                                     onChange={(e) => handleValue(e)}
                                     placeholder="Masukkan username anda"
@@ -94,14 +100,8 @@ const Login = () => {
                                 <Checkbox data={data} setData={setData} />
                             </div>
                             <div className="w-full">
-                                {true ? (
-                                    <button
-                                        type="button"
-                                        disabled
-                                        className="w-full cursor-pointer rounded-lg border border-primary bg-primary p-2 text-white transition hover:bg-opacity-90"
-                                    >
-                                        Log in
-                                    </button>
+                                {processing ? (
+                                    <ButtonLoading color="primary" />
                                 ) : (
                                     <button
                                         type="submit"

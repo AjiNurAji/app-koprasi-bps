@@ -1,23 +1,28 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}"  class="nprogress-busy">
 
-        <title inertia>{{ config('app.name', 'Laravel') }}</title>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <!-- Fonts -->
-        <link rel="stylesheet" href="{{ asset('satoshi.css') }}">
+    <title inertia>{{ config('app.name') }}</title>
 
-        <link rel="icon" href="{{ asset('favicon.ico') }}">
+    <!-- Fonts -->
+    <link rel="stylesheet" href="{{ asset('satoshi.css') }}">
 
-        <!-- Scripts -->
-        @routes
-        @viteReactRefresh
-        @vite(['resources/js/app.jsx', "resources/js/Pages/{$page['component']}.jsx"])
-        @inertiaHead
-    </head>
-    <body class="font-satoshi antialiased">
-        @inertia
-    </body>
+    <link rel="icon" href="{{ asset('favicon.ico') }}">
+
+    <!-- Scripts -->
+    @routes
+    @viteReactRefresh
+    @vite(['resources/js/app.jsx', "resources/js/Pages/{$page['component']}.jsx"])
+    @inertiaHead
+</head>
+
+<body class="font-satoshi antialiased">
+    @inertia
+
+    @vite(['resources/js/Libs/preload.js'])
+</body>
+
 </html>
