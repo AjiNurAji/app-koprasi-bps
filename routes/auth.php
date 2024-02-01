@@ -6,7 +6,7 @@ Route::middleware('guest')->group(function () {
     Route::get('login', [AuthController::class, 'index'])->name('login');
     Route::post('login', [AuthController::class, 'processLogin'])->name('login_admin');
 
-    Route::post('login', [AuthController::class, 'processLoginMember'])->name('login_member');
+    Route::post('login-member', [AuthController::class, 'processLoginMember'])->name('login_member');
 });
 
 Route::middleware('auth')->group(function () {
