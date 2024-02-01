@@ -1,14 +1,10 @@
 import { Fragment, useRef, useState, useEffect } from "react";
-import { useLocation } from "react-router-dom";
 import Logo from "@/assets/images/dark-logo.png";
 import SidebarLinkGroup from "./El/SidebarLinkGroup";
-import { Link } from "@inertiajs/react";
 import { LuLayoutDashboard, LuUsers} from "react-icons/lu";
 import { PiUsersThree } from "react-icons/pi";
 
-const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
-    const location = useLocation();
-    const { pathname } = location;
+const Sidebar = ({ pathname, sidebarOpen, setSidebarOpen }) => {
 
     const trigger = useRef(false);
     const sidebar = useRef(false);
@@ -66,9 +62,9 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
         >
             {/* <!-- SIDEBAR HEADER --> */}
             <div className="flex items-center justify-between gap-2 px-6 py-5.5 lg:py-6.5">
-                <Link href="/dashboard">
+                <a href="/dashboard">
                     <img src={Logo} alt="Logo" loading="lazy" />
-                </Link>
+                </a>
 
                 <button
                     ref={trigger}
@@ -106,7 +102,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
                         <ul className="mb-6 flex flex-col gap-1.5">
                             {/* <!-- Menu Item Dashboard --> */}
                             <li>
-                                <Link
+                                <a
                                     href={route("dashboard")}
                                     className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${
                                         pathname.includes("dashboard") &&
@@ -115,13 +111,13 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
                                 >
                                     <LuLayoutDashboard className="stroke-current" width={18} height={18} />
                                     Dashboard
-                                </Link>
+                                </a>
                             </li>
                             {/* <!-- Menu Item Dashboard --> */}
 
                             {/* <!-- Menu Item Member --> */}
                             <li>
-                                <Link
+                                <a
                                     href={route("members")}
                                     className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${
                                         pathname.includes("members") &&
@@ -130,7 +126,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
                                 >
                                     <LuUsers className="stroke-current" width={18} height={18} />
                                     Members
-                                </Link>
+                                </a>
                             </li>
                             {/* <!-- Menu Item Member --> */}
 
@@ -144,7 +140,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
                                 {(handleClick, open) => {
                                     return (
                                         <Fragment>
-                                            <Link
+                                            <a
                                                 href="#"
                                                 className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${
                                                     (pathname === "/forms" ||
@@ -209,7 +205,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
                                                         fill=""
                                                     />
                                                 </svg>
-                                            </Link>
+                                            </a>
                                             {/* <!-- Dropdown Menu Start --> */}
                                             <div
                                                 className={`translate transform overflow-hidden ${
@@ -218,7 +214,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
                                             >
                                                 <ul className="mt-4 mb-5.5 flex flex-col gap-2.5 pl-6">
                                                     <li>
-                                                        <Link
+                                                        <a
                                                             href="/forms/form-elements"
                                                             className={
                                                                 "group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white " +
@@ -229,10 +225,10 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
                                                             }
                                                         >
                                                             Form Elements
-                                                        </Link>
+                                                        </a>
                                                     </li>
                                                     <li>
-                                                        <Link
+                                                        <a
                                                             href="/forms/form-layout"
                                                             className={
                                                                 "group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white " +
@@ -241,7 +237,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
                                                             }
                                                         >
                                                             Form Layout
-                                                        </Link>
+                                                        </a>
                                                     </li>
                                                 </ul>
                                             </div>
@@ -254,7 +250,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
 
                             {/* <!-- Menu Item Tables --> */}
                             <li>
-                                <Link
+                                <a
                                     href="/tables"
                                     className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${
                                         pathname.includes("tables") &&
@@ -287,13 +283,13 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
                                         </defs>
                                     </svg>
                                     Tables
-                                </Link>
+                                </a>
                             </li>
                             {/* <!-- Menu Item Tables --> */}
 
                             {/* <!-- Menu Item Settings --> */}
                             <li>
-                                <Link
+                                <a
                                     href="/settings"
                                     className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${
                                         pathname.includes("settings") &&
@@ -330,7 +326,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
                                         </defs>
                                     </svg>
                                     Settings
-                                </Link>
+                                </a>
                             </li>
                             {/* <!-- Menu Item Settings --> */}
                         </ul>
@@ -345,7 +341,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
                         <ul className="mb-6 flex flex-col gap-1.5">
                             {/* <!-- Menu AD/ART --> */}
                             <li>
-                                <Link
+                                <a
                                     href="/chart"
                                     className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${
                                         pathname.includes("chart") &&
@@ -382,12 +378,12 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
                                         </defs>
                                     </svg>
                                     Chart
-                                </Link>
+                                </a>
                             </li>
                             {/* <!-- Menu AD/ART --> */}
                             {/* <!-- Menu Team --> */}
                             <li>
-                                <Link
+                                <a
                                     href="/team"
                                     className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${
                                         pathname.includes("chart") &&
@@ -396,7 +392,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
                                 >
                                     <PiUsersThree className="stroke-current" width={18} height={18} />
                                     Team
-                                </Link>
+                                </a>
                             </li>
                             {/* <!-- Menu Team --> */}
                         </ul>

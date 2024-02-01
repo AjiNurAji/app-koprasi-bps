@@ -36,7 +36,7 @@ class AuthController extends Controller
 
             if (Auth::guard('admin')->attempt($credentials)) {
                 $request->session()->regenerate();
-                return response()->json(['message' => 'Berhasil Login 👋'], 200);
+                return response()->json(['message' => 'Berhasil Login'], 200);
             }
 
             return response()->json(['message' => 'Gagal login, silahkan coba lagi!'], 401);

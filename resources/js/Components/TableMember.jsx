@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import useTable from "@/hook/useTable";
 import PaginationButton from "./PaginationButton";
 
-const TableMember = ({ data }) => {
+const TableMember = ({ data, setTablePage }) => {
     const tableEl = useRef(null);
     const rowsSet = useRef(null);
     const [search, setSearch] = useState("");
@@ -12,34 +12,38 @@ const TableMember = ({ data }) => {
     const [page, setPage] = useState(1);
     const { slice, range } = useTable(data, page, rowsPerPage);
 
+    useEffect(() => {
+        setTablePage(page)
+    }, [page]);
+    
     return (
         <div className="rounded-sm border border-stroke bg-white px-5 pt-6 pb-2.5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
-            <div className="max-w-full overflow-x-auto sm:overflow-x-visible">
-                <div className="flex w-full justify-between items-center py-2">
-                    <select
-                        ref={rowsSet}
-                        onChange={(e) =>
-                            setRowPerPage(Number(e.target.value))
-                        }
-                        name="range"
-                        id="range"
-                        className="rounded-lg border border-stroke bg-transparent py-2 pl-4 pr-6 transition-all duration-300 ease-in-out outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
-                    >
-                        <option value={10}>10</option>
-                        <option value={25}>25</option>
-                        <option value={50}>50</option>
-                        <option value={100}>100</option>
-                    </select>
+            <div className="flex w-full justify-between items-center py-2">
+                <select
+                    ref={rowsSet}
+                    onChange={(e) =>
+                        setRowPerPage(Number(e.target.value))
+                    }
+                    name="range"
+                    id="range"
+                    className="rounded-lg border border-stroke bg-transparent py-2 pl-4 pr-6 transition-all duration-300 ease-in-out outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
+                >
+                    <option value={10}>10</option>
+                    <option value={25}>25</option>
+                    <option value={50}>50</option>
+                    <option value={100}>100</option>
+                </select>
 
-                    <div className="flex justify-center items-center gap-3">
-                        <input
-                            type="text"
-                            onChange={(e) => setSearch(e.target.value)}
-                            placeholder="Cari nama"
-                            className="rounded-lg border border-stroke bg-transparent py-2 pl-4 pr-6 transition-all duration-300 ease-in-out outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
-                        />
-                    </div>
+                <div className="flex justify-center items-center gap-3">
+                    <input
+                        type="text"
+                        onChange={(e) => setSearch(e.target.value)}
+                        placeholder="Cari nama"
+                        className="rounded-lg border border-stroke bg-transparent py-2 pl-4 pr-6 transition-all duration-300 ease-in-out outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
+                    />
                 </div>
+            </div>
+            <div className="max-w-full overflow-x-auto sm:overflow-x-visible">
                 <table
                     className="w-full table-auto"
                     id="tableMember"
