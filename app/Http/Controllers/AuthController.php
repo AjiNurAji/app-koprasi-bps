@@ -39,25 +39,36 @@ class AuthController extends Controller
                 return response()->json(['message' => 'Berhasil Login 👋'], 200);
             }
 
-            $request->validate([
-                'Email' => 'required',
-                'password' => 'required',
-            ]);
-
-            $credentials = [
-                'Email' => $request->input('Email'),
-                'password' => $request->input('password'),
-            ];
-
-            if (Auth::guard('Member')->attempt($credentials)) {
-                $request->session()->regenerate();
-                return response()->json(['message' => 'Berhasil Login 👋'], 200);
-            }
-
             return response()->json(['message' => 'Gagal login, silahkan coba lagi!'], 401);
         } catch (\Throwable $th) {
             return response()->json(['message' => 'Server error, silahkan coba lagi!'], 500);
         }
+    }
+
+
+    public function processLoginMember(Request $request)
+    {
+        try
+        $request->validate([
+            'email' => 'required',
+            'password' => 'required',
+        ]);
+
+        // credentials
+        $credentials = [
+            'email' => $request->input('email'),
+            'password' => $request->input('password'),
+        ];
+
+        if (Auth::guard('Member')->attempt($credentials)) {
+            $request->session()->regenerate();
+            return response()->json(['message' => 'Berhasil Login 👋'], 200);
+        }
+
+        return response()->json(['message' => 'Login gagal, silahkan coba lagi!'], 401);
+    } catch (\Throwable $th) {
+        return response()->json(['message' => 'Server error, silahkan coba lagi!'], 500);
+    }
     }
 
     /**
