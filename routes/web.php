@@ -26,6 +26,9 @@ Route::get('/', function () {
 Route::middleware('auth')->group(function () {
     Route::get('/dashboard', [HomepageController::class, 'index'])->name('dashboard');
     Route::get('/members', [MemberController::class, 'index'])->name('members');
+    Route::get('/team', function () {
+        return Inertia::render('Team/Team');
+    });
 });
 
 require __DIR__.'/auth.php';
