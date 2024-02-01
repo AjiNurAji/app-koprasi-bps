@@ -2,7 +2,9 @@ import { BiEdit } from "react-icons/bi";
 import { BsTrash3 } from "react-icons/bs";
 import { useEffect, useRef, useState } from "react";
 import useTable from "@/hook/useTable";
-import PaginationButton from "./PaginationButton";
+import { MdKeyboardArrowUp } from "react-icons/md";
+import DataTable from "react-data-table-component";
+import { tableHeader } from "@/Libs/tableHeader";
 
 const TableMember = ({ data, setTablePage }) => {
     const tableEl = useRef(null);
@@ -13,17 +15,15 @@ const TableMember = ({ data, setTablePage }) => {
     const { slice, range } = useTable(data, page, rowsPerPage);
 
     useEffect(() => {
-        setTablePage(page)
+        setTablePage(page);
     }, [page]);
-    
+
     return (
         <div className="rounded-sm border border-stroke bg-white px-5 pt-6 pb-2.5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
-            <div className="flex w-full justify-between items-center py-2">
+            {/* <div className="flex w-full justify-between items-center py-2">
                 <select
                     ref={rowsSet}
-                    onChange={(e) =>
-                        setRowPerPage(Number(e.target.value))
-                    }
+                    onChange={(e) => setRowPerPage(Number(e.target.value))}
                     name="range"
                     id="range"
                     className="rounded-lg border border-stroke bg-transparent py-2 pl-4 pr-6 transition-all duration-300 ease-in-out outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
@@ -42,8 +42,8 @@ const TableMember = ({ data, setTablePage }) => {
                         className="rounded-lg border border-stroke bg-transparent py-2 pl-4 pr-6 transition-all duration-300 ease-in-out outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                     />
                 </div>
-            </div>
-            <div className="max-w-full overflow-x-auto sm:overflow-x-visible">
+            </div> */}
+            {/* <div className="max-w-full overflow-x-auto sm:overflow-x-visible">
                 <table
                     className="w-full table-auto"
                     id="tableMember"
@@ -162,15 +162,27 @@ const TableMember = ({ data, setTablePage }) => {
                         )}
                     </tbody>
                 </table>
-                {search === "" ? (
-                    <PaginationButton
-                        range={range}
-                        slice={slice}
-                        setPage={setPage}
-                        page={page}
-                    />
-                ) : null}
-            </div>
+            </div> */}
+
+            <DataTable
+                data={data}
+                columns={tableHeader}
+                responsive={true}
+                pagination={true}
+                striped={true}
+                pointerOnHover={true}
+                highlightOnHover={true}
+                sortIcon={<MdKeyboardArrowUp />}
+                expandableIcon={<MdKeyboardArrowUp />}
+            />
+            {/* {search === "" ? (
+                <PaginationButton
+                    range={range}
+                    slice={slice}
+                    setPage={setPage}
+                    page={page}
+                />
+            ) : null} */}
         </div>
     );
 };
