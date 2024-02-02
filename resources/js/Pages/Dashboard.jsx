@@ -10,7 +10,7 @@ const Dashboard = ({ auth }) => {
         <Authenticated user={auth.user}>
             <Head title="Dashboard" />
 
-            <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6">
+            <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 lg:grid-cols-4">
                 <Card total={100000000} icon={<FaMoneyBillWave />} type="Uang Kas Tunai" view={"/uangkas/tunai"} />
                 <Card total={150000000} icon={<BsFillCreditCard2FrontFill />} type="Uang Kas Rekening" />
                 <Card total={20000000} icon={<GiWallet />} type="Simpanan Pokok" />

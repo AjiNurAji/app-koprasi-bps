@@ -1,13 +1,31 @@
 import { useEffect, useRef, useState } from "react";
 import { Link } from "@inertiajs/react";
-
+import axios from "axios";
+import toast from "react-hot-toast";
 import UserOne from "@/assets/images/user-01.webp";
+import { router } from "@inertiajs/react";
 
 const DropdownUser = ({ user }) => {
     const [dropdownOpen, setDropdownOpen] = useState(false);
 
     const trigger = useRef(null);
     const dropdown = useRef(null);
+
+    const logout = async (e) => {
+        e.preventDefault();
+        const loading = toast.loading("Loading...");
+        const res = await axios.post(route("logout"));
+
+        console.log(res);
+
+        if (res?.status === 200) {
+            toast.success(res.data.message, {
+                id: loading,
+                duration: 3000,
+            });
+            router.get(route("login"));
+        }
+    };
 
     // close on click outside
     useEffect(() => {
@@ -19,8 +37,10 @@ const DropdownUser = ({ user }) => {
                 trigger.current.contains(target)
             )
                 return;
-            if(!dropdown.current.contains(target) ||
-            !trigger.current.contains(target)) {
+            if (
+                !dropdown.current.contains(target) ||
+                !trigger.current.contains(target)
+            ) {
                 setDropdownOpen(false);
             }
         };
@@ -49,7 +69,9 @@ const DropdownUser = ({ user }) => {
                     <span className="block text-sm font-medium text-black dark:text-white">
                         {user.name}
                     </span>
-                    <span className="block text-xs">{user.role ? user.role : 'anggota'}</span>
+                    <span className="block text-xs">
+                        {user.role ? user.role : "anggota"}
+                    </span>
                 </span>
 
                 <span className="h-12 w-12 rounded-full">
@@ -157,7 +179,10 @@ const DropdownUser = ({ user }) => {
                         </Link>
                     </li>
                 </ul>
-                <button className="flex items-center gap-3.5 py-4 px-6 text-sm font-medium duration-300 ease-in-out hover:text-primary lg:text-base">
+                <button
+                    onClick={logout}
+                    className="flex items-center gap-3.5 py-4 px-6 text-sm font-medium duration-300 ease-in-out hover:text-primary lg:text-base"
+                >
                     <svg
                         className="fill-current"
                         width="22"

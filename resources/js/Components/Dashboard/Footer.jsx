@@ -24,21 +24,33 @@ const Footer = ({ page }) => {
 
     useEffect(() => {
         const screenHeight = window.screen.height;
+        if (screenHeight > 768) {
+            setName("absolute");
+        } else {
+            setName("sticky");
+        }
+    }, [page]);
+
+    useEffect(() => {
         const documentHeight = document.querySelector("main").offsetHeight;
         if (documentHeight  <= 600) {
             setPosition(true);
         } else {
             setPosition(false);
         }
-
+    });
+    
+    useEffect(() => {
+        const screenHeight = window. screen.height;
         if (screenHeight > 768) {
             setName("absolute");
         } else {
             setName("sticky");
         }
     });
+
     return (
-        <footer className={`${position ? `${namePosition} bottom-0` : 'relative'} border-t border-t-bodydark w-full bg-white drop-shadow-1 dark:bg-boxdark dark:drop-shadow-none py-3 px-4 shadow-2 md:px-6 2xl:px-11`}>
+        <footer className={`absolute bottom-0 border-t border-t-bodydark w-full bg-white drop-shadow-1 dark:bg-boxdark dark:drop-shadow-none py-3 px-4 shadow-2 md:px-6 2xl:px-11`}>
             <div className="flex flex-col gap-1 sm:flex-row justify-between items-center w-full">
                 <p className="text-xs">
                     &copy; {new Date().getFullYear()} - BPS Kabupaten Kuningan.

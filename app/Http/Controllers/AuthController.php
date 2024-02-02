@@ -36,7 +36,7 @@ class AuthController extends Controller
 
             if (Auth::guard('admin')->attempt($credentials)) {
                 $request->session()->regenerate();
-                return response()->json(['message' => 'Berhasil Login'], 200);
+                return response()->json(['message' => 'Berhasil Login.'], 200);
             }
 
             return response()->json(['message' => 'Gagal login, silahkan coba lagi!'], 401);
@@ -45,51 +45,10 @@ class AuthController extends Controller
         }
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function logout(Request $request)
     {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
+        $request->session()->flush();
+        Auth::logout();
+        return response()->json(['message' => 'Logout berhasil.'], 200);
     }
 }

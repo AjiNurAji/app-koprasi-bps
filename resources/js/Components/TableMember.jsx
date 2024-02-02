@@ -2,9 +2,10 @@ import { BiEdit } from "react-icons/bi";
 import { BsTrash3 } from "react-icons/bs";
 import { useEffect, useRef, useState } from "react";
 import useTable from "@/hook/useTable";
-import { MdKeyboardArrowUp } from "react-icons/md";
+import { MdKeyboardArrowDown, MdKeyboardArrowUp } from "react-icons/md";
 import DataTable from "react-data-table-component";
-import { tableHeader } from "@/Libs/tableHeader";
+import { paginationComponentOptions, tableHeader } from "@/Libs/tableHeader";
+import Loading from "./Loading";
 
 const TableMember = ({ data, setTablePage }) => {
     const tableEl = useRef(null);
@@ -163,7 +164,7 @@ const TableMember = ({ data, setTablePage }) => {
                     </tbody>
                 </table>
             </div> */}
-
+            {/* <FilterComponent /> */}
             <DataTable
                 data={data}
                 columns={tableHeader}
@@ -172,8 +173,22 @@ const TableMember = ({ data, setTablePage }) => {
                 striped={true}
                 pointerOnHover={true}
                 highlightOnHover={true}
-                sortIcon={<MdKeyboardArrowUp />}
-                expandableIcon={<MdKeyboardArrowUp />}
+                fixedHeader={true}
+                fixedHeaderScrollHeight="695px"
+                paginationComponentOptions={paginationComponentOptions}
+                noDataComponent={
+                    <div
+                        className="py-5 px-4"
+                    >
+                        <p className="text-black dark:text-white text-center">
+                            Data belum tersedia.
+                        </p>
+                    </div>
+                }
+                // expandableIcon={{
+                //     collapsed: <MdKeyboardArrowDown />,
+                //     expanded: <MdKeyboardArrowUp />
+                // }}
             />
             {/* {search === "" ? (
                 <PaginationButton

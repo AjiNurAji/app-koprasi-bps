@@ -16,7 +16,7 @@ const Card = ({ icon, total, type, view }) => {
                             currency: "IDR",
                         }).format(total ? total : 0)}
                     </h4>
-                    <span className="text-sm font-medium">Total {type}</span>
+                    <span className="text-sm font-medium">Saldo {type}</span>
                 </div>
             </div>
             {view ? <Link href={view} className="absolute top-0 right-4 hover:bg-boxdark-2 dark:hover:bg-whiten bg-boxdark dark:bg-white dark:text-boxdark py-0.5 -translate-y-1.5 px-2 rounded-full flex items-center gap-1 text-sm font-medium text-white">

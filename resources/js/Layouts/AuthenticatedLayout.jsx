@@ -24,7 +24,7 @@ const Authenticated = ({ user, children, tablePage }) => {
 
                 {/* <!-- ===== Content Area Start ===== --> */}
                 <div
-                    className="relative flex flex-1 flex-col overflow-y-auto overflow-x-hidden"
+                    className="relative flex flex-1 flex-col overflow-y-none overflow-x-hidden"
                     id="main"
                 >
                     <Loader />
@@ -37,7 +37,7 @@ const Authenticated = ({ user, children, tablePage }) => {
                     {/* <!-- ===== Header End ===== --> */}
 
                     {/* <!-- ===== Main Content Start ===== --> */}
-                    <main id="content">
+                    <main id="content overflow-y-auto">
                         <div className="mx-auto max-w-screen-2xl p-4 md:p-6 2xl:p-10">
                             {children}
                         </div>

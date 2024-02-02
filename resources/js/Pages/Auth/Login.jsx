@@ -27,7 +27,7 @@ const Login = () => {
         if (prosess) {
             form.current.reset();
             setProcess(false)
-            router.replace(route("dashboard"));
+            router.get(route("dashboard"));
         }
 
         inputUsername.current.focus();

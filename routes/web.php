@@ -20,7 +20,7 @@ use Inertia\Inertia;
 
 Route::get('/', function () {
     return redirect()->route('login');
-});
+})->name('default');
 
 
 Route::middleware('auth')->group(function () {
