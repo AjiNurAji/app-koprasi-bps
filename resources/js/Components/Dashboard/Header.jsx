@@ -1,7 +1,5 @@
-import { Link } from "@inertiajs/react";
 import Logo from "@/assets/images/icon-bps.png";
 import DarkModeSwitcher from "./El/DarkModeSwitcher";
-import DropdownNotification from "./El/DropdownNotification";
 import DropdownUser from "./El/DropdownUser";
 
 const Header = (props) => {
@@ -55,9 +53,9 @@ const Header = (props) => {
                     </button>
                     {/* <!-- Hamburger Toggle BTN --> */}
 
-                    <Link className="block w-15 flex-shrink-0 lg:hidden" href="/">
+                    <a className="block w-15 flex-shrink-0 lg:hidden" href="/">
                         <img src={Logo} alt="Logo" className="w-full" loading="lazy" />
-                    </Link>
+                    </a>
                 </div>
 
                 <div className="flex items-center gap-3 2xsm:gap-7">
@@ -67,7 +65,7 @@ const Header = (props) => {
                         {/* <!-- Dark Mode Toggler --> */}
 
                         {/* <!-- Notification Menu Area --> */}
-                        <DropdownNotification />
+                        {/* <DropdownNotification /> */}
                         {/* <!-- Notification Menu Area --> */}
                     </ul>
 

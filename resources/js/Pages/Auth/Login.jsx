@@ -45,7 +45,7 @@ const Login = () => {
         <>
             <Head title="Log in" />
             <div className="flex justify-center items-center min-h-screen bg-bodydark1 dark:bg-black">
-                <div className="rounded-lg border w-full sm:w-fit border-stroke bg-white shadow-default p-5 dark:border-y-strokedark dark:bg-boxdark">
+                <div className="rounded-lg border w-full sm:w-fit border-stroke bg-white shadow-default p-5 dark:border-strokedark dark:bg-boxdark">
                     <div className="flex justify-center items-center flex-col gap-3">
                         <div className="flex justify-center items-center flex-col gap-2">
                             <div className="w-20 h-auto overflow-hidden">
@@ -77,7 +77,7 @@ const Login = () => {
                                     required
                                     onChange={(e) => handleValue(e)}
                                     placeholder="Masukkan username anda"
-                                    className="w-full rounded-lg border border-stroke bg-transparent py-2 pl-4 pr-6 transition-all duration-300 ease-in-out outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
+                                    className="w-full rounded-lg border text-dark dark:text-white border-stroke bg-transparent py-2 pl-4 pr-6 transition-all duration-300 ease-in-out outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                                 />
                             </div>
                             <div className="w-full">
@@ -96,9 +96,9 @@ const Login = () => {
                                         autoComplete="current-password"
                                         id="password"
                                         placeholder="Masukkan password anda"
-                                        className="relative w-full rounded-lg border border-stroke bg-transparent py-2 pl-4 pr-6 transition-all duration-300 ease-in-out outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
+                                        className="relative w-full rounded-lg border text-dark dark:text-white border-stroke bg-transparent py-2 pl-4 pr-6 transition-all duration-300 ease-in-out outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                                     />
-                                    <div onClick={() => setHide(!hide)} className="absolute top-3.5 right-4 cursor-pointer text-body hover:text-black">{hide ? <PiEyeLight /> : <PiEyeSlash />}</div>
+                                    <div onClick={() => setHide(!hide)} className="absolute top-3.5 right-4 cursor-pointer text-body hover:text-black dark:hover:text-white">{hide ? <PiEyeLight /> : <PiEyeSlash />}</div>
                                 </div>
                             </div>
                             <div>

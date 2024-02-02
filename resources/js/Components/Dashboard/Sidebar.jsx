@@ -275,7 +275,7 @@ const Sidebar = ({ pathname, sidebarOpen, setSidebarOpen }) => {
                                                 }}
                                             >
                                                 <RiHandCoinLine className="stroke-current" width={18} height={18} />
-                                                Pinjaman
+                                                Pinjaman Anggota
                                                 <svg
                                                     className={`absolute right-4 top-1/2 -translate-y-1/2 fill-current ${
                                                         open && "rotate-180"

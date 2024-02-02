@@ -21,7 +21,7 @@ const Checkbox = ({ data, setData }) => {
         <div>
             <label
                 htmlFor="remember"
-                className="flex cursor-pointer select-none items-center"
+                className="flex cursor-pointer select-none items-center text-dark dark:text-white"
             >
                 <div className="relative">
                     <input

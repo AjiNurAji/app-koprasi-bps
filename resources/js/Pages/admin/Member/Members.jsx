@@ -4,11 +4,10 @@ import { Head } from "@inertiajs/react";
 import { useState } from "react";
 
 const Members = ({ auth, members }) => {
-    const [tablePage, setTablePage] = useState(1);
     return (
-        <Authenticated user={auth.user} tablePage={tablePage}>
+        <Authenticated user={auth.user}>
             <Head title="Members" />
-            <TableMember data={members} setTablePage={setTablePage}/>
+            <TableMember data={members}/>
         </Authenticated>
     )
 }

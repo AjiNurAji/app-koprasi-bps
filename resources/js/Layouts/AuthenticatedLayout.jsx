@@ -5,7 +5,7 @@ import { useState } from "react";
 import Loader from "@/Components/Loader";
 import { usePage } from "@inertiajs/react";
 
-const Authenticated = ({ user, children, tablePage }) => {
+const Authenticated = ({ user, children }) => {
     const page = usePage()
     const [sidebarOpen, setSidebarOpen] = useState(false);
     const { url } = page;
@@ -43,7 +43,7 @@ const Authenticated = ({ user, children, tablePage }) => {
                         </div>
                     </main>
                     {/* <!-- ===== Main Content End ===== --> */}
-                    <Footer page={tablePage} />
+                    <Footer />
                 </div>
                 {/* <!-- ===== Content Area End ===== --> */}
             </div>
