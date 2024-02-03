@@ -94,7 +94,7 @@ const Sidebar = ({ pathname, sidebarOpen, setSidebarOpen }) => {
 
             <div className="no-scrollbar flex flex-col overflow-y-auto duration-300 ease-linear">
                 {/* <!-- Sidebar Menu --> */}
-                <nav className="py-4 px-4 lg:px-6">
+                <nav className="py-0 px-4 lg:px-6 2xl:py-4">
                     {/* <!-- Menu Group --> */}
                     <div>
                         <h3 className="mb-4 ml-4 text-sm font-semibold text-bodydark2">
@@ -106,7 +106,7 @@ const Sidebar = ({ pathname, sidebarOpen, setSidebarOpen }) => {
                             <li>
                                 <a
                                     href={route("dashboard")}
-                                    className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${
+                                    className={`group relative flex items-center gap-2.5 rounded-md py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${
                                         pathname.includes("dashboard") &&
                                         "bg-graydark dark:bg-meta-4"
                                     }`}
@@ -125,7 +125,7 @@ const Sidebar = ({ pathname, sidebarOpen, setSidebarOpen }) => {
                             <li>
                                 <a
                                     href={route("members")}
-                                    className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${
+                                    className={`group relative flex items-center gap-2.5 rounded-md py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${
                                         pathname.includes("members") &&
                                         "bg-graydark dark:bg-meta-4"
                                     }`}
@@ -135,7 +135,7 @@ const Sidebar = ({ pathname, sidebarOpen, setSidebarOpen }) => {
                                         width={18}
                                         height={18}
                                     />
-                                    Members
+                                    Data Anggota
                                 </a>
                             </li>
                             {/* <!-- Menu Item Member --> */}
@@ -161,7 +161,7 @@ const Sidebar = ({ pathname, sidebarOpen, setSidebarOpen }) => {
                                         <Fragment>
                                             <a
                                                 href="/simpanan"
-                                                className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${
+                                                className={`group relative flex items-center gap-2.5 rounded-md py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${
                                                     (pathname === "/simpanan" ||
                                                         pathname.includes(
                                                             "simpanan"
@@ -276,7 +276,7 @@ const Sidebar = ({ pathname, sidebarOpen, setSidebarOpen }) => {
                                         <Fragment>
                                             <a
                                                 href="/pinjaman"
-                                                className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${
+                                                className={`group relative flex items-center gap-2.5 rounded-md py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${
                                                     (pathname === "/pinjaman" ||
                                                         pathname.includes(
                                                             "pinjaman"
@@ -377,7 +377,7 @@ const Sidebar = ({ pathname, sidebarOpen, setSidebarOpen }) => {
                             <li>
                                 <a
                                     href="/ad-art"
-                                    className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${
+                                    className={`group relative flex items-center gap-2.5 rounded-md py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${
                                         pathname.includes("chart") &&
                                         "bg-graydark dark:bg-meta-4"
                                     }`}
@@ -393,7 +393,7 @@ const Sidebar = ({ pathname, sidebarOpen, setSidebarOpen }) => {
                             <li>
                                 <a
                                     href="/laporan-rat"
-                                    className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${
+                                    className={`group relative flex items-center gap-2.5 rounded-md py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${
                                         pathname.includes("chart") &&
                                         "bg-graydark dark:bg-meta-4"
                                     }`}
@@ -411,7 +411,7 @@ const Sidebar = ({ pathname, sidebarOpen, setSidebarOpen }) => {
                             <li>
                                 <a
                                     href="/team"
-                                    className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${
+                                    className={`group relative flex items-center gap-2.5 rounded-md py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${
                                         pathname.includes("chart") &&
                                         "bg-graydark dark:bg-meta-4"
                                     }`}

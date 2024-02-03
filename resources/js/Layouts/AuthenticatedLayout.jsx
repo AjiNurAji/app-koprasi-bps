@@ -24,7 +24,7 @@ const Authenticated = ({ user, children }) => {
 
                 {/* <!-- ===== Content Area Start ===== --> */}
                 <div
-                    className="relative flex flex-1 flex-col overflow-y-none overflow-x-hidden"
+                    className="flex flex-1 flex-col overflow-y-none overflow-x-hidden"
                     id="main"
                 >
                     <Loader />
@@ -40,10 +40,10 @@ const Authenticated = ({ user, children }) => {
                     <main id="content overflow-y-auto">
                         <div className="mx-auto max-w-screen-2xl p-4 md:p-6 2xl:p-10">
                             {children}
+                            <Footer />
                         </div>
                     </main>
                     {/* <!-- ===== Main Content End ===== --> */}
-                    <Footer />
                 </div>
                 {/* <!-- ===== Content Area End ===== --> */}
             </div>
