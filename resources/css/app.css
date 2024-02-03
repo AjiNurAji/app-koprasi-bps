@@ -71,3 +71,12 @@ button:active {
     opacity: 1;
     visibility: visible;
 }
+
+img[alt="Aji Nur Aji"] {
+    scale: 1.50;
+    transform: translateY(-10%);
+    -webkit-transform: translateY(-10%);
+    -moz-transform: translateY(-10%);
+    -ms-transform: translateY(-10%);
+    -o-transform: translateY(-10%);
+}

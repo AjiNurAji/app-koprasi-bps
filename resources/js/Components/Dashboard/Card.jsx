@@ -3,7 +3,7 @@ import { RiArrowRightUpLine } from "react-icons/ri";
 
 const Card = ({ icon, total, type, view }) => {
     return (
-        <div className="rounded-sm w-fit flex-auto relative border border-stroke bg-white py-6 px-7.5 shadow-default dark:border-strokedark dark:bg-boxdark">
+        <div className="rounded-md w-full md:w-fit flex-auto relative border border-stroke bg-white py-6 px-7.5 shadow-default dark:border-strokedark dark:bg-boxdark">
             <div className="flex w-full justify-start items-center gap-3">
                 <div className="flex h-11.5 w-11.5 items-center text-2xl text-primary dark:text-white justify-center rounded-full bg-meta-2 dark:bg-meta-4">
                     {icon}
