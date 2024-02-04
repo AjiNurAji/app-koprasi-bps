@@ -24,7 +24,7 @@ const Authenticated = ({ user, children }) => {
 
                 {/* <!-- ===== Content Area Start ===== --> */}
                 <div
-                    className="flex flex-1 flex-col overflow-y-none overflow-x-hidden"
+                    className="relative flex flex-1 flex-col overflow-y-none overflow-x-hidden"
                     id="main"
                 >
                     <Loader />

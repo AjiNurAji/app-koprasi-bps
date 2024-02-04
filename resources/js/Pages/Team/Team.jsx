@@ -1,7 +1,8 @@
 import Breadcrumb from "@/Components/Dashboard/El/Breadcrumb";
 import Authenticated from "@/Layouts/AuthenticatedLayout";
 import { FaGithub, FaInstagram, FaLinkedin } from "react-icons/fa6";
-import aji from "@/assets/images/aji.jpg";
+import aji from "@/assets/images/team/aji.jpg";
+import yusuf from "@/assets/images/team/yusuf.jpg";
 import { Head } from "@inertiajs/react";
 
 const author = [
@@ -25,7 +26,7 @@ const author = [
     },
     {
         nama: "Muhammad Yusuf Aradabila",
-        image: null,
+        image: yusuf,
         social: {
             ig: "https://instagram.com/ardabila_",
             github: "https://github.com/MYusuArdabila",
@@ -53,7 +54,7 @@ const Team = ({ auth }) => {
                     <h1 className="font-bold text-title-md text-center text-black dark:text-white">
                         Murid SMK Negeri 4 Kuningan
                     </h1>
-                    <p className="text-body text-center text-wrap w-full sm:w-3/4">
+                    <p className="text-body dark:text-bodydarke text-center text-wrap w-full sm:w-3/4">
                         Kami menjalankan praktik kerja lapangan (PKL) di Kantor
                         BPS Kabupaten Kuningan, dan kami membuat applikasi ini
                         untuk laporan akhir praktik (sidang). Terima kasih telah
@@ -72,6 +73,7 @@ const Team = ({ auth }) => {
                                     src={item.image}
                                     alt={item.nama}
                                     className="w-full h-auto"
+                                    loading="lazy"
                                 />
                             </div>
                             <div>
