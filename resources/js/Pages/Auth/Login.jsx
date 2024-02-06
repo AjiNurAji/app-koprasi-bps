@@ -2,11 +2,11 @@ import { useRef, useState } from "react";
 import { Head, useForm } from "@inertiajs/react";
 import Logo from "@/assets/images/icon-bps.png";
 import Checkbox from "@/Components/FormElements/Checkbox";
-import ProcessLogin from "@/Libs/processLogin";
 import { router } from "@inertiajs/react";
 import ButtonLoading from "@/Components/ButtonLoading";
 import { PiEyeLight, PiEyeSlash } from "react-icons/pi";
 import BoxIlus from "@/Components/FormElements/BoxIlus";
+import PostData from "@/Libs/postData";
 
 const Login = () => {
     const [processing, setProcess] = useState(false);
@@ -23,7 +23,7 @@ const Login = () => {
         e.preventDefault();
         setProcess(true);
 
-        const prosess = await ProcessLogin(route("login_admin"), data);
+        const prosess = await PostData(route("login"), data);
 
         if (prosess) {
             form.current.reset();

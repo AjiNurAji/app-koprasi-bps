@@ -16,6 +16,7 @@ const Authenticated = ({ user, children }) => {
             <div className="flex h-screen overflow-hidden">
                 {/* <!-- ===== Sidebar Start ===== --> */}
                 <Sidebar
+                    user={user}
                     pathname={url}
                     sidebarOpen={sidebarOpen}
                     setSidebarOpen={setSidebarOpen}

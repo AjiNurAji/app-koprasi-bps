@@ -8,9 +8,23 @@ use Inertia\Inertia;
 
 class HomepageController extends Controller
 {
+    private function getUserLogin()
+    {
+        if (Auth::guard('admin')->check()) {
+            return Auth::guard('admin')->user();
+        } else {
+            return Auth::guard('member')->user();
+        }
+    }
+
     public function index()
     {
-        $user = Auth::user();
-        return Inertia::render('Dashboard', ['user' => $user]);
+        $user = $this->getUserLogin();
+
+        if (Auth::guard('admin')->check()) {
+            return Inertia::render('Dashboard', ['user' => $user]);
+        } else {
+            return Inertia::render('Dashboard', ['user' => $user]);
+        }
     }
 }

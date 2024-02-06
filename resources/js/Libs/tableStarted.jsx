@@ -10,6 +10,12 @@ export const columns = [
         header: "No",
     }),
 
+    columnHelper.accessor("username", {
+        id: "username",
+        cell: (data) => <span className="text-black dark:text-white">{data.getValue()}</span>,
+        header: "Username",
+    }),
+
     columnHelper.accessor("name", {
         id: "namaLengkap",
         cell: (data) => <span className="text-black dark:text-white">{data.getValue()}</span>,

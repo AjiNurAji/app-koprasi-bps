@@ -20,7 +20,7 @@ createInertiaApp({
 
         root.render(
             <>
-                <Toaster position="top-center" reverseOrder={false} />
+                <Toaster position="top-center" reverseOrder={false} containerStyle={{ zIndex: 99999 }} />
                 <App {...props} />
             </>
         );

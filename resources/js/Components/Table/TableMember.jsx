@@ -10,10 +10,13 @@ import { useState } from "react";
 import PaginationTable from "./PaginationTable";
 import { FiUserPlus } from "react-icons/fi";
 import SearchTable from "./SearchTable";
+import CreatePopup from "@/Components/Popup/CreatePopup";
+import FormCreateMember from "@/Components/FormElements/FormCreateMember";
 
 const TableMember = ({ data }) => {
     const [datas] = useState([...data]);
     const [globalFilter, setGlobalFilter] = useState("");
+    const [popup, setPopup] = useState(false);
 
     const table = useReactTable({
         data: datas,
@@ -30,11 +33,17 @@ const TableMember = ({ data }) => {
         <div className="rounded-md border border-stroke bg-white px-5 pt-6 pb-2.5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
             {/* head component */}
             <div className="flex justify-between mb-3.5">
-                <button className="p-3 hover:bg-opacity-95 transition-all duration-300 ease-in-out bg-primary text-white rounded-md text-xl">
+                <button className="p-3 hover:bg-opacity-95 transition-all duration-300 ease-in-out bg-primary text-white rounded-md text-xl" onClick={() => setPopup(true)}>
                     <FiUserPlus />
                 </button>
-                <SearchTable />
+                <SearchTable setGlobalFilter={setGlobalFilter} globalFilter={globalFilter} />
             </div>
+            {/* popup create */}
+            {
+                popup ? (
+                    <CreatePopup createName="Tambah Anggota" setPopup={setPopup} form={<FormCreateMember />} />
+                ) : null
+            }
             {/* table */}
             <div className="max-w-full overflow-x-auto">
                 <table className="w-full table-auto rounded-md overflow-hidden">
@@ -85,7 +94,7 @@ const TableMember = ({ data }) => {
                         ) : (
                             <tr>
                                 <td
-                                    colSpan={4}
+                                    colSpan={5}
                                     className="text-center py-5 px-4"
                                 >
                                     Belum ada data nihh!

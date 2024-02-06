@@ -7,7 +7,7 @@ import { RiHandCoinLine } from "react-icons/ri";
 import { HiOutlineDocumentText, HiOutlineDocumentPlus } from "react-icons/hi2";
 import { IoWalletOutline } from "react-icons/io5";
 
-const Sidebar = ({ pathname, sidebarOpen, setSidebarOpen }) => {
+const Sidebar = ({ pathname, sidebarOpen, setSidebarOpen, user }) => {
     const trigger = useRef(false);
     const sidebar = useRef(false);
 
@@ -121,24 +121,24 @@ const Sidebar = ({ pathname, sidebarOpen, setSidebarOpen }) => {
                             </li>
                             {/* <!-- Menu Item Dashboard --> */}
 
-                            {/* <!-- Menu Item Member --> */}
-                            <li>
-                                <a
-                                    href={route("members")}
-                                    className={`group relative flex items-center gap-2.5 rounded-md py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${
-                                        pathname.includes("members") &&
-                                        "bg-graydark dark:bg-meta-4"
-                                    }`}
-                                >
-                                    <LuUsers
-                                        className="stroke-current"
-                                        width={18}
-                                        height={18}
-                                    />
-                                    Data Anggota
-                                </a>
-                            </li>
-                            {/* <!-- Menu Item Member --> */}
+                            {user.role ? (
+                                <li>
+                                    <a
+                                        href={route("members")}
+                                        className={`group relative flex items-center gap-2.5 rounded-md py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${
+                                            pathname.includes("members") &&
+                                            "bg-graydark dark:bg-meta-4"
+                                        }`}
+                                    >
+                                        <LuUsers
+                                            className="stroke-current"
+                                            width={18}
+                                            height={18}
+                                        />
+                                        Data Anggota
+                                    </a>
+                                </li>
+                            ) : null}
                         </ul>
                     </div>
 
