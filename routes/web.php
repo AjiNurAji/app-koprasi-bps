@@ -31,8 +31,12 @@ Route::middleware(['auth:admin,member'])->group(function () {
 });
 
 Route::middleware(['auth:admin'])->group(function () {
+    // member
     Route::get('/members', [MemberController::class, 'index'])->name('members');
     Route::post('/members/create', [MemberController::class, 'store'])->name('create_member');
+    
+    // simpanan
+    Route::get('/simpanan/pokok', [HomepageController::class, 'simpananPokok'])->name('simpanan_pokok');
 });
 
 require __DIR__.'/auth.php';

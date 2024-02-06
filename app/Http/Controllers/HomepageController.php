@@ -21,10 +21,11 @@ class HomepageController extends Controller
     {
         $user = $this->getUserLogin();
 
-        if (Auth::guard('admin')->check()) {
-            return Inertia::render('Dashboard', ['user' => $user]);
-        } else {
-            return Inertia::render('Dashboard', ['user' => $user]);
-        }
+        return Inertia::render('Dashboard', ['user' => $user]);
+    }
+
+    public function simpananPokok()
+    {
+        return Inertia::render('admin/Simpanan/Pokok');
     }
 }

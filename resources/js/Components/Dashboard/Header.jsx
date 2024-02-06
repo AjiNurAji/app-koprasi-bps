@@ -1,11 +1,22 @@
 import Logo from "@/assets/images/icon-bps.png";
 import DarkModeSwitcher from "./El/DarkModeSwitcher";
 import DropdownUser from "./El/DropdownUser";
+import { useEffect, useState } from "react";
 
 const Header = (props) => {
+    const [date, setDate] = useState(new Date());
+
+    useEffect(() => {
+        const timer = setInterval(() => setDate(new Date()), 1000);
+
+        return () => {
+            clearInterval(timer);
+        };
+    });
+
     return (
         <header className="sticky top-0 z-999 flex w-full bg-white drop-shadow-1 dark:bg-boxdark dark:drop-shadow-none">
-            <div className="flex flex-grow items-center justify-between lg:justify-end py-4 px-4 shadow-2 md:px-6 2xl:px-11">
+            <div className="flex flex-grow items-center justify-between py-4 px-4 shadow-2 md:px-6 2xl:px-11">
                 <div className="flex items-center gap-2 sm:gap-4 lg:hidden">
                     {/* <!-- Hamburger Toggle BTN --> */}
                     <button
@@ -54,8 +65,32 @@ const Header = (props) => {
                     {/* <!-- Hamburger Toggle BTN --> */}
 
                     <a className="block w-15 flex-shrink-0 lg:hidden" href="/">
-                        <img src={Logo} alt="Logo" className="w-full" loading="lazy" />
+                        <img
+                            src={Logo}
+                            alt="Logo"
+                            className="w-full"
+                            loading="lazy"
+                        />
                     </a>
+                </div>
+
+                <div className="hidden sm:block">
+                    <h3 className="font-bold text-black dark:text-white">
+                        {date.toLocaleDateString("ID-id", {
+                            day: "2-digit",
+                            weekday: "long",
+                            month: "long",
+                            year: "numeric"
+                        })}
+                    </h3>
+                    <span className="font-medium text-black dark:text-white">
+                        {date.toLocaleTimeString("ID-id", {
+                            hour: "2-digit",
+                            minute: "2-digit",
+                            second: "2-digit",
+                            hourCycle: "h24",
+                        })}
+                    </span>
                 </div>
 
                 <div className="flex items-center gap-3 2xsm:gap-7">

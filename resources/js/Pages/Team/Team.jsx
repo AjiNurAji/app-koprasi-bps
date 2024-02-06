@@ -25,7 +25,7 @@ const author = [
         },
     },
     {
-        nama: "Muhammad Yusuf Aradabila",
+        nama: "Muhamad Yusuf Aradabila",
         image: yusuf,
         social: {
             ig: "https://instagram.com/ardabila_",

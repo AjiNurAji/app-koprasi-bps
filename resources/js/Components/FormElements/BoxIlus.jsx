@@ -1,3 +1,5 @@
+import ilus from "@/assets/svg/login.svg";
+
 const BoxIlus = () => {
     return (
         <div className="basis-1/2 hidden h-screen md:flex justify-center items-center bg-primary dark:bg-boxdark">
@@ -6,7 +8,7 @@ const BoxIlus = () => {
                     Welcome to <br /> Koperasi Kesejahteraan
                 </h1>
                 <div className="w-[45%] overflow-hidden h-auto">
-                    <img />
+                    <img src={ilus} alt="illustration by undraw" loading="lazy" />
                 </div>
             </div>
         </div>

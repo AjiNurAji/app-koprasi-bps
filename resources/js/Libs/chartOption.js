@@ -46,7 +46,7 @@ export const chartOption = {
             curve: "straight",
         },
         // labels: {
-        //   show: false,
+        //   show: true,
         //   position: "top",
         // },
         grid: {
@@ -81,10 +81,6 @@ export const chartOption = {
         xaxis: {
             type: "category",
             categories: [
-                "Sep",
-                "Oct",
-                "Nov",
-                "Dec",
                 "Jan",
                 "Feb",
                 "Mar",
@@ -93,6 +89,10 @@ export const chartOption = {
                 "Jun",
                 "Jul",
                 "Aug",
+                "Sep",
+                "Oct",
+                "Nov",
+                "Dec",
             ],
             axisBorder: {
                 show: false,

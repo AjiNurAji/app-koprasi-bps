@@ -1,4 +1,4 @@
-import { columnsMember } from "@/Libs/tableStarted";
+import { columnsSimpanan } from "@/Libs/tableStarted";
 import {
     useReactTable,
     flexRender,
@@ -8,19 +8,19 @@ import {
 } from "@tanstack/react-table";
 import { useState } from "react";
 import PaginationTable from "./PaginationTable";
-import { FiUserPlus } from "react-icons/fi";
+import { FaMoneyBillTransfer } from "react-icons/fa6";
 import SearchTable from "./SearchTable";
 import CreatePopup from "@/Components/Popup/CreatePopup";
 import FormCreateMember from "@/Components/FormElements/FormCreateMember";
 
-const TableMember = ({ data }) => {
+const TableSimpanan = ({ data, type }) => {
     const [datas] = useState([...data]);
     const [globalFilter, setGlobalFilter] = useState("");
     const [popup, setPopup] = useState(false);
 
     const table = useReactTable({
         data: datas,
-        columns: columnsMember,
+        columns: columnsSimpanan,
         state: {
             globalFilter,
         },
@@ -33,30 +33,59 @@ const TableMember = ({ data }) => {
         <div className="rounded-md border border-stroke bg-white px-5 pt-6 pb-2.5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
             {/* head component */}
             <div className="flex justify-between mb-3.5">
-                <button className="p-3 hover:bg-opacity-95 transition-all duration-300 ease-in-out bg-primary text-white rounded-md text-xl" onClick={() => setPopup(true)}>
-                    <FiUserPlus />
+                <button
+                    className="p-3 hover:bg-opacity-95 transition-all duration-300 ease-in-out bg-primary text-white rounded-md text-xl"
+                    onClick={() => setPopup(true)}
+                >
+                    <FaMoneyBillTransfer />
                 </button>
-                <SearchTable setGlobalFilter={setGlobalFilter} globalFilter={globalFilter} />
+                <SearchTable
+                    setGlobalFilter={setGlobalFilter}
+                    globalFilter={globalFilter}
+                />
             </div>
             {/* popup create */}
-            {
-                popup ? (
-                    <CreatePopup createName="Tambah Anggota" setPopup={setPopup} form={<FormCreateMember />} />
-                ) : null
-            }
+            {popup ? (
+                <CreatePopup
+                    createName={`Transaksi Simpanan ${type}`}
+                    setPopup={setPopup}
+                    form={<FormCreateMember />}
+                />
+            ) : null}
             {/* table */}
             <div className="max-w-full overflow-x-auto">
-                <table className="w-full table-auto rounded-md">
-                    <thead>
+                <table className="w-full table-auto rounded-md border border-stroke">
+                    <thead className="rounded-md">
                         {table.getHeaderGroups().map((headerGroup) => (
                             <tr
                                 key={headerGroup.id}
-                                className="bg-gray-2 text-left dark:bg-meta-4"
+                                className="bg-gray-2 text-left dark:bg-meta-4 rounded-md"
                             >
                                 {headerGroup.headers.map((item) => (
                                     <th
                                         key={item.id}
-                                        className="py-4 px-4 font-medium text-black border dark:text-white border-stroke dark:border-opacity-20"
+                                        colSpan={item.colSpan}
+                                        rowSpan={
+                                            (item.index === 0 &&
+                                                item.depth === 1) ||
+                                            (item.index === 1 &&
+                                                item.depth === 1) ||
+                                            (item.index === 3 &&
+                                                item.depth === 1)
+                                                ? "2"
+                                                : ""
+                                        }
+                                        className={`${
+                                            (item.index === 2 &&
+                                                item.depth === 2) ||
+                                            (item.index === 3 &&
+                                                item.depth === 2) ||
+                                            (item.index === 4 &&
+                                                item.depth === 2) ||
+                                            item.depth === 1
+                                                ? ""
+                                                : "hidden"
+                                        } py-4 px-4 font-medium border border-stroke dark:border-opacity-20 text-black dark:text-white text-center`}
                                     >
                                         {flexRender(
                                             item.column.columnDef.header,
@@ -110,4 +139,4 @@ const TableMember = ({ data }) => {
     );
 };
 
-export default TableMember;
+export default TableSimpanan;
