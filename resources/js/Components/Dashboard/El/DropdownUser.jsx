@@ -18,8 +18,6 @@ const DropdownUser = ({ user }) => {
         const loading = toast.loading("Loading...");
         const res = await axios.post(route("logout"));
 
-        console.log(res);
-
         if (res?.status === 200) {
             toast.success(res.data.message, {
                 id: loading,

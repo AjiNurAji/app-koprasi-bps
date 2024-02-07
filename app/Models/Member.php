@@ -24,7 +24,10 @@ class Member extends Authenticatable
 
     protected $primaryKey = 'id_member';
 
+    protected $keyType = 'string';
+
     protected $fillable = [
+        'id_member',
         'email',
         'name',
         'username',

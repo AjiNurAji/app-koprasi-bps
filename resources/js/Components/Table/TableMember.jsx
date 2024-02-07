@@ -5,10 +5,12 @@ import {
     getCoreRowModel,
     getPaginationRowModel,
     getFilteredRowModel,
+    getSortedRowModel,
 } from "@tanstack/react-table";
 import { useState } from "react";
 import PaginationTable from "./PaginationTable";
 import { FiUserPlus } from "react-icons/fi";
+import { HiArrowsUpDown } from "react-icons/hi2";
 import SearchTable from "./SearchTable";
 import CreatePopup from "@/Components/Popup/CreatePopup";
 import FormCreateMember from "@/Components/FormElements/FormCreateMember";
@@ -25,6 +27,7 @@ const TableMember = ({ data }) => {
             globalFilter,
         },
         getCoreRowModel: getCoreRowModel(),
+        getSortedRowModel: getSortedRowModel(),
         getPaginationRowModel: getPaginationRowModel(),
         getFilteredRowModel: getFilteredRowModel(),
     });
@@ -33,17 +36,25 @@ const TableMember = ({ data }) => {
         <div className="rounded-md border border-stroke bg-white px-5 pt-6 pb-2.5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
             {/* head component */}
             <div className="flex justify-between mb-3.5">
-                <button className="p-3 hover:bg-opacity-95 transition-all duration-300 ease-in-out bg-primary text-white rounded-md text-xl" onClick={() => setPopup(true)}>
+                <button
+                    className="p-3 hover:bg-opacity-95 transition-all duration-300 ease-in-out bg-primary text-white rounded-md text-xl"
+                    onClick={() => setPopup(true)}
+                >
                     <FiUserPlus />
                 </button>
-                <SearchTable setGlobalFilter={setGlobalFilter} globalFilter={globalFilter} />
+                <SearchTable
+                    setGlobalFilter={setGlobalFilter}
+                    globalFilter={globalFilter}
+                />
             </div>
             {/* popup create */}
-            {
-                popup ? (
-                    <CreatePopup createName="Tambah Anggota" setPopup={setPopup} form={<FormCreateMember />} />
-                ) : null
-            }
+            {popup ? (
+                <CreatePopup
+                    createName="Tambah Anggota"
+                    setPopup={setPopup}
+                    form={<FormCreateMember />}
+                />
+            ) : null}
             {/* table */}
             <div className="max-w-full overflow-x-auto">
                 <table className="w-full table-auto rounded-md">
@@ -56,11 +67,16 @@ const TableMember = ({ data }) => {
                                 {headerGroup.headers.map((item) => (
                                     <th
                                         key={item.id}
-                                        className="py-4 px-4 font-medium text-black border dark:text-white border-stroke dark:border-opacity-20"
+                                        className="relative py-4 px-4 font-medium text-black border dark:text-white border-stroke dark:border-opacity-20"
                                     >
                                         {flexRender(
                                             item.column.columnDef.header,
                                             item.getContext()
+                                        )}
+                                        {item.column.getCanSort() && (
+                                            <button className="absolute top-5.5 text-md bottom-5 text-black dark:text-white dark:text-opacity-40 hover:text-primary dark:hover:text-opacity-100 text-opacity-40 right-3" onClick={item.column.getToggleSortingHandler()}>
+                                                <HiArrowsUpDown />
+                                            </button>
                                         )}
                                     </th>
                                 ))}

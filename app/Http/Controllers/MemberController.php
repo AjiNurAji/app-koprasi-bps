@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Inertia\Inertia;
+use Illuminate\Support\Str;
 
 class MemberController extends Controller
 {
@@ -39,6 +40,7 @@ class MemberController extends Controller
                 ]);
 
                 Member::create([
+                    'id_member' => Str::uuid(),
                     'username' => $request->input('username'),
                     'email' => $request->input('email'),
                     'name' => $request->input('name'),

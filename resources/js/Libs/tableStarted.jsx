@@ -43,12 +43,14 @@ export const columnsMember = [
             </span>
         ),
         header: "Alamat Email",
+        enableSorting: false
     }),
 
     columnHelper.accessor("id_member", {
         id: "Action",
         cell: (data) => <ActionTable memberId={data.getValue()} />,
         header: "Aksi",
+        enableSorting: false
     }),
 ];
 
@@ -118,7 +120,6 @@ export const columnsSimpanan = [
             }),
         ],
         header: "Simpanan Pokok",
-        colSpan: 3,
     }),
 
     columnHelper.accessor("", {
