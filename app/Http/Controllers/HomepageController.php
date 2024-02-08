@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
+use App\Models\SimpananPokok;
 
 
 class HomepageController extends Controller
@@ -27,6 +28,7 @@ class HomepageController extends Controller
 
     public function simpananPokok()
     {
-        return Inertia::render('admin/Simpanan/Pokok');
+        $simpananPokok = SimpananPokok::all();
+        return Inertia::render('admin/Simpanan/Pokok', ['data' => $simpananPokok]);
     }
 }

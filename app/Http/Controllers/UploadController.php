@@ -8,6 +8,7 @@ class UploadController extends Controller
 {
     public function upload(Request $request)
     {
+        try {
         // $path = $request->file('image')->store('photo');
         // $path = Storage::putFile('public', $request->file('image'));
         // $path = $request->file('image')->storeAs('public', 'gambar');
@@ -18,7 +19,7 @@ class UploadController extends Controller
     
         // $path = $request->file('image')->storeAs('public', #newName);
         $size = $file->getClientSize();
-        $path = Storage::putFileAs('photo', $request->file('image'), $newName);
+        $path = Storage::putFileAs('public', $request->file('image'), $newName);
 
         $data = [
             'path' => $path,
@@ -26,6 +27,11 @@ class UploadController extends Controller
         ];
 
         Upload::create($data);
+        
+            return Upload::create($data);
+        } catch (\Exception $e) {
+            return $e->getMessage();
+        }
     
         dd($path);
     }

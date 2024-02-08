@@ -16,9 +16,6 @@ class AuthController extends Controller
         if (Auth::guard('admin')->check() || Auth::guard('member')->check()) {
             return redirect()->route('dashboard');
         }
-        if (Auth::guard('admin')->check() || Auth::guard('member')->check()) {
-            return redirect()->route('dashboard');
-        }
         return Inertia::render('Auth/Login');
     }
 
@@ -37,12 +34,20 @@ class AuthController extends Controller
             // credentials
             $credentials = [
                 'username' => $request->input('username'),
-                'password' => $request->input('password'),
+                'password' => $request->input('password')
             ];
 
-            if (Auth::guard('admin')->attempt($credentials)) {
+            $credentialsMember = [
+                'email' => $request->input('username'),
+                'password' => $request->input('password')
+            ];
+
+            if (Auth::guard('admin')->attempt($credentials) || Auth::guard('member')->attempt($credentials)) {
                 $request->session()->regenerate();
-                return response()->json(['message' => 'Berhasil Login.'], 200);
+                return response()->json(['message' => 'Berhasil Login'], 200);
+            } else if (Auth::guard('member')->attempt($credentialsMember)) {
+                $request->session()->regenerate();
+                return response()->json(['message' => 'Berhasil Login'], 200);
             }
 
             return response()->json(['message' => 'Gagal login, silahkan coba lagi!'], 401);
@@ -52,9 +57,9 @@ class AuthController extends Controller
     }
 
     public function logout(Request $request)
-    {
-        $request->session()->flush();
-        Auth::logout();
-        return response()->json(['message' => 'Logout berhasil.'], 200);
+      {
+          $request->session()->flush();
+          Auth::logout();
+          return response()->json(['message' => 'Logout berhasil.'], 200);
     }
 }
