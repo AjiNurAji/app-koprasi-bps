@@ -16,7 +16,7 @@ class MemberController extends Controller
      */
     public function index()
     {
-        $members = Member::all();
+        $members = Member::orderBy('name', 'asc')->get();
         return Inertia::render('admin/Member/Members', ['members' => $members]);
     }
 
@@ -26,7 +26,6 @@ class MemberController extends Controller
     public function store(Request $request)
     {
         // get user logined
-        
         $user = Auth::user();
         $check = $user->role ? $user->role === 'admin' : false;
         

@@ -20,7 +20,7 @@ use Inertia\Inertia;
 
 Route::get('/', function () {
     return redirect()->route('login');
-})->name('login');
+})->name('default');
 
 Route::middleware(['auth:admin,member'])->group(function () {
     Route::get('/dashboard', [HomepageController::class, 'index'])->name('dashboard');
@@ -37,6 +37,7 @@ Route::middleware(['auth:admin'])->group(function () {
     
     // simpanan
     Route::get('/simpanan/pokok', [HomepageController::class, 'simpananPokok'])->name('simpanan_pokok');
+    Route::get('/simpanan/wajib', [HomepageController::class, 'simpananWajib'])->name('simpanan_wajib');
 });
 
 require __DIR__.'/auth.php';

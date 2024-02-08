@@ -137,6 +137,6 @@ export const columnsSimpanan = [
                 {console.log()}
             </span>
         ),
-        header: `Kekayaan per 31 Desember ${new Date().getFullYear() - 1}`,
+        header: `Kekayaan per 31 Desember ${new Date().getFullYear()}`,
     }),
 ];

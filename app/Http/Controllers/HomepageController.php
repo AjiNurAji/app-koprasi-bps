@@ -31,4 +31,9 @@ class HomepageController extends Controller
         $simpananPokok = SimpananPokok::all();
         return Inertia::render('admin/Simpanan/Pokok', ['data' => $simpananPokok]);
     }
+
+    public function simpananWajib()
+    {
+        return Inertia::render('admin/Simpanan/Wajib');
+    }
 }

@@ -12,6 +12,7 @@ import { FaMoneyBillTransfer } from "react-icons/fa6";
 import SearchTable from "./SearchTable";
 import CreatePopup from "@/Components/Popup/CreatePopup";
 import FormCreateMember from "@/Components/FormElements/FormCreateMember";
+import DownloadDropdown from "../DownloadDrodown";
 
 const TableSimpanan = ({ data, type }) => {
     const [datas] = useState([...data]);
@@ -32,17 +33,20 @@ const TableSimpanan = ({ data, type }) => {
     return (
         <div className="rounded-md border border-stroke bg-white px-5 pt-6 pb-2.5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
             {/* head component */}
-            <div className="flex justify-between mb-3.5">
+            <div className="flex items-center justify-between mb-3.5">
                 <button
                     className="p-3 hover:bg-opacity-95 transition-all duration-300 ease-in-out bg-primary text-white rounded-md text-xl"
                     onClick={() => setPopup(true)}
                 >
                     <FaMoneyBillTransfer />
                 </button>
-                <SearchTable
-                    setGlobalFilter={setGlobalFilter}
-                    globalFilter={globalFilter}
-                />
+                <div className="flex items-center justify-end gap-3">
+                    <DownloadDropdown />
+                    <SearchTable
+                        setGlobalFilter={setGlobalFilter}
+                        globalFilter={globalFilter}
+                    />
+                </div>
             </div>
             {/* popup create */}
             {popup ? (
