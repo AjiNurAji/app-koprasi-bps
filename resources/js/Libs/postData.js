@@ -1,7 +1,7 @@
 import { toast } from "react-hot-toast";
 import axios from "axios";
 
-const ProcessLogin = async (url, data) => {
+const PostData = async (url, data) => {
     const toastLoading = toast.loading("Loading...");
 
     try {
@@ -34,4 +34,4 @@ const ProcessLogin = async (url, data) => {
     }
 }
 
-export default ProcessLogin;
+export default PostData;

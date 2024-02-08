@@ -13,6 +13,9 @@ class AuthController extends Controller
      */
     public function index()
     {
+        if (Auth::guard('admin')->check() || Auth::guard('member')->check()) {
+            return redirect()->route('dashboard');
+        }
         return Inertia::render('Auth/Login');
     }
 
@@ -31,9 +34,17 @@ class AuthController extends Controller
             // credentials
             $credentials = [
                 'username' => $request->input('username'),
-                'password' => $request->input('password'),
+                'password' => $request->input('password')
+            ];
+            $credentialsMember = [
+                'email' => $request->input('username'),
+                'password' => $request->input('password')
             ];
 
+            if (Auth::guard('admin')->attempt($credentials) || Auth::guard('member')->attempt($credentials)) {
+                $request->session()->regenerate();
+                return response()->json(['message' => 'Berhasil Login.'], 200);
+            } else if (Auth::guard('member')->attempt($credentialsMember)) {
             if (Auth::guard('admin')->attempt($credentials)) {
                 $request->session()->regenerate();
                 return response()->json(['message' => 'Berhasil Login 👋'], 200);
@@ -63,61 +74,18 @@ public function processLoginMember(Request $request)
 
             if (Auth::guard('member')->attempt($credentials)) {
                 $request->session()->regenerate();
-                return response()->json(['message' => 'Berhasil Login 👋'], 200);
+                return response()->json(['message' => 'Berhasil Login.'], 200);
             }
 
             return response()->json(['message' => 'Gagal login, silahkan coba lagi!'], 401);
         } catch (\Throwable $th) {
             return response()->json(['message' => 'Server error, silahkan coba lagi!'], 500);
         }
-
-    }
-    
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+}
+  public function logout(Request $request)
     {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
-    }
+        $request->session()->flush();
+        Auth::logout();
+        return response()->json(['message' => 'Logout berhasil.'], 200);
+  }
 

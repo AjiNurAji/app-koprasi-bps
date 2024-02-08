@@ -1,3 +1,5 @@
+import "@/Libs/preload";
+
 const Loader = () => {
     return (
         <div className="absolute w-full z-9999 flex h-screen items-center justify-center bg-white" id="loader">

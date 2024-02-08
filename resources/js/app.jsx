@@ -1,6 +1,5 @@
 import "./bootstrap";
 import "../css/app.css";
-import "@/Libs/preload";
 
 import { createRoot } from "react-dom/client";
 import { createInertiaApp } from "@inertiajs/react";
@@ -21,12 +20,12 @@ createInertiaApp({
 
         root.render(
             <>
-                <Toaster position="top-center" reverseOrder={false} />
+                <Toaster position="top-center" reverseOrder={false} containerStyle={{ zIndex: 99999 }} />
                 <App {...props} />
             </>
         );
     },
     progress: {
-        color: "#3C50E0",
+        color: "#333A48",
     },
 });

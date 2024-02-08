@@ -2,49 +2,54 @@ import Footer from "@/Components/Dashboard/Footer";
 import Header from "@/Components/Dashboard/Header";
 import Sidebar from "@/Components/Dashboard/Sidebar";
 import { useState } from "react";
-import { BrowserRouter } from "react-router-dom";
 import Loader from "@/Components/Loader";
+import { usePage } from "@inertiajs/react";
 
 const Authenticated = ({ user, children }) => {
+    const page = usePage()
     const [sidebarOpen, setSidebarOpen] = useState(false);
+    const { url } = page;
 
     return (
-        <BrowserRouter>
-            <div className="dark:bg-boxdark-2 dark:text-bodydark">
-                {/* <!-- ===== Page Wrapper Start ===== --> */}
-                <div className="flex h-screen overflow-hidden">
-                    {/* <!-- ===== Sidebar Start ===== --> */}
-                    <Sidebar
+        <div className="dark:bg-boxdark-2 dark:text-bodydark">
+            {/* <!-- ===== Page Wrapper Start ===== --> */}
+            <div className="flex h-screen overflow-hidden">
+                {/* <!-- ===== Sidebar Start ===== --> */}
+                <Sidebar
+                    user={user}
+                    pathname={url}
+                    sidebarOpen={sidebarOpen}
+                    setSidebarOpen={setSidebarOpen}
+                />
+                {/* <!-- ===== Sidebar End ===== --> */}
+
+                {/* <!-- ===== Content Area Start ===== --> */}
+                <div
+                    className="relative flex flex-1 flex-col overflow-y-none overflow-x-hidden"
+                    id="main"
+                >
+                    <Loader />
+                    {/* <!-- ===== Header Start ===== --> */}
+                    <Header
+                        user={user}
                         sidebarOpen={sidebarOpen}
                         setSidebarOpen={setSidebarOpen}
                     />
-                    {/* <!-- ===== Sidebar End ===== --> */}
+                    {/* <!-- ===== Header End ===== --> */}
 
-                    {/* <!-- ===== Content Area Start ===== --> */}
-                    <div className="relative flex flex-1 flex-col overflow-y-auto overflow-x-hidden">
-                        <Loader />
-                        {/* <!-- ===== Header Start ===== --> */}
-                        <Header
-                            user={user}
-                            sidebarOpen={sidebarOpen}
-                            setSidebarOpen={setSidebarOpen}
-                        />
-                        {/* <!-- ===== Header End ===== --> */}
-
-                        {/* <!-- ===== Main Content Start ===== --> */}
-                        <main id="content">
-                            <div className="mx-auto max-w-screen-2xl p-4 md:p-6 2xl:p-10">
-                                {children}
-                            </div>
-                        </main>
-                        {/* <!-- ===== Main Content End ===== --> */}
-                        <Footer />
-                    </div>
-                    {/* <!-- ===== Content Area End ===== --> */}
+                    {/* <!-- ===== Main Content Start ===== --> */}
+                    <main id="content overflow-y-auto">
+                        <div className="mx-auto max-w-screen-2xl p-4 md:p-6 2xl:p-10">
+                            {children}
+                            <Footer />
+                        </div>
+                    </main>
+                    {/* <!-- ===== Main Content End ===== --> */}
                 </div>
-                {/* <!-- ===== Page Wrapper End ===== --> */}
+                {/* <!-- ===== Content Area End ===== --> */}
             </div>
-        </BrowserRouter>
+            {/* <!-- ===== Page Wrapper End ===== --> */}
+        </div>
     );
 };
 

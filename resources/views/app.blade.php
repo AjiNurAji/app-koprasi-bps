@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}"  class="nprogress-busy">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="nprogress-busy">
 
 <head>
     <meta charset="utf-8">
