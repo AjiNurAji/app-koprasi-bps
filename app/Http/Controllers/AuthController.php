@@ -44,10 +44,10 @@ class AuthController extends Controller
 
             if (Auth::guard('admin')->attempt($credentials) || Auth::guard('member')->attempt($credentials)) {
                 $request->session()->regenerate();
-                return response()->json(['message' => 'Berhasil Login'], 200);
+                return response()->json(['message' => 'Berhasil Login.'], 200);
             } else if (Auth::guard('member')->attempt($credentialsMember)) {
                 $request->session()->regenerate();
-                return response()->json(['message' => 'Berhasil Login'], 200);
+                return response()->json(['message' => 'Berhasil Login.'], 200);
             }
 
             return response()->json(['message' => 'Gagal login, silahkan coba lagi!'], 401);
@@ -57,9 +57,9 @@ class AuthController extends Controller
     }
 
     public function logout(Request $request)
-      {
-          $request->session()->flush();
-          Auth::logout();
-          return response()->json(['message' => 'Logout berhasil.'], 200);
+    {
+        $request->session()->flush();
+        Auth::logout();
+        return response()->json(['message' => 'Logout berhasil.'], 200);
     }
 }

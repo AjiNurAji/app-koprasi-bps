@@ -20,19 +20,19 @@ class DatabaseSeeder extends Seeder
             'role' => 'admin',
         ]);
 
-        for($i = 1; $i <= 15; $i++) {
-            \App\Models\Member::create([
-                'email' => fake()->email(),
-                'name' => fake()->name(),
-                'password' => Hash::make('bps3208')
-            ]);
-        }
+        // for($i = 1; $i <= 15; $i++) {
+        //     \App\Models\Member::create([
+        //         'email' => fake()->email(),
+        //         'name' => fake()->name(),
+        //         'password' => Hash::make('bps3208')
+        //     ]);
+        // }
 
-         \App\Models\User::factory(10)->create();
+        //  \App\Models\User::factory(10)->create();
 
-         \App\Models\User::factory()->create([
-             'name' => 'Test User',
-             'email' => 'test@example.com',
-        ]);
+        //  \App\Models\User::factory()->create([
+        //      'name' => 'Test User',
+        //      'email' => 'test@example.com',
+        // ]);
     }
 }

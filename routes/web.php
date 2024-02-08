@@ -20,7 +20,7 @@ use Inertia\Inertia;
 
 Route::get('/', function () {
     return redirect()->route('login');
-})->name('login');
+})->name('default');
 
 Route::middleware(['auth:admin,member'])->group(function () {
     Route::get('/dashboard', [HomepageController::class, 'index'])->name('dashboard');

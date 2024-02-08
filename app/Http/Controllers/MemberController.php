@@ -26,7 +26,6 @@ class MemberController extends Controller
     public function store(Request $request)
     {
         // get user logined
-        
         $user = Auth::user();
         $check = $user->role ? $user->role === 'admin' : false;
         
