@@ -2,8 +2,25 @@
 @tailwind components;
 @tailwind utilities;
 
+input:focus,
+input:focus-visible,
+select:focus,
+select:focus-visible {
+    box-shadow: none !important;
+}
+
+button {
+    border: none !important;
+    outline: none !important;
+}
+
+button:active {
+    scale: 0.95;
+}
+
 /* Firefox */
 *, *::before, *::after {
+    scroll-behavior: smooth;
     scrollbar-width: thin;
     scrollbar-color: #3c50e0 #dee4ee;
 }
@@ -29,7 +46,7 @@
 
 *::-webkit-scrollbar-thumb {
     border-radius: 19px;
-    background-color: #3c50e0;
+    background-color: #3C50E0;
 }
 
 *::-webkit-scrollbar-thumb:hover {
@@ -53,4 +70,14 @@
 .nprogress-busy #loader {
     opacity: 1;
     visibility: visible;
+}
+
+img[alt="Muhamad Yusuf Aradabila"],
+img[alt="Aji Nur Aji"] {
+    scale: 1.50;
+    transform: translateY(-10%);
+    -webkit-transform: translateY(-10%);
+    -moz-transform: translateY(-10%);
+    -ms-transform: translateY(-10%);
+    -o-transform: translateY(-10%);
 }

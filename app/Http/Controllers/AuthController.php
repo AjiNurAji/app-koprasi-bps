@@ -16,6 +16,9 @@ class AuthController extends Controller
         if (Auth::guard('admin')->check() || Auth::guard('member')->check()) {
             return redirect()->route('dashboard');
         }
+        if (Auth::guard('admin')->check() || Auth::guard('member')->check()) {
+            return redirect()->route('dashboard');
+        }
         return Inertia::render('Auth/Login');
     }
 
@@ -34,18 +37,10 @@ class AuthController extends Controller
             // credentials
             $credentials = [
                 'username' => $request->input('username'),
-                'password' => $request->input('password')
+                'password' => $request->input('password'),
             ];
 
-            $credentialsMember = [
-                'email' => $request->input('username'),
-                'password' => $request->input('password')
-            ];
-
-            if (Auth::guard('admin')->attempt($credentials) || Auth::guard('member')->attempt($credentials)) {
-                $request->session()->regenerate();
-                return response()->json(['message' => 'Berhasil Login.'], 200);
-            } else if (Auth::guard('member')->attempt($credentialsMember)) {
+            if (Auth::guard('admin')->attempt($credentials)) {
                 $request->session()->regenerate();
                 return response()->json(['message' => 'Berhasil Login.'], 200);
             }

@@ -17,9 +17,20 @@ class Member extends Authenticatable
      *
      * @var array<int, string>
      */
+
+    protected $table = 'members';
+
+    protected $guarded = ['id_member'];
+
+    protected $primaryKey = 'id_member';
+
+    protected $keyType = 'string';
+
     protected $fillable = [
+        'id_member',
         'email',
         'name',
+        'username',
         'password',
     ];
 
@@ -28,9 +39,7 @@ class Member extends Authenticatable
      *
      * @var array<int, string>
      */
-    protected $hidden = [
-        'password',
-    ];
+    protected $hidden = ['password'];
 
     /**
      * The attributes that should be cast.
