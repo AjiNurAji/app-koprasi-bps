@@ -36,7 +36,6 @@ class AuthController extends Controller
                 'username' => $request->input('username'),
                 'password' => $request->input('password')
             ];
-
             $credentialsMember = [
                 'email' => $request->input('username'),
                 'password' => $request->input('password')
@@ -46,6 +45,34 @@ class AuthController extends Controller
                 $request->session()->regenerate();
                 return response()->json(['message' => 'Berhasil Login.'], 200);
             } else if (Auth::guard('member')->attempt($credentialsMember)) {
+            if (Auth::guard('admin')->attempt($credentials)) {
+                $request->session()->regenerate();
+                return response()->json(['message' => 'Berhasil Login 👋'], 200);
+            }
+
+            return response()->json(['message' => 'Gagal login, silahkan coba lagi!'], 401);
+        } catch (\Throwable $th) {
+            return response()->json(['message' => 'Server error, silahkan coba lagi!'], 500);
+        }
+    }
+}
+
+public function processLoginMember(Request $request)
+   {
+    try {
+            // validate request
+            $request->validate([
+                'email' => 'required',
+                'password' => 'required',
+            ]);
+
+            // credentials
+            $credentials = [
+                'email' => $request->input('email'),
+                'password' => $request->input('password'),
+            ];
+
+            if (Auth::guard('member')->attempt($credentials)) {
                 $request->session()->regenerate();
                 return response()->json(['message' => 'Berhasil Login.'], 200);
             }
@@ -54,12 +81,11 @@ class AuthController extends Controller
         } catch (\Throwable $th) {
             return response()->json(['message' => 'Server error, silahkan coba lagi!'], 500);
         }
-    }
-
-    public function logout(Request $request)
+}
+  public function logout(Request $request)
     {
         $request->session()->flush();
         Auth::logout();
         return response()->json(['message' => 'Logout berhasil.'], 200);
-    }
-}
+  }
+
