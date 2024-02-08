@@ -37,6 +37,7 @@ Route::middleware(['auth:admin'])->group(function () {
     
     // simpanan
     Route::get('/simpanan/pokok', [HomepageController::class, 'simpananPokok'])->name('simpanan_pokok');
+    Route::get('/simpanan/wajib', [HomepageController::class, 'simpananWajib'])->name('simpanan_wajib');
 });
 
 require __DIR__.'/auth.php';

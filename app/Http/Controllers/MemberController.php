@@ -16,7 +16,7 @@ class MemberController extends Controller
      */
     public function index()
     {
-        $members = Member::all();
+        $members = Member::orderBy('name', 'asc')->get();
         return Inertia::render('admin/Member/Members', ['members' => $members]);
     }
 

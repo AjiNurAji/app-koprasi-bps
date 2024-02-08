@@ -28,4 +28,9 @@ class HomepageController extends Controller
     {
         return Inertia::render('admin/Simpanan/Pokok');
     }
+
+    public function simpananWajib()
+    {
+        return Inertia::render('admin/Simpanan/Wajib');
+    }
 }
