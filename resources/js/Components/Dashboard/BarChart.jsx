@@ -2,13 +2,13 @@ import { chartOption } from "@/Libs/chartOption";
 import { useState } from "react";
 import ReactApexChart from "react-apexcharts";
 
-const BarChart = () => {
+const BarChart = ({ data }) => {
     const date = new Date();
     const [state, setState] = useState({
         series: [
             {
                 name: "Simpanan",
-                data: [23, 11, 22, 27, 13, 22, 37, 21, 44, 22, 30, 45],
+                data: data.simpanan,
             },
 
             {

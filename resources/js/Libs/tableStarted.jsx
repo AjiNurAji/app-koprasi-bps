@@ -88,7 +88,6 @@ export const columnsSimpanan = [
                             style: "currency",
                             currency: "IDR",
                         }).format(data.getValue() ? data.getValue() : 0)}
-                        {console.log(data)}
                     </span>
                 ),
                 header: `Awal Tahun ${new Date().getFullYear()}`,

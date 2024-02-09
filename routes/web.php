@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\DataController;
 use App\Http\Controllers\HomepageController;
 use App\Http\Controllers\MemberController;
 use App\Http\Controllers\SimpananController;
@@ -24,6 +25,7 @@ Route::get('/', function () {
 
 Route::middleware(['auth:admin,member'])->group(function () {
     Route::get('/dashboard', [HomepageController::class, 'index'])->name('dashboard');
+
     Route::post('logout', [AuthController::class, 'logout'])->name('logout');
     Route::get('/team', function () {
         return Inertia::render('Team/Team');

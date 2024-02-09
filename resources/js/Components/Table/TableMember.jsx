@@ -35,7 +35,7 @@ const TableMember = ({ data }) => {
     return (
         <div className="rounded-md border border-stroke bg-white px-5 pt-6 pb-2.5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
             {/* head component */}
-            <div className="flex justify-between mb-3.5">
+            <div className="flex items-center justify-between mb-3.5">
                 <button
                     className="p-3 hover:bg-opacity-95 transition-all duration-300 ease-in-out bg-primary text-white rounded-md text-xl"
                     onClick={() => setPopup(true)}
