@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use\App\Models\RekeningBank;
 
 class RekeningController extends Controller
 {
@@ -28,7 +30,7 @@ class RekeningController extends Controller
                     'ADM' => 'required',
                     'penarikan' => 'required',
                     'nominal' => 'required',
-                    'tahun' => 'required',
+                    'tahun' => 'required'
                 ]);
 
                 Rekening::create([
@@ -43,7 +45,7 @@ class RekeningController extends Controller
                     'ADM' => $request->input('ADM'),
                     'penarikan' => $request->input('penarikan'),
                     'nominal' => $request->input('nominal'),
-                    'tahun' => $request->input('tahun'),
+                    'tahun' => $request->input('tahun')
                 ]);
 
                 return response()->json(['message' => 'Berhasil melakukan transaksi'], 200);
@@ -52,6 +54,6 @@ class RekeningController extends Controller
             }
         }
 
-        return response()->json(['message' => 'Sorry anda bukan admin'], 401);
+        return response()->json(['message' => 'Sorry, anda bukan admin'], 401);
     }
 }
