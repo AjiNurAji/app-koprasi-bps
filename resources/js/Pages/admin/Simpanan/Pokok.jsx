@@ -3,28 +3,14 @@ import TableSimpanan from "@/Components/Table/TableSimpanan";
 import Authenticated from "@/Layouts/AuthenticatedLayout";
 import { Head } from "@inertiajs/react";
 
-const Pokok = ({ auth }) => {
+const Pokok = ({ auth, data, members }) => {
     return (
         <Authenticated user={auth.user}>
             <Head title="Simpanan Pokok" />
             <Breadcrumb pageName="Simpanan Pokok" />
             <TableSimpanan
-                data={[
-                    {
-                        id: 1,
-                        name: "Aji Nur Aji",
-                        awalTahun: 50000,
-                        anggotaMasuk: null,
-                        anggkotaKeluar: null,
-                    },
-                    {
-                        id: 2,
-                        name: "Tia Niandari",
-                        awalTahun: 50000,
-                        anggotaMasuk: null,
-                        anggkotaKeluar: null,
-                    },
-                ]}
+                data={data}
+                members={members}
                 type="Pokok"
             />
         </Authenticated>

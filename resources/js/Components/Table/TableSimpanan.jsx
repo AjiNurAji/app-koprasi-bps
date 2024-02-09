@@ -11,10 +11,10 @@ import PaginationTable from "./PaginationTable";
 import { FaMoneyBillTransfer } from "react-icons/fa6";
 import SearchTable from "./SearchTable";
 import CreatePopup from "@/Components/Popup/CreatePopup";
-import FormCreateMember from "@/Components/FormElements/FormCreateMember";
 import DownloadDropdown from "../DownloadDrodown";
+import FormSimpanan from "../FormElements/FormSimpanan";
 
-const TableSimpanan = ({ data, type }) => {
+const TableSimpanan = ({ data, type, members }) => {
     const [datas] = useState([...data]);
     const [globalFilter, setGlobalFilter] = useState("");
     const [popup, setPopup] = useState(false);
@@ -53,7 +53,7 @@ const TableSimpanan = ({ data, type }) => {
                 <CreatePopup
                     createName={`Transaksi Simpanan ${type}`}
                     setPopup={setPopup}
-                    form={<FormCreateMember />}
+                    form={<FormSimpanan members={members} setPopup={setPopup} />}
                 />
             ) : null}
             {/* table */}
@@ -127,7 +127,7 @@ const TableSimpanan = ({ data, type }) => {
                         ) : (
                             <tr>
                                 <td
-                                    colSpan={5}
+                                    colSpan={6}
                                     className="text-center py-5 px-4"
                                 >
                                     Belum ada data nihh!

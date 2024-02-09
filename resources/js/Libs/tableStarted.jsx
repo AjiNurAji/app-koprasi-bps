@@ -43,14 +43,14 @@ export const columnsMember = [
             </span>
         ),
         header: "Alamat Email",
-        enableSorting: false
+        enableSorting: false,
     }),
 
     columnHelper.accessor("id_member", {
         id: "Action",
         cell: (data) => <ActionTable memberId={data.getValue()} />,
         header: "Aksi",
-        enableSorting: false
+        enableSorting: false,
     }),
 ];
 
@@ -80,7 +80,7 @@ export const columnsSimpanan = [
         id: "group",
         colSpan: 3,
         columns: [
-            columnHelper.accessor("awalTahun", {
+            columnHelper.accessor("awal_tahun", {
                 id: `Awal Tahun ${new Date().getFullYear()}`,
                 cell: (data) => (
                     <span className="font-medium text-black dark:text-white">
@@ -88,12 +88,13 @@ export const columnsSimpanan = [
                             style: "currency",
                             currency: "IDR",
                         }).format(data.getValue() ? data.getValue() : 0)}
+                        {console.log(data)}
                     </span>
                 ),
                 header: `Awal Tahun ${new Date().getFullYear()}`,
             }),
 
-            columnHelper.accessor("anggotaMasuk", {
+            columnHelper.accessor("anggota_masuk", {
                 id: "AnggotaMasuk",
                 cell: (data) => (
                     <span className="font-medium text-black dark:text-white">
@@ -106,7 +107,7 @@ export const columnsSimpanan = [
                 header: "Anggota Masuk",
             }),
 
-            columnHelper.accessor("anggotaKeluar", {
+            columnHelper.accessor("anggota_keluar", {
                 id: "AnggotaKeluar",
                 cell: (data) => (
                     <span className="font-medium text-black dark:text-white">
@@ -122,18 +123,14 @@ export const columnsSimpanan = [
         header: "Simpanan Pokok",
     }),
 
-    columnHelper.accessor("", {
+    columnHelper.accessor("kekayaan", {
         id: "kekayaan",
         cell: (data) => (
             <span className="font-medium text-black dark:text-white">
                 {Intl.NumberFormat("id-ID", {
                     style: "currency",
                     currency: "IDR",
-                }).format(
-                    data.row.original.awalTahun || data.row.original.anggotaMasuk
-                        ? data.row.original.awalTahun + data.row.original.anggotaMasuk
-                        : 0
-                )}
+                }).format(data.getValue() ? data.getValue() : 0)}
                 {console.log()}
             </span>
         ),

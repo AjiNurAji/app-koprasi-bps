@@ -6,8 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 use App\Models\SimpananPokok;
-
-
+use App\Models\Member;
 class HomepageController extends Controller
 {
     private function getUserLogin()
@@ -27,9 +26,23 @@ class HomepageController extends Controller
     }
 
     public function simpananPokok()
-    {
-        $simpananPokok = SimpananPokok::all();
-        return Inertia::render('admin/Simpanan/Pokok', ['data' => $simpananPokok]);
+    {   
+        $simpananPokok = SimpananPokok::where('tahun', date('Y'))->get();
+
+        // dd($simpananPokok);
+        
+        foreach($simpananPokok as $data) {
+            $datas[] = [
+                'name' => $data->member->name,
+                'awal_tahun' => $data->awal_tahun === null ? null : $data->awal_tahun,
+                'anggota_masuk' => $data->anggota_masuk === null ? null : $data->anggota_masuk,
+                'anggota_keluar' => $data->anggota_keluar === null ? null : $data->anggota_keluar,
+                'kekayaan' => ($data->awal_tahun === null ? null : $data->awal_tahun) + ($data->anggota_masuk === null ? null : $data->anggota_masuk),
+            ];
+        }
+
+        $members = Member::orderBy('name', 'asc')->get();
+        return Inertia::render('admin/Simpanan/Pokok', ['data' => $datas, 'members' => $members]);
     }
 
     public function simpananWajib()

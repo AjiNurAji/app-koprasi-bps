@@ -6,7 +6,7 @@ import { GiWallet, GiPayMoney, GiReceiveMoney } from "react-icons/gi";
 import Authenticated from "@/Layouts/AuthenticatedLayout";
 import BarChart from "@/Components/Dashboard/BarChart";
 
-const Dashboard = ({ auth }) => {
+const Dashboard = ({ auth, data }) => {
     return (
         <Authenticated user={auth.user}>
             <Head title="Dashboard" />

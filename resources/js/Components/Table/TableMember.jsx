@@ -52,7 +52,7 @@ const TableMember = ({ data }) => {
                 <CreatePopup
                     createName="Tambah Anggota"
                     setPopup={setPopup}
-                    form={<FormCreateMember />}
+                    form={<FormCreateMember setPopup={setPopup} />}
                 />
             ) : null}
             {/* table */}

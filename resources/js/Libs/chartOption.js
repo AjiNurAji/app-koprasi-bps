@@ -62,7 +62,7 @@ export const chartOption = {
             },
         },
         dataLabels: {
-            enabled: true,
+            enabled: false,
         },
         markers: {
             size: 4,

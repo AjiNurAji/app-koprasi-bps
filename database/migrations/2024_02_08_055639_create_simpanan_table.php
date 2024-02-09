@@ -13,11 +13,13 @@ return new class extends Migration
     {
         Schema::create('simpanan_pokok', function (Blueprint $table) {
             $table->uuid('id_simpanan_pokok')->primary();
-            $table->char('id_member')->nullable();
-            $table->foreign('id_member')->references('id_member')->on('members')->onUpdate('cascade')->onDelete('cascade')->nullable();
-            $table->integer('nominal', 25)->autoIncrement(false);
-            $table->integer('tahun', 4)->autoIncrement(false);
-            $table->enum('type',['anggota_masuk', 'anggota_keluar', 'awal_tahun']);
+            $table->char('id_member');
+            $table->foreign('id_member')->references('id_member')->on('members')->onUpdate('cascade')->onDelete('cascade');
+            $table->integer('tahun', false);
+            $table->string('bulan', 12);
+            $table->integer('awal_tahun', false)->nullable();
+            $table->integer('anggota_masuk', false)->nullable();
+            $table->integer('anggota_keluar', false)->nullable();
             $table->timestamps();
         });
     }
@@ -27,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('simpanan');
+        Schema::dropIfExists('simpanan_pokok');
     }
 };

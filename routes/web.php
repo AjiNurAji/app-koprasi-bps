@@ -1,9 +1,9 @@
 <?php
 
 use App\Http\Controllers\AuthController;
-use Illuminate\Foundation\Application;
 use App\Http\Controllers\HomepageController;
 use App\Http\Controllers\MemberController;
+use App\Http\Controllers\SimpananController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -37,6 +37,8 @@ Route::middleware(['auth:admin'])->group(function () {
     
     // simpanan
     Route::get('/simpanan/pokok', [HomepageController::class, 'simpananPokok'])->name('simpanan_pokok');
+    Route::post('/simpanan/pokok', [SimpananController::class, 'getDataSimpananPokok'])->name('simpanan_pokok');
+    Route::post('/simpanan/pokok/ceate', [SimpananController::class, 'simpananPokok'])->name('simpanan_pokok_create');
     Route::get('/simpanan/wajib', [HomepageController::class, 'simpananWajib'])->name('simpanan_wajib');
 });
 

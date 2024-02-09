@@ -75,7 +75,7 @@ const Header = (props) => {
                 </div>
 
                 <div className="hidden sm:block">
-                    <h3 className="font-bold text-black dark:text-white">
+                    <h3 className="font-bold text-center lg:text-start text-black dark:text-white w-full sm:inline-block">
                         {date.toLocaleDateString("ID-id", {
                             day: "2-digit",
                             weekday: "long",
@@ -83,7 +83,7 @@ const Header = (props) => {
                             year: "numeric"
                         })}
                     </h3>
-                    <span className="font-medium text-black dark:text-white">
+                    <span className="font-medium text-center lg:text-start text-black dark:text-white w-full sm:inline-block">
                         {date.toLocaleTimeString("ID-id", {
                             hour: "2-digit",
                             minute: "2-digit",
