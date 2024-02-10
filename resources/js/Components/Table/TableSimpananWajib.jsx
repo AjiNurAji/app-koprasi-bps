@@ -1,4 +1,4 @@
-import { columnsSimpanan } from "@/Libs/tableStarted";
+import { columnSimpananWajib } from "@/Libs/tableStarted";
 import {
     useReactTable,
     flexRender,
@@ -14,8 +14,9 @@ import CreatePopup from "@/Components/Popup/CreatePopup";
 import DownloadDropdown from "../DownloadDrodown";
 import FormSimpanan from "../FormElements/FormSimpanan";
 import SimpananPokokExport from "@/Pages/admin/Exports/SimpananPokok";
+import SimpananWajibExport from "@/Pages/admin/Exports/SimpananWajib";
 
-const TableSimpanan = ({ data, type, members, total }) => {
+const TableSimpananWajib = ({ data, members, total, type }) => {
     const [datas] = useState([...data]);
     const [globalFilter, setGlobalFilter] = useState("");
     const [popup, setPopup] = useState(false);
@@ -23,7 +24,7 @@ const TableSimpanan = ({ data, type, members, total }) => {
 
     const table = useReactTable({
         data: datas,
-        columns: columnsSimpanan,
+        columns: columnSimpananWajib,
         state: {
             globalFilter,
         },
@@ -43,11 +44,15 @@ const TableSimpanan = ({ data, type, members, total }) => {
                     <FaMoneyBillTransfer />
                 </button>
                 <div className="flex flex-col-reverse md:flex-row items-end md:items-center justify-end gap-3">
-                    <DownloadDropdown filename="simpananpokok" sheet="simpananpokok" tableRef={tableRef} />
-                    <SimpananPokokExport
+                    <DownloadDropdown
+                        filename="simpananwajib"
+                        sheet="simpananwajib"
+                        tableRef={tableRef}
+                    />
+                    <SimpananWajibExport
+                        tableRef={tableRef}
                         data={data}
                         total={total}
-                        tableRef={tableRef}
                     />
                     <SearchTable
                         setGlobalFilter={setGlobalFilter}
@@ -61,7 +66,13 @@ const TableSimpanan = ({ data, type, members, total }) => {
                     createName={`Transaksi Simpanan ${type}`}
                     setPopup={setPopup}
                     form={
-                        <FormSimpanan members={members} setPopup={setPopup} />
+                        <FormSimpanan
+                            members={members}
+                            postUrl={route("simpanan_wajib_create")}
+                            directUrl={route("simpanan_wajib")}
+                            setPopup={setPopup}
+                            type={type}
+                        />
                     }
                 />
             ) : null}
@@ -72,33 +83,12 @@ const TableSimpanan = ({ data, type, members, total }) => {
                         {table.getHeaderGroups().map((headerGroup) => (
                             <tr
                                 key={headerGroup.id}
-                                className="bg-gray-2 text-left dark:bg-meta-4 rounded-md"
+                                className="bg-gray-2 text-left dark:bg-meta-4"
                             >
                                 {headerGroup.headers.map((item) => (
                                     <th
                                         key={item.id}
-                                        colSpan={item.colSpan}
-                                        rowSpan={
-                                            (item.index === 0 &&
-                                                item.depth === 1) ||
-                                            (item.index === 1 &&
-                                                item.depth === 1) ||
-                                            (item.index === 3 &&
-                                                item.depth === 1)
-                                                ? "2"
-                                                : ""
-                                        }
-                                        className={`${
-                                            (item.index === 2 &&
-                                                item.depth === 2) ||
-                                            (item.index === 3 &&
-                                                item.depth === 2) ||
-                                            (item.index === 4 &&
-                                                item.depth === 2) ||
-                                            item.depth === 1
-                                                ? ""
-                                                : "hidden"
-                                        } py-4 px-4 font-medium border border-stroke dark:border-opacity-20 text-black dark:text-white text-center`}
+                                        className="relative py-4 px-4 font-medium text-black border dark:text-white border-stroke dark:border-opacity-20"
                                     >
                                         {flexRender(
                                             item.column.columnDef.header,
@@ -146,8 +136,8 @@ const TableSimpanan = ({ data, type, members, total }) => {
                                             style: "currency",
                                             currency: "IDR",
                                         }).format(
-                                            total.awal_tahun
-                                                ? total.awal_tahun
+                                            total.kekayaan_awal_tahun
+                                                ? total.kekayaan_awal_tahun
                                                 : 0
                                         )}
                                     </td>
@@ -156,8 +146,8 @@ const TableSimpanan = ({ data, type, members, total }) => {
                                             style: "currency",
                                             currency: "IDR",
                                         }).format(
-                                            total.anggota_masuk
-                                                ? total.anggota_masuk
+                                            total.simpanan_wajib
+                                                ? total.simpanan_wajib
                                                 : 0
                                         )}
                                     </td>
@@ -193,7 +183,6 @@ const TableSimpanan = ({ data, type, members, total }) => {
                             </tr>
                         )}
                     </tbody>
-                    <tfoot></tfoot>
                 </table>
             </div>
             {/* pagination */}
@@ -202,4 +191,4 @@ const TableSimpanan = ({ data, type, members, total }) => {
     );
 };
 
-export default TableSimpanan;
+export default TableSimpananWajib;

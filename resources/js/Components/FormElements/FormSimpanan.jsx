@@ -5,10 +5,10 @@ import { useForm } from "@inertiajs/react";
 import { router } from "@inertiajs/react";
 import PostData from "@/Libs/postData";
 import SelectWithSearch from "./SelectWithSearch";
-import NextSimpananPokok from "./NextStepSimpananPokok";
+import NextSimpanan from "./NextStepSimpanan";
 import axios from "axios";
 
-const FormSimpanan = ({ members, setPopup }) => {
+const FormSimpanan = ({ members, setPopup, postUrl, directUrl, type }) => {
     const [processing, setProcess] = useState(false);
     const [simpanan, setSimpanan] = useState([]);
     const getTahun = new Date();
@@ -23,19 +23,21 @@ const FormSimpanan = ({ members, setPopup }) => {
         awal_tahun: undefined,
         anggota_masuk: undefined,
         anggota_keluar: undefined,
+        simpanan_wajib: undefined,
+        kekayaan_awal_tahun: undefined,
     });
 
     const submit = async (e) => {
         e.preventDefault();
         setProcess(true);
 
-        const create = await PostData(route("simpanan_pokok_create"), data);
+        const create = await PostData(postUrl, data);
 
         if (create) {
             form.current.reset();
             setPopup(false);
             setProcess(false);
-            router.get(route("simpanan_pokok"));
+            router.get(directUrl);
         }
 
         setProcess(false);
@@ -49,7 +51,7 @@ const FormSimpanan = ({ members, setPopup }) => {
         const toastLoading = toast.loading("Loading...");
 
         try {
-            const response = await axios.post(route("simpanan_pokok"), data, {
+            const response = await axios.post(directUrl, data, {
                 headers: {
                     Accept: "application/json",
                     "Content-Type": "application/json",
@@ -61,7 +63,7 @@ const FormSimpanan = ({ members, setPopup }) => {
                     id: toastLoading,
                     duration: 3000,
                 });
-                setSimpanan(response.data.simpananPokok);
+                setSimpanan(response.data.simpanan);
                 setProcess(false);
                 return setStep(2);
             }
@@ -109,9 +111,10 @@ const FormSimpanan = ({ members, setPopup }) => {
                 />
             </div>
             {step === 1 ? null : (
-                <NextSimpananPokok
+                <NextSimpanan
                     data={simpanan}
                     getTahun={getTahun}
+                    type={type}
                     step={step}
                     valueData={data}
                     setData={setData}

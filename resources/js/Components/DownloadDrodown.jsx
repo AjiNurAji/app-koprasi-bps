@@ -63,7 +63,7 @@ const DownloadDropdown = ({ pdf, csv, tableRef, sheet, filename  }) => {
                 ref={dropdown}
                 onFocus={() => setActive(true)}
                 onBlur={() => setActive(false)}
-                className={`absolute right-0 mt-1.5 flex w-62.5 flex-col rounded-md border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark ${
+                className={`absolute right-0 mt-1.5 z-999 flex w-62.5 flex-col rounded-md border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark ${
                     active === true ? "block" : "hidden"
                 }`}
             >

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 use App\Models\SimpananPokok;
+use App\Models\SimpananWajib;
 use App\Models\Member;
 use Carbon\Carbon;
 
@@ -102,16 +103,47 @@ class HomepageController extends Controller
         $totalPokok = $awalTahunPokok + $anggotaMasukPokok - $anggotaKeluarPokok;
 
         $members = Member::orderBy('name', 'asc')->get();
-        return Inertia::render('admin/Simpanan/Pokok', ['data' => isset($datas) ? $datas : $simpananPokok, 'members' => $members, 'total' => [
-            'awal_tahun' => $awalTahunPokok,
-            'anggota_masuk' => $anggotaMasukPokok,
-            'anggota_keluar' => $anggotaKeluarPokok,
-            'jumlah' => $totalPokok
-        ]]);
+        return Inertia::render('admin/Simpanan/Pokok', [
+            'data' => isset($datas) ? $datas : $simpananPokok,
+            'members' => $members,
+            'total' => [
+                'awal_tahun' => $awalTahunPokok,
+                'anggota_masuk' => $anggotaMasukPokok,
+                'anggota_keluar' => $anggotaKeluarPokok,
+                'jumlah' => $totalPokok
+            ]
+        ]);
     }
 
     public function simpananWajib()
     {
-        return Inertia::render('admin/Simpanan/Wajib');
+        $simpananWajib = SimpananWajib::where('tahun', date('Y'))->get();
+
+        foreach ($simpananWajib as $data) {
+            $datas[] = [
+                'name' => $data->member->name,
+                'kekayaan_awal_tahun' => $data->kekayaan_awal_tahun === null ? null : $data->kekayaan_awal_tahun,
+                'simpanan_wajib' => $data->simpanan_wajib === null ? null : $data->simpanan_wajib,
+                'anggota_keluar' => $data->anggota_keluar === null ? null : $data->anggota_keluar,
+                'kekayaan' => ($data->kekayaan_awal_tahun === null ? null : $data->kekayaan_awal_tahun) + ($data->simpanan_wajib === null ? null : $data->simpanan_wajib) - ($data->anggota_keluar === null ? null : $data->anggota_keluar),
+            ];
+        }
+
+        $kekayaanAwalTahun = SimpananWajib::where('tahun', date('Y'))->sum('kekayaan_awal_tahun');
+        $simpananWajib = SimpananWajib::where('tahun', date('Y'))->sum('simpanan_wajib');
+        $anggotaKeluar = SimpananWajib::where('tahun', date('Y'))->sum('anggota_keluar');
+        $totalWajib = $kekayaanAwalTahun + $simpananWajib - $anggotaKeluar;
+        $members = Member::orderBy('name', 'asc')->get();
+
+        return Inertia::render('admin/Simpanan/Wajib', [
+            'data' => isset($datas) ? $datas : $simpananWajib,
+            'members' => $members,
+            'total' => [
+                'kekayaan_awal_tahun' => $kekayaanAwalTahun,
+                'simpanan_wajib' => $simpananWajib,
+                'anggota_keluar' => $anggotaKeluar,
+                'jumlah' => $totalWajib,
+            ]
+        ]);
     }
 }

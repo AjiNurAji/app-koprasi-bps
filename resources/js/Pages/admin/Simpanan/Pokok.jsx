@@ -1,5 +1,5 @@
 import Breadcrumb from "@/Components/Dashboard/El/Breadcrumb";
-import TableSimpanan from "@/Components/Table/TableSimpanan";
+import TableSimpananPokok from "@/Components/Table/TableSimpananPokok";
 import Authenticated from "@/Layouts/AuthenticatedLayout";
 import { Head } from "@inertiajs/react";
 
@@ -8,11 +8,11 @@ const Pokok = ({ auth, data, members, total }) => {
         <Authenticated user={auth.user}>
             <Head title="Simpanan Pokok" />
             <Breadcrumb pageName="Simpanan Pokok" />
-            <TableSimpanan
+            <TableSimpananPokok
                 data={data}
                 members={members}
                 total={total}
-                type="Pokok"
+                type="pokok"
             />
         </Authenticated>
     );
