@@ -3,8 +3,9 @@ import { MdOutlineFileDownload } from "react-icons/md";
 import { SiMicrosoftexcel } from "react-icons/si";
 import { BsFiletypeCsv } from "react-icons/bs";
 import { FaRegFilePdf } from "react-icons/fa";
+import { DownloadTableExcel } from 'react-export-table-to-excel';
 
-const DownloadDropdown = () => {
+const DownloadDropdown = ({ pdf, csv, tableRef, sheet, filename  }) => {
     const [active, setActive] = useState(false);
     const dropdown = useRef(null);
     const trigger = useRef(null);
@@ -40,6 +41,10 @@ const DownloadDropdown = () => {
         return () => document.removeEventListener("keydown", keyHandler);
     });
 
+    const download = async (route) => {
+        console.log("click");
+    };
+
     return (
         <div className="relative">
             <button
@@ -64,31 +69,36 @@ const DownloadDropdown = () => {
             >
                 <ul className="grid grid-cols-2 gap-3 border-b border-stroke px-5 py-3 dark:border-strokedark">
                     <li>
-                        <a
-                            href="/profile"
+                        <button
                             className="flex items-center py-2 px-1 rounded-md justify-start gap-3.5 text-sm border border-stroke dark:border-strokedark font-medium duration-300 ease-in-out hover:text-primary dark:hover:text-white lg:text-base"
+                            onClick={() => download(csv)}
                         >
                             <BsFiletypeCsv className="w-6 h-6" />
                             CSV
-                        </a>
+                        </button>
                     </li>
                     <li>
-                        <a
-                            href="/settings"
-                            className="flex items-center py-2 px-1 rounded-md justiy-start gap-3.5 text-sm border border-stroke dark:border-strokedark font-medium duration-300 ease-in-out hover:text-primary dark:hover:text-white lg:text-base"
+                        <DownloadTableExcel
+                            filename={filename}
+                            sheet={sheet}
+                            currentTableRef={tableRef.current}
                         >
-                            <SiMicrosoftexcel className="w-6 h-6" />
-                            XLSX
-                        </a>
+                            <button
+                                className="flex items-center py-2 px-1 rounded-md justiy-start gap-3.5 text-sm border border-stroke dark:border-strokedark font-medium duration-300 ease-in-out hover:text-primary dark:hover:text-white lg:text-base"
+                            >
+                                <SiMicrosoftexcel className="w-6 h-6" />
+                                XLS
+                            </button>
+                        </DownloadTableExcel>
                     </li>
                     <li>
-                        <a
-                            href="/settings"
+                        <button
                             className="flex items-center py-2 px-1 rounded-md justiy-start gap-3.5 text-sm border border-stroke dark:border-strokedark font-medium duration-300 ease-in-out hover:text-primary dark:hover:text-white lg:text-base"
+                            onClick={() => download(pdf)}
                         >
                             <FaRegFilePdf className="w-6 h-6" />
                             PDF
-                        </a>
+                        </button>
                     </li>
                 </ul>
             </div>

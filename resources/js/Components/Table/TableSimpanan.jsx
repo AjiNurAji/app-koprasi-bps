@@ -6,18 +6,20 @@ import {
     getPaginationRowModel,
     getFilteredRowModel,
 } from "@tanstack/react-table";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import PaginationTable from "./PaginationTable";
 import { FaMoneyBillTransfer } from "react-icons/fa6";
 import SearchTable from "./SearchTable";
 import CreatePopup from "@/Components/Popup/CreatePopup";
 import DownloadDropdown from "../DownloadDrodown";
 import FormSimpanan from "../FormElements/FormSimpanan";
+import SimpananPokokExport from "@/Pages/admin/Exports/SimpananPokok";
 
-const TableSimpanan = ({ data, type, members }) => {
+const TableSimpanan = ({ data, type, members, total }) => {
     const [datas] = useState([...data]);
     const [globalFilter, setGlobalFilter] = useState("");
     const [popup, setPopup] = useState(false);
+    const tableRef = useRef(null);
 
     const table = useReactTable({
         data: datas,
@@ -41,7 +43,12 @@ const TableSimpanan = ({ data, type, members }) => {
                     <FaMoneyBillTransfer />
                 </button>
                 <div className="flex flex-col-reverse md:flex-row items-end md:items-center justify-end gap-3">
-                    <DownloadDropdown />
+                    <DownloadDropdown filename="simpananpokok" sheet="simpananpokok" tableRef={tableRef} />
+                    <SimpananPokokExport
+                        data={data}
+                        total={total}
+                        tableRef={tableRef}
+                    />
                     <SearchTable
                         setGlobalFilter={setGlobalFilter}
                         globalFilter={globalFilter}
@@ -53,7 +60,9 @@ const TableSimpanan = ({ data, type, members }) => {
                 <CreatePopup
                     createName={`Transaksi Simpanan ${type}`}
                     setPopup={setPopup}
-                    form={<FormSimpanan members={members} setPopup={setPopup} />}
+                    form={
+                        <FormSimpanan members={members} setPopup={setPopup} />
+                    }
                 />
             ) : null}
             {/* table */}
@@ -102,39 +111,89 @@ const TableSimpanan = ({ data, type, members }) => {
                     </thead>
                     <tbody>
                         {table.getRowModel().rows.length ? (
-                            table.getRowModel().rows.map((row, i) => (
-                                <tr
-                                    key={row.id}
-                                    className={`${
-                                        i % 2 === 0
-                                            ? "bg-white dark:bg-meta-4 dark:bg-opacity-15"
-                                            : "bg-gray dark:bg-meta-4 bg-opacity-30 dark:bg-opacity-30"
-                                    }`}
-                                >
-                                    {row.getVisibleCells().map((cell) => (
-                                        <td
-                                            key={cell.id}
-                                            className="border py-5 px-4 border-stroke dark:border-opacity-20"
-                                        >
-                                            {flexRender(
-                                                cell.column.columnDef.cell,
-                                                cell.getContext()
-                                            )}
-                                        </td>
-                                    ))}
+                            <>
+                                {table.getRowModel().rows.map((row, i) => (
+                                    <tr
+                                        key={row.id}
+                                        className={`${
+                                            i % 2 === 0
+                                                ? "bg-white dark:bg-meta-4 dark:bg-opacity-15"
+                                                : "bg-gray dark:bg-meta-4 bg-opacity-30 dark:bg-opacity-30"
+                                        }`}
+                                    >
+                                        {row.getVisibleCells().map((cell) => (
+                                            <td
+                                                key={cell.id}
+                                                className="border py-5 px-4 border-stroke dark:border-opacity-20"
+                                            >
+                                                {flexRender(
+                                                    cell.column.columnDef.cell,
+                                                    cell.getContext()
+                                                )}
+                                            </td>
+                                        ))}
+                                    </tr>
+                                ))}
+                                <tr>
+                                    <td
+                                        className="font-medium text-center border py-5 px-4 border-stroke dark:border-opacity-20 text-black dark:text-white"
+                                        colSpan={2}
+                                    >
+                                        TOTAL
+                                    </td>
+                                    <td className="font-medium border py-5 px-4 border-stroke dark:border-opacity-20 text-black dark:text-white">
+                                        {Intl.NumberFormat("id-ID", {
+                                            style: "currency",
+                                            currency: "IDR",
+                                        }).format(
+                                            total.awal_tahun
+                                                ? total.awal_tahun
+                                                : 0
+                                        )}
+                                    </td>
+                                    <td className="font-medium border py-5 px-4 border-stroke dark:border-opacity-20 text-black dark:text-white">
+                                        {Intl.NumberFormat("id-ID", {
+                                            style: "currency",
+                                            currency: "IDR",
+                                        }).format(
+                                            total.anggota_masuk
+                                                ? total.anggota_masuk
+                                                : 0
+                                        )}
+                                    </td>
+                                    <td className="font-medium border py-5 px-4 border-stroke dark:border-opacity-20 text-black dark:text-white">
+                                        {Intl.NumberFormat("id-ID", {
+                                            style: "currency",
+                                            currency: "IDR",
+                                        }).format(
+                                            total.anggota_keluar
+                                                ? total.anggota_keluar
+                                                : 0
+                                        )}
+                                    </td>
+                                    <td className="font-medium border py-5 px-4 border-stroke dark:border-opacity-20 text-black dark:text-white">
+                                        {}
+                                        {Intl.NumberFormat("id-ID", {
+                                            style: "currency",
+                                            currency: "IDR",
+                                        }).format(
+                                            total.jumlah ? total.jumlah : 0
+                                        )}
+                                    </td>
                                 </tr>
-                            ))
+                            </>
                         ) : (
                             <tr>
                                 <td
                                     colSpan={6}
-                                    className="text-center py-5 px-4"
+                                    className="text-center py-5 px-4 font-medium text-black dark:text-white"
                                 >
                                     Belum ada data nihh!
                                 </td>
                             </tr>
                         )}
                     </tbody>
+                    <tfoot></tfoot>
                 </table>
             </div>
             {/* pagination */}

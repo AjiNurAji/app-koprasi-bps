@@ -38,14 +38,20 @@ class HomepageController extends Controller
             ]
         ];
 
-
         foreach ($bulan as $item) {
             for ($i = 0; $i < 12; $i++) {
                 $simpananPokokCount[] = SimpananPokok::where('bulan', $item[$i])->where('tahun', date('Y'))->get()->count();
             }
         }
 
-        return Inertia::render('Dashboard', ['chart' => ['simpanan' => $simpananPokokCount]]);
+        $awalTahunPokok = (int) SimpananPokok::where('tahun', date('Y'))->sum('awal_tahun');
+        $anggotaMasukPokok = (int) SimpananPokok::where('tahun', date('Y'))->sum('anggota_masuk');
+        $anggotaKeluarPokok = (int) SimpananPokok::where('tahun', date('Y'))->sum('anggota_keluar');
+        $totalPokok = $awalTahunPokok + $anggotaMasukPokok - $anggotaKeluarPokok;
+        return Inertia::render('Dashboard', [
+            'chart' => ['simpanan' => $simpananPokokCount],
+            'cards' => ['simpananPokok' => $totalPokok]
+        ]);
     }
 
     public function simpananPokok()
@@ -58,12 +64,22 @@ class HomepageController extends Controller
                 'awal_tahun' => $data->awal_tahun === null ? null : $data->awal_tahun,
                 'anggota_masuk' => $data->anggota_masuk === null ? null : $data->anggota_masuk,
                 'anggota_keluar' => $data->anggota_keluar === null ? null : $data->anggota_keluar,
-                'kekayaan' => ($data->awal_tahun === null ? null : $data->awal_tahun) + ($data->anggota_masuk === null ? null : $data->anggota_masuk),
+                'kekayaan' => ($data->awal_tahun === null ? null : $data->awal_tahun) + ($data->anggota_masuk === null ? null : $data->anggota_masuk) - ($data->anggota_keluar === null ? null : $data->anggota_keluar),
             ];
         }
 
+        $awalTahunPokok = (int) SimpananPokok::where('tahun', date('Y'))->sum('awal_tahun');
+        $anggotaMasukPokok = (int) SimpananPokok::where('tahun', date('Y'))->sum('anggota_masuk');
+        $anggotaKeluarPokok = (int) SimpananPokok::where('tahun', date('Y'))->sum('anggota_keluar');
+        $totalPokok = $awalTahunPokok + $anggotaMasukPokok - $anggotaKeluarPokok;
+
         $members = Member::orderBy('name', 'asc')->get();
-        return Inertia::render('admin/Simpanan/Pokok', ['data' => $datas, 'members' => $members]);
+        return Inertia::render('admin/Simpanan/Pokok', ['data' => $datas, 'members' => $members, 'total' => [
+            'awal_tahun' => $awalTahunPokok,
+            'anggota_masuk' => $anggotaMasukPokok,
+            'anggota_keluar' => $anggotaKeluarPokok,
+            'jumlah' => $totalPokok
+        ]]);
     }
 
     public function simpananWajib()

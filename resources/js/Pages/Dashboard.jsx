@@ -6,7 +6,7 @@ import { GiWallet, GiPayMoney, GiReceiveMoney } from "react-icons/gi";
 import Authenticated from "@/Layouts/AuthenticatedLayout";
 import BarChart from "@/Components/Dashboard/BarChart";
 
-const Dashboard = ({ auth, chart }) => {
+const Dashboard = ({ auth, chart, cards }) => {
     return (
         <Authenticated user={auth.user}>
             <Head title="Dashboard" />
@@ -14,7 +14,7 @@ const Dashboard = ({ auth, chart }) => {
             <div className="flex  gap-4 flex-col md:flex-row md:gap-6 flex-wrap">
                 <Card total={66336032} icon={<FaMoneyBillWave />} type="Uang Kas Tunai" view={"/uangkas/tunai"} />
                 <Card total={168285259} icon={<BsFillCreditCard2FrontFill />} type="Uang Kas Rekening" />
-                <Card total={2150000} icon={<GiWallet />} type="Simpanan Pokok" />
+                <Card total={cards.simpananPokok} icon={<GiWallet />} type="Simpanan Pokok" />
                 <Card total={208530000} icon={<GiPayMoney />} type="Simpanan Wajib" />
                 <Card total={78882173} icon={<GiReceiveMoney />} type="Simpanan Sukarela" />
             </div>

@@ -1,10 +1,10 @@
 <?php
 
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\DataController;
 use App\Http\Controllers\HomepageController;
 use App\Http\Controllers\MemberController;
 use App\Http\Controllers\SimpananController;
+use App\Models\SimpananPokok;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -36,7 +36,7 @@ Route::middleware(['auth:admin'])->group(function () {
     // member
     Route::get('/members', [MemberController::class, 'index'])->name('members');
     Route::post('/members/create', [MemberController::class, 'store'])->name('create_member');
-    
+
     // simpanan
     Route::get('/simpanan/pokok', [HomepageController::class, 'simpananPokok'])->name('simpanan_pokok');
     Route::post('/simpanan/pokok', [SimpananController::class, 'getDataSimpananPokok'])->name('simpanan_pokok');
@@ -44,4 +44,4 @@ Route::middleware(['auth:admin'])->group(function () {
     Route::get('/simpanan/wajib', [HomepageController::class, 'simpananWajib'])->name('simpanan_wajib');
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';

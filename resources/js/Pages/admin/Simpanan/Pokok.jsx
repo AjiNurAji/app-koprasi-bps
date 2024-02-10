@@ -3,7 +3,7 @@ import TableSimpanan from "@/Components/Table/TableSimpanan";
 import Authenticated from "@/Layouts/AuthenticatedLayout";
 import { Head } from "@inertiajs/react";
 
-const Pokok = ({ auth, data, members }) => {
+const Pokok = ({ auth, data, members, total }) => {
     return (
         <Authenticated user={auth.user}>
             <Head title="Simpanan Pokok" />
@@ -11,6 +11,7 @@ const Pokok = ({ auth, data, members }) => {
             <TableSimpanan
                 data={data}
                 members={members}
+                total={total}
                 type="Pokok"
             />
         </Authenticated>
