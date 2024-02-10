@@ -1,4 +1,4 @@
-export const chartOption = {
+export const lineChartOption = {
     bar: {
         legend: {
             show: false,
@@ -85,14 +85,14 @@ export const chartOption = {
                 "Feb",
                 "Mar",
                 "Apr",
-                "May",
+                "Mei",
                 "Jun",
                 "Jul",
                 "Aug",
                 "Sep",
-                "Oct",
+                "Okt",
                 "Nov",
-                "Dec",
+                "Des",
             ],
             axisBorder: {
                 show: false,
@@ -110,5 +110,65 @@ export const chartOption = {
             min: 0,
             max: 100,
         },
+    },
+};
+
+export const barChartOption = {
+    colors: ["#3C50E0", "#80CAEE"],
+    chart: {
+        fontFamily: "Satoshi, sans-serif",
+        type: "bar",
+        height: 335,
+        stacked: false,
+        toolbar: {
+            show: false,
+        },
+        zoom: {
+            enabled: false,
+        },
+    },
+
+    responsive: [
+        {
+            breakpoint: 1536,
+            options: {
+                plotOptions: {
+                    bar: {
+                        borderRadius: 0,
+                        columnWidth: "70%",
+                    },
+                },
+            },
+        },
+    ],
+    plotOptions: {
+        bar: {
+            horizontal: false,
+            borderRadius: 0,
+            columnWidth: "70%",
+            borderRadiusApplication: "end",
+            borderRadiusWhenStacked: "last",
+        },
+    },
+    dataLabels: {
+        enabled: false,
+    },
+
+    xaxis: {
+        categories: ["Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu", "Mimggu"],
+    },
+    legend: {
+        position: "top",
+        horizontalAlign: "left",
+        fontFamily: "Satoshi",
+        fontWeight: 500,
+        fontSize: "14px",
+
+        markers: {
+            radius: 99,
+        },
+    },
+    fill: {
+        opacity: 1,
     },
 };

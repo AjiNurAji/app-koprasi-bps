@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 use App\Models\SimpananPokok;
 use App\Models\Member;
+use Carbon\Carbon;
 
 class HomepageController extends Controller
 {
@@ -38,18 +39,45 @@ class HomepageController extends Controller
             ]
         ];
 
+        $hari = [
+            [
+                'Senin',
+                'Selasa',
+                'Rabu',
+                'Kamis',
+                'Jumat',
+                'Sabtu',
+                'Minggu'
+            ]
+        ];
+
+        // simpanan chart
         foreach ($bulan as $item) {
             for ($i = 0; $i < 12; $i++) {
                 $simpananPokokCount[] = SimpananPokok::where('bulan', $item[$i])->where('tahun', date('Y'))->get()->count();
             }
         }
 
-        $awalTahunPokok = (int) SimpananPokok::where('tahun', date('Y'))->sum('awal_tahun');
-        $anggotaMasukPokok = (int) SimpananPokok::where('tahun', date('Y'))->sum('anggota_masuk');
-        $anggotaKeluarPokok = (int) SimpananPokok::where('tahun', date('Y'))->sum('anggota_keluar');
+        foreach ($hari as $item) {
+            for ($i = 0; $i < 7; $i++) {
+                $awal_tahun_perhari[] = SimpananPokok::whereBetween('created_at', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])->where('hari', $item[$i])->get()->sum('awal_tahun');
+                $anggota_masuk_perhari[] = SimpananPokok::whereBetween('created_at', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])->where('hari', $item[$i])->get()->sum('anggota_masuk');
+                $anggota_keluar_perhari[] = SimpananPokok::whereBetween('created_at', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])->where('hari', $item[$i])->get()->sum('anggota_keluar');
+                $totalSimpananPerhari[] = $awal_tahun_perhari[$i] + $anggota_masuk_perhari[$i] - $anggota_keluar_perhari[$i];
+            }
+        }
+
+        // total card
+        $awalTahunPokok = SimpananPokok::where('tahun', date('Y'))->sum('awal_tahun');
+        $anggotaMasukPokok = SimpananPokok::where('tahun', date('Y'))->sum('anggota_masuk');
+        $anggotaKeluarPokok = SimpananPokok::where('tahun', date('Y'))->sum('anggota_keluar');
         $totalPokok = $awalTahunPokok + $anggotaMasukPokok - $anggotaKeluarPokok;
+
+
+        // dd($awal_tahun_perhari, $anggota_masuk_perhari, $totalSimpananPerhari);
+
         return Inertia::render('Dashboard', [
-            'chart' => ['simpanan' => $simpananPokokCount],
+            'chart' => ['perbulan' => $simpananPokokCount, 'perhari' => $totalSimpananPerhari],
             'cards' => ['simpananPokok' => $totalPokok]
         ]);
     }
@@ -68,13 +96,13 @@ class HomepageController extends Controller
             ];
         }
 
-        $awalTahunPokok = (int) SimpananPokok::where('tahun', date('Y'))->sum('awal_tahun');
-        $anggotaMasukPokok = (int) SimpananPokok::where('tahun', date('Y'))->sum('anggota_masuk');
-        $anggotaKeluarPokok = (int) SimpananPokok::where('tahun', date('Y'))->sum('anggota_keluar');
+        $awalTahunPokok = SimpananPokok::where('tahun', date('Y'))->sum('awal_tahun');
+        $anggotaMasukPokok = SimpananPokok::where('tahun', date('Y'))->sum('anggota_masuk');
+        $anggotaKeluarPokok = SimpananPokok::where('tahun', date('Y'))->sum('anggota_keluar');
         $totalPokok = $awalTahunPokok + $anggotaMasukPokok - $anggotaKeluarPokok;
 
         $members = Member::orderBy('name', 'asc')->get();
-        return Inertia::render('admin/Simpanan/Pokok', ['data' => $datas, 'members' => $members, 'total' => [
+        return Inertia::render('admin/Simpanan/Pokok', ['data' => isset($datas) ? $datas : $simpananPokok, 'members' => $members, 'total' => [
             'awal_tahun' => $awalTahunPokok,
             'anggota_masuk' => $anggotaMasukPokok,
             'anggota_keluar' => $anggotaKeluarPokok,

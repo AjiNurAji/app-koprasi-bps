@@ -24,6 +24,7 @@ class SimpananController extends Controller
                 'id_simpanan_pokok' => Str::uuid(),
                 'id_member' => $request->input('id_member'),
                 'tahun' => $request->input('tahun'),
+                'hari' => $request->input('hari'),
                 'bulan' => $request->input('bulan'),
             ]);
 

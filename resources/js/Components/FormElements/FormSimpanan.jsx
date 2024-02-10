@@ -19,6 +19,7 @@ const FormSimpanan = ({ members, setPopup }) => {
         id_member: "",
         tahun: getTahun.getFullYear(),
         bulan: getTahun.toLocaleDateString("id-ID", { month: "long" }),
+        hari: getTahun.toLocaleDateString("id-ID", { weekday: "long" }),
         awal_tahun: undefined,
         anggota_masuk: undefined,
         anggota_keluar: undefined,
@@ -55,8 +56,6 @@ const FormSimpanan = ({ members, setPopup }) => {
                 },
             });
 
-            console.log(response.data);
-
             if (response.data) {
                 toast.success(response.data.message, {
                     id: toastLoading,
@@ -74,14 +73,13 @@ const FormSimpanan = ({ members, setPopup }) => {
             setProcess(false);
             return setStep(1);
         } catch (error) {
+            setProcess(false);
             toast.error(error.response.data.message, {
                 id: toastLoading,
                 duration: 3000,
             });
         }
     };
-
-    console.log(data)
 
     const handleNominal = (v, n) => {
         setData({

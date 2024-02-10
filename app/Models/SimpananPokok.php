@@ -20,6 +20,7 @@ class SimpananPokok extends Model
         'id_member',
         'tahun',
         'bulan',
+        'hari',
         'awal_tahun',
         'anggota_keluar',
         'anggota_masuk'

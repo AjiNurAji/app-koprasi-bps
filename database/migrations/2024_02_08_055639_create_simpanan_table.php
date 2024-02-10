@@ -17,6 +17,7 @@ return new class extends Migration
             $table->foreign('id_member')->references('id_member')->on('members')->onUpdate('cascade')->onDelete('cascade');
             $table->integer('tahun', false);
             $table->string('bulan', 12);
+            $table->string('hari', 7);
             $table->integer('awal_tahun', false)->nullable();
             $table->integer('anggota_masuk', false)->nullable();
             $table->integer('anggota_keluar', false)->nullable();
