@@ -211,3 +211,84 @@ export const columnSimpananWajib = [
         header: `Kekayaan per 31 Desember ${new Date().getFullYear()}`,
     }),
 ];
+
+export const HistoryOptionTable = [
+    columnHelper.accessor("", {
+        id: "No",
+        cell: (data) => (
+            <span className="font-medium text-black dark:text-white">
+                {data.row.index + 1}
+            </span>
+        ),
+        header: "No",
+        enableSorting: false,
+    }),
+
+    columnHelper.accessor("name", {
+        id: "name",
+        cell: (data) => (
+            <span className="font-medium text-black dark:text-white">
+                {data.getValue()}
+            </span>
+        ),
+        header: "Nama",
+    }),
+
+    columnHelper.accessor("nominal", {
+        id: "nominal",
+        cell: (data) => (
+            <span className="font-medium text-black dark:text-white">
+                {Intl.NumberFormat("id-ID", {  style: "currency", currency: "IDR" }).format(data.getValue() ? data.getValue() : 0)}
+            </span>
+        ),
+        header: "Nominal",
+        enableSorting: false,
+    }),
+
+    columnHelper.accessor("nama_transaksi", {
+        id: "nama_transaksi",
+        cell: (data) => (
+            <span className="font-medium text-black dark:text-white">
+                {data.getValue()}
+            </span>
+        ),
+        header: "Nama Transaksi",
+    }),
+
+    columnHelper.accessor("type", {
+        id: "type",
+        cell: (data) => (
+            <span className="font-medium text-black dark:text-white">
+                {data.getValue()}
+            </span>
+        ),
+        header: "Jenis Transaksi",
+    }),
+
+    columnHelper.accessor("waktu", {
+        id: "tanggal",
+        cell: (data) => (
+            <span className="font-medium text-black dark:text-white">
+                {new Date(data.getValue()).toLocaleDateString("id-ID", { dateStyle: "long" })}
+            </span>
+        ),
+        header: "Tanggal Transaksi",
+        enableSorting: false,
+    }),
+
+    columnHelper.accessor("waktu", {
+        id: "waktu",
+        cell: (data) => (
+            <span className="font-medium text-black dark:text-white">
+                {new Date(data.getValue()).toLocaleTimeString("en-ID", {
+                    hour: "2-digit",
+                    minute: "2-digit",
+                    second: "2-digit",
+                    hourCycle: "h24",
+                })}
+            </span>
+        ),
+        header: "Waktu Transaksi",
+        enableSorting: false,
+    }),
+];

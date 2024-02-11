@@ -1,6 +1,6 @@
 const SimpananWajibExport = ({ data, total, tableRef }) => {
     return (
-        <table className="w-full hidden" ref={tableRef}>
+        <table className="w-full hidden" ref={tableRef} >
             <thead>
                 <tr>
                     <th

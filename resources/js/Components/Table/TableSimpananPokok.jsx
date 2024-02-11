@@ -44,6 +44,7 @@ const TableSimpananPokok = ({ data, members, total, type }) => {
                 </button>
                 <div className="flex flex-col-reverse md:flex-row items-end md:items-center justify-end gap-3">
                     <DownloadDropdown
+                        data={data}
                         filename="simpananpokok"
                         sheet="simpananpokok"
                         tableRef={tableRef}

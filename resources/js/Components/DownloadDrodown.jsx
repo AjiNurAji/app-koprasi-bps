@@ -3,9 +3,10 @@ import { MdOutlineFileDownload } from "react-icons/md";
 import { SiMicrosoftexcel } from "react-icons/si";
 import { BsFiletypeCsv } from "react-icons/bs";
 import { FaRegFilePdf } from "react-icons/fa";
-import { DownloadTableExcel } from 'react-export-table-to-excel';
+import { DownloadTableExcel } from "react-export-table-to-excel";
+import { CSVLink } from "react-csv";
 
-const DownloadDropdown = ({ pdf, csv, tableRef, sheet, filename  }) => {
+const DownloadDropdown = ({ data, tableRef, sheet, filename }) => {
     const [active, setActive] = useState(false);
     const dropdown = useRef(null);
     const trigger = useRef(null);
@@ -41,10 +42,6 @@ const DownloadDropdown = ({ pdf, csv, tableRef, sheet, filename  }) => {
         return () => document.removeEventListener("keydown", keyHandler);
     });
 
-    const download = async (route) => {
-        console.log("click");
-    };
-
     return (
         <div className="relative">
             <button
@@ -63,44 +60,38 @@ const DownloadDropdown = ({ pdf, csv, tableRef, sheet, filename  }) => {
                 ref={dropdown}
                 onFocus={() => setActive(true)}
                 onBlur={() => setActive(false)}
-                className={`absolute right-0 mt-1.5 z-999 flex w-62.5 flex-col rounded-md border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark ${
+                className={`absolute right-0 mt-1.5 z-999 flex w-62.5 flex-col rounded-md bg-white shadow-default dark:bg-boxdark ${
                     active === true ? "block" : "hidden"
                 }`}
             >
-                <ul className="grid grid-cols-2 gap-3 border-b border-stroke px-5 py-3 dark:border-strokedark">
-                    <li>
-                        <button
-                            className="flex items-center py-2 px-1 rounded-md justify-start gap-3.5 text-sm border border-stroke dark:border-strokedark font-medium duration-300 ease-in-out hover:text-primary dark:hover:text-white lg:text-base"
-                            onClick={() => download(csv)}
-                        >
-                            <BsFiletypeCsv className="w-6 h-6" />
-                            CSV
+                <div className="grid grid-cols-2 gap-3 border border-stroke rounded-md px-5 py-3 dark:border-strokedark">
+                    <CSVLink
+                        data={data}
+                        separator=","
+                        filename={filename}
+                        className="click_animation flex items-center py-2 px-1 rounded-md justify-start w-full gap-3.5 text-sm !border border-stroke dark:border-strokedark font-medium duration-300 ease-in-out hover:text-primary dark:hover:text-white lg:text-base"
+                    >
+                        <BsFiletypeCsv className="w-6 h-6" />
+                        CSV
+                    </CSVLink>
+                    <DownloadTableExcel
+                        filename={filename}
+                        sheet={sheet}
+                        currentTableRef={tableRef.current}
+                    >
+                        <button className="flex items-center py-2 px-1 rounded-md justify-start gap-3.5 text-sm w-full border border-stroke dark:border-strokedark font-medium duration-300 ease-in-out hover:text-primary dark:hover:text-white lg:text-base">
+                            <SiMicrosoftexcel className="w-6 h-6" />
+                            XLS
                         </button>
-                    </li>
-                    <li>
-                        <DownloadTableExcel
-                            filename={filename}
-                            sheet={sheet}
-                            currentTableRef={tableRef.current}
-                        >
-                            <button
-                                className="flex items-center py-2 px-1 rounded-md justiy-start gap-3.5 text-sm border border-stroke dark:border-strokedark font-medium duration-300 ease-in-out hover:text-primary dark:hover:text-white lg:text-base"
-                            >
-                                <SiMicrosoftexcel className="w-6 h-6" />
-                                XLS
-                            </button>
-                        </DownloadTableExcel>
-                    </li>
-                    <li>
-                        <button
-                            className="flex items-center py-2 px-1 rounded-md justiy-start gap-3.5 text-sm border border-stroke dark:border-strokedark font-medium duration-300 ease-in-out hover:text-primary dark:hover:text-white lg:text-base"
-                            onClick={() => download(pdf)}
-                        >
-                            <FaRegFilePdf className="w-6 h-6" />
-                            PDF
-                        </button>
-                    </li>
-                </ul>
+                    </DownloadTableExcel>
+                    <button
+                        className="flex items-center py-2 px-1 rounded-md justiy-start gap-3.5 text-sm border w-full border-stroke dark:border-strokedark font-medium duration-300 ease-in-out hover:text-primary dark:hover:text-white lg:text-base"
+                        onClick={downloadPDF}
+                    >
+                        <FaRegFilePdf className="w-6 h-6" />
+                        PDF
+                    </button>
+                </div>
             </div>
             {/* <!-- Dropdown End --> */}
         </div>

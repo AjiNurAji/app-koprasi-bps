@@ -29,7 +29,7 @@ Route::middleware(['auth:admin,member'])->group(function () {
     Route::post('logout', [AuthController::class, 'logout'])->name('logout');
     Route::get('/team', function () {
         return Inertia::render('Team/Team');
-    });
+    })->name('team');
 });
 
 Route::middleware(['auth:admin'])->group(function () {
@@ -47,6 +47,9 @@ Route::middleware(['auth:admin'])->group(function () {
     Route::get('/simpanan/wajib', [HomepageController::class, 'simpananWajib'])->name('simpanan_wajib');
     Route::post('/simpanan/wajib', [SimpananController::class, 'getDataSimpananWajib'])->name('simpanan_wajib');
     Route::post('/simpanan/wajib/create', [SimpananController::class, 'simpananWajib'])->name('simpanan_wajib_create');
+
+    // history
+    Route::get('/history', [HomepageController::class, 'history'])->name('history');
 });
 
 require __DIR__ . '/auth.php';

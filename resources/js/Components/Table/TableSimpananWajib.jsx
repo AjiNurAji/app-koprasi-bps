@@ -13,7 +13,6 @@ import SearchTable from "./SearchTable";
 import CreatePopup from "@/Components/Popup/CreatePopup";
 import DownloadDropdown from "../DownloadDrodown";
 import FormSimpanan from "../FormElements/FormSimpanan";
-import SimpananPokokExport from "@/Pages/admin/Exports/SimpananPokok";
 import SimpananWajibExport from "@/Pages/admin/Exports/SimpananWajib";
 
 const TableSimpananWajib = ({ data, members, total, type }) => {

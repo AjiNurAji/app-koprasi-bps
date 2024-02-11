@@ -8,6 +8,7 @@ use Inertia\Inertia;
 use App\Models\SimpananPokok;
 use App\Models\SimpananWajib;
 use App\Models\Member;
+use App\Models\Transaksi;
 use Carbon\Carbon;
 
 class HomepageController extends Controller
@@ -64,7 +65,10 @@ class HomepageController extends Controller
                 $awal_tahun_perhari[] = SimpananPokok::whereBetween('created_at', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])->where('hari', $item[$i])->get()->sum('awal_tahun');
                 $anggota_masuk_perhari[] = SimpananPokok::whereBetween('created_at', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])->where('hari', $item[$i])->get()->sum('anggota_masuk');
                 $anggota_keluar_perhari[] = SimpananPokok::whereBetween('created_at', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])->where('hari', $item[$i])->get()->sum('anggota_keluar');
-                $totalSimpananPerhari[] = $awal_tahun_perhari[$i] + $anggota_masuk_perhari[$i] - $anggota_keluar_perhari[$i];
+                $kekayaan_awal_tahun_perhari[] = SimpananWajib::whereBetween('created_at', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])->where('hari', $item[$i])->get()->sum('kekayaan_awal_tahun');
+                $simpanan_wajib_perhari[] = SimpananWajib::whereBetween('created_at', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])->where('hari', $item[$i])->get()->sum('simpanan_wajib');
+                $anggota_keluar_wajib_perhari[] = SimpananWajib::whereBetween('created_at', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])->where('hari', $item[$i])->get()->sum('anggota_keluar');
+                $totalSimpananPerhari[] = ($awal_tahun_perhari[$i] + $anggota_masuk_perhari[$i] - $anggota_keluar_perhari[$i]) + ($kekayaan_awal_tahun_perhari[$i] + $simpanan_wajib_perhari[$i] - $anggota_keluar_wajib_perhari[$i]);
             }
         }
 
@@ -73,9 +77,6 @@ class HomepageController extends Controller
         $anggotaMasukPokok = SimpananPokok::where('tahun', date('Y'))->sum('anggota_masuk');
         $anggotaKeluarPokok = SimpananPokok::where('tahun', date('Y'))->sum('anggota_keluar');
         $totalPokok = $awalTahunPokok + $anggotaMasukPokok - $anggotaKeluarPokok;
-
-
-        // dd($awal_tahun_perhari, $anggota_masuk_perhari, $totalSimpananPerhari);
 
         return Inertia::render('Dashboard', [
             'chart' => ['perbulan' => $simpananPokokCount, 'perhari' => $totalSimpananPerhari],
@@ -103,7 +104,8 @@ class HomepageController extends Controller
         $totalPokok = $awalTahunPokok + $anggotaMasukPokok - $anggotaKeluarPokok;
 
         $members = Member::orderBy('name', 'asc')->get();
-        return Inertia::render('admin/Simpanan/Pokok', [
+
+        return Inertia::render('Simpanan/Pokok', [
             'data' => isset($datas) ? $datas : $simpananPokok,
             'members' => $members,
             'total' => [
@@ -130,20 +132,38 @@ class HomepageController extends Controller
         }
 
         $kekayaanAwalTahun = SimpananWajib::where('tahun', date('Y'))->sum('kekayaan_awal_tahun');
-        $simpananWajib = SimpananWajib::where('tahun', date('Y'))->sum('simpanan_wajib');
+        $simpananWajibSum = SimpananWajib::where('tahun', date('Y'))->sum('simpanan_wajib');
         $anggotaKeluar = SimpananWajib::where('tahun', date('Y'))->sum('anggota_keluar');
-        $totalWajib = $kekayaanAwalTahun + $simpananWajib - $anggotaKeluar;
+        $totalWajib = $kekayaanAwalTahun + $simpananWajibSum - $anggotaKeluar;
         $members = Member::orderBy('name', 'asc')->get();
 
-        return Inertia::render('admin/Simpanan/Wajib', [
+        return Inertia::render('Simpanan/Wajib', [
             'data' => isset($datas) ? $datas : $simpananWajib,
             'members' => $members,
             'total' => [
                 'kekayaan_awal_tahun' => $kekayaanAwalTahun,
-                'simpanan_wajib' => $simpananWajib,
+                'simpanan_wajib' => $simpananWajibSum,
                 'anggota_keluar' => $anggotaKeluar,
                 'jumlah' => $totalWajib,
             ]
         ]);
+    }
+
+
+    public function history()
+    {
+        $history = Transaksi::where('tahun', date('Y'))->get();
+
+        foreach ($history as $data) {
+            $datas[] = [
+                'name' => $data->member->name,
+                'nominal' => $data->nominal === null ? null : $data->nominal,
+                'type' => $data->type === null ? null : $data->type,
+                'nama_transaksi' => $data->nama_transaksi === null ? null : $data->nama_transaksi,
+                'waktu' => $data->created_at === null ? null : $data->created_at,
+            ];
+        }
+
+        return Inertia::render('admin/History', ['data' => isset($datas) ? $datas : $history]);
     }
 }

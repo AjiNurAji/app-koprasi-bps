@@ -19,6 +19,7 @@ const NextSimpanan = ({
             anggota_keluar:
                 data.anggota_keluar == null ? null : data.anggota_keluar,
             kekayaan_awal_tahun: data.kekayaan_awal_tahun == null ? null : data.kekayaan_awal_tahun,
+            simpanan_wajib: data.simpanan_wajib == null ? null : data.simpanan_wajib,
         });
     }, [step]);
 
@@ -39,7 +40,7 @@ const NextSimpanan = ({
                             allowDecimals={true}
                             name="awal_tahun"
                             id="awal_tahun"
-                            value={data.awal_tahun}
+                            value={valueData.awal_tahun}
                             defaultValue={data.awal_tahun}
                             onValueChange={(value, name) =>
                                 handleNominal(value, name)
@@ -65,7 +66,7 @@ const NextSimpanan = ({
                                 allowDecimals={true}
                                 name="anggota_masuk"
                                 id="anggota_masuk"
-                                value={data.anggota_masuk}
+                                value={valueData.anggota_masuk}
                                 defaultValue={data.anggota_masuk}
                                 onValueChange={(value, name) =>
                                     handleNominal(value, name)
@@ -92,7 +93,8 @@ const NextSimpanan = ({
                                 allowDecimals={true}
                                 name="anggota_keluar"
                                 id="anggota_keluar"
-                                value={data.anggota_keluar}
+                                value={valueData.anggota_keluar}
+                                defaultValue={data.anggota_keluar}
                                 onValueChange={(value, name) =>
                                     handleNominal(value, name)
                                 }
@@ -120,7 +122,7 @@ const NextSimpanan = ({
                             allowDecimals={true}
                             name="kekayaan_awal_tahun"
                             id="kekayaan_awal_tahun"
-                            value={data.kekayaan_awal_tahun}
+                            value={valueData.kekayaan_awal_tahun}
                             defaultValue={data.kekayaan_awal_tahun}
                             onValueChange={(value, name) =>
                                 handleNominal(value, name)
@@ -145,7 +147,7 @@ const NextSimpanan = ({
                             allowDecimals={true}
                             name="simpanan_wajib"
                             id="simpanan_wajib"
-                            value={data.simpanan_wajib}
+                            value={valueData.simpanan_wajib}
                             defaultValue={data.simpanan_wajib}
                             onValueChange={(value, name) =>
                                 handleNominal(value, name)
@@ -170,7 +172,7 @@ const NextSimpanan = ({
                             allowDecimals={true}
                             name="anggota_keluar"
                             id="anggota_keluar"
-                            value={data.anggota_keluar}
+                            value={valueData.anggota_keluar}
                             defaultValue={data.anggota_keluar}
                             onValueChange={(value, name) =>
                                 handleNominal(value, name)

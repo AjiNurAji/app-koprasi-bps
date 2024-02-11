@@ -32,11 +32,19 @@ class MemberController extends Controller
         if ($check) {
             try {
                 $request->validate([
-                    'username' => 'required|string|unique:members,username',
-                    'email' => 'required|email|unique:members,email',
+                    'username' => 'required|string',
+                    'email' => 'required|email',
                     'name' => 'required|string',
                     'password' => 'required|string',
                 ]);
+
+                // check email sudah ada atau belum
+
+                if(Member::where('username', $request->input('username'))->first()) {
+                    return response()->json(['message' => 'Anggota dengan username ini sudah ada!'], 401);
+                } else if (Member::where('email', $request->input('email'))->first()) {
+                    return response()->json(['message' => 'Anggota dengan email ini sudah ada!'], 401);
+                }
 
                 Member::create([
                     'id_member' => Str::uuid(),

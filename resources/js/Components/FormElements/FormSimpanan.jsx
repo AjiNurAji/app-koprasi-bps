@@ -11,7 +11,7 @@ import axios from "axios";
 const FormSimpanan = ({ members, setPopup, postUrl, directUrl, type }) => {
     const [processing, setProcess] = useState(false);
     const [simpanan, setSimpanan] = useState([]);
-    const getTahun = new Date();
+    const getTahun = new Date("2024-02-10");
     const form = useRef(null);
     const [step, setStep] = useState(1);
     const { data, setData } = useForm({
@@ -20,11 +20,11 @@ const FormSimpanan = ({ members, setPopup, postUrl, directUrl, type }) => {
         tahun: getTahun.getFullYear(),
         bulan: getTahun.toLocaleDateString("id-ID", { month: "long" }),
         hari: getTahun.toLocaleDateString("id-ID", { weekday: "long" }),
-        awal_tahun: undefined,
-        anggota_masuk: undefined,
-        anggota_keluar: undefined,
-        simpanan_wajib: undefined,
-        kekayaan_awal_tahun: undefined,
+        awal_tahun: null,
+        anggota_masuk: null,
+        anggota_keluar: null,
+        simpanan_wajib: null,
+        kekayaan_awal_tahun: null,
     });
 
     const submit = async (e) => {
@@ -43,8 +43,6 @@ const FormSimpanan = ({ members, setPopup, postUrl, directUrl, type }) => {
         setProcess(false);
     };
 
-    // useEffect(async () => {
-    // }, [step]);
     const handleStep = async (e) => {
         e.preventDefault();
         setProcess(true);
@@ -86,7 +84,7 @@ const FormSimpanan = ({ members, setPopup, postUrl, directUrl, type }) => {
     const handleNominal = (v, n) => {
         setData({
             ...data,
-            [n]: Number(v),
+            [n]: v === undefined ? v : Number(v),
         });
     };
 

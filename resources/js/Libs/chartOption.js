@@ -155,7 +155,7 @@ export const barChartOption = {
     },
 
     xaxis: {
-        categories: ["Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu", "Mimggu"],
+        categories: ["Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu", "Minggu"],
     },
     legend: {
         position: "top",

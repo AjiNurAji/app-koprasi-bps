@@ -7,6 +7,7 @@ import { RiHandCoinLine } from "react-icons/ri";
 import { HiOutlineDocumentText, HiOutlineDocumentPlus } from "react-icons/hi2";
 import { IoWalletOutline } from "react-icons/io5";
 import { GrMoney } from "react-icons/gr";
+import { TbHistoryToggle } from "react-icons/tb";
 
 const Sidebar = ({ pathname, sidebarOpen, setSidebarOpen, user }) => {
     const trigger = useRef(false);
@@ -150,9 +151,8 @@ const Sidebar = ({ pathname, sidebarOpen, setSidebarOpen, user }) => {
                                 {(handleClick, open) => {
                                     return (
                                         <Fragment>
-                                            <a
-                                                href="/kas"
-                                                className={`group relative flex items-center gap-2.5 rounded-md py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${
+                                            <button
+                                                className={`group relative flex w-full items-center gap-2.5 rounded-md py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${
                                                     (pathname === "/kas" ||
                                                         pathname.includes(
                                                             "kas"
@@ -191,7 +191,7 @@ const Sidebar = ({ pathname, sidebarOpen, setSidebarOpen, user }) => {
                                                         fill=""
                                                     />
                                                 </svg>
-                                            </a>
+                                            </button>
                                             {/* <!-- Dropdown Menu Start --> */}
                                             <div
                                                 className={`translate transform overflow-hidden ${
@@ -258,9 +258,8 @@ const Sidebar = ({ pathname, sidebarOpen, setSidebarOpen, user }) => {
                                     {(handleClick, open) => {
                                         return (
                                             <Fragment>
-                                                <a
-                                                    href="/simpanan"
-                                                    className={`group relative flex items-center gap-2.5 rounded-md py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${
+                                                <button
+                                                    className={`group w-full relative flex items-center gap-2.5 rounded-md py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${
                                                         (pathname ===
                                                             "/simpanan" ||
                                                             pathname.includes(
@@ -300,7 +299,7 @@ const Sidebar = ({ pathname, sidebarOpen, setSidebarOpen, user }) => {
                                                             fill=""
                                                         />
                                                     </svg>
-                                                </a>
+                                                </button>
                                                 {/* <!-- Dropdown Menu Start --> */}
                                                 <div
                                                     className={`translate transform overflow-hidden ${
@@ -375,9 +374,8 @@ const Sidebar = ({ pathname, sidebarOpen, setSidebarOpen, user }) => {
                                     {(handleClick, open) => {
                                         return (
                                             <Fragment>
-                                                <a
-                                                    href="/pinjaman"
-                                                    className={`group relative flex items-center gap-2.5 rounded-md py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${
+                                                <button
+                                                    className={`group w-full relative flex items-center gap-2.5 rounded-md py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${
                                                         (pathname ===
                                                             "/pinjaman" ||
                                                             pathname.includes(
@@ -417,7 +415,7 @@ const Sidebar = ({ pathname, sidebarOpen, setSidebarOpen, user }) => {
                                                             fill=""
                                                         />
                                                     </svg>
-                                                </a>
+                                                </button>
                                                 {/* <!-- Dropdown Menu Start --> */}
                                                 <div
                                                     className={`translate transform overflow-hidden ${
@@ -465,6 +463,22 @@ const Sidebar = ({ pathname, sidebarOpen, setSidebarOpen, user }) => {
                                     }}
                                 </SidebarLinkGroup>
                                 {/* <!-- Menu Item simpanan --> */}
+                                <li>
+                                    <a
+                                        href={route("history")}
+                                        className={`group relative flex items-center gap-2.5 rounded-md py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${
+                                            pathname.includes("history") &&
+                                            "bg-graydark dark:bg-meta-4"
+                                        }`}
+                                    >
+                                        <TbHistoryToggle
+                                            className="stroke-current"
+                                            width={18}
+                                            height={18}
+                                        />
+                                        History
+                                    </a>
+                                </li>
                             </ul>
                         </div>
                     ) : null}
@@ -513,7 +527,7 @@ const Sidebar = ({ pathname, sidebarOpen, setSidebarOpen, user }) => {
                             {/* <!-- Menu Team --> */}
                             <li>
                                 <a
-                                    href="/team"
+                                    href={route('team')}
                                     className={`group relative flex items-center gap-2.5 rounded-md py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${
                                         pathname.includes("chart") &&
                                         "bg-graydark dark:bg-meta-4"
