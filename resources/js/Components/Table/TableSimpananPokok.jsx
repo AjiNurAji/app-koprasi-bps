@@ -48,6 +48,7 @@ const TableSimpananPokok = ({ data, members, total, type }) => {
                         filename="simpananpokok"
                         sheet="simpananpokok"
                         tableRef={tableRef}
+                        route={route('simpanan_pokok_pdf')}
                     />
                     <SimpananPokokExport
                         data={data}

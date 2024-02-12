@@ -8,7 +8,7 @@ const BarChart = ({ data }) => {
         series: [
             {
                 name: "Simpanan",
-                data: data.simpanan,
+                data: data.perhari,
             },
             {
                 name: "Pinjaman",

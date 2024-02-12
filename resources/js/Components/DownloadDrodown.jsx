@@ -5,11 +5,40 @@ import { BsFiletypeCsv } from "react-icons/bs";
 import { FaRegFilePdf } from "react-icons/fa";
 import { DownloadTableExcel } from "react-export-table-to-excel";
 import { CSVLink } from "react-csv";
+import axios from "axios";
 
-const DownloadDropdown = ({ data, tableRef, sheet, filename }) => {
+const DownloadDropdown = ({ data, tableRef, sheet, filename, route }) => {
     const [active, setActive] = useState(false);
     const dropdown = useRef(null);
     const trigger = useRef(null);
+
+    const downloadFile = (e, route, filename) => {
+        e.preventDefault();
+
+        axios
+            .post(
+                route,
+                {},
+                {
+                    responseType: "arraybuffer",
+                    headers: {
+                        Accept: "application/json",
+                    },
+                }
+            )
+            .then((res) => {
+                const url = window.URL.createObjectURL(new Blob([res.data]));
+                const link = document.createElement("a");
+                link.href = url;
+                link.setAttribute("download", `${filename}.pdf`);
+                document.body.appendChild(link);
+                // link.onclick((e) => e.preventDefault());
+                link.click();
+            })
+            .catch((err) => {
+                return err;
+            });
+    };
 
     // close on click outside
     useEffect(() => {
@@ -84,9 +113,17 @@ const DownloadDropdown = ({ data, tableRef, sheet, filename }) => {
                             XLS
                         </button>
                     </DownloadTableExcel>
+                    {/* <button
+                        onClick={downloadFile}
+                        className="flex items-center py-2 px-1 rounded-md justify-start gap-3.5 text-sm w-full border border-stroke dark:border-strokedark font-medium duration-300 ease-in-out hover:text-primary dark:hover:text-white lg:text-base"
+                    >
+                        <SiMicrosoftexcel className="w-6 h-6" />
+                        XLSX
+                    </button> */}
+
                     <button
                         className="flex items-center py-2 px-1 rounded-md justiy-start gap-3.5 text-sm border w-full border-stroke dark:border-strokedark font-medium duration-300 ease-in-out hover:text-primary dark:hover:text-white lg:text-base"
-                        onClick={downloadPDF}
+                        onClick={(e) => downloadFile(e, route, filename)}
                     >
                         <FaRegFilePdf className="w-6 h-6" />
                         PDF

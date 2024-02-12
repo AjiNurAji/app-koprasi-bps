@@ -56,21 +56,28 @@ class HomepageController extends Controller
         // simpanan chart
         foreach ($bulan as $item) {
             for ($i = 0; $i < 12; $i++) {
-                $simpananPokokCount[] = SimpananPokok::where('bulan', $item[$i])->where('tahun', date('Y'))->get()->count();
+                $simpananPokokCount[] = Transaksi::whereBetween('created_at', [Carbon::now()->startOfMonth(), Carbon::now()->endOfMonth()])
+                    ->where('bulan', $item[$i])
+                    ->where('tahun', date('Y'))
+                    ->where('type', 'simpanan')
+                    ->get()
+                    ->count();
             }
         }
 
         foreach ($hari as $item) {
             for ($i = 0; $i < 7; $i++) {
-                $awal_tahun_perhari[] = SimpananPokok::whereBetween('created_at', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])->where('hari', $item[$i])->get()->sum('awal_tahun');
-                $anggota_masuk_perhari[] = SimpananPokok::whereBetween('created_at', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])->where('hari', $item[$i])->get()->sum('anggota_masuk');
-                $anggota_keluar_perhari[] = SimpananPokok::whereBetween('created_at', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])->where('hari', $item[$i])->get()->sum('anggota_keluar');
-                $kekayaan_awal_tahun_perhari[] = SimpananWajib::whereBetween('created_at', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])->where('hari', $item[$i])->get()->sum('kekayaan_awal_tahun');
-                $simpanan_wajib_perhari[] = SimpananWajib::whereBetween('created_at', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])->where('hari', $item[$i])->get()->sum('simpanan_wajib');
-                $anggota_keluar_wajib_perhari[] = SimpananWajib::whereBetween('created_at', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])->where('hari', $item[$i])->get()->sum('anggota_keluar');
-                $totalSimpananPerhari[] = ($awal_tahun_perhari[$i] + $anggota_masuk_perhari[$i] - $anggota_keluar_perhari[$i]) + ($kekayaan_awal_tahun_perhari[$i] + $simpanan_wajib_perhari[$i] - $anggota_keluar_wajib_perhari[$i]);
+                $totalSimpananPerhari[] = Transaksi::whereBetween('created_at', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])
+                    ->where('hari', $item[$i])
+                    ->where('tahun', date('Y'))
+                    ->where('type', 'simpanan')
+                    ->sum('nominal');
             }
         }
+
+        // dd(Carbon::now()->startOfWeek());
+
+        // dd($totalSimpananPerhari);
 
         // total card
         $awalTahunPokok = SimpananPokok::where('tahun', date('Y'))->sum('awal_tahun');

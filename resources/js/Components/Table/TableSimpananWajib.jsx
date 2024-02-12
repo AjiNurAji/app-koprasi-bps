@@ -47,6 +47,8 @@ const TableSimpananWajib = ({ data, members, total, type }) => {
                         filename="simpananwajib"
                         sheet="simpananwajib"
                         tableRef={tableRef}
+                        data={data}
+                        route={route('simpanan_wajib_pdf')}
                     />
                     <SimpananWajibExport
                         tableRef={tableRef}

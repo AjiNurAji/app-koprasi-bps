@@ -11,7 +11,7 @@ import axios from "axios";
 const FormSimpanan = ({ members, setPopup, postUrl, directUrl, type }) => {
     const [processing, setProcess] = useState(false);
     const [simpanan, setSimpanan] = useState([]);
-    const getTahun = new Date("2024-02-10");
+    const getTahun = new Date();
     const form = useRef(null);
     const [step, setStep] = useState(1);
     const { data, setData } = useForm({
