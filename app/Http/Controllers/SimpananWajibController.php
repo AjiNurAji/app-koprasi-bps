@@ -40,7 +40,7 @@ class SimpananWajibController extends Controller
 
                 return response()->json(['message' => 'Berhasil melakukan transaksi'], 200);
             } catch (\Thowrable $th) {
-                return response()->json(['message' => 'gagal login, coba lagi nanti!'], 500);
+                return response()->json(['message' => 'Gagal Login, coba lagi nanti!'], 500);
             }
         }
 
