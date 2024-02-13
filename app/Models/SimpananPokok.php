@@ -13,13 +13,17 @@ class SimpananPokok extends Model
 
     protected $primaryKey = 'id_simpanan_pokok';
 
+    protected $keyType = 'string';
+
     protected $fillable = [
         'id_simpanan_pokok',
         'id_member',
-        'awal_tahun',
         'tahun',
-        'nominal',
-        'type',
+        'bulan',
+        'hari',
+        'awal_tahun',
+        'anggota_keluar',
+        'anggota_masuk'
     ];
 
     public function member()

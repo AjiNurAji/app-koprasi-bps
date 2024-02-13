@@ -5,7 +5,7 @@ import { useForm } from "@inertiajs/react";
 import { router } from "@inertiajs/react";
 import PostData from "@/Libs/postData";
 
-const FormCreateMember = () => {
+const FormCreateMember = ({ setPopup }) => {
     const [hide, setHide] = useState(true);
     const [processing, setProcess] = useState(false);
     const inputUsername = useRef(null);
@@ -25,6 +25,7 @@ const FormCreateMember = () => {
 
         if (create) {
             form.current.reset();
+            setPopup(false);
             setProcess(false);
             router.get(route("members"));
         }

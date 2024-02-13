@@ -3,11 +3,42 @@ import { MdOutlineFileDownload } from "react-icons/md";
 import { SiMicrosoftexcel } from "react-icons/si";
 import { BsFiletypeCsv } from "react-icons/bs";
 import { FaRegFilePdf } from "react-icons/fa";
+import { DownloadTableExcel } from "react-export-table-to-excel";
+import { CSVLink } from "react-csv";
+import axios from "axios";
 
-const DownloadDropdown = () => {
+const DownloadDropdown = ({ data, tableRef, sheet, filename, route }) => {
     const [active, setActive] = useState(false);
     const dropdown = useRef(null);
     const trigger = useRef(null);
+
+    const downloadFile = (e, route, filename) => {
+        e.preventDefault();
+
+        axios
+            .post(
+                route,
+                {},
+                {
+                    responseType: "arraybuffer",
+                    headers: {
+                        Accept: "application/json",
+                    },
+                }
+            )
+            .then((res) => {
+                const url = window.URL.createObjectURL(new Blob([res.data]));
+                const link = document.createElement("a");
+                link.href = url;
+                link.setAttribute("download", `${filename}.pdf`);
+                document.body.appendChild(link);
+                // link.onclick((e) => e.preventDefault());
+                link.click();
+            })
+            .catch((err) => {
+                return err;
+            });
+    };
 
     // close on click outside
     useEffect(() => {
@@ -56,41 +87,48 @@ const DownloadDropdown = () => {
             {/* <!-- Dropdown Start --> */}
             <div
                 ref={dropdown}
-                onFocus={() => setDropdownOpen(true)}
-                onBlur={() => setDropdownOpen(false)}
-                className={`absolute right-0 mt-1.5 flex w-62.5 flex-col rounded-md border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark ${
+                onFocus={() => setActive(true)}
+                onBlur={() => setActive(false)}
+                className={`absolute right-0 mt-1.5 z-999 flex w-62.5 flex-col rounded-md bg-white shadow-default dark:bg-boxdark ${
                     active === true ? "block" : "hidden"
                 }`}
             >
-                <ul className="grid grid-cols-2 gap-3 border-b border-stroke px-5 py-3 dark:border-strokedark">
-                    <li>
-                        <a
-                            href="/profile"
-                            className="flex items-center py-2 px-1 rounded-md justify-start gap-3.5 text-sm border border-stroke dark:border-strokedark font-medium duration-300 ease-in-out hover:text-primary dark:hover:text-white lg:text-base"
-                        >
-                            <BsFiletypeCsv className="w-6 h-6" />
-                            CSV
-                        </a>
-                    </li>
-                    <li>
-                        <a
-                            href="/settings"
-                            className="flex items-center py-2 px-1 rounded-md justiy-start gap-3.5 text-sm border border-stroke dark:border-strokedark font-medium duration-300 ease-in-out hover:text-primary dark:hover:text-white lg:text-base"
-                        >
+                <div className="grid grid-cols-2 gap-3 border border-stroke rounded-md px-5 py-3 dark:border-strokedark">
+                    <CSVLink
+                        data={data}
+                        separator=","
+                        filename={filename}
+                        className="click_animation flex items-center py-2 px-1 rounded-md justify-start w-full gap-3.5 text-sm !border border-stroke dark:border-strokedark font-medium duration-300 ease-in-out hover:text-primary dark:hover:text-white lg:text-base"
+                    >
+                        <BsFiletypeCsv className="w-6 h-6" />
+                        CSV
+                    </CSVLink>
+                    <DownloadTableExcel
+                        filename={filename}
+                        sheet={sheet}
+                        currentTableRef={tableRef.current}
+                    >
+                        <button className="flex items-center py-2 px-1 rounded-md justify-start gap-3.5 text-sm w-full border border-stroke dark:border-strokedark font-medium duration-300 ease-in-out hover:text-primary dark:hover:text-white lg:text-base">
                             <SiMicrosoftexcel className="w-6 h-6" />
-                            XLSX
-                        </a>
-                    </li>
-                    <li>
-                        <a
-                            href="/settings"
-                            className="flex items-center py-2 px-1 rounded-md justiy-start gap-3.5 text-sm border border-stroke dark:border-strokedark font-medium duration-300 ease-in-out hover:text-primary dark:hover:text-white lg:text-base"
-                        >
-                            <FaRegFilePdf className="w-6 h-6" />
-                            PDF
-                        </a>
-                    </li>
-                </ul>
+                            XLS
+                        </button>
+                    </DownloadTableExcel>
+                    {/* <button
+                        onClick={downloadFile}
+                        className="flex items-center py-2 px-1 rounded-md justify-start gap-3.5 text-sm w-full border border-stroke dark:border-strokedark font-medium duration-300 ease-in-out hover:text-primary dark:hover:text-white lg:text-base"
+                    >
+                        <SiMicrosoftexcel className="w-6 h-6" />
+                        XLSX
+                    </button> */}
+
+                    <button
+                        className="flex items-center py-2 px-1 rounded-md justiy-start gap-3.5 text-sm border w-full border-stroke dark:border-strokedark font-medium duration-300 ease-in-out hover:text-primary dark:hover:text-white lg:text-base"
+                        onClick={(e) => downloadFile(e, route, filename)}
+                    >
+                        <FaRegFilePdf className="w-6 h-6" />
+                        PDF
+                    </button>
+                </div>
             </div>
             {/* <!-- Dropdown End --> */}
         </div>

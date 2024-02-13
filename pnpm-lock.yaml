@@ -11,6 +11,15 @@ dependencies:
   react-apexcharts:
     specifier: ^1.4.1
     version: 1.4.1(apexcharts@3.45.2)(react@18.2.0)
+  react-csv:
+    specifier: ^2.2.2
+    version: 2.2.2
+  react-currency-input-field:
+    specifier: ^3.6.14
+    version: 3.6.14(react@18.2.0)
+  react-export-table-to-excel:
+    specifier: ^1.0.6
+    version: 1.0.6
   react-hot-toast:
     specifier: ^2.4.1
     version: 2.4.1(csstype@3.1.3)(react-dom@18.2.0)(react@18.2.0)
@@ -770,6 +779,7 @@ packages:
   /ansi-regex@5.0.1:
     resolution: {integrity: sha512-quJQXlTSUGL2LH9SUXo8VwsY4soanhgo6LNSm84E1LBcE8s3O0wpdiRzyR9z/ZZJMlMWv37qOOb9pdJlMUEKFQ==}
     engines: {node: '>=8'}
+    requiresBuild: true
     dev: true
 
   /ansi-regex@6.0.1:
@@ -1036,6 +1046,7 @@ packages:
 
   /emoji-regex@8.0.0:
     resolution: {integrity: sha512-MSjYzcWNOA0ewAHpz0MxpYFvwg6yjy1NG3xteoqz644VCo/RPgnr1/GGt+ic3iJTzQ8Eu3TdM14SawnVUmGE6A==}
+    requiresBuild: true
     dev: true
 
   /emoji-regex@9.2.2:
@@ -1265,6 +1276,7 @@ packages:
   /is-fullwidth-code-point@3.0.0:
     resolution: {integrity: sha512-zymm5+u+sCsSWyD9qNaejV3DFvhCKclKdizYaJUuHA83RLjb7nSuGnddCHGv0hk+KY7BMAlsWeK4Ueg6EV6XQg==}
     engines: {node: '>=8'}
+    requiresBuild: true
     dev: true
 
   /is-glob@4.0.3:
@@ -1403,6 +1415,7 @@ packages:
 
   /ms@2.1.2:
     resolution: {integrity: sha512-sGkPx+VjMtmA6MX27oA4FBFELFCZZ4S4XqeGOXCv68tT+jb3vk/RyaKWP0PTKyWtmLSM0b+adUTEvbs1PEaH2w==}
+    requiresBuild: true
     dev: true
 
   /mz@2.7.0:
@@ -1590,6 +1603,18 @@ packages:
       react: 18.2.0
     dev: false
 
+  /react-csv@2.2.2:
+    resolution: {integrity: sha512-RG5hOcZKZFigIGE8LxIEV/OgS1vigFQT4EkaHeKgyuCbUAu9Nbd/1RYq++bJcJJ9VOqO/n9TZRADsXNDR4VEpw==}
+    dev: false
+
+  /react-currency-input-field@3.6.14(react@18.2.0):
+    resolution: {integrity: sha512-pUM4oK1KkUjjcFH7t6GksbuYwGpNhX3We2l41V9PIyJjm1HVlJGbKNksr0PNXGsQZqXDIKBJxL3TAbTS4cbKgg==}
+    peerDependencies:
+      react: ^16.9.0 || ^17.0.0 || ^18.0.0
+    dependencies:
+      react: 18.2.0
+    dev: false
+
   /react-dom@18.2.0(react@18.2.0):
     resolution: {integrity: sha512-6IMTriUmvsjHUjNtEDudZfuDQUoWXVxKHhlEGSk81n4YFS+r/Kl99wXiwlVXtPBtJenozv2P+hxDsw9eA7Xo6g==}
     peerDependencies:
@@ -1598,6 +1623,10 @@ packages:
       loose-envify: 1.4.0
       react: 18.2.0
       scheduler: 0.23.0
+
+  /react-export-table-to-excel@1.0.6:
+    resolution: {integrity: sha512-2NKyor1rFFEqYDXQq5tPoVNwwdv5kT8DWc65wAmDa9Hi0441qHj0tOxegWhpW0vlCM2TypIsw+ghzIr900U4RA==}
+    dev: false
 
   /react-hot-toast@2.4.1(csstype@3.1.3)(react-dom@18.2.0)(react@18.2.0):
     resolution: {integrity: sha512-j8z+cQbWIM5LY37pR6uZR6D4LfseplqnuAO4co4u8917hBUvXlEqyP1ZzqVLcqoyUesZZv/ImreoCeHVDpE5pQ==}

@@ -6,6 +6,8 @@ import { PiUsersThree } from "react-icons/pi";
 import { RiHandCoinLine } from "react-icons/ri";
 import { HiOutlineDocumentText, HiOutlineDocumentPlus } from "react-icons/hi2";
 import { IoWalletOutline } from "react-icons/io5";
+import { GrMoney } from "react-icons/gr";
+import { TbHistoryToggle } from "react-icons/tb";
 
 const Sidebar = ({ pathname, sidebarOpen, setSidebarOpen, user }) => {
     const trigger = useRef(false);
@@ -139,232 +141,347 @@ const Sidebar = ({ pathname, sidebarOpen, setSidebarOpen, user }) => {
                                     </a>
                                 </li>
                             ) : null}
+                            {/* <!-- Menu Item kas --> */}
+                            <SidebarLinkGroup
+                                activeCondition={
+                                    pathname === "/kas" ||
+                                    pathname.includes("kas")
+                                }
+                            >
+                                {(handleClick, open) => {
+                                    return (
+                                        <Fragment>
+                                            <button
+                                                className={`group relative flex w-full items-center gap-2.5 rounded-md py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${
+                                                    (pathname === "/kas" ||
+                                                        pathname.includes(
+                                                            "kas"
+                                                        )) &&
+                                                    "bg-graydark dark:bg-meta-4"
+                                                }`}
+                                                onClick={(e) => {
+                                                    e.preventDefault();
+                                                    sidebarExpanded
+                                                        ? handleClick()
+                                                        : setSidebarExpanded(
+                                                              true
+                                                          );
+                                                }}
+                                            >
+                                                <GrMoney
+                                                    className="stroke-current"
+                                                    width={18}
+                                                    height={18}
+                                                />
+                                                Uang Kas
+                                                <svg
+                                                    className={`absolute right-4 top-1/2 -translate-y-1/2 fill-current ${
+                                                        open && "rotate-180"
+                                                    }`}
+                                                    width="20"
+                                                    height="20"
+                                                    viewBox="0 0 20 20"
+                                                    fill="none"
+                                                    xmlns="http://www.w3.org/2000/svg"
+                                                >
+                                                    <path
+                                                        fillRule="evenodd"
+                                                        clipRule="evenodd"
+                                                        d="M4.41107 6.9107C4.73651 6.58527 5.26414 6.58527 5.58958 6.9107L10.0003 11.3214L14.4111 6.91071C14.7365 6.58527 15.2641 6.58527 15.5896 6.91071C15.915 7.23614 15.915 7.76378 15.5896 8.08922L10.5896 13.0892C10.2641 13.4147 9.73651 13.4147 9.41107 13.0892L4.41107 8.08922C4.08563 7.76378 4.08563 7.23614 4.41107 6.9107Z"
+                                                        fill=""
+                                                    />
+                                                </svg>
+                                            </button>
+                                            {/* <!-- Dropdown Menu Start --> */}
+                                            <div
+                                                className={`translate transform overflow-hidden ${
+                                                    !open && "hidden"
+                                                }`}
+                                            >
+                                                <ul className="mt-4 mb-5.5 flex flex-col gap-2.5 pl-6">
+                                                    <li>
+                                                        <a
+                                                            href={"/kas/tunai"}
+                                                            className={
+                                                                "group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white " +
+                                                                (pathname.includes(
+                                                                    "kas/tunai"
+                                                                ) &&
+                                                                    "!text-white")
+                                                            }
+                                                        >
+                                                            Tunai
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a
+                                                            href={
+                                                                "/kas/rekening"
+                                                            }
+                                                            className={
+                                                                "group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white " +
+                                                                (pathname.includes(
+                                                                    "kas/rekening"
+                                                                ) &&
+                                                                    "!text-white")
+                                                            }
+                                                        >
+                                                            Rekening
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                            {/* <!-- Dropdown Menu End --> */}
+                                        </Fragment>
+                                    );
+                                }}
+                            </SidebarLinkGroup>
+                            {/* <!-- Menu Item simpanan --> */}
                         </ul>
                     </div>
 
                     {/* <!-- Menu Group --> */}
-                    <div>
-                        <h3 className="mb-4 ml-4 text-sm font-semibold text-bodydark2">
-                            Transaksi
-                        </h3>
+                    {user.role ? (
+                        <div>
+                            <h3 className="mb-4 ml-4 text-sm font-semibold text-bodydark2">
+                                Transaksi
+                            </h3>
 
-                        <ul className="mb-6 flex flex-col gap-1.5">
-                            {/* <!-- Menu Item simpanan --> */}
-                            <SidebarLinkGroup
-                                activeCondition={
-                                    pathname === "/simpanan" ||
-                                    pathname.includes("simpanan")
-                                }
-                            >
-                                {(handleClick, open) => {
-                                    return (
-                                        <Fragment>
-                                            <a
-                                                href="/simpanan"
-                                                className={`group relative flex items-center gap-2.5 rounded-md py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${
-                                                    (pathname === "/simpanan" ||
-                                                        pathname.includes(
-                                                            "simpanan"
-                                                        )) &&
-                                                    "bg-graydark dark:bg-meta-4"
-                                                }`}
-                                                onClick={(e) => {
-                                                    e.preventDefault();
-                                                    sidebarExpanded
-                                                        ? handleClick()
-                                                        : setSidebarExpanded(
-                                                              true
-                                                          );
-                                                }}
-                                            >
-                                                <IoWalletOutline
-                                                    className="stroke-current"
-                                                    width={18}
-                                                    height={18}
-                                                />
-                                                Simpanan
-                                                <svg
-                                                    className={`absolute right-4 top-1/2 -translate-y-1/2 fill-current ${
-                                                        open && "rotate-180"
+                            <ul className="mb-6 flex flex-col gap-1.5">
+                                {/* <!-- Menu Item simpanan --> */}
+                                <SidebarLinkGroup
+                                    activeCondition={
+                                        pathname === "/simpanan" ||
+                                        pathname.includes("simpanan")
+                                    }
+                                >
+                                    {(handleClick, open) => {
+                                        return (
+                                            <Fragment>
+                                                <button
+                                                    className={`group w-full relative flex items-center gap-2.5 rounded-md py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${
+                                                        (pathname ===
+                                                            "/simpanan" ||
+                                                            pathname.includes(
+                                                                "simpanan"
+                                                            )) &&
+                                                        "bg-graydark dark:bg-meta-4"
                                                     }`}
-                                                    width="20"
-                                                    height="20"
-                                                    viewBox="0 0 20 20"
-                                                    fill="none"
-                                                    xmlns="http://www.w3.org/2000/svg"
+                                                    onClick={(e) => {
+                                                        e.preventDefault();
+                                                        sidebarExpanded
+                                                            ? handleClick()
+                                                            : setSidebarExpanded(
+                                                                  true
+                                                              );
+                                                    }}
                                                 >
-                                                    <path
-                                                        fillRule="evenodd"
-                                                        clipRule="evenodd"
-                                                        d="M4.41107 6.9107C4.73651 6.58527 5.26414 6.58527 5.58958 6.9107L10.0003 11.3214L14.4111 6.91071C14.7365 6.58527 15.2641 6.58527 15.5896 6.91071C15.915 7.23614 15.915 7.76378 15.5896 8.08922L10.5896 13.0892C10.2641 13.4147 9.73651 13.4147 9.41107 13.0892L4.41107 8.08922C4.08563 7.76378 4.08563 7.23614 4.41107 6.9107Z"
-                                                        fill=""
+                                                    <IoWalletOutline
+                                                        className="stroke-current"
+                                                        width={18}
+                                                        height={18}
                                                     />
-                                                </svg>
-                                            </a>
-                                            {/* <!-- Dropdown Menu Start --> */}
-                                            <div
-                                                className={`translate transform overflow-hidden ${
-                                                    !open && "hidden"
-                                                }`}
-                                            >
-                                                <ul className="mt-4 mb-5.5 flex flex-col gap-2.5 pl-6">
-                                                    <li>
-                                                        <a
-                                                            href={
-                                                               route('simpanan_pokok')
-                                                            }
-                                                            className={
-                                                                "group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white " +
-                                                                (pathname.includes(
-                                                                    "simpanan/pokok"
-                                                                ) &&
-                                                                    "!text-white")
-                                                            }
-                                                        >
-                                                            Simpanan Pokok
-                                                        </a>
-                                                    </li>
-                                                    <li>
-                                                        <a
-                                                            href={
-                                                                "/simpanan/wajib"
-                                                            }
-                                                            className={
-                                                                "group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white " +
-                                                                (pathname.includes(
-                                                                    "simpanan/wajib"
-                                                                ) &&
-                                                                    "!text-white")
-                                                            }
-                                                        >
-                                                            Simpanan Wajib
-                                                        </a>
-                                                    </li>
-                                                    <li>
-                                                        <a
-                                                            href={
-                                                                "/simpanan/sukarela"
-                                                            }
-                                                            className={
-                                                                "group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white " +
-                                                                (pathname.includes(
-                                                                    "simpanan/sukarela"
-                                                                ) &&
-                                                                    "!text-white")
-                                                            }
-                                                        >
-                                                            Simpanan Sukarela
-                                                        </a>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                            {/* <!-- Dropdown Menu End --> */}
-                                        </Fragment>
-                                    );
-                                }}
-                            </SidebarLinkGroup>
-                            {/* <!-- Menu Item simpanan --> */}
-                            {/* <!-- Menu Item pinjaman --> */}
-                            <SidebarLinkGroup
-                                activeCondition={
-                                    pathname === "/pinjaman" ||
-                                    pathname.includes("pinjaman")
-                                }
-                            >
-                                {(handleClick, open) => {
-                                    return (
-                                        <Fragment>
-                                            <a
-                                                href="/pinjaman"
-                                                className={`group relative flex items-center gap-2.5 rounded-md py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${
-                                                    (pathname === "/pinjaman" ||
-                                                        pathname.includes(
-                                                            "pinjaman"
-                                                        )) &&
-                                                    "bg-graydark dark:bg-meta-4"
-                                                }`}
-                                                onClick={(e) => {
-                                                    e.preventDefault();
-                                                    sidebarExpanded
-                                                        ? handleClick()
-                                                        : setSidebarExpanded(
-                                                              true
-                                                          );
-                                                }}
-                                            >
-                                                <RiHandCoinLine
-                                                    className="stroke-current"
-                                                    width={18}
-                                                    height={18}
-                                                />
-                                                Pinjaman Anggota
-                                                <svg
-                                                    className={`absolute right-4 top-1/2 -translate-y-1/2 fill-current ${
-                                                        open && "rotate-180"
+                                                    Simpanan
+                                                    <svg
+                                                        className={`absolute right-4 top-1/2 -translate-y-1/2 fill-current ${
+                                                            open && "rotate-180"
+                                                        }`}
+                                                        width="20"
+                                                        height="20"
+                                                        viewBox="0 0 20 20"
+                                                        fill="none"
+                                                        xmlns="http://www.w3.org/2000/svg"
+                                                    >
+                                                        <path
+                                                            fillRule="evenodd"
+                                                            clipRule="evenodd"
+                                                            d="M4.41107 6.9107C4.73651 6.58527 5.26414 6.58527 5.58958 6.9107L10.0003 11.3214L14.4111 6.91071C14.7365 6.58527 15.2641 6.58527 15.5896 6.91071C15.915 7.23614 15.915 7.76378 15.5896 8.08922L10.5896 13.0892C10.2641 13.4147 9.73651 13.4147 9.41107 13.0892L4.41107 8.08922C4.08563 7.76378 4.08563 7.23614 4.41107 6.9107Z"
+                                                            fill=""
+                                                        />
+                                                    </svg>
+                                                </button>
+                                                {/* <!-- Dropdown Menu Start --> */}
+                                                <div
+                                                    className={`translate transform overflow-hidden ${
+                                                        !open && "hidden"
                                                     }`}
-                                                    width="20"
-                                                    height="20"
-                                                    viewBox="0 0 20 20"
-                                                    fill="none"
-                                                    xmlns="http://www.w3.org/2000/svg"
                                                 >
-                                                    <path
-                                                        fillRule="evenodd"
-                                                        clipRule="evenodd"
-                                                        d="M4.41107 6.9107C4.73651 6.58527 5.26414 6.58527 5.58958 6.9107L10.0003 11.3214L14.4111 6.91071C14.7365 6.58527 15.2641 6.58527 15.5896 6.91071C15.915 7.23614 15.915 7.76378 15.5896 8.08922L10.5896 13.0892C10.2641 13.4147 9.73651 13.4147 9.41107 13.0892L4.41107 8.08922C4.08563 7.76378 4.08563 7.23614 4.41107 6.9107Z"
-                                                        fill=""
+                                                    <ul className="mt-4 mb-5.5 flex flex-col gap-2.5 pl-6">
+                                                        <li>
+                                                            <a
+                                                                href={route(
+                                                                    "simpanan_pokok"
+                                                                )}
+                                                                className={
+                                                                    "group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white " +
+                                                                    (pathname.includes(
+                                                                        "simpanan/pokok"
+                                                                    ) &&
+                                                                        "!text-white")
+                                                                }
+                                                            >
+                                                                Simpanan Pokok
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a
+                                                                href={route(
+                                                                    "simpanan_wajib"
+                                                                )}
+                                                                className={
+                                                                    "group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white " +
+                                                                    (pathname.includes(
+                                                                        "simpanan/wajib"
+                                                                    ) &&
+                                                                        "!text-white")
+                                                                }
+                                                            >
+                                                                Simpanan Wajib
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a
+                                                                href={
+                                                                    "/simpanan/sukarela"
+                                                                }
+                                                                className={
+                                                                    "group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white " +
+                                                                    (pathname.includes(
+                                                                        "simpanan/sukarela"
+                                                                    ) &&
+                                                                        "!text-white")
+                                                                }
+                                                            >
+                                                                Simpanan
+                                                                Sukarela
+                                                            </a>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                                {/* <!-- Dropdown Menu End --> */}
+                                            </Fragment>
+                                        );
+                                    }}
+                                </SidebarLinkGroup>
+                                {/* <!-- Menu Item simpanan --> */}
+                                {/* <!-- Menu Item pinjaman --> */}
+                                <SidebarLinkGroup
+                                    activeCondition={
+                                        pathname === "/pinjaman" ||
+                                        pathname.includes("pinjaman")
+                                    }
+                                >
+                                    {(handleClick, open) => {
+                                        return (
+                                            <Fragment>
+                                                <button
+                                                    className={`group w-full relative flex items-center gap-2.5 rounded-md py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${
+                                                        (pathname ===
+                                                            "/pinjaman" ||
+                                                            pathname.includes(
+                                                                "pinjaman"
+                                                            )) &&
+                                                        "bg-graydark dark:bg-meta-4"
+                                                    }`}
+                                                    onClick={(e) => {
+                                                        e.preventDefault();
+                                                        sidebarExpanded
+                                                            ? handleClick()
+                                                            : setSidebarExpanded(
+                                                                  true
+                                                              );
+                                                    }}
+                                                >
+                                                    <RiHandCoinLine
+                                                        className="stroke-current"
+                                                        width={18}
+                                                        height={18}
                                                     />
-                                                </svg>
-                                            </a>
-                                            {/* <!-- Dropdown Menu Start --> */}
-                                            <div
-                                                className={`translate transform overflow-hidden ${
-                                                    !open && "hidden"
-                                                }`}
-                                            >
-                                                <ul className="mt-4 mb-5.5 flex flex-col gap-2.5 pl-6">
-                                                    <li>
-                                                        <a
-                                                            href={
-                                                                "/pinjaman/harian"
-                                                            }
-                                                            className={
-                                                                "group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white " +
-                                                                (pathname.includes(
-                                                                    "pinjaman/harian"
-                                                                ) &&
-                                                                    "!text-white")
-                                                            }
-                                                        >
-                                                            Pinjaman Harian
-                                                        </a>
-                                                    </li>
-                                                    <li>
-                                                        <a
-                                                            href={
-                                                                "/pinjaman/bulanan"
-                                                            }
-                                                            className={
-                                                                "group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white " +
-                                                                (pathname.includes(
-                                                                    "pinjaman/bulanan"
-                                                                ) &&
-                                                                    "!text-white")
-                                                            }
-                                                        >
-                                                            Pinjaman Bulanan
-                                                        </a>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                            {/* <!-- Dropdown Menu End --> */}
-                                        </Fragment>
-                                    );
-                                }}
-                            </SidebarLinkGroup>
-                            {/* <!-- Menu Item simpanan --> */}
-                        </ul>
-                    </div>
+                                                    Pinjaman Anggota
+                                                    <svg
+                                                        className={`absolute right-4 top-1/2 -translate-y-1/2 fill-current ${
+                                                            open && "rotate-180"
+                                                        }`}
+                                                        width="20"
+                                                        height="20"
+                                                        viewBox="0 0 20 20"
+                                                        fill="none"
+                                                        xmlns="http://www.w3.org/2000/svg"
+                                                    >
+                                                        <path
+                                                            fillRule="evenodd"
+                                                            clipRule="evenodd"
+                                                            d="M4.41107 6.9107C4.73651 6.58527 5.26414 6.58527 5.58958 6.9107L10.0003 11.3214L14.4111 6.91071C14.7365 6.58527 15.2641 6.58527 15.5896 6.91071C15.915 7.23614 15.915 7.76378 15.5896 8.08922L10.5896 13.0892C10.2641 13.4147 9.73651 13.4147 9.41107 13.0892L4.41107 8.08922C4.08563 7.76378 4.08563 7.23614 4.41107 6.9107Z"
+                                                            fill=""
+                                                        />
+                                                    </svg>
+                                                </button>
+                                                {/* <!-- Dropdown Menu Start --> */}
+                                                <div
+                                                    className={`translate transform overflow-hidden ${
+                                                        !open && "hidden"
+                                                    }`}
+                                                >
+                                                    <ul className="mt-4 mb-5.5 flex flex-col gap-2.5 pl-6">
+                                                        <li>
+                                                            <a
+                                                                href={
+                                                                    "/pinjaman/harian"
+                                                                }
+                                                                className={
+                                                                    "group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white " +
+                                                                    (pathname.includes(
+                                                                        "pinjaman/harian"
+                                                                    ) &&
+                                                                        "!text-white")
+                                                                }
+                                                            >
+                                                                Pinjaman Harian
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a
+                                                                href={
+                                                                    "/pinjaman/bulanan"
+                                                                }
+                                                                className={
+                                                                    "group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white " +
+                                                                    (pathname.includes(
+                                                                        "pinjaman/bulanan"
+                                                                    ) &&
+                                                                        "!text-white")
+                                                                }
+                                                            >
+                                                                Pinjaman Bulanan
+                                                            </a>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                                {/* <!-- Dropdown Menu End --> */}
+                                            </Fragment>
+                                        );
+                                    }}
+                                </SidebarLinkGroup>
+                                {/* <!-- Menu Item simpanan --> */}
+                                <li>
+                                    <a
+                                        href={route("history")}
+                                        className={`group relative flex items-center gap-2.5 rounded-md py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${
+                                            pathname.includes("history") &&
+                                            "bg-graydark dark:bg-meta-4"
+                                        }`}
+                                    >
+                                        <TbHistoryToggle
+                                            className="stroke-current"
+                                            width={18}
+                                            height={18}
+                                        />
+                                        History
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    ) : null}
 
                     {/* <!-- Others Group --> */}
                     <div>
@@ -410,7 +527,7 @@ const Sidebar = ({ pathname, sidebarOpen, setSidebarOpen, user }) => {
                             {/* <!-- Menu Team --> */}
                             <li>
                                 <a
-                                    href="/team"
+                                    href={route('team')}
                                     className={`group relative flex items-center gap-2.5 rounded-md py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${
                                         pathname.includes("chart") &&
                                         "bg-graydark dark:bg-meta-4"

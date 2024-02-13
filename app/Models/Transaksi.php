@@ -5,25 +5,25 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class SimpananWajib extends Model
+class Transaksi extends Model
 {
     use HasFactory;
 
-    protected $table = 'simpanan_wajib';
+    protected $table = 'transaksi';
 
-    protected $primaryKey = 'id_simpanan_wajib';
+    protected $primaryKey = 'id_transaksi';
 
     protected $keyType = 'string';
 
     protected $fillable = [
-        'id_simpanan_wajib',
+        'id_transaksi',
         'id_member',
-        'tahun',
-        'bulan',
+        'nominal',
+        'nama_transaksi',
         'hari',
-        'kekayaan_awal_tahun',
-        'anggota_keluar',
-        'simpanan_wajib'
+        'bulan',
+        'tahun',
+        'type'
     ];
 
     public function member()
