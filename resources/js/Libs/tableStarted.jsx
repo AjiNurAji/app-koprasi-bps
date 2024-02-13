@@ -43,18 +43,18 @@ export const columnsMember = [
             </span>
         ),
         header: "Alamat Email",
-        enableSorting: false
+        enableSorting: false,
     }),
 
     columnHelper.accessor("id_member", {
         id: "Action",
         cell: (data) => <ActionTable memberId={data.getValue()} />,
         header: "Aksi",
-        enableSorting: false
+        enableSorting: false,
     }),
 ];
 
-export const columnsSimpanan = [
+export const columnsSimpananPokok = [
     columnHelper.accessor("", {
         id: "No",
         cell: (data) => (
@@ -80,7 +80,7 @@ export const columnsSimpanan = [
         id: "group",
         colSpan: 3,
         columns: [
-            columnHelper.accessor("awalTahun", {
+            columnHelper.accessor("awal_tahun", {
                 id: `Awal Tahun ${new Date().getFullYear()}`,
                 cell: (data) => (
                     <span className="font-medium text-black dark:text-white">
@@ -93,7 +93,7 @@ export const columnsSimpanan = [
                 header: `Awal Tahun ${new Date().getFullYear()}`,
             }),
 
-            columnHelper.accessor("anggotaMasuk", {
+            columnHelper.accessor("anggota_masuk", {
                 id: "AnggotaMasuk",
                 cell: (data) => (
                     <span className="font-medium text-black dark:text-white">
@@ -106,7 +106,7 @@ export const columnsSimpanan = [
                 header: "Anggota Masuk",
             }),
 
-            columnHelper.accessor("anggotaKeluar", {
+            columnHelper.accessor("anggota_keluar", {
                 id: "AnggotaKeluar",
                 cell: (data) => (
                     <span className="font-medium text-black dark:text-white">
@@ -122,21 +122,173 @@ export const columnsSimpanan = [
         header: "Simpanan Pokok",
     }),
 
-    columnHelper.accessor("", {
+    columnHelper.accessor("kekayaan", {
         id: "kekayaan",
         cell: (data) => (
             <span className="font-medium text-black dark:text-white">
                 {Intl.NumberFormat("id-ID", {
                     style: "currency",
                     currency: "IDR",
-                }).format(
-                    data.row.original.awalTahun || data.row.original.anggotaMasuk
-                        ? data.row.original.awalTahun + data.row.original.anggotaMasuk
-                        : 0
-                )}
+                }).format(data.getValue() ? data.getValue() : 0)}
                 {console.log()}
             </span>
         ),
         header: `Kekayaan per 31 Desember ${new Date().getFullYear()}`,
+    }),
+];
+
+export const columnSimpananWajib = [
+    columnHelper.accessor("", {
+        id: "No",
+        cell: (data) => (
+            <span className="font-medium text-black dark:text-white">
+                {data.row.index + 1}
+            </span>
+        ),
+        header: "No",
+    }),
+
+    columnHelper.accessor("name", {
+        id: "name",
+        cell: (data) => (
+            <span className="font-medium text-black dark:text-white">
+                {data.getValue()}
+            </span>
+        ),
+        header: "Nama",
+    }),
+
+    columnHelper.accessor("kekayaan_awal_tahun", {
+        id: "kekayaan_awal_tahun",
+        cell: (data) => (
+            <span className="font-medium text-black dark:text-white">
+                {Intl.NumberFormat("id-ID", {
+                    style: "currency",
+                    currency: "IDR",
+                }).format(data.getValue() ? data.getValue() : 0)}
+            </span>
+        ),
+        header: `Kekayaan Awal Tahun ${new Date().getFullYear()}`,
+    }),
+
+    columnHelper.accessor("simpanan_wajib", {
+        id: "simpanan_wajib",
+        cell: (data) => (
+            <span className="font-medium text-black dark:text-white">
+                {Intl.NumberFormat("id-ID", {
+                    style: "currency",
+                    currency: "IDR",
+                }).format(data.getValue() ? data.getValue() : 0)}
+            </span>
+        ),
+        header: "Simpanan Wajib",
+    }),
+
+    columnHelper.accessor("anggota_keluar", {
+        id: "anggota_keluar",
+        cell: (data) => (
+            <span className="font-medium text-black dark:text-white">
+                {Intl.NumberFormat("id-ID", {
+                    style: "currency",
+                    currency: "IDR",
+                }).format(data.getValue() ? data.getValue() : 0)}
+            </span>
+        ),
+        header: "Anggota Keluar",
+    }),
+
+    columnHelper.accessor("kekayaan", {
+        id: "kekayaan",
+        cell: (data) => (
+            <span className="font-medium text-black dark:text-white">
+                {Intl.NumberFormat("id-ID", {
+                    style: "currency",
+                    currency: "IDR",
+                }).format(data.getValue() ? data.getValue() : 0)}
+                {console.log()}
+            </span>
+        ),
+        header: `Kekayaan per 31 Desember ${new Date().getFullYear()}`,
+    }),
+];
+
+export const HistoryOptionTable = [
+    columnHelper.accessor("", {
+        id: "No",
+        cell: (data) => (
+            <span className="font-medium text-black dark:text-white">
+                {data.row.index + 1}
+            </span>
+        ),
+        header: "No",
+        enableSorting: false,
+    }),
+
+    columnHelper.accessor("name", {
+        id: "name",
+        cell: (data) => (
+            <span className="font-medium text-black dark:text-white">
+                {data.getValue()}
+            </span>
+        ),
+        header: "Nama",
+    }),
+
+    columnHelper.accessor("nominal", {
+        id: "nominal",
+        cell: (data) => (
+            <span className="font-medium text-black dark:text-white">
+                {Intl.NumberFormat("id-ID", {  style: "currency", currency: "IDR" }).format(data.getValue() ? data.getValue() : 0)}
+            </span>
+        ),
+        header: "Nominal",
+        enableSorting: false,
+    }),
+
+    columnHelper.accessor("nama_transaksi", {
+        id: "nama_transaksi",
+        cell: (data) => (
+            <span className="font-medium text-black dark:text-white">
+                {data.getValue()}
+            </span>
+        ),
+        header: "Nama Transaksi",
+    }),
+
+    columnHelper.accessor("type", {
+        id: "type",
+        cell: (data) => (
+            <span className="font-medium text-black dark:text-white">
+                {data.getValue()}
+            </span>
+        ),
+        header: "Jenis Transaksi",
+    }),
+
+    columnHelper.accessor("waktu", {
+        id: "tanggal",
+        cell: (data) => (
+            <span className="font-medium text-black dark:text-white">
+                {new Date(data.getValue()).toLocaleDateString("id-ID", { dateStyle: "long" })}
+            </span>
+        ),
+        header: "Tanggal Transaksi",
+        enableSorting: false,
+    }),
+
+    columnHelper.accessor("waktu", {
+        id: "waktu",
+        cell: (data) => (
+            <span className="font-medium text-black dark:text-white">
+                {new Date(data.getValue()).toLocaleTimeString("en-ID", {
+                    hour: "2-digit",
+                    minute: "2-digit",
+                    second: "2-digit",
+                    hourCycle: "h24",
+                })}
+            </span>
+        ),
+        header: "Waktu Transaksi",
+        enableSorting: false,
     }),
 ];

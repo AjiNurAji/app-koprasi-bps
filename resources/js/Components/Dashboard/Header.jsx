@@ -75,16 +75,16 @@ const Header = (props) => {
                 </div>
 
                 <div className="hidden sm:block">
-                    <h3 className="font-bold text-black dark:text-white">
-                        {date.toLocaleDateString("ID-id", {
+                    <h3 className="font-bold text-center lg:text-start text-black dark:text-white w-full sm:inline-block">
+                        {date.toLocaleDateString("id-ID", {
                             day: "2-digit",
                             weekday: "long",
                             month: "long",
                             year: "numeric"
                         })}
                     </h3>
-                    <span className="font-medium text-black dark:text-white">
-                        {date.toLocaleTimeString("ID-id", {
+                    <span className="font-medium text-center lg:text-start text-black dark:text-white w-full sm:inline-block">
+                        {date.toLocaleTimeString("en-ID", {
                             hour: "2-digit",
                             minute: "2-digit",
                             second: "2-digit",

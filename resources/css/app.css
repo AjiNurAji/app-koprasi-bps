@@ -10,13 +10,14 @@ select:focus-visible {
 }
 
 button {
-    border: none !important;
     outline: none !important;
 }
 
+.click_animation:active,
 button:active {
     scale: 0.95;
 }
+
 
 /* Firefox */
 *, *::before, *::after {
