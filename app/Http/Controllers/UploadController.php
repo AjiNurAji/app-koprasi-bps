@@ -4,9 +4,20 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use App\Upload;
 
 class UploadController extends Controller
 {
+
+    public function index()
+    {
+        $files = Upload::all();
+
+        foreach ($files as $file) {
+            // return '<img src=' . asset($file->path) . '" alt="">';
+        }
+    }
+
     public function upload(Request $request)
     {
         try {
@@ -20,10 +31,10 @@ class UploadController extends Controller
     
         // $path = $request->file('image')->storeAs('public', #newName);
         $size = $file->getClientSize();
-        $path = Storage::putFileAs('public', $request->file('image'), $newName);
+        Storage::putFileAs('storage/file', $request->file('image'), $newName);
 
         $data = [
-            'path' => $path,
+            'path' => 'storage/' . $newName,
             'size' => $size
         ];
 
@@ -34,6 +45,23 @@ class UploadController extends Controller
             return $e->getMessage();
         }
     
-        dd($path);
+        //dd($path);
     }
+
+
+    public function list()
+    {
+        // $files = Storage::allFiles('public');
+        // $directories = $Storage::allDirectories('');
+        // $directory = Storage::makeDirectory('image/gif');
+        $directory = Storage::deleteDirectory('image/gif');
+        dd($directory);
+    }
+    
+    public function show()
+    {
+        // $path = Storage::url('');
+        // return '<img src=>' . asset('/storage/jijij.jpg')  '" alt="">';
+    }
+    
 }

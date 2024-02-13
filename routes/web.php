@@ -46,6 +46,7 @@ Route::middleware(['auth:admin'])->group(function () {
 
     // wajib
     Route::get('/simpanan/wajib', [HomepageController::class, 'simpananWajib'])->name('simpanan_wajib');
+  
     Route::post('/simpanan/wajib', [SimpananController::class, 'getDataSimpananWajib'])->name('simpanan_wajib');
     Route::post('/simpanan/wajib/create', [SimpananController::class, 'simpananWajib'])->name('simpanan_wajib_create');
 
@@ -81,6 +82,9 @@ Route::middleware(['auth:admin'])->group(function () {
     //         ]
     //     ]);
     // })->name('simpanan_pokok_pdf');
+
+    //upload file
+    Route::get('index', 'UploadController@index');
 });
 
 require __DIR__ . '/auth.php';
