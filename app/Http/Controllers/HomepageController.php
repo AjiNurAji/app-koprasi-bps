@@ -86,7 +86,7 @@ class HomepageController extends Controller
 
     public function simpananPokok()
     {
-        $simpananPokok = SimpananPokok::where('tahun', date('Y'))->get();
+        $simpananPokok = SimpananPokok::where('tahun', date('Y'))->orderBy('updated_at', 'desc')->get();
 
         foreach ($simpananPokok as $data) {
             $datas[] = [
@@ -119,7 +119,7 @@ class HomepageController extends Controller
 
     public function simpananWajib()
     {
-        $simpananWajib = SimpananWajib::where('tahun', date('Y'))->get();
+        $simpananWajib = SimpananWajib::where('tahun', date('Y'))->orderBy('updated_at', 'desc')->get();
 
         foreach ($simpananWajib as $data) {
             $datas[] = [
@@ -173,5 +173,10 @@ class HomepageController extends Controller
         $data = User::all();
 
         return Inertia::render('admin/Admin', ['data' => $data]);
+    }
+
+    public function kasTunai()
+    {
+        return Inertia::render('admin/Kas/Tunai');
     }
 }

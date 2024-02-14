@@ -44,6 +44,12 @@ Route::middleware(['auth:admin'])->group(function () {
     // member
     Route::get('/members', [MemberController::class, 'index'])->name('members');
     Route::post('/members/create', [MemberController::class, 'store'])->name('create_member');
+    
+    // history
+    Route::get('/history', [HomepageController::class, 'history'])->name('history');
+
+    // kas
+    Route::get('/kas/tunai', [HomepageController::class, 'kasTunai'])->name('kas_tunai');
 
     // simpanan
     // pokok
@@ -57,8 +63,6 @@ Route::middleware(['auth:admin'])->group(function () {
     Route::post('/simpanan/wajib', [SimpananController::class, 'getDataSimpananWajib'])->name('simpanan_wajib');
     Route::post('/simpanan/wajib/create', [SimpananController::class, 'simpananWajib'])->name('simpanan_wajib_create');
 
-    // history
-    Route::get('/history', [HomepageController::class, 'history'])->name('history');
 
     Route::post('/simpanan/pokok/table', [PDFController::class, 'ExportSimpananPokokPDF'])->name('simpanan_pokok_pdf');
     Route::post('/simpanan/wajib/table', [PDFController::class, 'ExportSimpananWajibPDF'])->name('simpanan_wajib_pdf');

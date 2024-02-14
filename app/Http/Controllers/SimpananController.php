@@ -58,31 +58,36 @@ class SimpananController extends Controller
                 ]);
 
                 // cari transaksi, update jika ada dan buatkan jika tidak ada
-                $transaksi = Transaksi::whereBetween('created_at', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])
-                    ->where('id_member', $request->input('id_member'))
-                    ->where('tahun', $request->input('tahun'))
-                    ->where('hari', $request->input('hari'))
+                // $transaksi = Transaksi::whereBetween('created_at', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])
+                //     ->where('id_member', $request->input('id_member'))
+                //     ->where('tahun', $request->input('tahun'))
+                //     ->where('hari', $request->input('hari'))
+                //     ->where('bulan', $request->input('bulan'))
+                //     ->where('nama_transaksi', 'simpanan_pokok')
+                //     ->first();
+
+                // cek transaksi apa aja yang sudah dilakukan
+                $simpananPokok = SimpananPokok::where('id_member', $request->input('id_member'))
                     ->where('bulan', $request->input('bulan'))
-                    ->where('nama_transaksi', 'simpanan_pokok')
                     ->first();
 
-                $nominal = $request->input('awal_tahun') + $request->input('anggota_masuk') - $request->input('anggota_keluar');
-                // dd($nominal);
+                    // dd(!$simpananPokok->awal_tahun);
 
-                if (isset($transaksi)) {
-                    $transaksi->update([
-                        'nominal' => $nominal,
-                    ]);
-
-                    SimpananPokok::where('id_member', $request->input('id_member'))
-                        ->where('tahun', $request->input('tahun'))->update([
-                            'hari' => $request->input('hari'),
-                            'awal_tahun' => $request->input('awal_tahun'),
-                            'anggota_masuk' => $request->input('anggota_masuk'),
-                            'anggota_keluar' => $request->input('anggota_keluar'),
-                        ]);
-
-                    return response()->json(['message' => 'Berhasil melakukan transaksi'], 200);
+                if (!$simpananPokok->awal_tahun && !$simpananPokok->anggota_masuk && !$simpananPokok->anggota_keluar) {
+                    $nominal = $request->input('anggota_masuk') + $request->input('awal_tahun');
+                    $keluar = $request->input('anggota_keluar');
+                } else if ($simpananPokok->awal_tahun && !$simpananPokok->anggota_masuk && !$simpananPokok->anggota_keluar) {
+                    $nominal = $request->input('awal_tahun') + $simpananPokok->awal_tahun + $request->input('anggota_masuk');
+                    $keluar = $request->input('anggota_keluar');
+                } else if (!$simpananPokok->awal_tahun && $simpananPokok->anggota_masuk && !$simpananPokok->anggota_keluar) {
+                    $keluar = $request->input('anggota_keluar') ;
+                    $nominal = $request->input('awal_tahun') + $request->input('anggota_masuk') + $simpananPokok->anggota_masuk;
+                } else if ($simpananPokok->awal_tahun && $simpananPokok->anggota_masuk && !$simpananPokok->anggota_keluar) {
+                    $keluar = $request->input('anggota_keluar');
+                    $nominal = $request->input('awal_tahun') + $simpananPokok->awal_tahun + $request->input('anggota_masuk') + $simpananPokok->anggota_masuk;
+                } else if ($simpananPokok->awal_tahun && $simpananPokok->anggota_masuk && $simpananPokok->anggota_keluar) {
+                    $nominal = $simpananPokok->anggota_masuk + $request->input('anggota_masuk') + $simpananPokok->awal_tahun + $request->input('awal_tahun');
+                    $keluar = $simpananPokok->anggota_keluar + $request->input('anggota_keluar');
                 }
 
 
@@ -91,19 +96,19 @@ class SimpananController extends Controller
                     'id_member' => $request->input('id_member'),
                     'nominal' => $nominal,
                     'type' => 'simpanan',
+                    'nominal_keluar' => $keluar,
                     'nama_transaksi' => 'simpanan_pokok',
                     'tahun' => $request->input('tahun'),
                     'hari' => $request->input('hari'),
                     'bulan' => $request->input('bulan')
                 ]);
 
-                SimpananPokok::where('id_member', $request->input('id_member'))
-                    ->where('tahun', $request->input('tahun'))->update([
-                        'hari' => $request->input('hari'),
-                        'awal_tahun' => $request->input('awal_tahun'),
-                        'anggota_masuk' => $request->input('anggota_masuk'),
-                        'anggota_keluar' => $request->input('anggota_keluar'),
-                    ]);
+                $simpananPokok->update([
+                    'awal_tahun' => $simpananPokok->awal_tahun ? $simpananPokok->awal_tahun + $request->input('awal_tahun') : $request->input('awal_tahun'),
+                    'hari' => $request->input('hari'),
+                    'anggota_masuk' => $simpananPokok->anggota_masuk ? $simpananPokok->anggota_masuk + $request->input('anggota_masuk') : $request->input('anggota_masuk'),
+                    'anggota_keluar' => $simpananPokok->anggota_keluar ? $simpananPokok->anggota_keluar + $request->input('anggota_keluar') : $request->input('anggota_keluar'),
+                ]);
 
                 return response()->json(['message' => 'Berhasil melakukan transaksi'], 200);
             } catch (\Throwable $th) {
@@ -177,6 +182,9 @@ class SimpananController extends Controller
                 } else if ($simpananWajib->kekayaan_awal_tahun && !$simpananWajib->simpanan_wajib && !$simpananWajib->anggota_keluar) {
                     $nominal = $request->input('kekayaan_awal_tahun') + $simpananWajib->kekayaan_awal_tahun + $request->input('simpanan_wajib');
                     $keluar = $request->input('anggota_keluar');
+                } else if (!$simpananWajib->kekayaan_awal_tahun && $simpananWajib->simpanan_wajib && !$simpananWajib->anggota_keluar) {
+                    $nominal = $request->input('kekayaan_awal_tahun') + $request->input('simpanan_wajib') + $simpananWajib->simpanan_wajib;
+                    $keluar = $request->input('anggota_keluar');
                 } else if ($simpananWajib->kekayaan_awal_tahun && $simpananWajib->simpanan_wajib && !$simpananWajib->anggota_keluar) {
                     $keluar = $request->input('anggota_keluar');
                     $nominal = $request->input('kekayaan_awal_tahun') + $simpananWajib->kekayaan_awal_tahun + $request->input('simpanan_wajib') + $simpananWajib->simpanan_wajib;
@@ -185,31 +193,7 @@ class SimpananController extends Controller
                     $keluar = $simpananWajib->anggota_keluar + $request->input('anggota_keluar');
                 }
 
-                // dd($keluar, $nominal, $transaksi);
-
-                if (isset($transaksi)) {
-                    $transaksi->update([
-                        'nominal' => $nominal,
-                        'nominal_keluar' => $keluar,
-                    ]);
-
-                    $simpananWajib->update([
-                        'kekayaan_awal_tahun' => $simpananWajib->kekayaan_awal_tahun ? $simpananWajib->kekayaan_awal_tahun + $request->input('kekayaan_awal_tahun') : $request->input('kekayaan_awal_tahun'),
-                        'hari' => $request->input('hari'),
-                        'simpanan_wajib' => $simpananWajib->simpanan_wajib ? $simpananWajib->simpanan_wajib + $request->input('simpanan_wajib') : $request->input('simpanan_wajib'),
-                        'anggota_keluar' => $simpananWajib->anggota_keluar ? $simpananWajib->anggota_keluar + $request->input('anggota_keluar') : $request->input('anggota_keluar'),
-                    ]);
-
-                    return response()->json(['message' => 'Berhasil melakukan transaksi'], 200);
-                }
-
-                $simpananWajib->update([
-                    'kekayaan_awal_tahun' => $simpananWajib->kekayaan_awal_tahun ? $simpananWajib->kekayaan_awal_tahun + $request->input('kekayaan_awal_tahun') : $request->input('kekayaan_awal_tahun'),
-                    'hari' => $request->input('hari'),
-                    'simpanan_wajib' => $simpananWajib->simpanan_wajib ? $simpananWajib->simpanan_wajib + $request->input('simpanan_wajib') : $request->input('simpanan_wajib'),
-                    'anggota_keluar' => $simpananWajib->anggota_keluar ? $simpananWajib->anggota_keluar + $request->input('anggota_keluar') : $request->input('anggota_keluar'),
-                ]);
-
+                
                 Transaksi::create([
                     'id_transaksi' => Str::uuid(),
                     'id_member' => $request->input('id_member'),
@@ -220,6 +204,13 @@ class SimpananController extends Controller
                     'tahun' => $request->input('tahun'),
                     'hari' => $request->input('hari'),
                     'bulan' => $request->input('bulan')
+                ]);
+
+                $simpananWajib->update([
+                    'kekayaan_awal_tahun' => $simpananWajib->kekayaan_awal_tahun ? $simpananWajib->kekayaan_awal_tahun + $request->input('kekayaan_awal_tahun') : $request->input('kekayaan_awal_tahun'),
+                    'hari' => $request->input('hari'),
+                    'simpanan_wajib' => $simpananWajib->simpanan_wajib ? $simpananWajib->simpanan_wajib + $request->input('simpanan_wajib') : $request->input('simpanan_wajib'),
+                    'anggota_keluar' => $simpananWajib->anggota_keluar ? $simpananWajib->anggota_keluar + $request->input('anggota_keluar') : $request->input('anggota_keluar'),
                 ]);
 
                 return response()->json(['message' => 'Berhasil melakukan transaksi'], 200);

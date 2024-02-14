@@ -52,7 +52,7 @@ const TableHistory = ({ data }) => {
                 <table className="w-full table-auto rounded-md border border-stroke" ref={tableRef}>
                     <thead className="rounded-md">
                         <tr className="hidden">
-                            <th colSpan={7} style={{ textAlign: "center" }}>
+                            <th colSpan={8} style={{ textAlign: "center" }}>
                                 History Transaksi {new Date().getFullYear()} <br /> <br /> <br />
                             </th>
                         </tr>
