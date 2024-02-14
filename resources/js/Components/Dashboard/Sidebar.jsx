@@ -3,7 +3,7 @@ import Logo from "@/assets/images/dark-logo.png";
 import SidebarLinkGroup from "./El/SidebarLinkGroup";
 import { LuLayoutDashboard, LuUsers } from "react-icons/lu";
 import { PiUsersThree } from "react-icons/pi";
-import { RiHandCoinLine } from "react-icons/ri";
+import { RiHandCoinLine, RiAdminLine, RiUserSettingsLine } from "react-icons/ri";
 import { HiOutlineDocumentText, HiOutlineDocumentPlus } from "react-icons/hi2";
 import { IoWalletOutline } from "react-icons/io5";
 import { GrMoney } from "react-icons/gr";
@@ -124,22 +124,56 @@ const Sidebar = ({ pathname, sidebarOpen, setSidebarOpen, user }) => {
                             {/* <!-- Menu Item Dashboard --> */}
 
                             {user.role ? (
-                                <li>
-                                    <a
-                                        href={route("members")}
-                                        className={`group relative flex items-center gap-2.5 rounded-md py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${
-                                            pathname.includes("members") &&
-                                            "bg-graydark dark:bg-meta-4"
-                                        }`}
-                                    >
-                                        <LuUsers
-                                            className="stroke-current"
-                                            width={18}
-                                            height={18}
-                                        />
-                                        Data Anggota
-                                    </a>
-                                </li>
+                                <>
+                                    <li>
+                                        <a
+                                            href={route("members")}
+                                            className={`group relative flex items-center gap-2.5 rounded-md py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${
+                                                pathname.includes("members") &&
+                                                "bg-graydark dark:bg-meta-4"
+                                            }`}
+                                        >
+                                            <LuUsers
+                                                className="stroke-current"
+                                                width={18}
+                                                height={18}
+                                            />
+                                            Data Anggota
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a
+                                            href={route("admin")}
+                                            className={`group relative flex items-center gap-2.5 rounded-md py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${
+                                                pathname.includes("admin") &&
+                                                "bg-graydark dark:bg-meta-4"
+                                            }`}
+                                        >
+                                            <RiAdminLine
+                                                className="stroke-current"
+                                                width={18}
+                                                height={18}
+                                            />
+                                            Data Admin
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a
+                                            href={route("admin")}
+                                            className={`group relative flex items-center gap-2.5 rounded-md py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${
+                                                pathname.includes("admin") &&
+                                                "bg-graydark dark:bg-meta-4"
+                                            }`}
+                                        >
+                                            <RiUserSettingsLine
+                                                className="stroke-current"
+                                                width={18}
+                                                height={18}
+                                            />
+                                            Jasa Piutang Anggota
+                                        </a>
+                                    </li>
+                                </>
                             ) : null}
                             {/* <!-- Menu Item kas --> */}
                             <SidebarLinkGroup

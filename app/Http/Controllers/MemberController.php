@@ -36,6 +36,7 @@ class MemberController extends Controller
                     'email' => 'required|email',
                     'name' => 'required|string',
                     'password' => 'required|string',
+                    'image' => 'image|nullabel'
                 ]);
 
                 // check email sudah ada atau belum

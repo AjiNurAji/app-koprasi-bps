@@ -5,7 +5,7 @@ use App\Http\Controllers\HomepageController;
 use App\Http\Controllers\MemberController;
 use App\Http\Controllers\PDFController;
 use App\Http\Controllers\SimpananController;
-use App\Models\SimpananWajib;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -31,9 +31,16 @@ Route::middleware(['auth:admin,member'])->group(function () {
     Route::get('/team', function () {
         return Inertia::render('Team/Team');
     })->name('team');
+
+    // update
+    Route::get('/profile', [UserController::class, 'index'])->name('profile');
+    Route::post('/profile/update', [UserController::class, 'updateProfile'])->name('update_profile');
 });
 
 Route::middleware(['auth:admin'])->group(function () {
+    // admin
+    Route::get('/admin', [HomepageController::class, 'admin'])->name('admin');
+
     // member
     Route::get('/members', [MemberController::class, 'index'])->name('members');
     Route::post('/members/create', [MemberController::class, 'store'])->name('create_member');

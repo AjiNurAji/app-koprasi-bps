@@ -48,7 +48,46 @@ export const columnsMember = [
 
     columnHelper.accessor("id_member", {
         id: "Action",
-        cell: (data) => <ActionTable memberId={data.getValue()} />,
+        cell: (data) => <ActionTable id={data.getValue()} />,
+        header: "Aksi",
+        enableSorting: false,
+    }),
+];
+
+export const columnAdmin = [
+    columnHelper.accessor("", {
+        id: "no",
+        cell: (data) => (
+            <span className="text-black dark:text-white">
+                {data.row.index + 1}
+            </span>
+        ),
+        header: "No",
+    }),
+
+    columnHelper.accessor('username', {
+        id: "username",
+        cell: (data) => (
+            <span className="text-black dark:text-white">
+                {data.getValue()}
+            </span>
+        ),
+        header: "Username"
+    }),
+
+    columnHelper.accessor("name", {
+        id: "name",
+        cell: (data) => (
+            <span className="text-black dark:text-white">
+                {data.getValue()}
+            </span>
+        ),
+        header: "Nama Admin"
+    }),
+
+    columnHelper.accessor("id", {
+        id: "Action",
+        cell: (data) => <ActionTable id={data.getValue()} />,
         header: "Aksi",
         enableSorting: false,
     }),
@@ -235,13 +274,24 @@ export const HistoryOptionTable = [
     }),
 
     columnHelper.accessor("nominal", {
-        id: "nominal",
+        id: "nominal_masuk",
         cell: (data) => (
             <span className="font-medium text-black dark:text-white">
                 {Intl.NumberFormat("id-ID", {  style: "currency", currency: "IDR" }).format(data.getValue() ? data.getValue() : 0)}
             </span>
         ),
-        header: "Nominal",
+        header: "Nominal Masuk",
+        enableSorting: false,
+    }),
+
+    columnHelper.accessor("nominal_keluar", {
+        id: "nominal_keluar",
+        cell: (data) => (
+            <span className="font-medium text-black dark:text-white">
+                {Intl.NumberFormat("id-ID", {  style: "currency", currency: "IDR" }).format(data.getValue() ? data.getValue() : 0)}
+            </span>
+        ),
+        header: "Nominal Keluar",
         enableSorting: false,
     }),
 

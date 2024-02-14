@@ -16,7 +16,7 @@ const Dashboard = ({ auth, chart, cards }) => {
                 <Card total={66336032} icon={<FaMoneyBillWave />} type="Uang Kas Tunai" view={"/uangkas/tunai"} />
                 <Card total={168285259} icon={<BsFillCreditCard2FrontFill />} type="Uang Kas Rekening" />
                 <Card total={cards.simpananPokok} icon={<GiWallet />} type="Simpanan Pokok" />
-                <Card total={208530000} icon={<GiPayMoney />} type="Simpanan Wajib" />
+                <Card total={cards.simpananWajib} icon={<GiPayMoney />} type="Simpanan Wajib" />
                 <Card total={78882173} icon={<GiReceiveMoney />} type="Simpanan Sukarela" />
             </div>
 

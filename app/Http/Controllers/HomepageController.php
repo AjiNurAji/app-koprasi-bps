@@ -9,19 +9,11 @@ use App\Models\SimpananPokok;
 use App\Models\SimpananWajib;
 use App\Models\Member;
 use App\Models\Transaksi;
+use App\Models\User;
 use Carbon\Carbon;
 
 class HomepageController extends Controller
 {
-    private function getUserLogin()
-    {
-        if (Auth::guard('admin')->check()) {
-            return Auth::guard('admin')->user();
-        } else {
-            return Auth::guard('member')->user();
-        }
-    }
-
     public function index()
     {
         $bulan = [
@@ -75,19 +67,20 @@ class HomepageController extends Controller
             }
         }
 
-        // dd(Carbon::now()->startOfWeek());
-
-        // dd($totalSimpananPerhari);
-
         // total card
         $awalTahunPokok = SimpananPokok::where('tahun', date('Y'))->sum('awal_tahun');
         $anggotaMasukPokok = SimpananPokok::where('tahun', date('Y'))->sum('anggota_masuk');
         $anggotaKeluarPokok = SimpananPokok::where('tahun', date('Y'))->sum('anggota_keluar');
         $totalPokok = $awalTahunPokok + $anggotaMasukPokok - $anggotaKeluarPokok;
 
+        $awalTahunWajib = SimpananWajib::where('tahun', date('Y'))->sum('kekayaan_awal_tahun');
+        $wajibSimpanan = SimpananWajib::where('tahun', date('Y'))->sum('simpanan_wajib');
+        $anggotaKeluarWajib = SimpananWajib::where('tahun', date('Y'))->sum('anggota_keluar');
+        $totalWajib = $awalTahunWajib + $wajibSimpanan - $anggotaKeluarWajib;
+
         return Inertia::render('Dashboard', [
             'chart' => ['perbulan' => $simpananPokokCount, 'perhari' => $totalSimpananPerhari],
-            'cards' => ['simpananPokok' => $totalPokok]
+            'cards' => ['simpananPokok' => $totalPokok, 'simpananWajib' => $totalWajib]
         ]);
     }
 
@@ -159,18 +152,26 @@ class HomepageController extends Controller
 
     public function history()
     {
-        $history = Transaksi::where('tahun', date('Y'))->get();
+        $history = Transaksi::where('tahun', date('Y'))->orderBy('updated_at', 'desc')->get();
 
         foreach ($history as $data) {
             $datas[] = [
                 'name' => $data->member->name,
                 'nominal' => $data->nominal === null ? null : $data->nominal,
+                'nominal_keluar' => $data->nominal_keluar === null ? null : $data->nominal_keluar,
                 'type' => $data->type === null ? null : $data->type,
                 'nama_transaksi' => $data->nama_transaksi === null ? null : $data->nama_transaksi,
-                'waktu' => $data->created_at === null ? null : $data->created_at,
+                'waktu' => $data->updated_at === null ? null : $data->updated_at,
             ];
         }
 
         return Inertia::render('admin/History', ['data' => isset($datas) ? $datas : $history]);
+    }
+
+    public function admin()
+    {
+        $data = User::all();
+
+        return Inertia::render('admin/Admin', ['data' => $data]);
     }
 }

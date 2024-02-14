@@ -50,6 +50,7 @@ export const lineChartOption = {
         //   position: "top",
         // },
         grid: {
+            borderColor: '#E2E8F0',
             xaxis: {
                 lines: {
                     show: true,
@@ -100,6 +101,12 @@ export const lineChartOption = {
             axisTicks: {
                 show: false,
             },
+            labels: {
+                style: {
+                    colors: "current-fill",
+                    cssClass: "fill-black dark:fill-white"
+                }
+            }
         },
         yaxis: {
             title: {
@@ -109,6 +116,12 @@ export const lineChartOption = {
             },
             min: 0,
             max: 100,
+            labels: {
+                style: {
+                    colors: "current-fill",
+                    cssClass: "fill-black dark:fill-white"
+                }
+            }
         },
     },
 };
@@ -155,7 +168,30 @@ export const barChartOption = {
     },
 
     xaxis: {
-        categories: ["Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu", "Minggu"],
+        categories: [
+            "Senin",
+            "Selasa",
+            "Rabu",
+            "Kamis",
+            "Jumat",
+            "Sabtu",
+            "Minggu",
+        ],
+        labels: {
+            style: {
+                colors: "current-fill",
+                cssClass: "fill-black dark:fill-white",
+            },
+        },
+    },
+
+    yaxis: {
+        labels: {
+            style: {
+                colors: "current-fill",
+                cssClass: "fill-black dark:fill-white",
+            },
+        },
     },
     legend: {
         position: "top",
@@ -163,6 +199,9 @@ export const barChartOption = {
         fontFamily: "Satoshi",
         fontWeight: 500,
         fontSize: "14px",
+        labels: {
+            colors: "current-color",
+        },
 
         markers: {
             radius: 99,
