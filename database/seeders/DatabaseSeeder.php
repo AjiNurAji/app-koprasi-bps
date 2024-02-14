@@ -13,12 +13,18 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        \App\Models\User::create([
-            'username' => 'admin',
-            'password' => Hash::make('admin'),
-            'name' => 'admin',
-            'role' => 'admin',
-        ]);
+        // \App\Models\User::create([
+        //     'username' => 'admin',
+        //     'password' => Hash::make('admin'),
+        //     'name' => 'admin',
+        //     'role' => 'admin',
+        // ]);
+
+        // \App\Models\Kas::create([
+        //     'name' => 'tunai',
+        //     'saldo_awal' => 23612066,
+        //     'tahun' => date('Y'),
+        // ]);
 
         // for($i = 1; $i <= 15; $i++) {
         //     \App\Models\Member::create([

@@ -11,6 +11,12 @@ const Saldo = ({ saldoAwal, saldo }) => {
                     <h2 className="font-bold text-lg">Saldo Awal</h2>
                 </div>
 
+                {saldoAwal ? null : (
+                    <button className="absolute bg-primary px-2 py-1 rounded-md text-white text-xs top-3 right-3">
+                        Set Saldo Awal
+                    </button>
+                )}
+
                 <div className="mt-4 flex items-end justify-between">
                     <div>
                         <h4 className="text-title-md font-bold text-black dark:text-white">

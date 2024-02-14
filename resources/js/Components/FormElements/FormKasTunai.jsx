@@ -1,36 +1,34 @@
 import { useRef, useState } from "react";
-import { PiEyeLight, PiEyeSlash } from "react-icons/pi";
 import ButtonLoading from "../ButtonLoading";
 import { useForm } from "@inertiajs/react";
 import { router } from "@inertiajs/react";
+import CurrencyInput from "react-currency-input-field";
 import PostData from "@/Libs/postData";
 
-const FormCreateMember = ({ setPopup }) => {
-    const [hide, setHide] = useState(true);
+const FormKasTunai = ({ setPopup, bulan, saldo }) => {
     const [processing, setProcess] = useState(false);
-    const inputUsername = useRef(null);
     const form = useRef(null);
+    const date = new Date();
     const { data, setData } = useForm({
-        username: "",
-        name: "",
-        email: "",
-        password: "",
+        bulan: date.toLocaleDateString("id-ID", { month: "long" }),
+        masuk: null,
+        saldo_awal: saldo.saldo_awal,
+        tahun: date.getFullYear(),
+        keluar: null,
     });
 
     const submit = async (e) => {
         e.preventDefault();
         setProcess(true);
 
-        const create = await PostData(route('create_member'), data);
+        const create = await PostData(route("kas_tunai"), data);
 
         if (create) {
             form.current.reset();
             setPopup(false);
             setProcess(false);
-            router.get(route("members"));
+            router.get(route("kas_tunai"));
         }
-
-        inputUsername.current.focus();
         setProcess(false);
     };
 
@@ -41,84 +39,85 @@ const FormCreateMember = ({ setPopup }) => {
         });
     };
 
+    const handleNominal = (v, n) => {
+        setData({
+            ...data,
+            [n]: v === undefined ? v : Number(v),
+        });
+    };
+
     return (
-        <form className="flex flex-col gap-4" onSubmit={submit} ref={form} autoComplete="off">
+        <form
+            className="flex flex-col gap-4"
+            onSubmit={submit}
+            ref={form}
+            autoComplete="off"
+        >
             <div className="w-full">
                 <label
-                    htmlFor="username"
+                    htmlFor="bulan"
                     className="mb-2.5 font-medium text-black dark:text-white"
                 >
-                    Username
+                    Bulan
                 </label>
-                <input
-                    type="text"
-                    ref={inputUsername}
-                    id="username"
-                    name="username"
-                    required
+                <select
+                    name="bulan"
+                    id="bulan"
+                    defaultValue={data.bulan}
                     onChange={(e) => handleValue(e)}
-                    placeholder="Buatkan username untuk anggota"
+                    className="w-full rounded-md border text-dark dark:text-white border-stroke bg-transparent py-2 pl-4 pr-6 transition-all duration-300 ease-in-out outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
+                >
+                    {bulan.map((v, i) => (
+                        <option key={i} value={v}>
+                            {v}
+                        </option>
+                    ))}
+                </select>
+            </div>
+            <div className="w-full">
+                <label
+                    htmlFor="masuk"
+                    className="mb-2.5 font-medium text-black dark:text-white"
+                >
+                    Masuk
+                </label>
+                <CurrencyInput
+                    autoComplete="off"
+                    placeholder="Nominal masuk"
+                    allowDecimals={true}
+                    name="masuk"
+                    id="masuk"
+                    value={data.masuk}
+                    onValueChange={(value, name) => handleNominal(value, name)}
+                    intlConfig={{
+                        locale: "id-ID",
+                        currency: "IDR",
+                    }}
+                    required
                     className="w-full rounded-md border text-dark dark:text-white border-stroke bg-transparent py-2 pl-4 pr-6 transition-all duration-300 ease-in-out outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                 />
             </div>
             <div className="w-full">
                 <label
-                    htmlFor="username"
+                    htmlFor="keluar"
                     className="mb-2.5 font-medium text-black dark:text-white"
                 >
-                    Nama Lengkap
+                    Keluar
                 </label>
-                <input
-                    type="text"
-                    id="namaLengkap"
-                    name="name"
-                    required
-                    onChange={(e) => handleValue(e)}
-                    placeholder="Masukkan nama lengkap anggota"
+                <CurrencyInput
+                    autoComplete="off"
+                    placeholder="Nominal keluar"
+                    allowDecimals={true}
+                    name="keluar"
+                    id="keluar"
+                    value={data.keluar}
+                    onValueChange={(value, name) => handleNominal(value, name)}
+                    intlConfig={{
+                        locale: "id-ID",
+                        currency: "IDR",
+                    }}
                     className="w-full rounded-md border text-dark dark:text-white border-stroke bg-transparent py-2 pl-4 pr-6 transition-all duration-300 ease-in-out outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                 />
-            </div>
-            <div className="w-full">
-                <label
-                    htmlFor="email"
-                    className="mb-2.5 font-medium text-black dark:text-white"
-                >
-                    Alamat Email
-                </label>
-                <input
-                    type="email"
-                    id="email"
-                    name="email"
-                    required
-                    onChange={(e) => handleValue(e)}
-                    placeholder="Masukkan alamat email anggota"
-                    className="w-full rounded-md border text-dark dark:text-white border-stroke bg-transparent py-2 pl-4 pr-6 transition-all duration-300 ease-in-out outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
-                />
-            </div>
-            <div className="w-full">
-                <label
-                    htmlFor="password"
-                    className="mb-2.5 font-medium text-black dark:text-white"
-                >
-                    Buat Password
-                </label>
-                <div className="relative w-full">
-                    <input
-                        type={hide ? "password" : "text"}
-                        name="password"
-                        required
-                        onChange={(e) => handleValue(e)}
-                        id="password"
-                        placeholder="Buatkan password untuk anggota"
-                        className="relative w-full rounded-md border text-dark dark:text-white border-stroke bg-transparent py-2 pl-4 pr-6 transition-all duration-300 ease-in-out outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
-                    />
-                    <div
-                        onClick={() => setHide(!hide)}
-                        className="absolute top-3.5 right-4 cursor-pointer text-body hover:text-black dark:hover:text-white"
-                    >
-                        {hide ? <PiEyeLight /> : <PiEyeSlash />}
-                    </div>
-                </div>
             </div>
             <div className="w-full flex justify-end items-center">
                 {processing ? (
@@ -129,7 +128,7 @@ const FormCreateMember = ({ setPopup }) => {
                         name="button-sumbit"
                         className="w-full cursor-pointer rounded-md border border-primary bg-primary p-2 text-white transition hover:bg-opacity-90"
                     >
-                        Tambah Anggota
+                        Tambah Data
                     </button>
                 )}
             </div>
@@ -137,4 +136,4 @@ const FormCreateMember = ({ setPopup }) => {
     );
 };
 
-export default FormCreateMember;
+export default FormKasTunai;

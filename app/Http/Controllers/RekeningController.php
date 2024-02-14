@@ -12,7 +12,7 @@ class RekeningController extends Controller
     public function Rekening(Request $request)
     {
         // get user login
-        $user = $Auth::user();
+        $user = Auth::user();
         $check = $user->role ? $user=== 'admin':false;
 
         if ($check) {

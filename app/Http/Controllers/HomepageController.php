@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Kas;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
@@ -9,6 +10,7 @@ use App\Models\SimpananPokok;
 use App\Models\SimpananWajib;
 use App\Models\Member;
 use App\Models\Transaksi;
+use App\Models\Tunai;
 use App\Models\User;
 use Carbon\Carbon;
 
@@ -177,6 +179,41 @@ class HomepageController extends Controller
 
     public function kasTunai()
     {
-        return Inertia::render('admin/Kas/Tunai');
+        $bulan = [
+            'Januari',
+            'Februari',
+            'Maret',
+            'April',
+            'Mei',
+            'Juni',
+            'Juli',
+            'Agustus',
+            'September',
+            'Oktober',
+            'November',
+            'Desember',
+        ];
+
+        $kas = Kas::where('tahun', date('Y'))
+                ->where('name', 'tunai')    
+                ->first();
+
+        $saldoTunai = Tunai::where('tahun', date('Y'))
+                        ->orderBy('created_at', 'desc')
+                        ->first();;
+
+        $kas->saldo = $saldoTunai ? $saldoTunai->saldo : $kas->saldo_awal;
+
+        $tunai = Tunai::where('tahun', date('Y'))->get();
+
+        $kas->total_masuk = $tunai->sum('masuk');
+        $kas->total_keluar = $tunai->sum('keluar');
+        $kas->jumlah = $saldoTunai ? $saldoTunai->saldo : null;
+
+        return Inertia::render('admin/Kas/Tunai', [
+            'data' => $kas,
+            'tunai' => $tunai,
+            'bulan' => $bulan
+        ]);
     }
 }

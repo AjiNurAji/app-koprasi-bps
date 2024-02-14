@@ -1,4 +1,4 @@
-import { columnsMember } from "@/Libs/tableStarted";
+import { columnKasTunai } from "@/Libs/tableStarted";
 import {
     useReactTable,
     flexRender,
@@ -7,22 +7,24 @@ import {
     getFilteredRowModel,
     getSortedRowModel,
 } from "@tanstack/react-table";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import PaginationTable from "@/Components/Table/PaginationTable";
-import { FiUserPlus } from "react-icons/fi";
+import { GiCardPlay } from "react-icons/gi";
 import { HiArrowsUpDown } from "react-icons/hi2";
 import SearchTable from "@/Components/Table/SearchTable";
 import CreatePopup from "@/Components/Popup/CreatePopup";
-import FormCreateMember from "@/Components/FormElements/FormCreateMember";
+import FormKasTunai from "@/Components/FormElements/FormKasTunai";
+import DownloadDropdown from "@/Components/DownloadDrodown";
 
-const TableTunai = ({ data }) => {
+const TableTunai = ({ data, bulan, saldo }) => {
     const [datas] = useState([...data]);
     const [globalFilter, setGlobalFilter] = useState("");
     const [popup, setPopup] = useState(false);
+    const tableRef = useRef(null);
 
     const table = useReactTable({
         data: datas,
-        columns: columnsMember,
+        columns: columnKasTunai,
         state: {
             globalFilter,
         },
@@ -33,26 +35,46 @@ const TableTunai = ({ data }) => {
     });
 
     return (
-        <div className="rounded-md border border-stroke bg-white px-5 pt-6 pb-2.5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
+        <div className="rounded-md mt-4 md:mt-6 border border-stroke bg-white px-5 pt-6 pb-2.5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
             {/* head component */}
             <div className="flex items-center justify-between mb-3.5">
                 <button
                     className="p-3 hover:bg-opacity-95 transition-all duration-300 ease-in-out bg-primary text-white rounded-md text-xl"
                     onClick={() => setPopup(true)}
                 >
-                    <FiUserPlus />
+                    <GiCardPlay />
                 </button>
-                <SearchTable
-                    setGlobalFilter={setGlobalFilter}
-                    globalFilter={globalFilter}
-                />
+                <div className="flex flex-col-reverse md:flex-row items-end md:items-center justify-end gap-3">
+                    <DownloadDropdown
+                        data={data}
+                        filename="uangkastunai"
+                        sheet="Uang Kas Tunai"
+                        tableRef={tableRef}
+                        // route={route('simpanan_pokok_pdf')}
+                    />
+                    {/* <SimpananPokokExport
+                        data={data}
+                        total={total}
+                        tableRef={tableRef}
+                    /> */}
+                    <SearchTable
+                        setGlobalFilter={setGlobalFilter}
+                        globalFilter={globalFilter}
+                    />
+                </div>
             </div>
             {/* popup create */}
             {popup ? (
                 <CreatePopup
                     createName="Kas Tunai"
                     setPopup={setPopup}
-                    form={<FormCreateMember setPopup={setPopup} />}
+                    form={
+                        <FormKasTunai
+                            bulan={bulan}
+                            saldo={saldo}
+                            setPopup={setPopup}
+                        />
+                    }
                 />
             ) : null}
             {/* table */}
@@ -62,7 +84,7 @@ const TableTunai = ({ data }) => {
                         {table.getHeaderGroups().map((headerGroup) => (
                             <tr
                                 key={headerGroup.id}
-                                className="bg-gray-2 text-left dark:bg-meta-4"
+                                className="bg-gray-2 text-center dark:bg-meta-4"
                             >
                                 {headerGroup.headers.map((item) => (
                                     <th
@@ -74,7 +96,10 @@ const TableTunai = ({ data }) => {
                                             item.getContext()
                                         )}
                                         {item.column.getCanSort() && (
-                                            <button className="absolute top-5.5 text-md bottom-5 text-black dark:text-white dark:text-opacity-40 hover:text-primary dark:hover:text-opacity-100 text-opacity-40 right-3" onClick={item.column.getToggleSortingHandler()}>
+                                            <button
+                                                className="absolute top-5.5 text-md bottom-5 text-black dark:text-white dark:text-opacity-40 hover:text-primary dark:hover:text-opacity-100 text-opacity-40 right-3"
+                                                onClick={item.column.getToggleSortingHandler()}
+                                            >
                                                 <HiArrowsUpDown />
                                             </button>
                                         )}
@@ -85,28 +110,56 @@ const TableTunai = ({ data }) => {
                     </thead>
                     <tbody>
                         {table.getRowModel().rows.length ? (
-                            table.getRowModel().rows.map((row, i) => (
-                                <tr
-                                    key={row.id}
-                                    className={`${
-                                        i % 2 === 0
-                                            ? "bg-white dark:bg-meta-4 dark:bg-opacity-15"
-                                            : "bg-gray dark:bg-meta-4 bg-opacity-30 dark:bg-opacity-30"
-                                    }`}
-                                >
-                                    {row.getVisibleCells().map((cell) => (
-                                        <td
-                                            key={cell.id}
-                                            className="border py-5 px-4 border-stroke dark:border-opacity-20"
-                                        >
-                                            {flexRender(
-                                                cell.column.columnDef.cell,
-                                                cell.getContext()
-                                            )}
-                                        </td>
-                                    ))}
+                            <>
+                                {table.getRowModel().rows.map((row, i) => (
+                                    <tr
+                                        key={row.id}
+                                        className={`${
+                                            i % 2 === 0
+                                                ? "bg-white dark:bg-meta-4 dark:bg-opacity-15"
+                                                : "bg-gray dark:bg-meta-4 bg-opacity-30 dark:bg-opacity-30"
+                                        }`}
+                                    >
+                                        {row.getVisibleCells().map((cell) => (
+                                            <td
+                                                key={cell.id}
+                                                className="border py-5 px-4 border-stroke dark:border-opacity-20"
+                                            >
+                                                {flexRender(
+                                                    cell.column.columnDef.cell,
+                                                    cell.getContext()
+                                                )}
+                                            </td>
+                                        ))}
+                                    </tr>
+                                ))}
+                                <tr className="bg-white dark:bg-meta-4 dark:bg-opacity-15">
+                                    <td className="border py-5 px-4 border-stroke dark:border-opacity-20"></td>
+                                    <td className="border py-5 px-4 font-semibold border-stroke dark:border-opacity-20">
+                                        Jumlah
+                                    </td>
+                                    <td className="border py-5 px-4 font-semibold border-stroke dark:border-opacity-20">
+                                        {Intl.NumberFormat("id-ID", {
+                                            style: "currency",
+                                            currency: "IDR",
+                                        }).format(
+                                            saldo.total_masuk
+                                                ? saldo.total_masuk
+                                                : 0
+                                        )}
+                                    </td>
+                                    <td className="border py-5 px-4 font-semibold border-stroke dark:border-opacity-20">
+                                        {Intl.NumberFormat("id-ID", {
+                                            style: "currency",
+                                            currency: "IDR",
+                                        }).format(
+                                            saldo.total_keluar
+                                                ? saldo.total_keluar
+                                                : 0
+                                        )}
+                                    </td>
                                 </tr>
-                            ))
+                            </>
                         ) : (
                             <tr>
                                 <td

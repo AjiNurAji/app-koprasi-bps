@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\HomepageController;
+use App\Http\Controllers\KasController;
 use App\Http\Controllers\MemberController;
 use App\Http\Controllers\PDFController;
 use App\Http\Controllers\SimpananController;
@@ -50,6 +51,7 @@ Route::middleware(['auth:admin'])->group(function () {
 
     // kas
     Route::get('/kas/tunai', [HomepageController::class, 'kasTunai'])->name('kas_tunai');
+    Route::post('/kas/tunai', [KasController::class, 'kasTunai'])->name('kas_tunai');
 
     // simpanan
     // pokok

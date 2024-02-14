@@ -5,21 +5,25 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class KasTunai extends Model
+class Tunai extends Model
 {
     use HasFactory;
 
-    protected $table = 'kas_tunai';
+    protected $table = 'tunai';
 
     protected $primaryKey = 'id';
 
     protected $fillable = [
-        'id',
+        'id_kas',
         'bulan',
+        'tahun',
         'masuk',
         'keluar',
-        'saldo',
-        'tahun',
-        'saldo_awal',
+        'saldo'
     ];
+
+    public function kas()
+    {
+        return $this->hasOne(Kas::class, 'id_kas');
+    }
 }

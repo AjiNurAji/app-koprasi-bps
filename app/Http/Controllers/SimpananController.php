@@ -40,12 +40,7 @@ class SimpananController extends Controller
 
     public function simpananPokok(Request $request)
     {
-        // get user login
-        $user = Auth::user();
-        $check = $user->role ? $user->role === 'admin' : false;
-
-
-        if ($check) {
+        if (Auth::guard('admin')->check()) {
             try {
                 // validasi request
                 $request->validate([
@@ -57,39 +52,13 @@ class SimpananController extends Controller
                     'anggota_masuk' => 'integer|nullable'
                 ]);
 
-                // cari transaksi, update jika ada dan buatkan jika tidak ada
-                // $transaksi = Transaksi::whereBetween('created_at', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])
-                //     ->where('id_member', $request->input('id_member'))
-                //     ->where('tahun', $request->input('tahun'))
-                //     ->where('hari', $request->input('hari'))
-                //     ->where('bulan', $request->input('bulan'))
-                //     ->where('nama_transaksi', 'simpanan_pokok')
-                //     ->first();
-
                 // cek transaksi apa aja yang sudah dilakukan
                 $simpananPokok = SimpananPokok::where('id_member', $request->input('id_member'))
                     ->where('bulan', $request->input('bulan'))
                     ->first();
 
-                    // dd(!$simpananPokok->awal_tahun);
-
-                if (!$simpananPokok->awal_tahun && !$simpananPokok->anggota_masuk && !$simpananPokok->anggota_keluar) {
-                    $nominal = $request->input('anggota_masuk') + $request->input('awal_tahun');
-                    $keluar = $request->input('anggota_keluar');
-                } else if ($simpananPokok->awal_tahun && !$simpananPokok->anggota_masuk && !$simpananPokok->anggota_keluar) {
-                    $nominal = $request->input('awal_tahun') + $simpananPokok->awal_tahun + $request->input('anggota_masuk');
-                    $keluar = $request->input('anggota_keluar');
-                } else if (!$simpananPokok->awal_tahun && $simpananPokok->anggota_masuk && !$simpananPokok->anggota_keluar) {
-                    $keluar = $request->input('anggota_keluar') ;
-                    $nominal = $request->input('awal_tahun') + $request->input('anggota_masuk') + $simpananPokok->anggota_masuk;
-                } else if ($simpananPokok->awal_tahun && $simpananPokok->anggota_masuk && !$simpananPokok->anggota_keluar) {
-                    $keluar = $request->input('anggota_keluar');
-                    $nominal = $request->input('awal_tahun') + $simpananPokok->awal_tahun + $request->input('anggota_masuk') + $simpananPokok->anggota_masuk;
-                } else if ($simpananPokok->awal_tahun && $simpananPokok->anggota_masuk && $simpananPokok->anggota_keluar) {
-                    $nominal = $simpananPokok->anggota_masuk + $request->input('anggota_masuk') + $simpananPokok->awal_tahun + $request->input('awal_tahun');
-                    $keluar = $simpananPokok->anggota_keluar + $request->input('anggota_keluar');
-                }
-
+                $nominal = $request->input('anggota_masuk') + $request->input('awal_tahun');
+                $keluar = $request->input('anggota_keluar');
 
                 Transaksi::create([
                     'id_transaksi' => Str::uuid(),
@@ -116,7 +85,7 @@ class SimpananController extends Controller
             }
         }
 
-        return response()->json(['message' => 'Sorry, anda bukan admin'], 401);
+        return response()->json(['message' => 'Hanya bisa di akses oleh admin!'], 401);
     }
 
     public function getDataSimpananWajib(Request $request)
@@ -145,12 +114,7 @@ class SimpananController extends Controller
 
     public function simpananWajib(Request $request)
     {
-        // get user login
-        $user = Auth::user();
-        $check = $user->role ? $user->role === 'admin' : false;
-
-
-        if ($check) {
+        if (Auth::guard('admin')->check()) {
             try {
                 // validasi request
                 $request->validate([
@@ -162,38 +126,14 @@ class SimpananController extends Controller
                     'simpanan_wajib' => 'integer|nullable',
                 ]);
 
-                // cari transaksi, update jika ada dan buatkan jika tidak ada
-                $transaksi = Transaksi::whereBetween('created_at', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])
-                    ->where('id_member', $request->input('id_member'))
-                    ->where('tahun', $request->input('tahun'))
-                    ->where('hari', $request->input('hari'))
-                    ->where('bulan', $request->input('bulan'))
-                    ->where('nama_transaksi', 'simpanan_wajib')
-                    ->first();
-
-                // cek transaksi apa aja yang sudah dilakukan
+                // simpanan wajib update
                 $simpananWajib = SimpananWajib::where('id_member', $request->input('id_member'))
                     ->where('bulan', $request->input('bulan'))
                     ->first();
 
-                if (!$simpananWajib->kekayaan_awal_tahun && !$simpananWajib->simpanan_wajib && !$simpananWajib->anggota_keluar) {
-                    $nominal = $request->input('simpanan_wajib') + $request->input('kekayaan_awal_tahun');
-                    $keluar = $request->input('anggota_keluar');
-                } else if ($simpananWajib->kekayaan_awal_tahun && !$simpananWajib->simpanan_wajib && !$simpananWajib->anggota_keluar) {
-                    $nominal = $request->input('kekayaan_awal_tahun') + $simpananWajib->kekayaan_awal_tahun + $request->input('simpanan_wajib');
-                    $keluar = $request->input('anggota_keluar');
-                } else if (!$simpananWajib->kekayaan_awal_tahun && $simpananWajib->simpanan_wajib && !$simpananWajib->anggota_keluar) {
-                    $nominal = $request->input('kekayaan_awal_tahun') + $request->input('simpanan_wajib') + $simpananWajib->simpanan_wajib;
-                    $keluar = $request->input('anggota_keluar');
-                } else if ($simpananWajib->kekayaan_awal_tahun && $simpananWajib->simpanan_wajib && !$simpananWajib->anggota_keluar) {
-                    $keluar = $request->input('anggota_keluar');
-                    $nominal = $request->input('kekayaan_awal_tahun') + $simpananWajib->kekayaan_awal_tahun + $request->input('simpanan_wajib') + $simpananWajib->simpanan_wajib;
-                } else if ($simpananWajib->kekayaan_awal_tahun && $simpananWajib->simpanan_wajib && $simpananWajib->anggota_keluar) {
-                    $nominal = $simpananWajib->simpanan_wajib + $request->input('simpanan_wajib') + $simpananWajib->kekayaan_awal_tahun + $request->input('kekayaan_awal_tahun');
-                    $keluar = $simpananWajib->anggota_keluar + $request->input('anggota_keluar');
-                }
+                $nominal = $request->input('simpanan_wajib') + $request->input('kekayaan_awal_tahun');
+                $keluar = $request->input('anggota_keluar');
 
-                
                 Transaksi::create([
                     'id_transaksi' => Str::uuid(),
                     'id_member' => $request->input('id_member'),
@@ -219,6 +159,6 @@ class SimpananController extends Controller
             }
         }
 
-        return response()->json(['message' => 'Sorry, anda bukan admin'], 401);
+        return response()->json(['message' => 'Hanya bisa di akses oleh admin!'], 401);
     }
 }

@@ -24,12 +24,8 @@ class MemberController extends Controller
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
-    {
-        // get user logined
-        $user = Auth::user();
-        $check = $user->role ? $user->role === 'admin' : false;
-        
-        if ($check) {
+    {        
+        if (Auth::guard('admin')->check()) {
             try {
                 $request->validate([
                     'username' => 'required|string',
@@ -61,7 +57,7 @@ class MemberController extends Controller
             }
         }
 
-        return response()->json(['message' => 'Sorry, hanya admin yang dapat menambah anggota!'], 401);
+        return response()->json(['message' => 'Hanya bisa di akses oleh admin!'], 401);
     }
 
     /**

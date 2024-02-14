@@ -13,6 +13,13 @@ return new class extends Migration
     {
         Schema::create('rekening', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('id_kas');
+            $table->foreign('id_kas')->references('id')->on('kas')->onDelete('cascade')->onUpdate('cascade');
+            $table->string('bulan', 12);
+            $table->integer('tahun', false);
+            $table->integer('masuk', false);
+            $table->integer('keluar', false);
+            $table->integer('saldo', false)->nullable();
             $table->timestamps();
         });
     }

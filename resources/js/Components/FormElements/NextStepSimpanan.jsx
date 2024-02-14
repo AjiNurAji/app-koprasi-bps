@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import CurrencyInput from "react-currency-input-field";
 
 const NextSimpanan = ({
@@ -9,18 +8,6 @@ const NextSimpanan = ({
     handleNominal,
     getTahun,
 }) => {
-    // useEffect(() => {
-    //     setData({
-    //         ...valueData,
-    //         awal_tahun: data.awal_tahun == null ? null : data.awal_tahun,
-    //         anggota_masuk:
-    //             data.anggota_masuk == null ? null : data.anggota_masuk,
-    //         anggota_keluar:
-    //             data.anggota_keluar == null ? null : data.anggota_keluar,
-    //         kekayaan_awal_tahun: data.kekayaan_awal_tahun == null ? null : data.kekayaan_awal_tahun,
-    //         simpanan_wajib: data.simpanan_wajib == null ? null : data.simpanan_wajib,
-    //     });
-    // }, [step]);
 
     return (
         <>
@@ -43,6 +30,7 @@ const NextSimpanan = ({
                             allowDecimals={true}
                             name="awal_tahun"
                             id="awal_tahun"
+                            required
                             value={valueData.awal_tahun}
                             onValueChange={(value, name) =>
                                 handleNominal(value, name)
@@ -138,6 +126,7 @@ const NextSimpanan = ({
                                     ? "tambahan"
                                     : "transaksi"
                             }`}
+                            required
                             allowDecimals={true}
                             name="kekayaan_awal_tahun"
                             id="kekayaan_awal_tahun"

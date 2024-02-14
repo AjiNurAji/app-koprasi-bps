@@ -65,14 +65,14 @@ export const columnAdmin = [
         header: "No",
     }),
 
-    columnHelper.accessor('username', {
+    columnHelper.accessor("username", {
         id: "username",
         cell: (data) => (
             <span className="text-black dark:text-white">
                 {data.getValue()}
             </span>
         ),
-        header: "Username"
+        header: "Username",
     }),
 
     columnHelper.accessor("name", {
@@ -82,7 +82,7 @@ export const columnAdmin = [
                 {data.getValue()}
             </span>
         ),
-        header: "Nama Admin"
+        header: "Nama Admin",
     }),
 
     columnHelper.accessor("id", {
@@ -169,7 +169,6 @@ export const columnsSimpananPokok = [
                     style: "currency",
                     currency: "IDR",
                 }).format(data.getValue() ? data.getValue() : 0)}
-                {console.log()}
             </span>
         ),
         header: `Kekayaan per 31 Desember ${new Date().getFullYear()}`,
@@ -244,7 +243,6 @@ export const columnSimpananWajib = [
                     style: "currency",
                     currency: "IDR",
                 }).format(data.getValue() ? data.getValue() : 0)}
-                {console.log()}
             </span>
         ),
         header: `Kekayaan per 31 Desember ${new Date().getFullYear()}`,
@@ -277,7 +275,10 @@ export const HistoryOptionTable = [
         id: "nominal_masuk",
         cell: (data) => (
             <span className="font-medium text-black dark:text-white">
-                {Intl.NumberFormat("id-ID", {  style: "currency", currency: "IDR" }).format(data.getValue() ? data.getValue() : 0)}
+                {Intl.NumberFormat("id-ID", {
+                    style: "currency",
+                    currency: "IDR",
+                }).format(data.getValue() ? data.getValue() : 0)}
             </span>
         ),
         header: "Nominal Masuk",
@@ -288,7 +289,10 @@ export const HistoryOptionTable = [
         id: "nominal_keluar",
         cell: (data) => (
             <span className="font-medium text-black dark:text-white">
-                {Intl.NumberFormat("id-ID", {  style: "currency", currency: "IDR" }).format(data.getValue() ? data.getValue() : 0)}
+                {Intl.NumberFormat("id-ID", {
+                    style: "currency",
+                    currency: "IDR",
+                }).format(data.getValue() ? data.getValue() : 0)}
             </span>
         ),
         header: "Nominal Keluar",
@@ -319,7 +323,9 @@ export const HistoryOptionTable = [
         id: "tanggal",
         cell: (data) => (
             <span className="font-medium text-black dark:text-white">
-                {new Date(data.getValue()).toLocaleDateString("id-ID", { dateStyle: "long" })}
+                {new Date(data.getValue()).toLocaleDateString("id-ID", {
+                    dateStyle: "long",
+                })}
             </span>
         ),
         header: "Tanggal Transaksi",
@@ -339,6 +345,58 @@ export const HistoryOptionTable = [
             </span>
         ),
         header: "Waktu Transaksi",
+        enableSorting: false,
+    }),
+];
+
+export const columnKasTunai = [
+    columnHelper.accessor("", {
+        id: "no",
+        cell: (data) => (
+            <span className="text-black dark:text-white text-center block">
+                {data.row.index + 1}
+            </span>
+        ),
+
+        header: "No",
+    }),
+
+    columnHelper.accessor("bulan", {
+        id: "bulan",
+        cell: (data) => (
+            <span className="text-black dark:text-white">
+                {data.getValue()}
+            </span>
+        ),
+        header: "Bulan",
+        enableSorting: false,
+    }),
+
+    columnHelper.accessor("masuk", {
+        id: "masuk",
+        cell: (data) => (
+            <span className="text-black dark:text-white">
+                {Intl.NumberFormat("id-ID", {
+                    style: "currency",
+                    currency: "IDR",
+                }).format(data.getValue() ? data.getValue() : 0)}
+            </span>
+        ),
+        header: "Masuk",
+        enableSorting: false,
+    }),
+
+    columnHelper.accessor("keluar", {
+        id: "keluar",
+        cell: (data) => (
+            <span className="text-black dark:text-white">
+                {Intl.NumberFormat("id-ID", {
+                    style: "currency",
+                    currency: "IDR",
+                }).format(data.getValue() ? data.getValue() : 0)}
+            </span>
+        ),
+        header: "Keluar",
         enableSorting: false,
     }),
 ];

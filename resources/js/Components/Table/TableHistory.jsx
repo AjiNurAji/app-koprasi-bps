@@ -97,7 +97,6 @@ const TableHistory = ({ data }) => {
                                                 key={cell.id}
                                                 className="border py-5 px-4 border-stroke dark:border-opacity-20"
                                             >
-                                                {console.log(cell)}
                                                 {flexRender(
                                                     cell.column.columnDef.cell,
                                                     cell.getContext()
