@@ -13,7 +13,7 @@ const Dashboard = ({ auth, chart, cards }) => {
             <Head title="Dashboard" />
 
             <div className="flex  gap-4 flex-col md:flex-row md:gap-6 flex-wrap">
-                <Card total={66336032} icon={<FaMoneyBillWave />} type="Uang Kas Tunai" view={"/uangkas/tunai"} />
+                <Card total={cards.kas_tunai} icon={<FaMoneyBillWave />} type="Uang Kas Tunai" view={route('kas_tunai')} />
                 <Card total={168285259} icon={<BsFillCreditCard2FrontFill />} type="Uang Kas Rekening" />
                 <Card total={cards.simpananPokok} icon={<GiWallet />} type="Simpanan Pokok" />
                 <Card total={cards.simpananWajib} icon={<GiPayMoney />} type="Simpanan Wajib" />

@@ -112,6 +112,7 @@ const FormKasTunai = ({ setPopup, bulan, saldo }) => {
                     id="keluar"
                     value={data.keluar}
                     onValueChange={(value, name) => handleNominal(value, name)}
+                    required
                     intlConfig={{
                         locale: "id-ID",
                         currency: "IDR",

@@ -50,6 +50,7 @@ Route::middleware(['auth:admin'])->group(function () {
     Route::get('/history', [HomepageController::class, 'history'])->name('history');
 
     // kas
+    Route::post('/kas/saldo_awal', [KasController::class, 'setSaldoAwal'])->name('set_saldo_awal');
     Route::get('/kas/tunai', [HomepageController::class, 'kasTunai'])->name('kas_tunai');
     Route::post('/kas/tunai', [KasController::class, 'kasTunai'])->name('kas_tunai');
 

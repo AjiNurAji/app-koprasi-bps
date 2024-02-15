@@ -15,6 +15,7 @@ import SearchTable from "@/Components/Table/SearchTable";
 import CreatePopup from "@/Components/Popup/CreatePopup";
 import FormKasTunai from "@/Components/FormElements/FormKasTunai";
 import DownloadDropdown from "@/Components/DownloadDrodown";
+import KasTunaiExport from "@/Pages/admin/Exports/KasTunai";
 
 const TableTunai = ({ data, bulan, saldo }) => {
     const [datas] = useState([...data]);
@@ -33,7 +34,6 @@ const TableTunai = ({ data, bulan, saldo }) => {
         getPaginationRowModel: getPaginationRowModel(),
         getFilteredRowModel: getFilteredRowModel(),
     });
-
     return (
         <div className="rounded-md mt-4 md:mt-6 border border-stroke bg-white px-5 pt-6 pb-2.5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
             {/* head component */}
@@ -52,11 +52,11 @@ const TableTunai = ({ data, bulan, saldo }) => {
                         tableRef={tableRef}
                         // route={route('simpanan_pokok_pdf')}
                     />
-                    {/* <SimpananPokokExport
+                    <KasTunaiExport
                         data={data}
-                        total={total}
                         tableRef={tableRef}
-                    /> */}
+                        saldo={saldo}
+                    />
                     <SearchTable
                         setGlobalFilter={setGlobalFilter}
                         globalFilter={globalFilter}

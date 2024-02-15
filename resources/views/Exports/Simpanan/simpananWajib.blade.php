@@ -21,7 +21,7 @@
                 Nama</th>
             <th
                 style="border: 1px solid; vertical-align: middle; padding: 2px 10px; border-collapse: collapse; word-wrap: break-word; text-align: center;">
-                Kekayaan Awal
+                Kekayaan Awal Tahun
                 {{ date('Y') }}</th>
             <th
                 style="border: 1px solid; vertical-align: middle; padding: 2px 10px; border-collapse: collapse; word-wrap: break-word; text-align: center;">
@@ -39,14 +39,14 @@
             <tr>
                 <td style="border: 1px solid; border-collapse: collapse; padding: 2px 10px; text-align: center;">
                     {{ $d + 1 }}</td>
-                <td style="border: 1px solid; border-collapse: collapse; padding: 2px 10px;">{{ $col['name'] }}</td>
-                <td style="border: 1px solid; border-collapse: collapse; padding: 2px 10px; text-align: right;">
+                <td style="border: 1px solid; border-collapse: collapse; padding: 2px 10px; width: 30%">{{ $col['name'] }}</td>
+                <td style="border: 1px solid; border-collapse: collapse; padding: 2px 10px; text-align: right; width: 20%">
                     {{ number_format($col['kekayaan_awal_tahun']) }}</td>
-                <td style="border: 1px solid; border-collapse: collapse; padding: 2px 10px; text-align: right;">
+                <td style="border: 1px solid; border-collapse: collapse; padding: 2px 10px; text-align: right; width: 15%">
                     {{ number_format($col['simpanan_wajib']) }}</td>
-                <td style="border: 1px solid; border-collapse: collapse; padding: 2px 10px; text-align: right;">
+                <td style="border: 1px solid; border-collapse: collapse; padding: 2px 10px; text-align: right; width: 10%">
                     {{ number_format($col['anggota_keluar']) }}</td>
-                <td style="border: 1px solid;  border-collapse: collapse; padding: 2px 10px; text-align: right;">
+                <td style="border: 1px solid;  border-collapse: collapse; padding: 2px 10px; text-align: right; width: 20%">
                     {{ number_format($col['kekayaan']) }}</td>
             </tr>
         @endforeach

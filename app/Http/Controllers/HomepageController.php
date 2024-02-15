@@ -80,9 +80,25 @@ class HomepageController extends Controller
         $anggotaKeluarWajib = SimpananWajib::where('tahun', date('Y'))->sum('anggota_keluar');
         $totalWajib = $awalTahunWajib + $wajibSimpanan - $anggotaKeluarWajib;
 
+        $kas = Kas::where('tahun', date('Y'))
+            ->where('name', 'tunai')
+            ->first();
+
+        $saldoTunai = Tunai::where('tahun', date('Y'))
+            ->orderBy('created_at', 'desc')
+            ->first();
+
+        // dd($kas, $saldoTunai);
+
+        if ($kas) {
+            $totalKasTunai = $saldoTunai ? $saldoTunai->saldo : $kas->saldo_awal;
+        } else {
+            $totalKasTunai = null;
+        }
+
         return Inertia::render('Dashboard', [
             'chart' => ['perbulan' => $simpananPokokCount, 'perhari' => $totalSimpananPerhari],
-            'cards' => ['simpananPokok' => $totalPokok, 'simpananWajib' => $totalWajib]
+            'cards' => ['simpananPokok' => $totalPokok, 'simpananWajib' => $totalWajib, 'kas_tunai' => $totalKasTunai]
         ]);
     }
 
@@ -195,20 +211,23 @@ class HomepageController extends Controller
         ];
 
         $kas = Kas::where('tahun', date('Y'))
-                ->where('name', 'tunai')    
-                ->first();
+            ->where('name', 'tunai')
+            ->first();
 
         $saldoTunai = Tunai::where('tahun', date('Y'))
-                        ->orderBy('created_at', 'desc')
-                        ->first();;
-
-        $kas->saldo = $saldoTunai ? $saldoTunai->saldo : $kas->saldo_awal;
+            ->orderBy('created_at', 'desc')
+            ->first();
 
         $tunai = Tunai::where('tahun', date('Y'))->get();
 
-        $kas->total_masuk = $tunai->sum('masuk');
-        $kas->total_keluar = $tunai->sum('keluar');
-        $kas->jumlah = $saldoTunai ? $saldoTunai->saldo : null;
+        if ($kas) {
+            $kas->saldo = $saldoTunai ? $saldoTunai->saldo : $kas->saldo_awal;
+    
+            $kas->total_masuk = $tunai->sum('masuk');
+            $kas->total_keluar = $tunai->sum('keluar');
+            $kas->jumlah = $saldoTunai ? $saldoTunai->saldo : null;
+        }
+
 
         return Inertia::render('admin/Kas/Tunai', [
             'data' => $kas,
