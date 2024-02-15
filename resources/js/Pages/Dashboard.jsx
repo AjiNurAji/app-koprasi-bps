@@ -15,8 +15,8 @@ const Dashboard = ({ auth, chart, cards }) => {
             <div className="flex  gap-4 flex-col md:flex-row md:gap-6 flex-wrap">
                 <Card total={cards.kas_tunai} icon={<FaMoneyBillWave />} type="Uang Kas Tunai" view={route('kas_tunai')} />
                 <Card total={168285259} icon={<BsFillCreditCard2FrontFill />} type="Uang Kas Rekening" />
-                <Card total={cards.simpananPokok} icon={<GiWallet />} type="Simpanan Pokok" />
-                <Card total={cards.simpananWajib} icon={<GiPayMoney />} type="Simpanan Wajib" />
+                <Card total={cards.simpananPokok} icon={<GiWallet />} type="Simpanan Pokok" view={route('simpanan_pokok')} />
+                <Card total={cards.simpananWajib} icon={<GiPayMoney />} type="Simpanan Wajib" view={route('simpanan_wajib')} />
                 <Card total={78882173} icon={<GiReceiveMoney />} type="Simpanan Sukarela" />
             </div>
 

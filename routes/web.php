@@ -62,11 +62,10 @@ Route::middleware(['auth:admin'])->group(function () {
 
     // wajib
     Route::get('/simpanan/wajib', [HomepageController::class, 'simpananWajib'])->name('simpanan_wajib');
-  
     Route::post('/simpanan/wajib', [SimpananController::class, 'getDataSimpananWajib'])->name('simpanan_wajib');
     Route::post('/simpanan/wajib/create', [SimpananController::class, 'simpananWajib'])->name('simpanan_wajib_create');
 
-
+    // pdf
     Route::post('/simpanan/pokok/table', [PDFController::class, 'ExportSimpananPokokPDF'])->name('simpanan_pokok_pdf');
     Route::post('/simpanan/wajib/table', [PDFController::class, 'ExportSimpananWajibPDF'])->name('simpanan_wajib_pdf');
     // Route::get('/simpanan/wajib/table', function () {
@@ -99,6 +98,9 @@ Route::middleware(['auth:admin'])->group(function () {
 
     //upload file
     Route::get('index', 'UploadController@index');
+
+    // jasa piutang
+    Route::get('/jasa-anggota', [HomepageController::class, 'jasaPiutang'])->name('jasa_piutang');
 });
 
 require __DIR__ . '/auth.php';

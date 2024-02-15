@@ -159,7 +159,6 @@ const KasTunaiExport = ({ data, tableRef, saldo }) => {
                 </tr>
                 {data.map((item, i) => (
                     <tr key={i}>
-                        {console.log(item)}
                         <td
                             style={{
                                 borderCollapse: "collapse",

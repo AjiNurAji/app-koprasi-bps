@@ -16,6 +16,7 @@ use Carbon\Carbon;
 
 class HomepageController extends Controller
 {
+    // halaman dashboard
     public function index()
     {
         $bulan = [
@@ -102,6 +103,7 @@ class HomepageController extends Controller
         ]);
     }
 
+    // halaman simpanan pokok
     public function simpananPokok()
     {
         $simpananPokok = SimpananPokok::where('tahun', date('Y'))->orderBy('updated_at', 'desc')->get();
@@ -135,6 +137,7 @@ class HomepageController extends Controller
         ]);
     }
 
+    // halaman simpanan wajib
     public function simpananWajib()
     {
         $simpananWajib = SimpananWajib::where('tahun', date('Y'))->orderBy('updated_at', 'desc')->get();
@@ -167,7 +170,7 @@ class HomepageController extends Controller
         ]);
     }
 
-
+    // halaman history
     public function history()
     {
         $history = Transaksi::where('tahun', date('Y'))->orderBy('updated_at', 'desc')->get();
@@ -186,6 +189,7 @@ class HomepageController extends Controller
         return Inertia::render('admin/History', ['data' => isset($datas) ? $datas : $history]);
     }
 
+    // halaman jumlah admin
     public function admin()
     {
         $data = User::all();
@@ -193,6 +197,13 @@ class HomepageController extends Controller
         return Inertia::render('admin/Admin', ['data' => $data]);
     }
 
+    // halaman jasa pituang
+    public function jasaPiutang()
+    {
+        return Inertia::render('admin/JasaPiutang');
+    }
+
+    // halaman kas tunai
     public function kasTunai()
     {
         $bulan = [
