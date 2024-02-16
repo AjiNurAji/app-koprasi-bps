@@ -246,4 +246,48 @@ class HomepageController extends Controller
             'bulan' => $bulan
         ]);
     }
+
+    // halaman kas rekening
+    public function kasRekening()
+    {
+        $bulan = [
+            'Januari',
+            'Februari',
+            'Maret',
+            'April',
+            'Mei',
+            'Juni',
+            'Juli',
+            'Agustus',
+            'September',
+            'Oktober',
+            'November',
+            'Desember',
+        ];
+
+        $kas = Kas::where('tahun', date('Y'))
+            ->where('name', 'rekening')
+            ->first();
+
+        $saldoTunai = Tunai::where('tahun', date('Y'))
+            ->orderBy('created_at', 'desc')
+            ->first();
+
+        $tunai = Tunai::where('tahun', date('Y'))->get();
+
+        if ($kas) {
+            $kas->saldo = $saldoTunai ? $saldoTunai->saldo : $kas->saldo_awal;
+    
+            $kas->total_masuk = $tunai->sum('masuk');
+            $kas->total_keluar = $tunai->sum('keluar');
+            $kas->jumlah = $saldoTunai ? $saldoTunai->saldo : null;
+        }
+
+
+        return Inertia::render('admin/Kas/Rekening', [
+            'data' => $kas,
+            'tunai' => $tunai,
+            'bulan' => $bulan
+        ]);
+    }
 }

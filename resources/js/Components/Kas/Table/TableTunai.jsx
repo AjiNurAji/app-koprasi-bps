@@ -17,7 +17,7 @@ import FormKasTunai from "@/Components/FormElements/FormKasTunai";
 import DownloadDropdown from "@/Components/DownloadDrodown";
 import KasTunaiExport from "@/Pages/admin/Exports/KasTunai";
 
-const TableTunai = ({ data, bulan, saldo }) => {
+const TableTunai = ({ data, bulan, saldo, user }) => {
     const [datas] = useState([...data]);
     const [globalFilter, setGlobalFilter] = useState("");
     const [popup, setPopup] = useState(false);
@@ -38,25 +38,31 @@ const TableTunai = ({ data, bulan, saldo }) => {
         <div className="rounded-md mt-4 md:mt-6 border border-stroke bg-white px-5 pt-6 pb-2.5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
             {/* head component */}
             <div className="flex items-center justify-between mb-3.5">
-                <button
-                    className="p-3 hover:bg-opacity-95 transition-all duration-300 ease-in-out bg-primary text-white rounded-md text-xl"
-                    onClick={() => setPopup(true)}
-                >
-                    <GiCardPlay />
-                </button>
-                <div className="flex flex-col-reverse md:flex-row items-end md:items-center justify-end gap-3">
-                    <DownloadDropdown
-                        data={data}
-                        filename="uangkastunai"
-                        sheet="Uang Kas Tunai"
-                        tableRef={tableRef}
-                        // route={route('simpanan_pokok_pdf')}
-                    />
-                    <KasTunaiExport
-                        data={data}
-                        tableRef={tableRef}
-                        saldo={saldo}
-                    />
+                {user.role ? (
+                    <button
+                        className="p-3 hover:bg-opacity-95 transition-all duration-300 ease-in-out bg-primary text-white rounded-md text-xl"
+                        onClick={() => setPopup(true)}
+                    >
+                        <GiCardPlay />
+                    </button>
+                ) : null}
+                <div className="flex flex-col-reverse w-full md:flex-row items-end md:items-center justify-end gap-3">
+                    {user.role ? (
+                        <>
+                            <DownloadDropdown
+                                data={data}
+                                filename="uangkastunai"
+                                sheet="Uang Kas Tunai"
+                                tableRef={tableRef}
+                                // route={route('simpanan_pokok_pdf')}
+                            />
+                            <KasTunaiExport
+                                data={data}
+                                tableRef={tableRef}
+                                saldo={saldo}
+                            />
+                        </>
+                    ) : null}
                     <SearchTable
                         setGlobalFilter={setGlobalFilter}
                         globalFilter={globalFilter}

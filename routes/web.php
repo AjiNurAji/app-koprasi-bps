@@ -36,6 +36,14 @@ Route::middleware(['auth:admin,member'])->group(function () {
     // update
     Route::get('/profile', [UserController::class, 'index'])->name('profile');
     Route::post('/profile/update', [UserController::class, 'updateProfile'])->name('update_profile');
+    
+    // kas
+    Route::post('/kas/saldo_awal', [KasController::class, 'setSaldoAwal'])->name('set_saldo_awal');
+    Route::get('/kas/tunai', [HomepageController::class, 'kasTunai'])->name('kas_tunai');
+    Route::post('/kas/tunai', [KasController::class, 'kasTunai'])->name('kas_tunai');
+
+    Route::get('/kas/rekening', [HomepageController::class, 'kasRekening'])->name('kas_rekening');
+    Route::post('/kas/rekekning', [KasController::class, 'kasRekening'])->name('kas_rekening');
 });
 
 Route::middleware(['auth:admin'])->group(function () {
@@ -49,10 +57,6 @@ Route::middleware(['auth:admin'])->group(function () {
     // history
     Route::get('/history', [HomepageController::class, 'history'])->name('history');
 
-    // kas
-    Route::post('/kas/saldo_awal', [KasController::class, 'setSaldoAwal'])->name('set_saldo_awal');
-    Route::get('/kas/tunai', [HomepageController::class, 'kasTunai'])->name('kas_tunai');
-    Route::post('/kas/tunai', [KasController::class, 'kasTunai'])->name('kas_tunai');
 
     // simpanan
     // pokok

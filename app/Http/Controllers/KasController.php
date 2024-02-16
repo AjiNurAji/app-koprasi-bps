@@ -65,4 +65,6 @@ class KasController extends Controller
 
         return response()->json(['message' => 'Hanya bisa di akses oleh admin!'], 401);
     }
+
+    public function kasRekening(){}
 }
