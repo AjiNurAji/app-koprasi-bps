@@ -43,7 +43,7 @@ Route::middleware(['auth:admin,member'])->group(function () {
     Route::post('/kas/tunai', [KasController::class, 'kasTunai'])->name('kas_tunai');
 
     Route::get('/kas/rekening', [HomepageController::class, 'kasRekening'])->name('kas_rekening');
-    Route::post('/kas/rekekning', [KasController::class, 'kasRekening'])->name('kas_rekening');
+    Route::post('/kas/rekening', [KasController::class, 'kasRekening'])->name('kas_rekening');
 });
 
 Route::middleware(['auth:admin'])->group(function () {

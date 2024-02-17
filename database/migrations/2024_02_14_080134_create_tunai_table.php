@@ -12,8 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('tunai', function (Blueprint $table) {
-            $table->id();
-            $table->unsignedBigInteger('id_kas');
+            $table->uuid('id')->primary();
+            $table->char('id_kas');
             $table->foreign('id_kas')->references('id')->on('kas')->onDelete('cascade')->onUpdate('cascade');
             $table->string('bulan', 12);
             $table->integer('tahun', false);

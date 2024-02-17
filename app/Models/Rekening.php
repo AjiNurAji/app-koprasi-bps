@@ -5,27 +5,24 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Tunai extends Model
+class Rekening extends Model
 {
     use HasFactory;
 
-    protected $table = 'tunai';
+    protected $table = 'rekening';
 
-    protected $primaryKey = 'id';
+    protected $primaryKey = 'id_rekening';
 
     protected $keyType = 'string';
 
     protected $fillable = [
-        'id',
+        'id_rekening',
         'id_kas',
         'bulan',
         'tahun',
-        'masuk',
-        'keluar',
-        'saldo'
     ];
 
-    public function kas()
+    public function saldo()
     {
         return $this->hasOne(Kas::class, 'id_kas');
     }

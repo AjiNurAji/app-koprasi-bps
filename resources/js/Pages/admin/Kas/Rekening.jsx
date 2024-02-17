@@ -1,13 +1,14 @@
 import Breadcrumb from "@/Components/Dashboard/El/Breadcrumb";
+import CardRekening from "@/Components/Kas/CardRekening";
 import FormSetSaldoAwal from "@/Components/Kas/FormEl/FormSetSaldoAwal";
 import Saldo from "@/Components/Kas/Saldo";
-import TableTunai from "@/Components/Kas/Table/TableTunai";
 import CreatePopup from "@/Components/Popup/CreatePopup";
 import Authenticated from "@/Layouts/AuthenticatedLayout";
 import { Head } from "@inertiajs/react";
 import { useState } from "react";
 
-const Rekening = ({ auth, data, tunai, bulan }) => {
+const Rekening = ({ auth, data, rekening, bulan, datas }) => {
+    console.log(datas)
     const [popup, setPopup] = useState(false);
     return (
         <Authenticated user={auth.user}>
@@ -18,7 +19,15 @@ const Rekening = ({ auth, data, tunai, bulan }) => {
                 saldoAwal={data ? data.saldo_awal : null}
                 saldo={data ? data.saldo : null}
             />
-            {/* <TableTunai user={auth.user} data={tunai} saldo={data} bulan={bulan} /> */}
+            <div className="mt-4 md:mt-6">
+                <CardRekening
+                    data={rekening}
+                    user={auth.user}
+                    saldo={data}
+                    bulan={bulan}
+                    setPopup={setPopup}
+                />
+            </div>
             {popup ? (
                 <CreatePopup
                     createName="Set Saldo Awal"
@@ -26,7 +35,7 @@ const Rekening = ({ auth, data, tunai, bulan }) => {
                         <FormSetSaldoAwal
                             postUrl={route("set_saldo_awal")}
                             directUrl={route("kas_rekening")}
-                            name="tunai"
+                            name="rekening"
                             setPopup={setPopup}
                         />
                     }

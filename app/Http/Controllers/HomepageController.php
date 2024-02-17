@@ -9,7 +9,9 @@ use Inertia\Inertia;
 use App\Models\SimpananPokok;
 use App\Models\SimpananWajib;
 use App\Models\Member;
+use App\Models\Rekening;
 use App\Models\Transaksi;
+use App\Models\TrRekening;
 use App\Models\Tunai;
 use App\Models\User;
 use Carbon\Carbon;
@@ -269,24 +271,28 @@ class HomepageController extends Controller
             ->where('name', 'rekening')
             ->first();
 
-        $saldoTunai = Tunai::where('tahun', date('Y'))
-            ->orderBy('created_at', 'desc')
+        $saldoRekening = TrRekening::orderBy('created_at', 'desc')
             ->first();
 
-        $tunai = Tunai::where('tahun', date('Y'))->get();
+            
+        $rekening = Rekening::where('tahun', date('Y'))
+                    ->orderBy('created_at', 'asc')
+                    ->get();
 
         if ($kas) {
-            $kas->saldo = $saldoTunai ? $saldoTunai->saldo : $kas->saldo_awal;
-    
-            $kas->total_masuk = $tunai->sum('masuk');
-            $kas->total_keluar = $tunai->sum('keluar');
-            $kas->jumlah = $saldoTunai ? $saldoTunai->saldo : null;
+            $kas->saldo = $saldoRekening ? $saldoRekening->saldo : $kas->saldo_awal;
         }
 
+        if($rekening) {
+            foreach ($rekening as $i => $value) {
+                $datas[] = TrRekening::where('id_rekening', $value->id_rekening)->get();
+            }
+        }
 
         return Inertia::render('admin/Kas/Rekening', [
             'data' => $kas,
-            'tunai' => $tunai,
+            'rekening' => $rekening,
+            'datas' => $datas,
             'bulan' => $bulan
         ]);
     }

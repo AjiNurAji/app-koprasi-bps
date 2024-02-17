@@ -13,7 +13,10 @@ class Kas extends Model
 
     protected $primaryKey = 'id';
 
+    protected $keyType = 'string';
+
     protected $fillable = [
+        'id',
         'name',
         'saldo_awal',
         'tahun'

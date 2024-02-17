@@ -154,7 +154,7 @@ const KasTunaiExport = ({ data, tableRef, saldo }) => {
                             textAlign: "center",
                         }}
                     >
-                        {Intl.NumberFormat().format(saldo.saldo_awal)}
+                        {Intl.NumberFormat().format(saldo ? saldo.saldo_awal : 0)}
                     </td>
                 </tr>
                 {data.map((item, i) => (
@@ -237,7 +237,7 @@ const KasTunaiExport = ({ data, tableRef, saldo }) => {
                             padding: "2px 5px",
                         }}
                     >
-                        {Intl.NumberFormat().format(saldo.total_masuk)}
+                        {Intl.NumberFormat().format(saldo ? saldo.total_masuk : 0)}
                     </td>
                     <td
                         style={{
@@ -246,7 +246,7 @@ const KasTunaiExport = ({ data, tableRef, saldo }) => {
                             padding: "2px 5px",
                         }}
                     >
-                        {Intl.NumberFormat().format(saldo.total_keluar)}
+                        {Intl.NumberFormat().format(saldo ? saldo.total_keluar : 0)}
                     </td>
                     <td
                         style={{
@@ -255,7 +255,7 @@ const KasTunaiExport = ({ data, tableRef, saldo }) => {
                             padding: "2px 5px",
                         }}
                     >
-                        {Intl.NumberFormat().format(saldo.jumlah)}
+                        {Intl.NumberFormat().format(saldo ? saldo.jumlah : 0)}
                     </td>
                 </tr>
             </tbody>
