@@ -3,11 +3,9 @@ import { MdOutlineFileDownload } from "react-icons/md";
 import { SiMicrosoftexcel } from "react-icons/si";
 import { BsFiletypeCsv } from "react-icons/bs";
 import { FaRegFilePdf } from "react-icons/fa";
-import { DownloadTableExcel } from "react-export-table-to-excel";
-import { CSVLink } from "react-csv";
 import axios from "axios";
 
-const DownloadDropdown = ({ data, tableRef, sheet, filename, route }) => {
+const DownloadDropdown = ({ excel, pdf, csv, routepdf, routeexcel, routecsv }) => {
     const [active, setActive] = useState(false);
     const dropdown = useRef(null);
     const trigger = useRef(null);
@@ -30,10 +28,10 @@ const DownloadDropdown = ({ data, tableRef, sheet, filename, route }) => {
                 const url = window.URL.createObjectURL(new Blob([res.data]));
                 const link = document.createElement("a");
                 link.href = url;
-                link.setAttribute("download", `${filename}.pdf`);
+                link.setAttribute("download", `${filename}`);
                 document.body.appendChild(link);
-                // link.onclick((e) => e.preventDefault());
                 link.click();
+                link.remove();
             })
             .catch((err) => {
                 return err;
@@ -94,36 +92,25 @@ const DownloadDropdown = ({ data, tableRef, sheet, filename, route }) => {
                 }`}
             >
                 <div className="grid grid-cols-2 gap-3 border border-stroke rounded-md px-5 py-3 dark:border-strokedark">
-                    <CSVLink
-                        data={data}
-                        separator=","
-                        filename={filename}
-                        className="click_animation flex items-center py-2 px-1 rounded-md justify-start w-full gap-3.5 text-sm !border border-stroke dark:border-strokedark font-medium duration-300 ease-in-out hover:text-primary dark:hover:text-white lg:text-base"
+                    <button
+                        className="flex items-center py-2 px-1 rounded-md justiy-start gap-3.5 text-sm border w-full border-stroke dark:border-strokedark font-medium duration-300 ease-in-out hover:text-primary dark:hover:text-white lg:text-base"
+                        onClick={(e) => downloadFile(e, routecsv, csv)}
                     >
                         <BsFiletypeCsv className="w-6 h-6" />
                         CSV
-                    </CSVLink>
-                    <DownloadTableExcel
-                        filename={filename}
-                        sheet={sheet}
-                        currentTableRef={tableRef.current}
-                    >
-                        <button className="flex items-center py-2 px-1 rounded-md justify-start gap-3.5 text-sm w-full border border-stroke dark:border-strokedark font-medium duration-300 ease-in-out hover:text-primary dark:hover:text-white lg:text-base">
-                            <SiMicrosoftexcel className="w-6 h-6" />
-                            XLS
-                        </button>
-                    </DownloadTableExcel>
-                    {/* <button
-                        onClick={downloadFile}
-                        className="flex items-center py-2 px-1 rounded-md justify-start gap-3.5 text-sm w-full border border-stroke dark:border-strokedark font-medium duration-300 ease-in-out hover:text-primary dark:hover:text-white lg:text-base"
-                    >
-                        <SiMicrosoftexcel className="w-6 h-6" />
-                        XLSX
-                    </button> */}
+                    </button>
 
                     <button
                         className="flex items-center py-2 px-1 rounded-md justiy-start gap-3.5 text-sm border w-full border-stroke dark:border-strokedark font-medium duration-300 ease-in-out hover:text-primary dark:hover:text-white lg:text-base"
-                        onClick={(e) => downloadFile(e, route, filename)}
+                        onClick={(e) => downloadFile(e, routeexcel, excel)}
+                    >
+                        <SiMicrosoftexcel className="w-6 h-6" />
+                        XLSX
+                    </button>
+
+                    <button
+                        className="flex items-center py-2 px-1 rounded-md justiy-start gap-3.5 text-sm border w-full border-stroke dark:border-strokedark font-medium duration-300 ease-in-out hover:text-primary dark:hover:text-white lg:text-base"
+                        onClick={(e) => downloadFile(e, routepdf, pdf)}
                     >
                         <FaRegFilePdf className="w-6 h-6" />
                         PDF

@@ -7,8 +7,7 @@ import Authenticated from "@/Layouts/AuthenticatedLayout";
 import { Head } from "@inertiajs/react";
 import { useState } from "react";
 
-const Rekening = ({ auth, data, rekening, bulan, datas }) => {
-    console.log(datas)
+const Rekening = ({ auth, data, rekening, bulan }) => {
     const [popup, setPopup] = useState(false);
     return (
         <Authenticated user={auth.user}>

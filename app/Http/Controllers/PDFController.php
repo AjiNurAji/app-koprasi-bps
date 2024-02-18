@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Kas;
 use App\Models\SimpananPokok;
 use App\Models\SimpananWajib;
+use App\Models\Tunai;
 use Illuminate\Http\Request;
 use PDF;
 
@@ -28,7 +30,7 @@ class PDFController extends Controller
         $anggotaKeluarPokok = SimpananPokok::where('tahun', date('Y'))->sum('anggota_keluar');
         $totalPokok = $awalTahunPokok + $anggotaMasukPokok - $anggotaKeluarPokok;
 
-        $pdf = PDF::loadView('Exports.Simpanan.simpananPokok', [
+        $pdf = PDF::loadView('Exports.PDF.Simpanan.simpananPokok', [
             'data' => isset($datas) ? $datas : $simpananPokok, 'total' => [
                 'awal_tahun' => $awalTahunPokok,
                 'anggota_masuk' => $anggotaMasukPokok,
@@ -61,7 +63,7 @@ class PDFController extends Controller
         $anggotaKeluar = SimpananWajib::where('tahun', date('Y'))->sum('anggota_keluar');
         $totalWajib = $kekayaanAwalTahun + $simpananWajibSum - $anggotaKeluar;
 
-        $pdf = PDF::loadView('Exports.Simpanan.simpananWajib', [
+        $pdf = PDF::loadView('Exports.PDF.Simpanan.simpananWajib', [
             'data' => isset($datas) ? $datas : $simpananWajib, 'total' => [
                 'kekayaan_awal_tahun' => $kekayaanAwalTahun,
                 'simpanan_wajib' => $simpananWajibSum,
@@ -73,5 +75,35 @@ class PDFController extends Controller
         $pdf->setPaper('a4', 'potrait');
 
         return $pdf->download('simpananwajib.pdf');
+    }
+
+    public function ExportKasTunaiPDF()
+    {
+        $kas = Kas::where('tahun', date('Y'))
+            ->where('name', 'tunai')
+            ->first();
+
+        $saldoTunai = Tunai::where('tahun', date('Y'))
+            ->orderBy('created_at', 'desc')
+            ->first();
+
+        $tunai = Tunai::where('tahun', date('Y'))->get();
+
+        if ($kas) {
+            $kas->saldo = $saldoTunai ? $saldoTunai->saldo : $kas->saldo_awal;
+
+            $kas->total_masuk = $tunai->sum('masuk');
+            $kas->total_keluar = $tunai->sum('keluar');
+            $kas->jumlah = $saldoTunai ? $saldoTunai->saldo : null;
+        }
+
+        $pdf = PDF::loadView('Exports.PDF.Kas.kasTunai',  [
+            'data' => $kas,
+            'tunai' => $tunai,
+        ]);
+
+        $pdf->setPaper('a4', 'potrait');
+
+        return $pdf->download('kastunai.pdf');
     }
 }

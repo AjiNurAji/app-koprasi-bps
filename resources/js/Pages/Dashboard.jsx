@@ -22,9 +22,10 @@ const Dashboard = ({ auth, chart, cards }) => {
                 />
                 <Card
                     user={auth.user}
-                    total={168285259}
+                    total={cards.kas_rekening}
                     icon={<BsFillCreditCard2FrontFill />}
                     type="Uang Kas Rekening"
+                    view={route('kas_rekening')}
                 />
                 <Card
                     user={auth.user}

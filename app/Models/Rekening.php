@@ -24,6 +24,6 @@ class Rekening extends Model
 
     public function saldo()
     {
-        return $this->hasOne(Kas::class, 'id_kas');
+        return $this->belongsTo(Kas::class, 'id_kas');
     }
 }

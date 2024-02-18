@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ExportController;
 use App\Http\Controllers\HomepageController;
 use App\Http\Controllers\KasController;
 use App\Http\Controllers\MemberController;
@@ -69,9 +70,19 @@ Route::middleware(['auth:admin'])->group(function () {
     Route::post('/simpanan/wajib', [SimpananController::class, 'getDataSimpananWajib'])->name('simpanan_wajib');
     Route::post('/simpanan/wajib/create', [SimpananController::class, 'simpananWajib'])->name('simpanan_wajib_create');
 
-    // pdf
-    Route::post('/simpanan/pokok/table', [PDFController::class, 'ExportSimpananPokokPDF'])->name('simpanan_pokok_pdf');
-    Route::post('/simpanan/wajib/table', [PDFController::class, 'ExportSimpananWajibPDF'])->name('simpanan_wajib_pdf');
+    // pdf, excel, csv
+    Route::post('/simpanan/pokok/pdf', [PDFController::class, 'ExportSimpananPokokPDF'])->name('simpanan_pokok_pdf');
+    Route::post('/simpanan/pokok/excel', [ExportController::class, 'ExportSimpananPokok'])->name('simpanan_pokok_excel');
+    Route::post('/simpanan/pokok/csv', [ExportController::class, 'ExportSimpananPokokCSV'])->name('simpanan_pokok_csv');
+    
+    Route::post('/simpanan/wajib/pdf', [PDFController::class, 'ExportSimpananWajibPDF'])->name('simpanan_wajib_pdf');
+    Route::post('/simpanan/wajib/excel', [ExportController::class, 'ExportSimpananWajib'])->name('simpanan_wajib_excel');
+    Route::post('/simpanan/wajib/csv', [ExportController::class, 'ExportSimpananWajibCSV'])->name('simpanan_wajib_csv');
+
+    Route::post('/kas/tunai/pdf', [PDFController::class, 'ExportKasTunaiPDF'])->name('kas_tunai_pdf');
+    Route::post('/kas/tunai/excel', [ExportController::class, 'ExportKasTunai'])->name('kas_tunai_excel');
+    Route::post('/kas/tunai/csv', [ExportController::class, 'ExportKasTunaiCSV'])->name('kas_tunai_csv');
+
     // Route::get('/simpanan/wajib/table', function () {
     //     $simpananWajib = SimpananWajib::where('tahun', date('Y'))->get();
 

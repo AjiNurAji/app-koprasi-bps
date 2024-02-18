@@ -24,8 +24,8 @@ class TrRekening extends Model
         'saldo'
     ];
 
-    public function rekening()
+    public function dataRekening()
     {
-        return $this->hasOne(Rekening::class, 'id_rekening');
+        return $this->belongsTo(Rekening::class, 'id_rekening');
     }
 }

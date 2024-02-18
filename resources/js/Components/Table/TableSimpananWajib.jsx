@@ -6,20 +6,18 @@ import {
     getPaginationRowModel,
     getFilteredRowModel,
 } from "@tanstack/react-table";
-import { useRef, useState } from "react";
+import { useState } from "react";
 import PaginationTable from "./PaginationTable";
 import { FaMoneyBillTransfer } from "react-icons/fa6";
 import SearchTable from "./SearchTable";
 import CreatePopup from "@/Components/Popup/CreatePopup";
 import DownloadDropdown from "../DownloadDrodown";
 import FormSimpanan from "../FormElements/FormSimpanan";
-import SimpananWajibExport from "@/Pages/admin/Exports/SimpananWajib";
 
 const TableSimpananWajib = ({ data, members, total, type }) => {
     const [datas] = useState([...data]);
     const [globalFilter, setGlobalFilter] = useState("");
     const [popup, setPopup] = useState(false);
-    const tableRef = useRef(null);
 
     const table = useReactTable({
         data: datas,
@@ -44,16 +42,12 @@ const TableSimpananWajib = ({ data, members, total, type }) => {
                 </button>
                 <div className="flex flex-col-reverse md:flex-row items-end md:items-center justify-end gap-3">
                     <DownloadDropdown
-                        filename="simpananwajib"
-                        sheet="simpananwajib"
-                        tableRef={tableRef}
-                        data={data}
-                        route={route('simpanan_wajib_pdf')}
-                    />
-                    <SimpananWajibExport
-                        tableRef={tableRef}
-                        data={data}
-                        total={total}
+                        pdf="simpananwajib.pdf"
+                        csv="simpananwajib.csv"
+                        excel="simpananwajib.xlsx"
+                        routepdf={route("simpanan_wajib_pdf")}
+                        routecsv={route("simpanan_wajib_csv")}
+                        routeexcel={route("simpanan_wajib_excel")}
                     />
                     <SearchTable
                         setGlobalFilter={setGlobalFilter}

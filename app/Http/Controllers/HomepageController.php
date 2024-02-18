@@ -83,25 +83,33 @@ class HomepageController extends Controller
         $anggotaKeluarWajib = SimpananWajib::where('tahun', date('Y'))->sum('anggota_keluar');
         $totalWajib = $awalTahunWajib + $wajibSimpanan - $anggotaKeluarWajib;
 
-        $kas = Kas::where('tahun', date('Y'))
+        $kasTunai = Kas::where('tahun', date('Y'))
             ->where('name', 'tunai')
+            ->first();
+
+        $kasRekening = Kas::where('tahun', date('Y'))
+            ->where('name', 'rekening')
             ->first();
 
         $saldoTunai = Tunai::where('tahun', date('Y'))
             ->orderBy('created_at', 'desc')
             ->first();
 
+        $saldoRekening = TrRekening::orderBy('created_at', 'desc')->first();
+
         // dd($kas, $saldoTunai);
 
-        if ($kas) {
-            $totalKasTunai = $saldoTunai ? $saldoTunai->saldo : $kas->saldo_awal;
+        if ($kasTunai || $kasRekening) {
+            $totalKasTunai = $saldoTunai ? $saldoTunai->saldo : $kasTunai->saldo_awal;
+            $totalKasRekening = $saldoRekening ? $saldoRekening->saldo : $kasRekening->saldo_awal;
         } else {
             $totalKasTunai = null;
+            $totalKasRekening = null;
         }
 
         return Inertia::render('Dashboard', [
             'chart' => ['perbulan' => $simpananPokokCount, 'perhari' => $totalSimpananPerhari],
-            'cards' => ['simpananPokok' => $totalPokok, 'simpananWajib' => $totalWajib, 'kas_tunai' => $totalKasTunai]
+            'cards' => ['simpananPokok' => $totalPokok, 'simpananWajib' => $totalWajib, 'kas_tunai' => $totalKasTunai, 'kas_rekening' => $totalKasRekening]
         ]);
     }
 
@@ -271,8 +279,7 @@ class HomepageController extends Controller
             ->where('name', 'rekening')
             ->first();
 
-        $saldoRekening = TrRekening::orderBy('created_at', 'desc')
-            ->first();
+        $saldoRekening = TrRekening::orderBy('created_at', 'desc')->first();
 
             
         $rekening = Rekening::where('tahun', date('Y'))
@@ -285,13 +292,54 @@ class HomepageController extends Controller
 
         if($rekening) {
             foreach ($rekening as $i => $value) {
-                $datas[] = TrRekening::where('id_rekening', $value->id_rekening)->get();
+                $setor = TrRekening::where('id_rekening', $value->id_rekening)
+                        ->where('type', 'setor')
+                        ->first();
+
+                $bunga_bank = TrRekening::where('id_rekening', $value->id_rekening)
+                        ->where('type', 'bunga_bank')
+                        ->first();
+
+                $pajak = TrRekening::where('id_rekening', $value->id_rekening)
+                        ->where('type', 'pajak')
+                        ->first();
+
+                $adm = TrRekening::where('id_rekening', $value->id_rekening)
+                        ->where('type', 'adm')
+                        ->first();
+
+                $penarikan = TrRekening::where('id_rekening', $value->id_rekening)
+                        ->where('type', 'penarikan')
+                        ->first();
+
+                $saldo = TrRekening::where('id_rekening', $value->id_rekening)
+                            ->orderBy('created_at', 'desc')
+                            ->first();
+
+                        // dd($setor);
+                $datas[] = [
+                    'bulan' => $value->bulan,
+                    'setor' => $setor ? $setor->nominal : null,
+                    'setor_type' => $setor ? $setor->rekening : null,
+                    'bunga_bank' => $bunga_bank ? $bunga_bank->nominal : null,
+                    'bunga_bank_type' => $bunga_bank ? $bunga_bank->rekening : null,
+                    'pajak' => $pajak ? $pajak->nominal : null,
+                    'pajak_type' => $pajak ? $pajak->rekening : null,
+                    'adm' => $adm ? $adm->nominal : null,
+                    'adm_type' => $adm ? $adm->rekening : null,
+                    'penarikan' => $penarikan ? $penarikan->nominal : null,
+                    'penarikan_type' => $penarikan ? $penarikan->rekening : null,
+                    'saldo' => $saldo ? $saldo->saldo : null
+                ];
             }
+        } else {
+            $datas = [];
         }
+
 
         return Inertia::render('admin/Kas/Rekening', [
             'data' => $kas,
-            'rekening' => $rekening,
+            'rekening' => $datas,
             'datas' => $datas,
             'bulan' => $bulan
         ]);

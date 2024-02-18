@@ -7,7 +7,7 @@ import {
     getFilteredRowModel,
     getSortedRowModel,
 } from "@tanstack/react-table";
-import { useRef, useState } from "react";
+import { useState } from "react";
 import PaginationTable from "@/Components/Table/PaginationTable";
 import { GiCardPlay } from "react-icons/gi";
 import { HiArrowsUpDown } from "react-icons/hi2";
@@ -15,13 +15,11 @@ import SearchTable from "@/Components/Table/SearchTable";
 import CreatePopup from "@/Components/Popup/CreatePopup";
 import FormKasTunai from "@/Components/FormElements/FormKasTunai";
 import DownloadDropdown from "@/Components/DownloadDrodown";
-import KasTunaiExport from "@/Pages/admin/Exports/KasTunai";
 
 const TableTunai = ({ data, bulan, saldo, user }) => {
     const [datas] = useState([...data]);
     const [globalFilter, setGlobalFilter] = useState("");
     const [popup, setPopup] = useState(false);
-    const tableRef = useRef(null);
 
     const table = useReactTable({
         data: datas,
@@ -48,20 +46,14 @@ const TableTunai = ({ data, bulan, saldo, user }) => {
                 ) : null}
                 <div className="flex flex-col-reverse w-full md:flex-row items-end md:items-center justify-end gap-3">
                     {user.role ? (
-                        <>
-                            <DownloadDropdown
-                                data={data}
-                                filename="uangkastunai"
-                                sheet="Uang Kas Tunai"
-                                tableRef={tableRef}
-                                // route={route('simpanan_pokok_pdf')}
-                            />
-                            <KasTunaiExport
-                                data={data}
-                                tableRef={tableRef}
-                                saldo={saldo}
-                            />
-                        </>
+                        <DownloadDropdown
+                            pdf="kastunai.pdf"
+                            csv="kastunai.csv"
+                            excel="kastunai.xlsx"
+                            routepdf={route("kas_tunai_pdf")}
+                            routecsv={route("kas_tunai_csv")}
+                            routeexcel={route("kas_tunai_excel")}
+                        />
                     ) : null}
                     <SearchTable
                         setGlobalFilter={setGlobalFilter}

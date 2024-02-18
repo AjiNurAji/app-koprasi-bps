@@ -6,7 +6,7 @@ import { FaMoneyCheck } from "react-icons/fa";
 import FormKasRekening from "../FormElements/FormKasRekening";
 
 const CardRekening = ({ data, user, bulan, saldo }) => {
-    const [datas, setDatas] = useState([...data]);
+    // const [datas, setDatas] = useState([...data]);
     const [popup, setPopup] = useState(false);
     const tableRef = useRef(null);
 
@@ -27,8 +27,8 @@ const CardRekening = ({ data, user, bulan, saldo }) => {
                         <>
                             <DownloadDropdown
                                 data={data}
-                                filename="uangkastunai"
-                                sheet="Uang Kas Tunai"
+                                filename="uangkasrekening"
+                                sheet="Uang Kas Rekening"
                                 tableRef={tableRef}
                                 // route={route('simpanan_pokok_pdf')}
                             />
@@ -53,17 +53,16 @@ const CardRekening = ({ data, user, bulan, saldo }) => {
             <div className="flex  gap-4 flex-col md:flex-row md:gap-6 flex-wrap">
                 {data.length ? (
                     <>
-                        {datas.map((value, i) => (
+                        {data.map((value, i) => (
                             <div
-                                className="overflow-hidden rounded-md w-full md:w-fit flex-auto relative border border-stroke bg-white py-6 px-7.5 shadow-default dark:border-strokedark dark:bg-boxdark"
+                                className="overflow-hidden rounded-md w-full md:w-fit flex-auto relative border border-stroke text-black dark:text-white bg-white py-6 px-7.5 shadow-default dark:border-strokedark dark:bg-boxdark"
                                 key={i + 1}
                             >
-                                {console.log(value.data)}
-                                <div className="absolute text-[150px] text-primary text-opacity-20 bottom-0 -rotate-45 right-0 translate-x-8 translate-y-10">
+                                <div className="absolute text-[150px] text-stroke dark:text-strokedark z-1 bottom-0 -rotate-45 right-0 translate-x-8 translate-y-10">
                                     <FaMoneyCheck />
                                 </div>
-                                <div className="flex justify-start items-start flex-col w-full">
-                                    <h3 className="font-bold text-title-md">
+                                <div className="flex relative z-9 justify-start items-start flex-col w-full">
+                                    <h3 className="font-bold text-title-md text-black dark:text-primary">
                                         {value.bulan}
                                     </h3>
                                     <div className="flex justify-between items-start w-full">
@@ -73,59 +72,69 @@ const CardRekening = ({ data, user, bulan, saldo }) => {
                                             <p>Pajak</p>
                                             <p>ADM</p>
                                             <p>Penarikan</p>
-                                            <p className="font-bold">Saldo</p>
+                                            <p className="font-bold text-black dark:text-primary">Saldo</p>
                                         </div>
                                         <div className="flex flex-col gap-2 items-end font-semibold justify-start">
                                             <p>
                                                 {Intl.NumberFormat("id-ID", {
                                                     style: "currency",
                                                     currency: "IDR",
-                                                }).format(0)}{" "}
-                                                <span className="ml-1 uppercase font-normal text-xs">
-                                                    (DEBET)
+                                                }).format(value.setor ? value.setor : 0)}{" "}
+                                                {value.setor_type ? (
+                                                    <span className="ml-1 uppercase font-normal text-xs dark:text-white text-black dark:text-opacity-40">
+                                                    ({value.setor_type})
                                                 </span>
+                                                ) : null}
                                             </p>
                                             <p>
                                                 {Intl.NumberFormat("id-ID", {
                                                     style: "currency",
                                                     currency: "IDR",
-                                                }).format(0)}{" "}
-                                                <span className="ml-1 uppercase font-normal text-xs">
-                                                    (DEBET)
+                                                }).format(value.bunga_bank ? value.bunga_bank : 0)}{" "}
+                                                {value.bunga_bank_type ? (
+                                                    <span className="ml-1 uppercase font-normal text-xs dark:text-white text-black dark:text-opacity-40">
+                                                    ({value.bunga_bank_type})
                                                 </span>
+                                                ) : null}
                                             </p>
                                             <p>
                                                 {Intl.NumberFormat("id-ID", {
                                                     style: "currency",
                                                     currency: "IDR",
-                                                }).format(0)}{" "}
-                                                <span className="ml-1 uppercase font-normal text-xs">
-                                                    (DEBET)
+                                                }).format(value.pajak ? value.pajak : 0)}{" "}
+                                                {value.pajak_type ? (
+                                                    <span className="ml-1 uppercase font-normal text-xs dark:text-white text-black dark:text-opacity-40">
+                                                    ({value.pajak_type})
                                                 </span>
+                                                ) : null}
                                             </p>
                                             <p>
                                                 {Intl.NumberFormat("id-ID", {
                                                     style: "currency",
                                                     currency: "IDR",
-                                                }).format(0)}{" "}
-                                                <span className="ml-1 uppercase font-normal text-xs">
-                                                    (DEBET)
+                                                }).format(value.adm ? value.adm : 0)}{" "}
+                                                {value.adm_type ? (
+                                                    <span className="ml-1 uppercase font-normal text-xs dark:text-white text-black dark:text-opacity-40">
+                                                    ({value.adm_type})
                                                 </span>
+                                                ) : null}
                                             </p>
                                             <p>
                                                 {Intl.NumberFormat("id-ID", {
                                                     style: "currency",
                                                     currency: "IDR",
-                                                }).format(0)}{" "}
-                                                <span className="ml-1 uppercase font-normal text-xs">
-                                                    (DEBET)
+                                                }).format(value.penarikan ? value.penarikan : 0)}{" "}
+                                                {value.penarikan_type ? (
+                                                    <span className="ml-1 uppercase font-normal text-xs dark:text-white text-black dark:text-opacity-40">
+                                                    ({value.penarikan_type})
                                                 </span>
+                                                ) : null}
                                             </p>
-                                            <p>
+                                            <p className="text-black dark:text-primary">
                                                 {Intl.NumberFormat("id-ID", {
                                                     style: "currency",
                                                     currency: "IDR",
-                                                }).format(0)}
+                                                }).format(value.saldo ? value.saldo : 0)}
                                             </p>
                                         </div>
                                     </div>
