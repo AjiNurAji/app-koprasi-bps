@@ -6,7 +6,6 @@ import { FaMoneyCheck } from "react-icons/fa";
 import FormKasRekening from "../FormElements/FormKasRekening";
 
 const CardRekening = ({ data, user, bulan, saldo }) => {
-    // const [datas, setDatas] = useState([...data]);
     const [popup, setPopup] = useState(false);
     const tableRef = useRef(null);
 
@@ -72,7 +71,7 @@ const CardRekening = ({ data, user, bulan, saldo }) => {
                                             <p>Pajak</p>
                                             <p>ADM</p>
                                             <p>Penarikan</p>
-                                            <p className="font-bold text-black dark:text-primary">Saldo</p>
+                                            <p className="font-bold text-black dark:text-white">Saldo</p>
                                         </div>
                                         <div className="flex flex-col gap-2 items-end font-semibold justify-start">
                                             <p>
@@ -130,7 +129,7 @@ const CardRekening = ({ data, user, bulan, saldo }) => {
                                                 </span>
                                                 ) : null}
                                             </p>
-                                            <p className="text-black dark:text-primary">
+                                            <p className="text-black dark:text-white">
                                                 {Intl.NumberFormat("id-ID", {
                                                     style: "currency",
                                                     currency: "IDR",
