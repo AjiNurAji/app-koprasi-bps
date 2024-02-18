@@ -46,6 +46,9 @@ Route::middleware(['auth:admin'])->group(function () {
 
     // wajib
     Route::get('/simpanan/wajib', [HomepageController::class, 'simpananWajib'])->name('simpanan_wajib');
+
+    // delete anggota
+    Route::delete('/members/{id}', 'MemberController@delete');
   
     Route::post('/simpanan/wajib', [SimpananController::class, 'getDataSimpananWajib'])->name('simpanan_wajib');
     Route::post('/simpanan/wajib/create', [SimpananController::class, 'simpananWajib'])->name('simpanan_wajib_create');
