@@ -31,7 +31,7 @@ const DownloadDropdown = ({ excel, pdf, csv, routepdf, routeexcel, routecsv }) =
                 link.setAttribute("download", `${filename}`);
                 document.body.appendChild(link);
                 link.click();
-                link.remove();
+                document.body.removeChild(link);
             })
             .catch((err) => {
                 return err;

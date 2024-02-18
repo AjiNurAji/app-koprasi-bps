@@ -25,11 +25,12 @@ const CardRekening = ({ data, user, bulan, saldo }) => {
                     {user.role ? (
                         <>
                             <DownloadDropdown
-                                data={data}
-                                filename="uangkasrekening"
-                                sheet="Uang Kas Rekening"
-                                tableRef={tableRef}
-                                // route={route('simpanan_pokok_pdf')}
+                                pdf="kasrekening.pdf"
+                                csv="kasrekening.csv"
+                                excel="kasrekening.xlsx"
+                                routepdf={route("kas_rekening_pdf")}
+                                routecsv={route("kas_rekening_csv")}
+                                routeexcel={route("kas_rekening_excel")}
                             />
                         </>
                     ) : null}
@@ -71,69 +72,94 @@ const CardRekening = ({ data, user, bulan, saldo }) => {
                                             <p>Pajak</p>
                                             <p>ADM</p>
                                             <p>Penarikan</p>
-                                            <p className="font-bold text-black dark:text-white">Saldo</p>
+                                            <p className="font-bold text-black dark:text-white">
+                                                Saldo
+                                            </p>
                                         </div>
                                         <div className="flex flex-col gap-2 items-end font-semibold justify-start">
                                             <p>
                                                 {Intl.NumberFormat("id-ID", {
                                                     style: "currency",
                                                     currency: "IDR",
-                                                }).format(value.setor ? value.setor : 0)}{" "}
+                                                }).format(
+                                                    value.setor
+                                                        ? value.setor
+                                                        : 0
+                                                )}{" "}
                                                 {value.setor_type ? (
                                                     <span className="ml-1 uppercase font-normal text-xs dark:text-white text-black dark:text-opacity-40">
-                                                    ({value.setor_type})
-                                                </span>
+                                                        ({value.setor_type})
+                                                    </span>
                                                 ) : null}
                                             </p>
                                             <p>
                                                 {Intl.NumberFormat("id-ID", {
                                                     style: "currency",
                                                     currency: "IDR",
-                                                }).format(value.bunga_bank ? value.bunga_bank : 0)}{" "}
+                                                }).format(
+                                                    value.bunga_bank
+                                                        ? value.bunga_bank
+                                                        : 0
+                                                )}{" "}
                                                 {value.bunga_bank_type ? (
                                                     <span className="ml-1 uppercase font-normal text-xs dark:text-white text-black dark:text-opacity-40">
-                                                    ({value.bunga_bank_type})
-                                                </span>
+                                                        ({value.bunga_bank_type}
+                                                        )
+                                                    </span>
                                                 ) : null}
                                             </p>
                                             <p>
                                                 {Intl.NumberFormat("id-ID", {
                                                     style: "currency",
                                                     currency: "IDR",
-                                                }).format(value.pajak ? value.pajak : 0)}{" "}
+                                                }).format(
+                                                    value.pajak
+                                                        ? value.pajak
+                                                        : 0
+                                                )}{" "}
                                                 {value.pajak_type ? (
                                                     <span className="ml-1 uppercase font-normal text-xs dark:text-white text-black dark:text-opacity-40">
-                                                    ({value.pajak_type})
-                                                </span>
+                                                        ({value.pajak_type})
+                                                    </span>
                                                 ) : null}
                                             </p>
                                             <p>
                                                 {Intl.NumberFormat("id-ID", {
                                                     style: "currency",
                                                     currency: "IDR",
-                                                }).format(value.adm ? value.adm : 0)}{" "}
+                                                }).format(
+                                                    value.adm ? value.adm : 0
+                                                )}{" "}
                                                 {value.adm_type ? (
                                                     <span className="ml-1 uppercase font-normal text-xs dark:text-white text-black dark:text-opacity-40">
-                                                    ({value.adm_type})
-                                                </span>
+                                                        ({value.adm_type})
+                                                    </span>
                                                 ) : null}
                                             </p>
                                             <p>
                                                 {Intl.NumberFormat("id-ID", {
                                                     style: "currency",
                                                     currency: "IDR",
-                                                }).format(value.penarikan ? value.penarikan : 0)}{" "}
+                                                }).format(
+                                                    value.penarikan
+                                                        ? value.penarikan
+                                                        : 0
+                                                )}{" "}
                                                 {value.penarikan_type ? (
                                                     <span className="ml-1 uppercase font-normal text-xs dark:text-white text-black dark:text-opacity-40">
-                                                    ({value.penarikan_type})
-                                                </span>
+                                                        ({value.penarikan_type})
+                                                    </span>
                                                 ) : null}
                                             </p>
                                             <p className="text-black dark:text-white">
                                                 {Intl.NumberFormat("id-ID", {
                                                     style: "currency",
                                                     currency: "IDR",
-                                                }).format(value.saldo ? value.saldo : 0)}
+                                                }).format(
+                                                    value.saldo
+                                                        ? value.saldo
+                                                        : 0
+                                                )}
                                             </p>
                                         </div>
                                     </div>

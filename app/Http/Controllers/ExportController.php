@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\kasRekeningExport;
 use App\Exports\kasTunaiExport;
 use App\Exports\simpananPokokExport;
 use App\Exports\simpananWajibExport;
@@ -38,5 +39,15 @@ class ExportController extends Controller
     public function ExportKasTunaiCSV()
     {
         return Excel::download(new kasTunaiExport, 'kastunai.csv', \Maatwebsite\Excel\Excel::CSV);
+    }
+
+    public function ExportKasRekening()
+    {
+        return Excel::download(new kasRekeningExport, 'kasrekening.xlsx', \Maatwebsite\Excel\Excel::XLSX);
+    }
+
+    public function ExportKasRekeningCSV()
+    {
+        return Excel::download(new kasRekeningExport, 'kasrekening.csv', \Maatwebsite\Excel\Excel::CSV);
     }
 }

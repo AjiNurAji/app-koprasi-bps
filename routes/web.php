@@ -83,6 +83,10 @@ Route::middleware(['auth:admin'])->group(function () {
     Route::post('/kas/tunai/excel', [ExportController::class, 'ExportKasTunai'])->name('kas_tunai_excel');
     Route::post('/kas/tunai/csv', [ExportController::class, 'ExportKasTunaiCSV'])->name('kas_tunai_csv');
 
+    Route::post('/kas/rekening/pdf', [PDFController::class, 'ExportKasRekeningPDF'])->name('kas_rekening_pdf');
+    Route::post('/kas/rekening/excel', [ExportController::class, 'ExportKasRekening'])->name('kas_rekening_excel');
+    Route::post('/kas/rekening/csv', [ExportController::class, 'ExportKasRekeningCSV'])->name('kas_rekening_csv');
+
     // Route::get('/simpanan/wajib/table', function () {
     //     $simpananWajib = SimpananWajib::where('tahun', date('Y'))->get();
 
