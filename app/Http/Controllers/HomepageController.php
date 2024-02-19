@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 use App\Models\SimpananPokok;
+use App\Models\JasaAnggota;
 use App\Models\SimpananWajib;
 use App\Models\Member;
 use App\Models\Rekening;
@@ -210,7 +211,9 @@ class HomepageController extends Controller
     // halaman jasa pituang
     public function jasaPiutang()
     {
-        return Inertia::render('admin/JasaPiutang');
+        $jasa = JasaAnggota::all();
+
+        return Inertia::render('admin/JasaPiutang', ['data' => $jasa]);
     }
 
     // halaman kas tunai

@@ -51,6 +51,7 @@ export const columnsMember = [
         cell: (data) => <ActionTable id={data.getValue()} />,
         header: "Aksi",
         enableSorting: false,
+        enableGlobalFilter: false,
     }),
 ];
 
@@ -90,6 +91,7 @@ export const columnAdmin = [
         cell: (data) => <ActionTable id={data.getValue()} />,
         header: "Aksi",
         enableSorting: false,
+        enableGlobalFilter: false,
     }),
 ];
 
@@ -130,6 +132,7 @@ export const columnsSimpananPokok = [
                     </span>
                 ),
                 header: `Awal Tahun ${new Date().getFullYear()}`,
+                enableGlobalFilter: false,
             }),
 
             columnHelper.accessor("anggota_masuk", {
@@ -143,6 +146,7 @@ export const columnsSimpananPokok = [
                     </span>
                 ),
                 header: "Anggota Masuk",
+                enableGlobalFilter: false,
             }),
 
             columnHelper.accessor("anggota_keluar", {
@@ -156,9 +160,11 @@ export const columnsSimpananPokok = [
                     </span>
                 ),
                 header: "Anggota Keluar",
+                enableGlobalFilter: false,
             }),
         ],
         header: "Simpanan Pokok",
+        enableGlobalFilter: false,
     }),
 
     columnHelper.accessor("kekayaan", {
@@ -172,6 +178,7 @@ export const columnsSimpananPokok = [
             </span>
         ),
         header: `Kekayaan per 31 Desember ${new Date().getFullYear()}`,
+        enableGlobalFilter: false,
     }),
 ];
 
@@ -184,6 +191,7 @@ export const columnSimpananWajib = [
             </span>
         ),
         header: "No",
+        enableGlobalFilter: false,
     }),
 
     columnHelper.accessor("name", {
@@ -207,6 +215,7 @@ export const columnSimpananWajib = [
             </span>
         ),
         header: `Kekayaan Awal Tahun ${new Date().getFullYear()}`,
+        enableGlobalFilter: false,
     }),
 
     columnHelper.accessor("simpanan_wajib", {
@@ -220,6 +229,7 @@ export const columnSimpananWajib = [
             </span>
         ),
         header: "Simpanan Wajib",
+        enableGlobalFilter: false,
     }),
 
     columnHelper.accessor("anggota_keluar", {
@@ -233,6 +243,7 @@ export const columnSimpananWajib = [
             </span>
         ),
         header: "Anggota Keluar",
+        enableGlobalFilter: false,
     }),
 
     columnHelper.accessor("kekayaan", {
@@ -246,6 +257,7 @@ export const columnSimpananWajib = [
             </span>
         ),
         header: `Kekayaan per 31 Desember ${new Date().getFullYear()}`,
+        enableGlobalFilter: false,
     }),
 ];
 
@@ -283,6 +295,7 @@ export const HistoryOptionTable = [
         ),
         header: "Nominal Masuk",
         enableSorting: false,
+        enableGlobalFilter: false,
     }),
 
     columnHelper.accessor("nominal_keluar", {
@@ -297,6 +310,7 @@ export const HistoryOptionTable = [
         ),
         header: "Nominal Keluar",
         enableSorting: false,
+        enableGlobalFilter: false,
     }),
 
     columnHelper.accessor("nama_transaksi", {
@@ -330,6 +344,7 @@ export const HistoryOptionTable = [
         ),
         header: "Tanggal Transaksi",
         enableSorting: false,
+        enableGlobalFilter: false,
     }),
 
     columnHelper.accessor("waktu", {
@@ -346,6 +361,7 @@ export const HistoryOptionTable = [
         ),
         header: "Waktu Transaksi",
         enableSorting: false,
+        enableGlobalFilter: false,
     }),
 ];
 
@@ -384,6 +400,7 @@ export const columnKasTunai = [
         ),
         header: "Masuk",
         enableSorting: false,
+        enableGlobalFilter: false,
     }),
 
     columnHelper.accessor("keluar", {
@@ -397,6 +414,41 @@ export const columnKasTunai = [
             </span>
         ),
         header: "Keluar",
+        enableSorting: false,
+        enableGlobalFilter: false,
+    }),
+];
+
+export const columnJasaPiutang = [
+    columnHelper.accessor("", {
+        id: "No",
+        cell: (data) => (
+            <span className="font-medium text-black dark:text-white">
+                {data.row.index + 1}
+            </span>
+        ),
+        header: "No",
+    }),
+
+    columnHelper.accessor("persentase", {
+        id: "persentase",
+        cell: (data) => (
+            <span className="text-black dark:text-white">
+                {data.getValue()} %
+            </span>
+        ),
+        header: "Persentase",
+        enableGlobalFilter: false,
+    }),
+
+    columnHelper.accessor("created_at", {
+        id: "created_at",
+        cell: (data) => (
+            <span className="text-black dark:text-white">
+                {data.getValue()}
+            </span>
+        ),
+        header: "Dibuat pada",
         enableSorting: false,
     }),
 ];
