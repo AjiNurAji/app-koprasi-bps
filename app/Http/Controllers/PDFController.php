@@ -192,6 +192,8 @@ class PDFController extends Controller
 
         $pdf->setPaper('a4', 'potrait');
 
+        // dd($pdf);
+
         return $pdf->download('kasrekening.pdf');
     }
 }

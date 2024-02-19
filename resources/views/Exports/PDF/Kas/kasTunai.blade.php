@@ -67,7 +67,7 @@
                 style="border: 1px solid #000; border-collapse: collapse; padding: 2px 10px; word-wrap: break-word; text-align: left;">
             </td>
             <td
-                style="border: 1px solid #000; border-collapse: collapse; padding: 2px 10px; word-wrap: break-word; text-align: left;">
+                style="border: 1px solid #000; border-collapse: collapse; padding: 2px 10px; word-wrap: break-word; text-align: right;">
                 {{ $data ? number_format($data->saldo_awal) : 0 }}
             </td>
         </tr>
