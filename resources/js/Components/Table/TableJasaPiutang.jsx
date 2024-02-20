@@ -113,7 +113,7 @@ const TableJasaPiutang = ({ data }) => {
                         ) : (
                             <tr>
                                 <td
-                                    colSpan={2}
+                                    colSpan={3}
                                     className="text-center py-5 px-4"
                                 >
                                     Belum ada data nihh!

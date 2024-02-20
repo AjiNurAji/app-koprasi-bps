@@ -13,7 +13,7 @@ const CardPiutang = ({ data }) => {
             <div className="mt-4 flex items-end justify-between">
                 <div>
                     <h4 className="text-title-md font-bold text-black dark:text-white">
-                        {data.persentase ? data.presentase : 0}%
+                        {data ? data.persentase : 0}%
                     </h4>
                 </div>
             </div>

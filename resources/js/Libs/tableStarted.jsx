@@ -125,7 +125,7 @@ export const columnsSimpananPokok = [
                 id: `Awal Tahun ${new Date().getFullYear()}`,
                 cell: (data) => (
                     <span className="font-medium text-black dark:text-white">
-                        {Intl.NumberFormat("id-ID", {
+                        {Intl.NumberFormat("in-ID", {
                             style: "currency",
                             currency: "IDR",
                         }).format(data.getValue() ? data.getValue() : 0)}
@@ -139,7 +139,7 @@ export const columnsSimpananPokok = [
                 id: "AnggotaMasuk",
                 cell: (data) => (
                     <span className="font-medium text-black dark:text-white">
-                        {Intl.NumberFormat("id-ID", {
+                        {Intl.NumberFormat("in-ID", {
                             style: "currency",
                             currency: "IDR",
                         }).format(data.getValue() ? data.getValue() : 0)}
@@ -153,7 +153,7 @@ export const columnsSimpananPokok = [
                 id: "AnggotaKeluar",
                 cell: (data) => (
                     <span className="font-medium text-black dark:text-white">
-                        {Intl.NumberFormat("id-ID", {
+                        {Intl.NumberFormat("in-ID", {
                             style: "currency",
                             currency: "IDR",
                         }).format(data.getValue() ? data.getValue() : 0)}
@@ -171,7 +171,7 @@ export const columnsSimpananPokok = [
         id: "kekayaan",
         cell: (data) => (
             <span className="font-medium text-black dark:text-white">
-                {Intl.NumberFormat("id-ID", {
+                {Intl.NumberFormat("in-ID", {
                     style: "currency",
                     currency: "IDR",
                 }).format(data.getValue() ? data.getValue() : 0)}
@@ -208,7 +208,7 @@ export const columnSimpananWajib = [
         id: "kekayaan_awal_tahun",
         cell: (data) => (
             <span className="font-medium text-black dark:text-white">
-                {Intl.NumberFormat("id-ID", {
+                {Intl.NumberFormat("in-ID", {
                     style: "currency",
                     currency: "IDR",
                 }).format(data.getValue() ? data.getValue() : 0)}
@@ -222,7 +222,7 @@ export const columnSimpananWajib = [
         id: "simpanan_wajib",
         cell: (data) => (
             <span className="font-medium text-black dark:text-white">
-                {Intl.NumberFormat("id-ID", {
+                {Intl.NumberFormat("in-ID", {
                     style: "currency",
                     currency: "IDR",
                 }).format(data.getValue() ? data.getValue() : 0)}
@@ -236,7 +236,7 @@ export const columnSimpananWajib = [
         id: "anggota_keluar",
         cell: (data) => (
             <span className="font-medium text-black dark:text-white">
-                {Intl.NumberFormat("id-ID", {
+                {Intl.NumberFormat("in-ID", {
                     style: "currency",
                     currency: "IDR",
                 }).format(data.getValue() ? data.getValue() : 0)}
@@ -250,7 +250,7 @@ export const columnSimpananWajib = [
         id: "kekayaan",
         cell: (data) => (
             <span className="font-medium text-black dark:text-white">
-                {Intl.NumberFormat("id-ID", {
+                {Intl.NumberFormat("in-ID", {
                     style: "currency",
                     currency: "IDR",
                 }).format(data.getValue() ? data.getValue() : 0)}
@@ -287,7 +287,7 @@ export const HistoryOptionTable = [
         id: "nominal_masuk",
         cell: (data) => (
             <span className="font-medium text-black dark:text-white">
-                {Intl.NumberFormat("id-ID", {
+                {Intl.NumberFormat("in-ID", {
                     style: "currency",
                     currency: "IDR",
                 }).format(data.getValue() ? data.getValue() : 0)}
@@ -302,7 +302,7 @@ export const HistoryOptionTable = [
         id: "nominal_keluar",
         cell: (data) => (
             <span className="font-medium text-black dark:text-white">
-                {Intl.NumberFormat("id-ID", {
+                {Intl.NumberFormat("in-ID", {
                     style: "currency",
                     currency: "IDR",
                 }).format(data.getValue() ? data.getValue() : 0)}
@@ -337,7 +337,7 @@ export const HistoryOptionTable = [
         id: "tanggal",
         cell: (data) => (
             <span className="font-medium text-black dark:text-white">
-                {new Date(data.getValue()).toLocaleDateString("id-ID", {
+                {new Date(data.getValue()).toLocaleDateString("in-ID", {
                     dateStyle: "long",
                 })}
             </span>
@@ -392,7 +392,7 @@ export const columnKasTunai = [
         id: "masuk",
         cell: (data) => (
             <span className="text-black dark:text-white">
-                {Intl.NumberFormat("id-ID", {
+                {Intl.NumberFormat("in-ID", {
                     style: "currency",
                     currency: "IDR",
                 }).format(data.getValue() ? data.getValue() : 0)}
@@ -407,7 +407,7 @@ export const columnKasTunai = [
         id: "keluar",
         cell: (data) => (
             <span className="text-black dark:text-white">
-                {Intl.NumberFormat("id-ID", {
+                {Intl.NumberFormat("in-ID", {
                     style: "currency",
                     currency: "IDR",
                 }).format(data.getValue() ? data.getValue() : 0)}
@@ -434,7 +434,7 @@ export const columnJasaPiutang = [
         id: "persentase",
         cell: (data) => (
             <span className="text-black dark:text-white">
-                {data.getValue()} %
+                {data.getValue()}%
             </span>
         ),
         header: "Persentase",
@@ -445,7 +445,9 @@ export const columnJasaPiutang = [
         id: "created_at",
         cell: (data) => (
             <span className="text-black dark:text-white">
-                {data.getValue()}
+                {new Date(data.getValue()).toLocaleDateString("in-ID", {
+                    dateStyle: "long",
+                })}
             </span>
         ),
         header: "Dibuat pada",

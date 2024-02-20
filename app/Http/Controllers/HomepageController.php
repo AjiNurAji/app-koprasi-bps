@@ -208,9 +208,11 @@ class HomepageController extends Controller
     // halaman jasa pituang
     public function jasaPiutang()
     {
-        $jasa = JasaAnggota::all();
+        $jasa = JasaAnggota::orderBy('created_at', 'desc')->get();
 
-        return Inertia::render('admin/JasaPiutang', ['data' => $jasa]);
+        $jasaNow = JasaAnggota::orderBy('created_at', 'desc')->first();
+
+        return Inertia::render('admin/JasaPiutang', ['data' => $jasa, 'jasaNow' => $jasaNow]);
     }
 
     // halaman kas tunai

@@ -127,7 +127,7 @@ const TableSimpananWajib = ({ data, members, total, type }) => {
                                         TOTAL
                                     </td>
                                     <td className="font-medium border py-5 px-4 border-stroke dark:border-opacity-20 text-black dark:text-white">
-                                        {Intl.NumberFormat("id-ID", {
+                                        {Intl.NumberFormat("in-ID", {
                                             style: "currency",
                                             currency: "IDR",
                                         }).format(
@@ -137,7 +137,7 @@ const TableSimpananWajib = ({ data, members, total, type }) => {
                                         )}
                                     </td>
                                     <td className="font-medium border py-5 px-4 border-stroke dark:border-opacity-20 text-black dark:text-white">
-                                        {Intl.NumberFormat("id-ID", {
+                                        {Intl.NumberFormat("in-ID", {
                                             style: "currency",
                                             currency: "IDR",
                                         }).format(
@@ -147,7 +147,7 @@ const TableSimpananWajib = ({ data, members, total, type }) => {
                                         )}
                                     </td>
                                     <td className="font-medium border py-5 px-4 border-stroke dark:border-opacity-20 text-black dark:text-white">
-                                        {Intl.NumberFormat("id-ID", {
+                                        {Intl.NumberFormat("in-ID", {
                                             style: "currency",
                                             currency: "IDR",
                                         }).format(
@@ -158,7 +158,7 @@ const TableSimpananWajib = ({ data, members, total, type }) => {
                                     </td>
                                     <td className="font-medium border py-5 px-4 border-stroke dark:border-opacity-20 text-black dark:text-white">
                                         {}
-                                        {Intl.NumberFormat("id-ID", {
+                                        {Intl.NumberFormat("in-ID", {
                                             style: "currency",
                                             currency: "IDR",
                                         }).format(

@@ -20,7 +20,7 @@ const Saldo = ({ saldoAwal, saldo, setPopup }) => {
                 <div className="mt-4 flex items-end justify-between">
                     <div>
                         <h4 className="text-title-md font-bold text-black dark:text-white">
-                            {Intl.NumberFormat("id-ID", {
+                            {Intl.NumberFormat("in-ID", {
                                 style: "currency",
                                 currency: "IDR",
                             }).format(saldoAwal ? saldoAwal : 0)}
@@ -39,7 +39,7 @@ const Saldo = ({ saldoAwal, saldo, setPopup }) => {
                 <div className="mt-4 flex items-end justify-between">
                     <div>
                         <h4 className="text-title-md font-bold text-black dark:text-white">
-                            {Intl.NumberFormat("id-ID", {
+                            {Intl.NumberFormat("in-ID", {
                                 style: "currency",
                                 currency: "IDR",
                             }).format(saldo ? saldo : 0)}

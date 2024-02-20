@@ -78,7 +78,7 @@ const CardRekening = ({ data, user, bulan, saldo }) => {
                                         </div>
                                         <div className="flex flex-col gap-2 items-end font-semibold justify-start">
                                             <p>
-                                                {Intl.NumberFormat("id-ID", {
+                                                {Intl.NumberFormat("in-ID", {
                                                     style: "currency",
                                                     currency: "IDR",
                                                 }).format(
@@ -93,7 +93,7 @@ const CardRekening = ({ data, user, bulan, saldo }) => {
                                                 ) : null}
                                             </p>
                                             <p>
-                                                {Intl.NumberFormat("id-ID", {
+                                                {Intl.NumberFormat("in-ID", {
                                                     style: "currency",
                                                     currency: "IDR",
                                                 }).format(
@@ -109,7 +109,7 @@ const CardRekening = ({ data, user, bulan, saldo }) => {
                                                 ) : null}
                                             </p>
                                             <p>
-                                                {Intl.NumberFormat("id-ID", {
+                                                {Intl.NumberFormat("in-ID", {
                                                     style: "currency",
                                                     currency: "IDR",
                                                 }).format(
@@ -124,7 +124,7 @@ const CardRekening = ({ data, user, bulan, saldo }) => {
                                                 ) : null}
                                             </p>
                                             <p>
-                                                {Intl.NumberFormat("id-ID", {
+                                                {Intl.NumberFormat("in-ID", {
                                                     style: "currency",
                                                     currency: "IDR",
                                                 }).format(
@@ -137,7 +137,7 @@ const CardRekening = ({ data, user, bulan, saldo }) => {
                                                 ) : null}
                                             </p>
                                             <p>
-                                                {Intl.NumberFormat("id-ID", {
+                                                {Intl.NumberFormat("in-ID", {
                                                     style: "currency",
                                                     currency: "IDR",
                                                 }).format(
@@ -152,7 +152,7 @@ const CardRekening = ({ data, user, bulan, saldo }) => {
                                                 ) : null}
                                             </p>
                                             <p className="text-black dark:text-white">
-                                                {Intl.NumberFormat("id-ID", {
+                                                {Intl.NumberFormat("in-ID", {
                                                     style: "currency",
                                                     currency: "IDR",
                                                 }).format(

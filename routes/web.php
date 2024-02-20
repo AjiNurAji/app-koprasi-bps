@@ -6,6 +6,7 @@ use App\Http\Controllers\HomepageController;
 use App\Http\Controllers\KasController;
 use App\Http\Controllers\MemberController;
 use App\Http\Controllers\PDFController;
+use App\Http\Controllers\PiutangController;
 use App\Http\Controllers\SimpananController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
@@ -45,6 +46,9 @@ Route::middleware(['auth:admin,member'])->group(function () {
 
     Route::get('/kas/rekening', [HomepageController::class, 'kasRekening'])->name('kas_rekening');
     Route::post('/kas/rekening', [KasController::class, 'kasRekening'])->name('kas_rekening');
+
+    // jasa piutang
+    Route::get('/jasa-anggota', [HomepageController::class, 'jasaPiutang'])->name('jasa_piutang');
 });
 
 Route::middleware(['auth:admin'])->group(function () {
@@ -58,7 +62,6 @@ Route::middleware(['auth:admin'])->group(function () {
     // history
     Route::get('/history', [HomepageController::class, 'history'])->name('history');
 
-
     // simpanan
     // pokok
     Route::get('/simpanan/pokok', [HomepageController::class, 'simpananPokok'])->name('simpanan_pokok');
@@ -70,8 +73,6 @@ Route::middleware(['auth:admin'])->group(function () {
     Route::post('/simpanan/wajib', [SimpananController::class, 'getDataSimpananWajib'])->name('simpanan_wajib');
     Route::post('/simpanan/wajib/create', [SimpananController::class, 'simpananWajib'])->name('simpanan_wajib_create');
 
-    // Route::get('/simpanan/wajib/table', function () {
-    //     $simpananWajib = SimpananWajib::where('tahun', date('Y'))->get();
 
     //     foreach ($simpananWajib as $data) {
     //         $datas[] = [
@@ -101,8 +102,8 @@ Route::middleware(['auth:admin'])->group(function () {
     //upload file
     Route::get('index', 'UploadController@index');
 
-    // jasa piutang
-    Route::get('/jasa-anggota', [HomepageController::class, 'jasaPiutang'])->name('jasa_piutang');
+    // piutang 
+    Route::post('/jasa-anggota/set', [PiutangController::class, 'setJasaAnggota'])->name('jasa_anggota_set');
 });
 
 require __DIR__ . '/auth.php';

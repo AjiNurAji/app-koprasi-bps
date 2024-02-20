@@ -12,7 +12,7 @@ const FormKasRekening = ({ setPopup, bulan, saldo }) => {
     const transaksi = useRef(null);
     const date = new Date();
     const { data, setData } = useForm({
-        bulan: date.toLocaleDateString("id-ID", { month: "long" }),
+        bulan: date.toLocaleDateString("in-ID", { month: "long" }),
         type: 1,
         rekening: 1,
         nominal: null,
@@ -101,7 +101,7 @@ const FormKasRekening = ({ setPopup, bulan, saldo }) => {
                     // value={data.masuk}
                     onValueChange={(value, name) => handleNominal(value, name)}
                     intlConfig={{
-                        locale: "id-ID",
+                        locale: "in-ID",
                         currency: "IDR",
                     }}
                     required

@@ -10,7 +10,7 @@ const FormKasTunai = ({ setPopup, bulan, saldo }) => {
     const form = useRef(null);
     const date = new Date();
     const { data, setData } = useForm({
-        bulan: date.toLocaleDateString("id-ID", { month: "long" }),
+        bulan: date.toLocaleDateString("in-ID", { month: "long" }),
         masuk: null,
         saldo_awal: saldo ? saldo.saldo_awal : null,
         tahun: date.getFullYear(),
@@ -90,7 +90,7 @@ const FormKasTunai = ({ setPopup, bulan, saldo }) => {
                     value={data.masuk}
                     onValueChange={(value, name) => handleNominal(value, name)}
                     intlConfig={{
-                        locale: "id-ID",
+                        locale: "in-ID",
                         currency: "IDR",
                     }}
                     required
@@ -114,7 +114,7 @@ const FormKasTunai = ({ setPopup, bulan, saldo }) => {
                     onValueChange={(value, name) => handleNominal(value, name)}
                     required
                     intlConfig={{
-                        locale: "id-ID",
+                        locale: "in-ID",
                         currency: "IDR",
                     }}
                     className="w-full rounded-md border text-dark dark:text-white border-stroke bg-transparent py-2 pl-4 pr-6 transition-all duration-300 ease-in-out outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"

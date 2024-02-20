@@ -1,27 +1,29 @@
 import PostData from "@/Libs/postData";
 import { useForm } from "@inertiajs/react";
-import { useState } from "react";
+import { useRef, useState } from "react";
+import ButtonLoading from "../ButtonLoading";
+import { router } from "@inertiajs/react";
 
-const FormJasaAnggota = () => {
+const FormJasaAnggota = ({ setPopup }) => {
     const [processing, setProcess] = useState(false);
     const { data, setData } = useForm({
         persentase: null,
     });
+    const form = useRef(null);
 
     const submit = async (e) => {
         e.preventDefault();
         setProcess(true);
 
-        const create = await PostData(route("create_admin"), data);
+        const create = await PostData(route("jasa_anggota_set"), data);
 
         if (create) {
             form.current.reset();
             setPopup(false);
             setProcess(false);
-            router.get(route("admin"));
+            router.get(route("jasa_piutang"));
         }
 
-        inputUsername.current.focus();
         setProcess(false);
     };
 
@@ -33,7 +35,7 @@ const FormJasaAnggota = () => {
     };
 
     return (
-        <form onSubmit={submit} className="flex flex-col gap-4">
+        <form onSubmit={submit} className="flex flex-col gap-4" ref={form}>
             <div className="w-full">
                 <label
                     htmlFor="persentase"
@@ -63,7 +65,7 @@ const FormJasaAnggota = () => {
                         name="button-sumbit"
                         className="w-full cursor-pointer rounded-md border border-primary bg-primary p-2 text-white transition hover:bg-opacity-90"
                     >
-                        Tambah Admin
+                        Tambah data
                     </button>
                 )}
             </div>
