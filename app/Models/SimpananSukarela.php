@@ -9,20 +9,27 @@ class SimpananSukarela extends Model
 {
     use HasFactory;
 
-    protected $table = 'SimpananSukarela';
+    protected $table = 'simpanan_sukarela';
 
-    protected $primaryKey = 'id';
+    protected $primaryKey = 'id_simpanan_sukarela';
+
+    protected $keyType = 'string';
 
     protected $fillable = [
-        'nama',
-        'sukarela_dari_pembulatan',
-        'SHU',
-        'awal',
+        'id_simpanan_sukarela',
+        'id_member',
+        'sukarela',
+        'shu',
+        'awal_tahun',
         'selama_tahun',
         'diambil',
         'disimpan_kembali',
-        'akhir',
+        'akhir_tahun',
         'tahun',
-        'nominal'
     ];
+
+    public function member()
+    {
+        return $this->belongsTo(Member::class, 'id_member');
+    }
 }

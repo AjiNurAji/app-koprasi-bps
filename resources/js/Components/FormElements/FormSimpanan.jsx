@@ -13,7 +13,7 @@ const FormSimpanan = ({ members, setPopup, postUrl, directUrl, type }) => {
     const [simpanan, setSimpanan] = useState([]);
     const getTahun = new Date();
     const form = useRef(null);
-    const [step, setStep] = useState(1);
+    const [step, setStep] = useState(2);
     const { data, setData } = useForm({
         name: "",
         id_member: "",
@@ -25,6 +25,12 @@ const FormSimpanan = ({ members, setPopup, postUrl, directUrl, type }) => {
         anggota_keluar: null,
         simpanan_wajib: null,
         kekayaan_awal_tahun: null,
+        sukarela: null,
+        shu: null,
+        selama_tahun: null,
+        diambil: null,
+        disimpan_kembali: null,
+        akhir_tahun: null,
     });
 
     const submit = async (e) => {
@@ -42,6 +48,8 @@ const FormSimpanan = ({ members, setPopup, postUrl, directUrl, type }) => {
 
         setProcess(false);
     };
+
+    console.log(data);
 
     const handleStep = async (e) => {
         e.preventDefault();

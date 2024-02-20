@@ -261,6 +261,138 @@ export const columnSimpananWajib = [
     }),
 ];
 
+export const columnsSimpananSukarela = [
+    columnHelper.accessor("", {
+        id: "No",
+        cell: (data) => (
+            <span className="font-medium text-black dark:text-white">
+                {data.row.index + 1}
+            </span>
+        ),
+        header: "No",
+        rowSpan: 2,
+    }),
+
+    columnHelper.accessor("name", {
+        id: "Nama",
+        cell: (data) => (
+            <span className="font-medium text-black dark:text-white">
+                {data.getValue()}
+            </span>
+        ),
+        header: "Nama",
+    }),
+
+    columnHelper.accessor("sukarela", {
+        id: "sukarela",
+        cell: (data) => (
+            <span className="font-medium text-black dark:text-white">
+                {Intl.NumberFormat("in-ID", {
+                    style: "currency",
+                    currency: "IDR",
+                }).format(data.getValue() ? data.getValue() : 0)}
+            </span>
+        ),
+        header: "Sukarela Dari Pembulatan",
+    }),
+
+    columnHelper.accessor("shu", {
+        id: "shu",
+        cell: (data) => (
+            <span className="font-medium text-black dark:text-white">
+                {Intl.NumberFormat("in-ID", {
+                    style: "currency",
+                    currency: "IDR",
+                }).format(data.getValue() ? data.getValue() : 0)}
+            </span>
+        ),
+        header: "SHU Yang Disimpan",
+    }),
+
+    columnHelper.accessor("", {
+        id: "group",
+        colSpan: 3,
+        columns: [
+            columnHelper.accessor("awal_tahun", {
+                id: `Awal ${new Date().getFullYear()}`,
+                cell: (data) => (
+                    <span className="font-medium text-black dark:text-white">
+                        {Intl.NumberFormat("in-ID", {
+                            style: "currency",
+                            currency: "IDR",
+                        }).format(data.getValue() ? data.getValue() : 0)}
+                    </span>
+                ),
+                header: `Awal ${new Date().getFullYear()}`,
+                enableGlobalFilter: false,
+                enableSorting: false,
+            }),
+
+            columnHelper.accessor("selama_tahun", {
+                id: "selama_tahun",
+                cell: (data) => (
+                    <span className="font-medium text-black dark:text-white">
+                        {Intl.NumberFormat("in-ID", {
+                            style: "currency",
+                            currency: "IDR",
+                        }).format(data.getValue() ? data.getValue() : 0)}
+                    </span>
+                ),
+                header: `Selama Tahun ${new Date().getFullYear()}`,
+                enableGlobalFilter: false,
+                enableSorting: false,
+            }),
+
+            columnHelper.accessor("diambil", {
+                id: "diambil",
+                cell: (data) => (
+                    <span className="font-medium text-black dark:text-white">
+                        {Intl.NumberFormat("in-ID", {
+                            style: "currency",
+                            currency: "IDR",
+                        }).format(data.getValue() ? data.getValue() : 0)}
+                    </span>
+                ),
+                header: "Diambil",
+                enableGlobalFilter: false,
+                enableSorting: false,
+            }),
+
+            columnHelper.accessor("disimpan_kembali", {
+                id: "disimpan_kembali",
+                cell: (data) => (
+                    <span className="font-medium text-black dark:text-white">
+                        {Intl.NumberFormat("in-ID", {
+                            style: "currency",
+                            currency: "IDR",
+                        }).format(data.getValue() ? data.getValue() : 0)}
+                    </span>
+                ),
+                header: "Disimpan Kembali",
+                enableGlobalFilter: false,
+                enableSorting: false,
+            }),
+
+            columnHelper.accessor("akhir_taun", {
+                id: "akhir_taun",
+                cell: (data) => (
+                    <span className="font-medium text-black dark:text-white">
+                        {Intl.NumberFormat("in-ID", {
+                            style: "currency",
+                            currency: "IDR",
+                        }).format(data.getValue() ? data.getValue() : 0)}
+                    </span>
+                ),
+                header: `Akhir ${new Date().getFullYear()}`,
+                enableGlobalFilter: false,
+                enableSorting: false,
+            }),
+        ],
+        header: "Simpanan Sukarela",
+        enableGlobalFilter: false,
+    }),
+];
+
 export const HistoryOptionTable = [
     columnHelper.accessor("", {
         id: "No",

@@ -3,7 +3,7 @@ import { AiOutlineCloseCircle } from "react-icons/ai";
 const CreatePopup = ({ createName, setPopup, form }) => {
     return (
         <div className="fixed bg-black bg-opacity-30 top-0 right-0 w-full min-h-screen flex justify-center items-center z-9999 overflow-y-auto overflow-x-hidden">
-            <div className="flex bg-white border dark:bg-boxdark dark:border-strokedark border-stroke p-5 rounded-md flex-col w-11/12 md:w-1/2">
+            <div className="flex bg-white border dark:bg-boxdark dark:border-strokedark border-stroke p-5 rounded-md flex-col w-11/12 md:w-3/4">
                 <div className="mb-6 flex justify-between items-center">
                     <h2 className="capitalize text-title-md2 font-semibold text-black dark:text-white">
                         {createName}

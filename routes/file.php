@@ -13,6 +13,10 @@ Route::middleware(['auth:admin', 'file'])->group(function () {
     Route::post('/simpanan/wajib/pdf', [PDFController::class, 'ExportSimpananWajibPDF'])->name('simpanan_wajib_pdf');
     Route::post('/simpanan/wajib/excel', [ExportController::class, 'ExportSimpananWajib'])->name('simpanan_wajib_excel');
     Route::post('/simpanan/wajib/csv', [ExportController::class, 'ExportSimpananWajibCSV'])->name('simpanan_wajib_csv');
+    
+    Route::post('/simpanan/sukarela/pdf', [PDFController::class, 'ExportSimpananSukarelaPDF'])->name('simpanan_sukarela_pdf');
+    Route::post('/simpanan/sukarela/excel', [ExportController::class, 'ExportSimpananSukarela'])->name('simpanan_sukarela_excel');
+    Route::post('/simpanan/sukarela/csv', [ExportController::class, 'ExportSimpananSukarelaCSV'])->name('simpanan_sukarela_csv');
 
     Route::post('/kas/tunai/pdf', [PDFController::class, 'ExportKasTunaiPDF'])->name('kas_tunai_pdf');
     Route::post('/kas/tunai/excel', [ExportController::class, 'ExportKasTunai'])->name('kas_tunai_excel');

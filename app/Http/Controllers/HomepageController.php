@@ -11,6 +11,7 @@ use App\Models\JasaAnggota;
 use App\Models\SimpananWajib;
 use App\Models\Member;
 use App\Models\Rekening;
+use App\Models\SimpananSukarela;
 use App\Models\Transaksi;
 use App\Models\TrRekening;
 use App\Models\Tunai;
@@ -108,6 +109,49 @@ class HomepageController extends Controller
         return Inertia::render('Dashboard', [
             'chart' => ['perbulan' => $simpananPokokCount, 'perhari' => $totalSimpananPerhari],
             'cards' => ['simpananPokok' => $totalPokok, 'simpananWajib' => $totalWajib, 'kas_tunai' => $totalKasTunai, 'kas_rekening' => $totalKasRekening]
+        ]);
+    }
+
+    // halaman simpanan sukarela
+    public function simpananSukarela()
+    {
+        $simpananSukarela = SimpananSukarela::where('tahun', date('Y'))->orderBy('updated_at', 'desc')->get();
+
+        foreach ($simpananSukarela as $data) {
+            $datas[] = [
+                'name' => $data->member->name,
+                'sukarela' => $data->sukarela === null ? null : $data->sukarela,
+                'selama_tahun' => $data->selama_tahun === null ? null : $data->selama_tahun,
+                'awal_tahun' => $data->awal_tahun === null ? null : $data->awal_tahun,
+                'shu' => $data->shu === null ? null : $data->shu,
+                'diambil' => $data->diambil === null ? null : $data->diambil,
+                'disimpan_kembali' => $data->disimpan_kembali === null ? null : $data->disimpan_kembali,
+                'akhir_taun' => $data->akhir_taun === null ? null : $data->akhir_taun,
+            ];
+        }
+
+        $totalSukarelaPembulatan = simpananSukarela::where('tahun', date('Y'))->sum('sukarela');
+        $totalShu = simpananSukarela::where('tahun', date('Y'))->sum('shu');
+        $totalAwalTahun = simpananSukarela::where('tahun', date('Y'))->sum('awal_tahun');
+        $totalSelamaTahun = simpananSukarela::where('tahun', date('Y'))->sum('selama_tahun');
+        $totalDiambil = simpananSukarela::where('tahun', date('Y'))->sum('diambil');
+        $totalDisimpanKembali = simpananSukarela::where('tahun', date('Y'))->sum('disimpan_kembali');
+        $totalAkhirTahun = simpananSukarela::where('tahun', date('Y'))->sum('akhir_taun');
+
+        $members = Member::orderBy('name', 'asc')->get();
+
+        return Inertia::render('Simpanan/Sukarela', [
+            'data' => isset($datas) ? $datas : $simpananSukarela,
+            'members' => $members,
+            'total' => [
+                'total_sukarela' => $totalSukarelaPembulatan,
+                'total_shu' => $totalShu,
+                'total_awal_tahun' => $totalAwalTahun,
+                'total_selama_tahun' => $totalSelamaTahun,
+                'total_diambil' => $totalDiambil,
+                'total_disimpan_kembali' => $totalDisimpanKembali,
+                'total_akhir_tahun' => $totalAkhirTahun
+            ]
         ]);
     }
 
