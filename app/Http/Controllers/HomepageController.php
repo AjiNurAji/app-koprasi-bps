@@ -101,11 +101,8 @@ class HomepageController extends Controller
         // dd($kas, $saldoTunai);
 
         if ($kasTunai || $kasRekening) {
-            $totalKasTunai = $saldoTunai ? $saldoTunai->saldo : $kasTunai->saldo_awal;
-            $totalKasRekening = $saldoRekening ? $saldoRekening->saldo : $kasRekening->saldo_awal;
-        } else {
-            $totalKasTunai = null;
-            $totalKasRekening = null;
+            $totalKasTunai = ($saldoTunai ? $saldoTunai->saldo : $kasTunai) ? $kasTunai->saldo_awal : null;
+            $totalKasRekening = ($saldoRekening ? $saldoRekening->saldo : $kasRekening) ? $kasRekening->saldo_awal : null;
         }
 
         return Inertia::render('Dashboard', [
