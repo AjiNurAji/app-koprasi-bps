@@ -196,9 +196,11 @@ class SimpananController extends Controller
                     'id_member' => 'required|string',
                     'tahun' => 'required|integer',
                     'bulan' => 'required|string',
-                    'kekayaan_awal_tahun' => 'integer|nullable',
-                    'anggota_keluar' => 'integer|nullable',
-                    'simpanan_wajib' => 'integer|nullable',
+                    'sukarela' => 'integer|nullable',
+                    'shu' => 'integer|nullable',
+                    'selama_tahun' => 'integer|nullable',
+                    'diambil' => 'integer|nullable',
+                    'disimpan_kembali' => 'integer|nullable',
                 ]);
 
                 // simpanan wajib update
@@ -206,8 +208,13 @@ class SimpananController extends Controller
                     ->where('bulan', $request->input('bulan'))
                     ->first();
 
-                $nominal = $request->input('simpanan_wajib') + $request->input('kekayaan_awal_tahun');
-                $keluar = $request->input('anggota_keluar');
+                $awal_tahun = $request->input('sukarela') + $request->input('shu');
+
+                $nominal =  $awal_tahun +
+                    $request->input('selama_tahun') +
+                    $request->input('disimpan_kembali');
+
+                $keluar = $request->input('diambil');
 
                 Transaksi::create([
                     'id_transaksi' => Str::uuid(),
@@ -215,18 +222,42 @@ class SimpananController extends Controller
                     'nominal' => $nominal,
                     'type' => 'simpanan',
                     'nominal_keluar' => $keluar,
-                    'nama_transaksi' => 'simpanan_wajib',
+                    'nama_transaksi' => 'simpanan_sukarela',
                     'tahun' => $request->input('tahun'),
                     'hari' => $request->input('hari'),
                     'bulan' => $request->input('bulan')
                 ]);
 
-                // $simpananSukarela->update([
-                //     'kekayaan_awal_tahun' => $simpananWajib->kekayaan_awal_tahun ? $simpananWajib->kekayaan_awal_tahun + $request->input('kekayaan_awal_tahun') : $request->input('kekayaan_awal_tahun'),
-                //     'hari' => $request->input('hari'),
-                //     'simpanan_wajib' => $simpananWajib->simpanan_wajib ? $simpananWajib->simpanan_wajib + $request->input('simpanan_wajib') : $request->input('simpanan_wajib'),
-                //     'anggota_keluar' => $simpananWajib->anggota_keluar ? $simpananWajib->anggota_keluar + $request->input('anggota_keluar') : $request->input('anggota_keluar'),
-                // ]);
+                $simpananSukarela->update([
+                    'sukarela' =>   $simpananSukarela->sukarela
+                        ? $simpananSukarela->sukarela + $request->input('sukarela')
+                        : $request->input('sukarela'),
+
+                    'hari' => $request->input('hari'),
+                    'shu' =>    $simpananSukarela->shu
+                        ? $simpananSukarela->shu + $request->input('shu')
+                        : $request->input('shu'),
+
+                    'awal_tahun' => $simpananSukarela->awal_tahun
+                        ? $simpananSukarela->awal_tahun + $awal_tahun
+                        : $awal_tahun,
+
+                    'selama_tahun' => $simpananSukarela->selama_tahun
+                        ? $simpananSukarela->selama_tahun + $request->input('selama_tahun')
+                        : $request->input('selama_tahun'),
+
+                    'diambil' => $simpananSukarela->diambil
+                        ? $simpananSukarela->diambil + $request->input('diambil')
+                        : $request->input('diambil'),
+
+                    'disimpan_kembali' => $simpananSukarela->disimpan_kembali
+                        ? $simpananSukarela->disimpan_kembali + $request->input('disimpan_kembali')
+                        : $request->input('disimpan_kembali'),
+
+                    'akhir_taun' => $simpananSukarela->akhir_taun
+                        ? $simpananSukarela->akhir_taun + $nominal - $keluar
+                        : $nominal - $keluar,
+                ]);
 
                 return response()->json(['message' => 'Berhasil melakukan transaksi'], 200);
             } catch (\Throwable $th) {

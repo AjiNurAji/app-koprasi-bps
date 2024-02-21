@@ -40,12 +40,13 @@ const Dashboard = ({ auth, chart, cards }) => {
                     icon={<GiPayMoney />}
                     type="Simpanan Wajib"
                     view={route("simpanan_wajib")}
-                />
+                    />
                 <Card
                     user={auth.user}
-                    total={78882173}
+                    total={cards.simpananSukarela}
                     icon={<GiReceiveMoney />}
                     type="Simpanan Sukarela"
+                    view={route("simpanan_sukarela")}
                 />
             </div>
 

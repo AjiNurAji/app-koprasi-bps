@@ -8,7 +8,6 @@ const NextSimpanan = ({
     handleNominal,
     getTahun,
 }) => {
-
     return (
         <>
             {type === "pokok" ? (
@@ -116,8 +115,7 @@ const NextSimpanan = ({
                         >
                             {data.kekayaan_awal_tahun
                                 ? `Tambah Kekayaan Awal Tahun ${getTahun.getFullYear()}`
-                                : `Kekayaan Awal Tahun ${getTahun.getFullYear()}`
-                            }
+                                : `Kekayaan Awal Tahun ${getTahun.getFullYear()}`}
                         </label>
                         <CurrencyInput
                             autoComplete="off"
@@ -148,8 +146,7 @@ const NextSimpanan = ({
                         >
                             {data.simpanan_wajib
                                 ? "Tambah Simpanan Wajib"
-                                : "Simpanan Wajib"
-                            }
+                                : "Simpanan Wajib"}
                         </label>
                         <CurrencyInput
                             autoComplete="off"
@@ -177,8 +174,7 @@ const NextSimpanan = ({
                         >
                             {data.anggota_keluar
                                 ? "Tambah Anggota Keluar"
-                                : "Anggota Keluar"
-                            }
+                                : "Anggota Keluar"}
                         </label>
                         <CurrencyInput
                             autoComplete="off"
@@ -209,17 +205,13 @@ const NextSimpanan = ({
                         >
                             {data.sukarela
                                 ? "Tambah sukarela dari pembulatan"
-                                : "Sukarela dari pembulatan"
-                            }
+                                : "Sukarela dari pembulatan"}
                         </label>
                         <CurrencyInput
                             autoComplete="off"
                             placeholder={`Masukkan nominal ${
-                                data.sukarela
-                                    ? "tambahan"
-                                    : "transaksi"
+                                data.sukarela ? "tambahan" : "transaksi"
                             }`}
-                            required
                             allowDecimals={true}
                             name="sukarela"
                             id="sukarela"
@@ -241,8 +233,7 @@ const NextSimpanan = ({
                         >
                             {data.shu
                                 ? "Tambah SHU yang disimpan"
-                                : "SHU yang disimpan"
-                            }
+                                : "SHU yang disimpan"}
                         </label>
                         <CurrencyInput
                             autoComplete="off"
@@ -268,28 +259,21 @@ const NextSimpanan = ({
                             htmlFor="awal_tahun"
                             className="mb-2.5 font-medium text-black dark:text-white"
                         >
-                            {data.awal_tahun
-                                ? `Tambah awal ${new Date().getFullYear()}`
-                                : `Awal ${new Date().getFullYear()}`
-                            }
+                            {`Awal ${new Date().getFullYear()}`}
                         </label>
                         <CurrencyInput
                             autoComplete="off"
-                            placeholder={`Masukkan nominal ${
-                                data.awal_tahun ? "tambahan" : "transaksi"
-                            }`}
+                            placeholder={`Nominal Awal Tahun`}
                             allowDecimals={true}
                             name="awal_tahun"
                             id="awal_tahun"
-                            value={valueData.awal_tahun}
-                            onValueChange={(value, name) =>
-                                handleNominal(value, name)
-                            }
+                            value={valueData.sukarela + valueData.shu}
+                            disabled
                             intlConfig={{
                                 locale: "in-ID",
                                 currency: "IDR",
                             }}
-                            className="w-full rounded-md border text-dark dark:text-white border-stroke bg-transparent py-2 pl-4 pr-6 transition-all duration-300 ease-in-out outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
+                            className="w-full rounded-md border disabled:bg-stroke disabled:text-opacity-90 text-dark dark:text-white border-stroke bg-transparent py-2 pl-4 pr-6 transition-all duration-300 ease-in-out outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                         />
                     </div>
                     <div className="w-full">
@@ -299,8 +283,7 @@ const NextSimpanan = ({
                         >
                             {data.selama_tahun
                                 ? `Tambah selama tahun ${new Date().getFullYear()}`
-                                : `Selama tahun ${new Date().getFullYear()}`
-                            }
+                                : `Selama tahun ${new Date().getFullYear()}`}
                         </label>
                         <CurrencyInput
                             autoComplete="off"
@@ -326,10 +309,7 @@ const NextSimpanan = ({
                             htmlFor="diambil"
                             className="mb-2.5 font-medium text-black dark:text-white"
                         >
-                            {data.diambil
-                                ? "Tambah diambil"
-                                : "Diambil"
-                            }
+                            {data.diambil ? "Tambah diambil" : "Diambil"}
                         </label>
                         <CurrencyInput
                             autoComplete="off"
@@ -357,8 +337,7 @@ const NextSimpanan = ({
                         >
                             {data.disimpan_kembali
                                 ? "Tambah disimpan kembali"
-                                : "Disimpan kembali"
-                            }
+                                : "Disimpan kembali"}
                         </label>
                         <CurrencyInput
                             autoComplete="off"

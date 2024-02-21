@@ -24,8 +24,10 @@ class SimpananSukarela extends Model
         'selama_tahun',
         'diambil',
         'disimpan_kembali',
-        'akhir_tahun',
+        'akhir_taun',
         'tahun',
+        'bulan',
+        'hari'
     ];
 
     public function member()

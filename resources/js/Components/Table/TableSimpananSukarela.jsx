@@ -73,7 +73,7 @@ const TableSimpananSukarela = ({ data, members, total, type }) => {
             ) : null}
             {/* table */}
             <div className="max-w-full overflow-x-auto">
-                <table className="w-full table-auto rounded-md border border-stroke">
+                <table className="w-max table-auto rounded-md border border-stroke">
                     <thead className="rounded-md">
                         {table.getHeaderGroups().map((headerGroup) => (
                             <tr
@@ -155,8 +155,8 @@ const TableSimpananSukarela = ({ data, members, total, type }) => {
                                             style: "currency",
                                             currency: "IDR",
                                         }).format(
-                                            total.awal_tahun
-                                                ? total.awal_tahun
+                                            total.total_sukarela
+                                                ? total.total_sukarela
                                                 : 0
                                         )}
                                     </td>
@@ -165,8 +165,8 @@ const TableSimpananSukarela = ({ data, members, total, type }) => {
                                             style: "currency",
                                             currency: "IDR",
                                         }).format(
-                                            total.anggota_masuk
-                                                ? total.anggota_masuk
+                                            total.total_shu
+                                                ? total.total_shu
                                                 : 0
                                         )}
                                     </td>
@@ -175,18 +175,49 @@ const TableSimpananSukarela = ({ data, members, total, type }) => {
                                             style: "currency",
                                             currency: "IDR",
                                         }).format(
-                                            total.anggota_keluar
-                                                ? total.anggota_keluar
+                                            total.total_awal_tahun
+                                                ? total.total_awal_tahun
                                                 : 0
                                         )}
                                     </td>
                                     <td className="font-medium border py-5 px-4 border-stroke dark:border-opacity-20 text-black dark:text-white">
-                                        {}
                                         {Intl.NumberFormat("in-ID", {
                                             style: "currency",
                                             currency: "IDR",
                                         }).format(
-                                            total.jumlah ? total.jumlah : 0
+                                            total.total_selama_tahun
+                                                ? total.total_selama_tahun
+                                                : 0
+                                        )}
+                                    </td>
+                                    <td className="font-medium border py-5 px-4 border-stroke dark:border-opacity-20 text-black dark:text-white">
+                                        {Intl.NumberFormat("in-ID", {
+                                            style: "currency",
+                                            currency: "IDR",
+                                        }).format(
+                                            total.total_diambil
+                                                ? total.total_diambil
+                                                : 0
+                                        )}
+                                    </td>
+                                    <td className="font-medium border py-5 px-4 border-stroke dark:border-opacity-20 text-black dark:text-white">
+                                        {Intl.NumberFormat("in-ID", {
+                                            style: "currency",
+                                            currency: "IDR",
+                                        }).format(
+                                            total.total_disimpan_kembali
+                                                ? total.total_disimpan_kembali
+                                                : 0
+                                        )}
+                                    </td>
+                                    <td className="font-medium border py-5 px-4 border-stroke dark:border-opacity-20 text-black dark:text-white">
+                                        {Intl.NumberFormat("in-ID", {
+                                            style: "currency",
+                                            currency: "IDR",
+                                        }).format(
+                                            total.total_akhir_tahun
+                                                ? total.total_akhir_tahun
+                                                : 0
                                         )}
                                     </td>
                                 </tr>
@@ -194,7 +225,7 @@ const TableSimpananSukarela = ({ data, members, total, type }) => {
                         ) : (
                             <tr>
                                 <td
-                                    colSpan={6}
+                                    colSpan={9}
                                     className="text-center py-5 px-4 font-medium text-black dark:text-white"
                                 >
                                     Belum ada data nihh!

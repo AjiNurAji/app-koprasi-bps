@@ -13,7 +13,7 @@ const FormSimpanan = ({ members, setPopup, postUrl, directUrl, type }) => {
     const [simpanan, setSimpanan] = useState([]);
     const getTahun = new Date();
     const form = useRef(null);
-    const [step, setStep] = useState(2);
+    const [step, setStep] = useState(1);
     const { data, setData } = useForm({
         name: "",
         id_member: "",
