@@ -126,7 +126,7 @@ class HomepageController extends Controller
     // halaman simpanan sukarela
     public function simpananSukarela()
     {
-        $simpananSukarela = SimpananSukarela::where('tahun', date('Y'))->orderBy('updated_at', 'desc')->get();
+        $simpananSukarela = SimpananSukarela::where('tahun', date('Y'))->orderBy('updated_at', 'asc')->get();
 
         foreach ($simpananSukarela as $data) {
             $datas[] = [

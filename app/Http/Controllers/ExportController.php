@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Exports\kasRekeningExport;
 use App\Exports\kasTunaiExport;
 use App\Exports\simpananPokokExport;
+use App\Exports\simpananSukarelaExport;
 use App\Exports\simpananWajibExport;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
@@ -29,6 +30,16 @@ class ExportController extends Controller
     public function ExportSimpananWajibCSV()
     {
         return Excel::download(new simpananWajibExport, 'simpananwajib.csv', \Maatwebsite\Excel\Excel::CSV);
+    }
+
+    public function ExportSimpananSukarela()
+    {
+        return Excel::download(new simpananSukarelaExport, 'simpananwajib.xlsx', \Maatwebsite\Excel\Excel::XLSX);
+    }
+
+    public function ExportSimpananSukarelaCSV()
+    {
+        return Excel::download(new simpananSukarelaExport, 'simpananwajib.csv', \Maatwebsite\Excel\Excel::CSV);
     }
 
     public function ExportKasTunai()

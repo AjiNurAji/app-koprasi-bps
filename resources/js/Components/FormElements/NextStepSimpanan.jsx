@@ -267,13 +267,13 @@ const NextSimpanan = ({
                             allowDecimals={true}
                             name="awal_tahun"
                             id="awal_tahun"
-                            value={valueData.sukarela + valueData.shu}
+                            value={(valueData.sukarela ? valueData.sukarela : 0 )+ (valueData.shu ? valueData.shu : 0)}
                             disabled
                             intlConfig={{
                                 locale: "in-ID",
                                 currency: "IDR",
                             }}
-                            className="w-full rounded-md border disabled:bg-stroke disabled:text-opacity-90 text-dark dark:text-white border-stroke bg-transparent py-2 pl-4 pr-6 transition-all duration-300 ease-in-out outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
+                            className="w-full rounded-md border disabled:bg-stroke dark:disabled:bg-strokedark disabled:text-opacity-90 text-dark dark:text-white border-stroke bg-transparent py-2 pl-4 pr-6 transition-all duration-300 ease-in-out outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                         />
                     </div>
                     <div className="w-full">

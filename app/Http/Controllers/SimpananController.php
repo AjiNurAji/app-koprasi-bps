@@ -211,10 +211,11 @@ class SimpananController extends Controller
                 $awal_tahun = $request->input('sukarela') + $request->input('shu');
 
                 $nominal =  $awal_tahun +
-                    $request->input('selama_tahun') +
-                    $request->input('disimpan_kembali');
+                    $request->input('selama_tahun');
 
                 $keluar = $request->input('diambil');
+
+                $akhirTahun = $nominal - $keluar + $request->input('disimpan_kembali');
 
                 Transaksi::create([
                     'id_transaksi' => Str::uuid(),
@@ -255,8 +256,8 @@ class SimpananController extends Controller
                         : $request->input('disimpan_kembali'),
 
                     'akhir_taun' => $simpananSukarela->akhir_taun
-                        ? $simpananSukarela->akhir_taun + $nominal - $keluar
-                        : $nominal - $keluar,
+                        ? $simpananSukarela->akhir_taun + $akhirTahun
+                        : $akhirTahun,
                 ]);
 
                 return response()->json(['message' => 'Berhasil melakukan transaksi'], 200);

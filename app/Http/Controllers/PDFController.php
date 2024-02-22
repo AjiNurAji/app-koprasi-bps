@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Kas;
 use App\Models\Rekening;
 use App\Models\SimpananPokok;
+use App\Models\SimpananSukarela;
 use App\Models\SimpananWajib;
 use App\Models\TrRekening;
 use App\Models\Tunai;
@@ -77,6 +78,91 @@ class PDFController extends Controller
         $pdf->setPaper('a4', 'potrait');
 
         return $pdf->download('simpananwajib.pdf');
+    }
+
+    public function ExportSimpananSukarelaPDF()
+    {
+        $simpananSukarela = SimpananSukarela::where('tahun', date('Y'))->orderBy('updated_at', 'asc')->get();
+
+        foreach ($simpananSukarela as $data) {
+            $datas[] = [
+                'name' => $data->member->name,
+                'sukarela' => $data->sukarela === null ? null : $data->sukarela,
+                'selama_tahun' => $data->selama_tahun === null ? null : $data->selama_tahun,
+                'awal_tahun' => $data->awal_tahun === null ? null : $data->awal_tahun,
+                'shu' => $data->shu === null ? null : $data->shu,
+                'diambil' => $data->diambil === null ? null : $data->diambil,
+                'disimpan_kembali' => $data->disimpan_kembali === null ? null : $data->disimpan_kembali,
+                'akhir_taun' => $data->akhir_taun === null ? null : $data->akhir_taun,
+            ];
+        }
+
+        $totalSukarelaPembulatan = simpananSukarela::where('tahun', date('Y'))->sum('sukarela');
+        $totalShu = simpananSukarela::where('tahun', date('Y'))->sum('shu');
+        $totalAwalTahun = simpananSukarela::where('tahun', date('Y'))->sum('awal_tahun');
+        $totalSelamaTahun = simpananSukarela::where('tahun', date('Y'))->sum('selama_tahun');
+        $totalDiambil = simpananSukarela::where('tahun', date('Y'))->sum('diambil');
+        $totalDisimpanKembali = simpananSukarela::where('tahun', date('Y'))->sum('disimpan_kembali');
+        $totalAkhirTahun = simpananSukarela::where('tahun', date('Y'))->sum('akhir_taun');
+
+        $pdf = PDF::loadView('Exports.PDF.Simpanan.simpananSukarela', [
+            'data' => isset($datas) ? $datas : $simpananSukarela,
+            'total' => [
+                'total_sukarela' => $totalSukarelaPembulatan,
+                'total_shu' => $totalShu,
+                'total_awal_tahun' => $totalAwalTahun,
+                'total_selama_tahun' => $totalSelamaTahun,
+                'total_diambil' => $totalDiambil,
+                'total_disimpan_kembali' => $totalDisimpanKembali,
+                'total_akhir_tahun' => $totalAkhirTahun
+            ]
+        ]);
+
+        $pdf->setPaper('a4', 'potrait');
+
+        return $pdf->download('simpanansukarela.pdf');
+    }
+    public function getExportSimpananSukarelaPDF()
+    {
+        $simpananSukarela = SimpananSukarela::where('tahun', date('Y'))->orderBy('updated_at', 'asc')->get();
+
+        foreach ($simpananSukarela as $data) {
+            $datas[] = [
+                'name' => $data->member->name,
+                'sukarela' => $data->sukarela === null ? null : $data->sukarela,
+                'selama_tahun' => $data->selama_tahun === null ? null : $data->selama_tahun,
+                'awal_tahun' => $data->awal_tahun === null ? null : $data->awal_tahun,
+                'shu' => $data->shu === null ? null : $data->shu,
+                'diambil' => $data->diambil === null ? null : $data->diambil,
+                'disimpan_kembali' => $data->disimpan_kembali === null ? null : $data->disimpan_kembali,
+                'akhir_taun' => $data->akhir_taun === null ? null : $data->akhir_taun,
+            ];
+        }
+
+        $totalSukarelaPembulatan = simpananSukarela::where('tahun', date('Y'))->sum('sukarela');
+        $totalShu = simpananSukarela::where('tahun', date('Y'))->sum('shu');
+        $totalAwalTahun = simpananSukarela::where('tahun', date('Y'))->sum('awal_tahun');
+        $totalSelamaTahun = simpananSukarela::where('tahun', date('Y'))->sum('selama_tahun');
+        $totalDiambil = simpananSukarela::where('tahun', date('Y'))->sum('diambil');
+        $totalDisimpanKembali = simpananSukarela::where('tahun', date('Y'))->sum('disimpan_kembali');
+        $totalAkhirTahun = simpananSukarela::where('tahun', date('Y'))->sum('akhir_taun');
+
+        $pdf = PDF::loadView('Exports.PDF.Simpanan.simpananSukarela', [
+            'data' => isset($datas) ? $datas : $simpananSukarela,
+            'total' => [
+                'total_sukarela' => $totalSukarelaPembulatan,
+                'total_shu' => $totalShu,
+                'total_awal_tahun' => $totalAwalTahun,
+                'total_selama_tahun' => $totalSelamaTahun,
+                'total_diambil' => $totalDiambil,
+                'total_disimpan_kembali' => $totalDisimpanKembali,
+                'total_akhir_tahun' => $totalAkhirTahun
+            ]
+        ]);
+
+        $pdf->setPaper('a4', 'landscape');
+
+        return $pdf->stream('simpanansukarela.pdf');
     }
 
     public function ExportKasTunaiPDF()

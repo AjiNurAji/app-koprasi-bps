@@ -16,7 +16,6 @@ import { HiArrowsUpDown } from "react-icons/hi2";
 const TableHistory = ({ data }) => {
     const [datas] = useState([...data]);
     const [globalFilter, setGlobalFilter] = useState("");
-    const tableRef = useRef(null);
 
     const table = useReactTable({
         data: datas,
@@ -35,10 +34,12 @@ const TableHistory = ({ data }) => {
             {/* head component */}
             <div className="flex items-start flex-row-reverse md:items-center justify-between mb-3.5">
                 <DownloadDropdown
-                    data={datas}
-                    filename="historytransaksi"
-                    sheet="historytransaksi"
-                    tableRef={tableRef}
+                     pdf="History Transaksi.pdf"
+                     csv="History Transaksi.csv"
+                     excel="History Transaksi.xlsx"
+                     routepdf={route('hsitory_pdf')}
+                     routecsv={route('hsitory_csv')}
+                     routeexcel={route('hsitory_excel')}
                 />
                 <div className="flex flex-col-reverse md:flex-row items-end md:items-center justify-end gap-3">
                     <SearchTable
@@ -49,7 +50,7 @@ const TableHistory = ({ data }) => {
             </div>
             {/* table */}
             <div className="max-w-full overflow-x-auto">
-                <table className="w-full table-auto rounded-md border border-stroke" ref={tableRef}>
+                <table className="w-full table-auto rounded-md border border-stroke dark:border-strokedark">
                     <thead className="rounded-md">
                         <tr className="hidden">
                             <th colSpan={8} style={{ textAlign: "center" }}>

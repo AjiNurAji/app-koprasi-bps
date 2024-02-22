@@ -96,6 +96,8 @@ const FormSimpanan = ({ members, setPopup, postUrl, directUrl, type }) => {
         });
     };
 
+    console.log(data)
+
     return (
         <form
             className="flex flex-col gap-4"
@@ -113,6 +115,7 @@ const FormSimpanan = ({ members, setPopup, postUrl, directUrl, type }) => {
                 <SelectWithSearch
                     data={members}
                     value={data}
+                    step={step}
                     setData={setData}
                 />
             </div>

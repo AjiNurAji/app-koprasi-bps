@@ -27,9 +27,9 @@
                 {{ date('Y') }}</th>
         </tr>
         <tr>
-            <th style="border: 1px solid #000; padding: 2px 10px; border-collapse: collapse;">Awal Tahun {{ date('Y') }}</th>
-            <th style="border: 1px solid #000; padding: 2px 10px; border-collapse: collapse;">Anggota Masuk</th>
-            <th style="border: 1px solid #000; padding: 2px 10px; border-collapse: collapse;">Anggota Keluar</th>
+            <th style="text-align: center; border: 1px solid #000; padding: 2px 10px; border-collapse: collapse;">Awal Tahun {{ date('Y') }}</th>
+            <th style="text-align: center; border: 1px solid #000; padding: 2px 10px; border-collapse: collapse;">Anggota Masuk</th>
+            <th style="text-align: center; border: 1px solid #000; padding: 2px 10px; border-collapse: collapse;">Anggota Keluar</th>
         </tr>
 
         @foreach ($data as $d => $col)

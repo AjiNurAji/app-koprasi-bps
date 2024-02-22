@@ -77,6 +77,7 @@ Route::middleware(['auth:admin'])->group(function () {
     Route::get('/simpanan/sukarela', [HomepageController::class, 'simpananSukarela'])->name('simpanan_sukarela');
     Route::post('/simpanan/sukarela', [SimpananController::class, 'getDataSimpananSukarela'])->name('simpanan_sukarela');
     Route::post('/simpanan/sukarela/create', [SimpananController::class, 'simpananSukarela'])->name('simpanan_sukarela_create');
+    Route::get('/simpanan/sukarela/pdf', [PDFController::class, 'getExportSimpananSukarelaPDF'])->name('simpanan_sukarela_pdf');
 
     //     foreach ($simpananWajib as $data) {
     //         $datas[] = [

@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 
-const SelectWithSearch = ({ data, value, setData }) => {
+const SelectWithSearch = ({ data, value, setData, step }) => {
     const [active, setActive] = useState(false);
     const [member, setMember] = useState([...data]);
     const dropdown = useRef(null);
@@ -75,6 +75,7 @@ const SelectWithSearch = ({ data, value, setData }) => {
                 name="name"
                 ref={trigger}
                 required
+                disabled={value.id_member && step === 2 ? true : false}
                 autoComplete="off"
                 value={value.name}
                 onChange={(e) =>
@@ -85,7 +86,7 @@ const SelectWithSearch = ({ data, value, setData }) => {
                 }
                 onFocus={() => setActive(true)}
                 placeholder="Masukkan nama lengkap anggota"
-                className="w-full rounded-md border text-dark dark:text-white border-stroke bg-transparent py-2 pl-4 pr-6 transition-all duration-300 ease-in-out outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
+                className="w-full disabled:bg-stroke dark:disabled:bg-strokedark rounded-md border text-dark dark:text-white border-stroke bg-transparent py-2 pl-4 pr-6 transition-all duration-300 ease-in-out outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
             />
 
             <div

@@ -25,4 +25,8 @@ Route::middleware(['auth:admin', 'file'])->group(function () {
     Route::post('/kas/rekening/pdf', [PDFController::class, 'ExportKasRekeningPDF'])->name('kas_rekening_pdf');
     Route::post('/kas/rekening/excel', [ExportController::class, 'ExportKasRekening'])->name('kas_rekening_excel');
     Route::post('/kas/rekening/csv', [ExportController::class, 'ExportKasRekeningCSV'])->name('kas_rekening_csv');
+
+    Route::post('/history/pdf', [PDFController::class, 'HistoryPDF'])->name('history_pdf');
+    Route::post('/history/excel', [ExportController::class, 'History'])->name('history_excel');
+    Route::post('/history/csv', [ExportController::class, 'HistoryCSV'])->name('history_csv');
 });

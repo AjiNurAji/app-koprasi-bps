@@ -3,28 +3,28 @@
 @section('title', 'Simpanan Wajib')
 
 @section('content')
-<tr style="text-align: center; font-weight: 800; margin-bottom: 70px;">
-    <td colspan="6" style="text-align: center; font-weight: 800; margin-bottom: 70px;">
-        Rekapitulasi Simpanan Wajib
-    </td>
-</tr>
-<tr style="text-align: center; font-weight: 800; margin-bottom: 70px;">
-    <td colspan="6" style="text-align: center; font-weight: 800; margin-bottom: 70px;">
-        Koperasi Kesejahteraan Pegawai BPS Kab. Kuningan
-    </td>
-</tr>
-<tr style="text-align: center; font-weight: 800; margin-bottom: 70px;">
-    <td colspan="6" style="text-align: center; font-weight: 800; margin-bottom: 70px;">
-        Tahun Buku {{ date('Y') }}
-    </td>
-</tr>
-<tr style="text-align: center; font-weight: 800; margin-bottom: 70px;">
-    <td colspan="6" style="text-align: center; font-weight: 800; margin-bottom: 70px;">
-        (Dalam Rupiah)
-    </td>
-</tr>
-<br>
-<br>
+    <tr style="text-align: center; font-weight: 800; margin-bottom: 70px;">
+        <td colspan="6" style="text-align: center; font-weight: 800; margin-bottom: 70px;">
+            Rekapitulasi Simpanan Wajib
+        </td>
+    </tr>
+    <tr style="text-align: center; font-weight: 800; margin-bottom: 70px;">
+        <td colspan="6" style="text-align: center; font-weight: 800; margin-bottom: 70px;">
+            Koperasi Kesejahteraan Pegawai BPS Kab. Kuningan
+        </td>
+    </tr>
+    <tr style="text-align: center; font-weight: 800; margin-bottom: 70px;">
+        <td colspan="6" style="text-align: center; font-weight: 800; margin-bottom: 70px;">
+            Tahun Buku {{ date('Y') }}
+        </td>
+    </tr>
+    <tr style="text-align: center; font-weight: 800; margin-bottom: 70px;">
+        <td colspan="6" style="text-align: center; font-weight: 800; margin-bottom: 70px;">
+            (Dalam Rupiah)
+        </td>
+    </tr>
+    <br>
+    <br>
 
     <table style="width: 100%;">
         <tr>
