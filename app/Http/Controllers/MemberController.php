@@ -63,10 +63,10 @@ class MemberController extends Controller
         return response()->json(['message' => 'Sorry, hanya admin yang dapat menambah anggota!'], 401);
     }
 
-    public function delete($id)
-    {
-        DB::table('anggota')->where('id', $id)->delete();
-        return response()->json(['message' => 'Anggota berhasil dihapus!'], 200);
+    public function delete($uuid) {
+        $user = Auth::user();
+        $user->delete();
+        return response()->json(['message' => 'Berhasil Menghapus anggota'], 200);
     }
 
     /**
