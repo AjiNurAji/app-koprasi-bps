@@ -45,9 +45,9 @@ const TableSimpananPokok = ({ data, members, total, type }) => {
                         pdf="simpananpokok.pdf"
                         csv="simpananpokok.csv"
                         excel="simpananpokok.xlsx"
-                        routepdf={route('simpanan_pokok_pdf')}
-                        routecsv={route('simpanan_pokok_csv')}
-                        routeexcel={route('simpanan_pokok_excel')}
+                        routepdf={route("simpanan_pokok_pdf")}
+                        routecsv={route("simpanan_pokok_csv")}
+                        routeexcel={route("simpanan_pokok_excel")}
                     />
                     <SearchTable
                         setGlobalFilter={setGlobalFilter}
@@ -127,17 +127,26 @@ const TableSimpananPokok = ({ data, members, total, type }) => {
                                                 : "bg-gray dark:bg-meta-4 bg-opacity-30 dark:bg-opacity-30"
                                         }`}
                                     >
-                                        {row.getVisibleCells().map((cell) => (
-                                            <td
-                                                key={cell.id}
-                                                className="border py-5 px-4 border-stroke dark:border-opacity-20"
-                                            >
-                                                {flexRender(
-                                                    cell.column.columnDef.cell,
-                                                    cell.getContext()
-                                                )}
-                                            </td>
-                                        ))}
+                                        {row
+                                            .getVisibleCells()
+                                            .map((cell, i) => (
+                                                <td
+                                                    key={cell.id}
+                                                    className={`${
+                                                        i === 0
+                                                            ? "text-center"
+                                                            : i === 1
+                                                            ? "text-left"
+                                                            : "text-right"
+                                                    } border py-5 px-4 border-stroke dark:border-opacity-20`}
+                                                >
+                                                    {flexRender(
+                                                        cell.column.columnDef
+                                                            .cell,
+                                                        cell.getContext()
+                                                    )}
+                                                </td>
+                                            ))}
                                     </tr>
                                 ))}
                                 <tr>
@@ -147,44 +156,37 @@ const TableSimpananPokok = ({ data, members, total, type }) => {
                                     >
                                         TOTAL
                                     </td>
-                                    <td className="font-medium border py-5 px-4 border-stroke dark:border-opacity-20 text-black dark:text-white">
-                                        {Intl.NumberFormat("in-ID", {
-                                            style: "currency",
-                                            currency: "IDR",
-                                        }).format(
-                                            total.awal_tahun
-                                                ? total.awal_tahun
-                                                : 0
-                                        )}
+                                    <td className="font-medium text-right border py-5 px-4 border-stroke dark:border-opacity-20 text-black dark:text-white">
+                                        {total.awal_tahun
+                                            ? Intl.NumberFormat("in-ID", {
+                                                  style: "currency",
+                                                  currency: "IDR",
+                                              }).format(total.awal_tahun)
+                                            : "-"}
                                     </td>
-                                    <td className="font-medium border py-5 px-4 border-stroke dark:border-opacity-20 text-black dark:text-white">
-                                        {Intl.NumberFormat("in-ID", {
-                                            style: "currency",
-                                            currency: "IDR",
-                                        }).format(
-                                            total.anggota_masuk
-                                                ? total.anggota_masuk
-                                                : 0
-                                        )}
+                                    <td className="font-medium text-right border py-5 px-4 border-stroke dark:border-opacity-20 text-black dark:text-white">
+                                        {total.anggota_masuk
+                                            ? Intl.NumberFormat("in-ID", {
+                                                  style: "currency",
+                                                  currency: "IDR",
+                                              }).format(total.anggota_masuk)
+                                            : "-"}
                                     </td>
-                                    <td className="font-medium border py-5 px-4 border-stroke dark:border-opacity-20 text-black dark:text-white">
-                                        {Intl.NumberFormat("in-ID", {
-                                            style: "currency",
-                                            currency: "IDR",
-                                        }).format(
-                                            total.anggota_keluar
-                                                ? total.anggota_keluar
-                                                : 0
-                                        )}
+                                    <td className="font-medium text-right border py-5 px-4 border-stroke dark:border-opacity-20 text-black dark:text-white">
+                                        {total.anggota_keluar
+                                            ? Intl.NumberFormat("in-ID", {
+                                                  style: "currency",
+                                                  currency: "IDR",
+                                              }).format(total.anggota_keluar)
+                                            : "-"}
                                     </td>
-                                    <td className="font-medium border py-5 px-4 border-stroke dark:border-opacity-20 text-black dark:text-white">
-                                        {}
-                                        {Intl.NumberFormat("in-ID", {
-                                            style: "currency",
-                                            currency: "IDR",
-                                        }).format(
-                                            total.jumlah ? total.jumlah : 0
-                                        )}
+                                    <td className="font-medium text-right border py-5 px-4 border-stroke dark:border-opacity-20 text-black dark:text-white">
+                                        {total.jumlah
+                                            ? Intl.NumberFormat("in-ID", {
+                                                  style: "currency",
+                                                  currency: "IDR",
+                                              }).format(total.jumlah)
+                                            : "-"}
                                     </td>
                                 </tr>
                             </>

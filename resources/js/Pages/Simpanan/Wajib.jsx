@@ -4,6 +4,7 @@ import Authenticated from "@/Layouts/AuthenticatedLayout";
 import { Head } from "@inertiajs/react";
 
 const Wajib = ({ auth, data, members, total }) => {
+    console.log(data)
     return (
         <Authenticated user={auth.user}>
             <Head title="Simpanan Wajib" />

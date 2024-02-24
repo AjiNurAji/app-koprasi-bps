@@ -42,7 +42,9 @@ class PDFController extends Controller
             ]
         ]);
 
-        $pdf->setPaper('a4', 'potrait');
+        $pdf->setOption(['dpi' => 150]);
+
+        $pdf->setPaper('f4', 'potrait');
 
         return $pdf->download('simpananpokok.pdf');
     }
@@ -75,7 +77,9 @@ class PDFController extends Controller
             ]
         ]);
 
-        $pdf->setPaper('a4', 'potrait');
+        $pdf->setOption(['dpi' => 150]);
+
+        $pdf->setPaper('f4', 'potrait');
 
         return $pdf->download('simpananwajib.pdf');
     }
@@ -118,51 +122,11 @@ class PDFController extends Controller
             ]
         ]);
 
-        $pdf->setPaper('a4', 'potrait');
+        $pdf->setOption(['dpi' => 150]);
+
+        $pdf->setPaper('f4', 'potrait');
 
         return $pdf->download('simpanansukarela.pdf');
-    }
-    public function getExportSimpananSukarelaPDF()
-    {
-        $simpananSukarela = SimpananSukarela::where('tahun', date('Y'))->orderBy('updated_at', 'asc')->get();
-
-        foreach ($simpananSukarela as $data) {
-            $datas[] = [
-                'name' => $data->member->name,
-                'sukarela' => $data->sukarela === null ? null : $data->sukarela,
-                'selama_tahun' => $data->selama_tahun === null ? null : $data->selama_tahun,
-                'awal_tahun' => $data->awal_tahun === null ? null : $data->awal_tahun,
-                'shu' => $data->shu === null ? null : $data->shu,
-                'diambil' => $data->diambil === null ? null : $data->diambil,
-                'disimpan_kembali' => $data->disimpan_kembali === null ? null : $data->disimpan_kembali,
-                'akhir_taun' => $data->akhir_taun === null ? null : $data->akhir_taun,
-            ];
-        }
-
-        $totalSukarelaPembulatan = simpananSukarela::where('tahun', date('Y'))->sum('sukarela');
-        $totalShu = simpananSukarela::where('tahun', date('Y'))->sum('shu');
-        $totalAwalTahun = simpananSukarela::where('tahun', date('Y'))->sum('awal_tahun');
-        $totalSelamaTahun = simpananSukarela::where('tahun', date('Y'))->sum('selama_tahun');
-        $totalDiambil = simpananSukarela::where('tahun', date('Y'))->sum('diambil');
-        $totalDisimpanKembali = simpananSukarela::where('tahun', date('Y'))->sum('disimpan_kembali');
-        $totalAkhirTahun = simpananSukarela::where('tahun', date('Y'))->sum('akhir_taun');
-
-        $pdf = PDF::loadView('Exports.PDF.Simpanan.simpananSukarela', [
-            'data' => isset($datas) ? $datas : $simpananSukarela,
-            'total' => [
-                'total_sukarela' => $totalSukarelaPembulatan,
-                'total_shu' => $totalShu,
-                'total_awal_tahun' => $totalAwalTahun,
-                'total_selama_tahun' => $totalSelamaTahun,
-                'total_diambil' => $totalDiambil,
-                'total_disimpan_kembali' => $totalDisimpanKembali,
-                'total_akhir_tahun' => $totalAkhirTahun
-            ]
-        ]);
-
-        $pdf->setPaper('a4', 'landscape');
-
-        return $pdf->stream('simpanansukarela.pdf');
     }
 
     public function ExportKasTunaiPDF()
@@ -190,7 +154,9 @@ class PDFController extends Controller
             'tunai' => $tunai,
         ]);
 
-        $pdf->setPaper('a4', 'potrait');
+        $pdf->setOption(['dpi' => 150]);
+
+        $pdf->setPaper('f4', 'potrait');
 
         return $pdf->download('kastunai.pdf');
     }
@@ -221,53 +187,49 @@ class PDFController extends Controller
             $kas->jumlah = $saldoRekening ? $saldoRekening->saldo : null;
         }
 
-        if ($rekening) {
-            foreach ($rekening as $i => $value) {
-                $setor = TrRekening::where('id_rekening', $value->id_rekening)
-                    ->where('type', 'setor')
-                    ->first();
+        foreach ($rekening as $i => $value) {
+            $setor = TrRekening::where('id_rekening', $value->id_rekening)
+                ->where('type', 'setor')
+                ->first();
 
-                $bunga_bank = TrRekening::where('id_rekening', $value->id_rekening)
-                    ->where('type', 'bunga_bank')
-                    ->first();
+            $bunga_bank = TrRekening::where('id_rekening', $value->id_rekening)
+                ->where('type', 'bunga_bank')
+                ->first();
 
-                $pajak = TrRekening::where('id_rekening', $value->id_rekening)
-                    ->where('type', 'pajak')
-                    ->first();
+            $pajak = TrRekening::where('id_rekening', $value->id_rekening)
+                ->where('type', 'pajak')
+                ->first();
 
-                $adm = TrRekening::where('id_rekening', $value->id_rekening)
-                    ->where('type', 'adm')
-                    ->first();
+            $adm = TrRekening::where('id_rekening', $value->id_rekening)
+                ->where('type', 'adm')
+                ->first();
 
-                $penarikan = TrRekening::where('id_rekening', $value->id_rekening)
-                    ->where('type', 'penarikan')
-                    ->first();
+            $penarikan = TrRekening::where('id_rekening', $value->id_rekening)
+                ->where('type', 'penarikan')
+                ->first();
 
-                $saldo = TrRekening::where('id_rekening', $value->id_rekening)
-                    ->orderBy('created_at', 'desc')
-                    ->first();
+            $saldo = TrRekening::where('id_rekening', $value->id_rekening)
+                ->orderBy('created_at', 'desc')
+                ->first();
 
-                $datas[] = [
-                    'bulan' => $value->bulan,
-                    'setor' => $setor ? $setor->nominal : null,
-                    'setor_type' => $setor ? $setor->rekening : $saldo->saldo + $saldo->nominal,
-                    'saldo_setor' => $setor ? $setor->saldo : null,
-                    'bunga_bank' => $bunga_bank ? $bunga_bank->nominal : null,
-                    'bunga_bank_type' => $bunga_bank ? $bunga_bank->rekening : null,
-                    'saldo_bunga_bank' => $bunga_bank ? $bunga_bank->saldo : $saldo->saldo + $saldo->nominal,
-                    'pajak' => $pajak ? $pajak->nominal : null,
-                    'pajak_type' => $pajak ? $pajak->rekening : null,
-                    'saldo_pajak' => $pajak ? $pajak->saldo : $saldo->saldo + $saldo->nominal,
-                    'adm' => $adm ? $adm->nominal : null,
-                    'adm_type' => $adm ? $adm->rekening : null,
-                    'saldo_adm' => $adm ? $adm->saldo : $saldo->saldo + $saldo->nominal,
-                    'penarikan' => $penarikan ? $penarikan->nominal : null,
-                    'penarikan_type' => $penarikan ? $penarikan->rekening : null,
-                    'saldo_penarikan' => $penarikan ? $penarikan->saldo : $saldo->saldo + $saldo->nominal,
-                ];
-            }
-        } else {
-            $datas = [];
+            $datas[] = [
+                'bulan' => $value->bulan,
+                'setor' => $setor ? $setor->nominal : null,
+                'setor_type' => $setor ? $setor->rekening : $saldo->saldo + $saldo->nominal,
+                'saldo_setor' => $setor ? $setor->saldo : null,
+                'bunga_bank' => $bunga_bank ? $bunga_bank->nominal : null,
+                'bunga_bank_type' => $bunga_bank ? $bunga_bank->rekening : null,
+                'saldo_bunga_bank' => $bunga_bank ? $bunga_bank->saldo : $saldo->saldo + $saldo->nominal,
+                'pajak' => $pajak ? $pajak->nominal : null,
+                'pajak_type' => $pajak ? $pajak->rekening : null,
+                'saldo_pajak' => $pajak ? $pajak->saldo : $saldo->saldo + $saldo->nominal,
+                'adm' => $adm ? $adm->nominal : null,
+                'adm_type' => $adm ? $adm->rekening : null,
+                'saldo_adm' => $adm ? $adm->saldo : $saldo->saldo + $saldo->nominal,
+                'penarikan' => $penarikan ? $penarikan->nominal : null,
+                'penarikan_type' => $penarikan ? $penarikan->rekening : null,
+                'saldo_penarikan' => $penarikan ? $penarikan->saldo : $saldo->saldo + $saldo->nominal,
+            ];
         }
 
         $pdf = PDF::loadView('Exports.PDF.Kas.kasRekening',   [
@@ -276,9 +238,9 @@ class PDFController extends Controller
             'datas' => $datas,
         ]);
 
-        $pdf->setPaper('a4', 'potrait');
+        $pdf->setOption(['dpi' => 150]);
 
-        // dd($pdf);
+        $pdf->setPaper('f4', 'potrait');
 
         return $pdf->download('kasrekening.pdf');
     }

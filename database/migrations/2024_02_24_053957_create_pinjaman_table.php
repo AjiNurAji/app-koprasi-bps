@@ -1,0 +1,37 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    /**
+     * Run the migrations.
+     */
+    public function up(): void
+    {
+        Schema::create('pinjaman', function (Blueprint $table) {
+            $table->uuid('id_pinjaman')->primary();
+            $table->char('id_member');
+            $table->foreign('id_member')->references('id_member')->on('members')->onUpdate('cascade')->onDelete('cascade');
+            $table->integer('tahun', false)->nullable();
+            $table->string('bulan', 12)->nullable();
+            $table->string('hari', 7)->nullable();
+            $table->integer('nominal', false)->nullable();
+            $table->integer('cicilan', false)->nullable();
+            $table->integer('langsung', false)->nullable();
+            $table->integer('dibayar', false)->nullable();
+            $table->integer('sisa', false)->nullable();
+            $table->timestamps();
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
+    {
+        Schema::dropIfExists('pinjaman');
+    }
+};

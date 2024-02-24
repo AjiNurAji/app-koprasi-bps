@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import { toast } from "react-hot-toast";
 import ButtonLoading from "../ButtonLoading";
 import { useForm } from "@inertiajs/react";
@@ -11,6 +11,7 @@ import axios from "axios";
 const FormSimpanan = ({ members, setPopup, postUrl, directUrl, type }) => {
     const [processing, setProcess] = useState(false);
     const [simpanan, setSimpanan] = useState([]);
+    const [simpananPrev, setSimpananPrev] = useState(null);
     const getTahun = new Date();
     const form = useRef(null);
     const [step, setStep] = useState(1);
@@ -21,6 +22,7 @@ const FormSimpanan = ({ members, setPopup, postUrl, directUrl, type }) => {
         bulan: getTahun.toLocaleDateString("in-ID", { month: "long" }),
         hari: getTahun.toLocaleDateString("in-ID", { weekday: "long" }),
         awal_tahun: null,
+        tahun_sebelumnya: null, 
         anggota_masuk: null,
         anggota_keluar: null,
         simpanan_wajib: null,
@@ -32,6 +34,14 @@ const FormSimpanan = ({ members, setPopup, postUrl, directUrl, type }) => {
         disimpan_kembali: null,
         akhir_tahun: null,
     });
+
+    useEffect(() => {
+        setData({
+            ...data,
+            awal_tahun: simpananPrev ? simpananPrev : null,
+            tahun_sebelumnya: simpananPrev ? simpananPrev : null
+        })
+    }, [simpananPrev])
 
     const submit = async (e) => {
         e.preventDefault();
@@ -48,8 +58,6 @@ const FormSimpanan = ({ members, setPopup, postUrl, directUrl, type }) => {
 
         setProcess(false);
     };
-
-    console.log(data);
 
     const handleStep = async (e) => {
         e.preventDefault();
@@ -70,6 +78,7 @@ const FormSimpanan = ({ members, setPopup, postUrl, directUrl, type }) => {
                     duration: 3000,
                 });
                 setSimpanan(response.data.simpanan);
+                setSimpananPrev(response.data.sebelum);
                 setProcess(false);
                 return setStep(2);
             }
@@ -96,8 +105,6 @@ const FormSimpanan = ({ members, setPopup, postUrl, directUrl, type }) => {
         });
     };
 
-    console.log(data)
-
     return (
         <form
             className="flex flex-col gap-4"
@@ -122,6 +129,7 @@ const FormSimpanan = ({ members, setPopup, postUrl, directUrl, type }) => {
             {step === 1 ? null : (
                 <NextSimpanan
                     data={simpanan}
+                    awalTahun={simpananPrev}
                     getTahun={getTahun}
                     type={type}
                     step={step}

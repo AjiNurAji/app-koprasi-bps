@@ -107,7 +107,7 @@ export const columnsSimpananPokok = [
         rowSpan: 2,
     }),
 
-    columnHelper.accessor("name", {
+    columnHelper.accessor("member.name", {
         id: "Nama",
         cell: (data) => (
             <span className="font-medium text-black dark:text-white">
@@ -125,10 +125,12 @@ export const columnsSimpananPokok = [
                 id: `Awal Tahun ${new Date().getFullYear()}`,
                 cell: (data) => (
                     <span className="font-medium text-black dark:text-white">
-                        {Intl.NumberFormat("in-ID", {
-                            style: "currency",
-                            currency: "IDR",
-                        }).format(data.getValue() ? data.getValue() : 0)}
+                        {data.getValue()
+                            ? Intl.NumberFormat("in-ID", {
+                                  style: "currency",
+                                  currency: "IDR",
+                              }).format(data.getValue())
+                            : "-"}
                     </span>
                 ),
                 header: `Awal Tahun ${new Date().getFullYear()}`,
@@ -139,10 +141,12 @@ export const columnsSimpananPokok = [
                 id: "AnggotaMasuk",
                 cell: (data) => (
                     <span className="font-medium text-black dark:text-white">
-                        {Intl.NumberFormat("in-ID", {
-                            style: "currency",
-                            currency: "IDR",
-                        }).format(data.getValue() ? data.getValue() : 0)}
+                        {data.getValue()
+                            ? Intl.NumberFormat("in-ID", {
+                                  style: "currency",
+                                  currency: "IDR",
+                              }).format(data.getValue())
+                            : "-"}
                     </span>
                 ),
                 header: "Anggota Masuk",
@@ -153,10 +157,12 @@ export const columnsSimpananPokok = [
                 id: "AnggotaKeluar",
                 cell: (data) => (
                     <span className="font-medium text-black dark:text-white">
-                        {Intl.NumberFormat("in-ID", {
-                            style: "currency",
-                            currency: "IDR",
-                        }).format(data.getValue() ? data.getValue() : 0)}
+                        {data.getValue()
+                            ? Intl.NumberFormat("in-ID", {
+                                  style: "currency",
+                                  currency: "IDR",
+                              }).format(data.getValue())
+                            : "-"}
                     </span>
                 ),
                 header: "Anggota Keluar",
@@ -167,14 +173,22 @@ export const columnsSimpananPokok = [
         enableGlobalFilter: false,
     }),
 
-    columnHelper.accessor("kekayaan", {
+    columnHelper.accessor("", {
         id: "kekayaan",
         cell: (data) => (
             <span className="font-medium text-black dark:text-white">
-                {Intl.NumberFormat("in-ID", {
-                    style: "currency",
-                    currency: "IDR",
-                }).format(data.getValue() ? data.getValue() : 0)}
+                {data.row.original.awal_tahun ||
+                data.row.original.anggota_masuk ||
+                data.row.original.anggota_keluar
+                    ? Intl.NumberFormat("in-ID", {
+                          style: "currency",
+                          currency: "IDR",
+                      }).format(
+                          data.row.original.awal_tahun +
+                              data.row.original.anggota_masuk -
+                              data.row.original.anggota_keluar
+                      )
+                    : "-"}
             </span>
         ),
         header: `Kekayaan per 31 Desember ${new Date().getFullYear()}`,
@@ -194,7 +208,7 @@ export const columnSimpananWajib = [
         enableGlobalFilter: false,
     }),
 
-    columnHelper.accessor("name", {
+    columnHelper.accessor("member.name", {
         id: "name",
         cell: (data) => (
             <span className="font-medium text-black dark:text-white">
@@ -208,10 +222,12 @@ export const columnSimpananWajib = [
         id: "kekayaan_awal_tahun",
         cell: (data) => (
             <span className="font-medium text-black dark:text-white">
-                {Intl.NumberFormat("in-ID", {
-                    style: "currency",
-                    currency: "IDR",
-                }).format(data.getValue() ? data.getValue() : 0)}
+                {data.getValue()
+                    ? Intl.NumberFormat("in-ID", {
+                          style: "currency",
+                          currency: "IDR",
+                      }).format(data.getValue())
+                    : "-"}
             </span>
         ),
         header: `Kekayaan Awal Tahun ${new Date().getFullYear()}`,
@@ -222,10 +238,12 @@ export const columnSimpananWajib = [
         id: "simpanan_wajib",
         cell: (data) => (
             <span className="font-medium text-black dark:text-white">
-                {Intl.NumberFormat("in-ID", {
-                    style: "currency",
-                    currency: "IDR",
-                }).format(data.getValue() ? data.getValue() : 0)}
+                {data.getValue()
+                    ? Intl.NumberFormat("in-ID", {
+                          style: "currency",
+                          currency: "IDR",
+                      }).format(data.getValue())
+                    : "-"}
             </span>
         ),
         header: "Simpanan Wajib",
@@ -236,10 +254,12 @@ export const columnSimpananWajib = [
         id: "anggota_keluar",
         cell: (data) => (
             <span className="font-medium text-black dark:text-white">
-                {Intl.NumberFormat("in-ID", {
-                    style: "currency",
-                    currency: "IDR",
-                }).format(data.getValue() ? data.getValue() : 0)}
+                {data.getValue()
+                    ? Intl.NumberFormat("in-ID", {
+                          style: "currency",
+                          currency: "IDR",
+                      }).format(data.getValue())
+                    : "-"}
             </span>
         ),
         header: "Anggota Keluar",
@@ -250,10 +270,18 @@ export const columnSimpananWajib = [
         id: "kekayaan",
         cell: (data) => (
             <span className="font-medium text-black dark:text-white">
-                {Intl.NumberFormat("in-ID", {
-                    style: "currency",
-                    currency: "IDR",
-                }).format(data.getValue() ? data.getValue() : 0)}
+                {data.row.original.kekayaan_awal_tahun ||
+                data.row.original.simpanan_wajib ||
+                data.row.original.anggota_keluar
+                    ? Intl.NumberFormat("in-ID", {
+                          style: "currency",
+                          currency: "IDR",
+                      }).format(
+                          data.row.original.kekayaan_awal_tahun +
+                              data.row.original.simpanan_wajib -
+                              data.row.original.anggota_keluar
+                      )
+                    : "-"}
             </span>
         ),
         header: `Kekayaan per 31 Desember ${new Date().getFullYear()}`,
@@ -273,7 +301,7 @@ export const columnsSimpananSukarela = [
         rowSpan: 2,
     }),
 
-    columnHelper.accessor("name", {
+    columnHelper.accessor("member.name", {
         id: "Nama",
         cell: (data) => (
             <span className="font-medium text-black dark:text-white">
@@ -287,10 +315,12 @@ export const columnsSimpananSukarela = [
         id: "sukarela",
         cell: (data) => (
             <span className="font-medium text-black dark:text-white">
-                {Intl.NumberFormat("in-ID", {
-                    style: "currency",
-                    currency: "IDR",
-                }).format(data.getValue() ? data.getValue() : 0)}
+                {data.getValue()
+                    ? Intl.NumberFormat("in-ID", {
+                          style: "currency",
+                          currency: "IDR",
+                      }).format(data.getValue())
+                    : "-"}
             </span>
         ),
         header: "Sukarela Dari Pembulatan",
@@ -300,10 +330,12 @@ export const columnsSimpananSukarela = [
         id: "shu",
         cell: (data) => (
             <span className="font-medium text-black dark:text-white">
-                {Intl.NumberFormat("in-ID", {
-                    style: "currency",
-                    currency: "IDR",
-                }).format(data.getValue() ? data.getValue() : 0)}
+                {data.getValue()
+                    ? Intl.NumberFormat("in-ID", {
+                          style: "currency",
+                          currency: "IDR",
+                      }).format(data.getValue())
+                    : "-"}
             </span>
         ),
         header: "SHU Yang Disimpan",
@@ -317,10 +349,12 @@ export const columnsSimpananSukarela = [
                 id: `Awal ${new Date().getFullYear()}`,
                 cell: (data) => (
                     <span className="font-medium text-black dark:text-white">
-                        {Intl.NumberFormat("in-ID", {
-                            style: "currency",
-                            currency: "IDR",
-                        }).format(data.getValue() ? data.getValue() : 0)}
+                        {data.getValue()
+                            ? Intl.NumberFormat("in-ID", {
+                                  style: "currency",
+                                  currency: "IDR",
+                              }).format(data.getValue())
+                            : "-"}
                     </span>
                 ),
                 header: `Awal ${new Date().getFullYear()}`,
@@ -332,10 +366,12 @@ export const columnsSimpananSukarela = [
                 id: "selama_tahun",
                 cell: (data) => (
                     <span className="font-medium text-black dark:text-white">
-                        {Intl.NumberFormat("in-ID", {
-                            style: "currency",
-                            currency: "IDR",
-                        }).format(data.getValue() ? data.getValue() : 0)}
+                        {data.getValue()
+                            ? Intl.NumberFormat("in-ID", {
+                                  style: "currency",
+                                  currency: "IDR",
+                              }).format(data.getValue())
+                            : "-"}
                     </span>
                 ),
                 header: `Selama Tahun ${new Date().getFullYear()}`,
@@ -347,10 +383,12 @@ export const columnsSimpananSukarela = [
                 id: "diambil",
                 cell: (data) => (
                     <span className="font-medium text-black dark:text-white">
-                        {Intl.NumberFormat("in-ID", {
-                            style: "currency",
-                            currency: "IDR",
-                        }).format(data.getValue() ? data.getValue() : 0)}
+                        {data.getValue()
+                            ? Intl.NumberFormat("in-ID", {
+                                  style: "currency",
+                                  currency: "IDR",
+                              }).format(data.getValue())
+                            : "-"}
                     </span>
                 ),
                 header: "Diambil",
@@ -362,10 +400,12 @@ export const columnsSimpananSukarela = [
                 id: "disimpan_kembali",
                 cell: (data) => (
                     <span className="font-medium text-black dark:text-white">
-                        {Intl.NumberFormat("in-ID", {
-                            style: "currency",
-                            currency: "IDR",
-                        }).format(data.getValue() ? data.getValue() : 0)}
+                        {data.getValue()
+                            ? Intl.NumberFormat("in-ID", {
+                                  style: "currency",
+                                  currency: "IDR",
+                              }).format(data.getValue())
+                            : "-"}
                     </span>
                 ),
                 header: "Disimpan Kembali",
@@ -377,10 +417,12 @@ export const columnsSimpananSukarela = [
                 id: "akhir_taun",
                 cell: (data) => (
                     <span className="font-medium text-black dark:text-white">
-                        {Intl.NumberFormat("in-ID", {
-                            style: "currency",
-                            currency: "IDR",
-                        }).format(data.getValue() ? data.getValue() : 0)}
+                        {data.getValue()
+                            ? Intl.NumberFormat("in-ID", {
+                                  style: "currency",
+                                  currency: "IDR",
+                              }).format(data.getValue())
+                            : "-"}
                     </span>
                 ),
                 header: `Akhir ${new Date().getFullYear()}`,
@@ -419,10 +461,12 @@ export const HistoryOptionTable = [
         id: "nominal_masuk",
         cell: (data) => (
             <span className="font-medium text-black dark:text-white">
-                {Intl.NumberFormat("in-ID", {
-                    style: "currency",
-                    currency: "IDR",
-                }).format(data.getValue() ? data.getValue() : 0)}
+                {data.getValue()
+                    ? Intl.NumberFormat("in-ID", {
+                          style: "currency",
+                          currency: "IDR",
+                      }).format(data.getValue())
+                    : "-"}
             </span>
         ),
         header: "Nominal Masuk",
@@ -434,10 +478,12 @@ export const HistoryOptionTable = [
         id: "nominal_keluar",
         cell: (data) => (
             <span className="font-medium text-black dark:text-white">
-                {Intl.NumberFormat("in-ID", {
-                    style: "currency",
-                    currency: "IDR",
-                }).format(data.getValue() ? data.getValue() : 0)}
+                {data.getValue()
+                    ? Intl.NumberFormat("in-ID", {
+                          style: "currency",
+                          currency: "IDR",
+                      }).format(data.getValue())
+                    : "-"}
             </span>
         ),
         header: "Nominal Keluar",
@@ -524,10 +570,12 @@ export const columnKasTunai = [
         id: "masuk",
         cell: (data) => (
             <span className="text-black dark:text-white">
-                {Intl.NumberFormat("in-ID", {
-                    style: "currency",
-                    currency: "IDR",
-                }).format(data.getValue() ? data.getValue() : 0)}
+                {data.getValue()
+                    ? Intl.NumberFormat("in-ID", {
+                          style: "currency",
+                          currency: "IDR",
+                      }).format(data.getValue())
+                    : "-"}
             </span>
         ),
         header: "Masuk",
@@ -539,10 +587,12 @@ export const columnKasTunai = [
         id: "keluar",
         cell: (data) => (
             <span className="text-black dark:text-white">
-                {Intl.NumberFormat("in-ID", {
-                    style: "currency",
-                    currency: "IDR",
-                }).format(data.getValue() ? data.getValue() : 0)}
+                {data.getValue()
+                    ? Intl.NumberFormat("in-ID", {
+                          style: "currency",
+                          currency: "IDR",
+                      }).format(data.getValue())
+                    : "-"}
             </span>
         ),
         header: "Keluar",

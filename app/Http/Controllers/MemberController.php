@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Member;
+use App\Models\Pinjaman;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -49,6 +50,13 @@ class MemberController extends Controller
                     'email' => $request->input('email'),
                     'name' => $request->input('name'),
                     'password' => Hash::make($request->input('password'))
+                ]);
+
+                $newMember = Member::orderBy('created_at', 'desc')->first();
+
+                Pinjaman::create([
+                    'id_pinjaman' => Str::uuid(),
+                    'id_member' => $newMember->id_member
                 ]);
 
                 return response()->json(['message' => 'Berhasil Menambahkan anggota'], 200);

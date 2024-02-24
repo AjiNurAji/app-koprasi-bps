@@ -130,17 +130,26 @@ const TableSimpananSukarela = ({ data, members, total, type }) => {
                                                 : "bg-gray dark:bg-meta-4 bg-opacity-30 dark:bg-opacity-30"
                                         }`}
                                     >
-                                        {row.getVisibleCells().map((cell) => (
-                                            <td
-                                                key={cell.id}
-                                                className="border py-5 px-4 border-stroke dark:border-opacity-20"
-                                            >
-                                                {flexRender(
-                                                    cell.column.columnDef.cell,
-                                                    cell.getContext()
-                                                )}
-                                            </td>
-                                        ))}
+                                        {row
+                                            .getVisibleCells()
+                                            .map((cell, i) => (
+                                                <td
+                                                    key={cell.id}
+                                                    className={`${
+                                                        i === 0  ? "text-center"
+                                                            : i === 1
+                                                            ? "text-left"
+                                                            : "text-right"
+                                                          
+                                                    } border py-5 px-4 border-stroke dark:border-opacity-20`}
+                                                >
+                                                    {flexRender(
+                                                        cell.column.columnDef
+                                                            .cell,
+                                                        cell.getContext()
+                                                    )}
+                                                </td>
+                                            ))}
                                     </tr>
                                 ))}
                                 <tr>
@@ -150,75 +159,65 @@ const TableSimpananSukarela = ({ data, members, total, type }) => {
                                     >
                                         TOTAL
                                     </td>
-                                    <td className="font-medium border py-5 px-4 border-stroke dark:border-opacity-20 text-black dark:text-white">
-                                        {Intl.NumberFormat("in-ID", {
-                                            style: "currency",
-                                            currency: "IDR",
-                                        }).format(
-                                            total.total_sukarela
-                                                ? total.total_sukarela
-                                                : 0
-                                        )}
+                                    <td className="font-medium text-right border py-5 px-4 border-stroke dark:border-opacity-20 text-black dark:text-white">
+                                        {total.total_sukarela
+                                            ? Intl.NumberFormat("in-ID", {
+                                                  style: "currency",
+                                                  currency: "IDR",
+                                              }).format(total.total_sukarela)
+                                            : "-"}
                                     </td>
-                                    <td className="font-medium border py-5 px-4 border-stroke dark:border-opacity-20 text-black dark:text-white">
-                                        {Intl.NumberFormat("in-ID", {
-                                            style: "currency",
-                                            currency: "IDR",
-                                        }).format(
-                                            total.total_shu
-                                                ? total.total_shu
-                                                : 0
-                                        )}
+                                    <td className="font-medium text-right border py-5 px-4 border-stroke dark:border-opacity-20 text-black dark:text-white">
+                                        {total.total_shu
+                                            ? Intl.NumberFormat("in-ID", {
+                                                  style: "currency",
+                                                  currency: "IDR",
+                                              }).format(total.total_shu)
+                                            : "-"}
                                     </td>
-                                    <td className="font-medium border py-5 px-4 border-stroke dark:border-opacity-20 text-black dark:text-white">
-                                        {Intl.NumberFormat("in-ID", {
-                                            style: "currency",
-                                            currency: "IDR",
-                                        }).format(
-                                            total.total_awal_tahun
-                                                ? total.total_awal_tahun
-                                                : 0
-                                        )}
+                                    <td className="font-medium text-right border py-5 px-4 border-stroke dark:border-opacity-20 text-black dark:text-white">
+                                        {total.total_awal_tahun
+                                            ? Intl.NumberFormat("in-ID", {
+                                                  style: "currency",
+                                                  currency: "IDR",
+                                              }).format(total.total_awal_tahun)
+                                            : "-"}
                                     </td>
-                                    <td className="font-medium border py-5 px-4 border-stroke dark:border-opacity-20 text-black dark:text-white">
-                                        {Intl.NumberFormat("in-ID", {
-                                            style: "currency",
-                                            currency: "IDR",
-                                        }).format(
-                                            total.total_selama_tahun
-                                                ? total.total_selama_tahun
-                                                : 0
-                                        )}
+                                    <td className="font-medium text-right border py-5 px-4 border-stroke dark:border-opacity-20 text-black dark:text-white">
+                                        {total.total_selama_tahun
+                                            ? Intl.NumberFormat("in-ID", {
+                                                  style: "currency",
+                                                  currency: "IDR",
+                                              }).format(
+                                                  total.total_selama_tahun
+                                              )
+                                            : "-"}
                                     </td>
-                                    <td className="font-medium border py-5 px-4 border-stroke dark:border-opacity-20 text-black dark:text-white">
-                                        {Intl.NumberFormat("in-ID", {
-                                            style: "currency",
-                                            currency: "IDR",
-                                        }).format(
-                                            total.total_diambil
-                                                ? total.total_diambil
-                                                : 0
-                                        )}
+                                    <td className="font-medium text-right border py-5 px-4 border-stroke dark:border-opacity-20 text-black dark:text-white">
+                                        {total.total_diambil
+                                            ? Intl.NumberFormat("in-ID", {
+                                                  style: "currency",
+                                                  currency: "IDR",
+                                              }).format(total.total_diambil)
+                                            : "-"}
                                     </td>
-                                    <td className="font-medium border py-5 px-4 border-stroke dark:border-opacity-20 text-black dark:text-white">
-                                        {Intl.NumberFormat("in-ID", {
-                                            style: "currency",
-                                            currency: "IDR",
-                                        }).format(
-                                            total.total_disimpan_kembali
-                                                ? total.total_disimpan_kembali
-                                                : 0
-                                        )}
+                                    <td className="font-medium text-right border py-5 px-4 border-stroke dark:border-opacity-20 text-black dark:text-white">
+                                        {total.total_disimpan_kembali
+                                            ? Intl.NumberFormat("in-ID", {
+                                                  style: "currency",
+                                                  currency: "IDR",
+                                              }).format(
+                                                  total.total_disimpan_kembali
+                                              )
+                                            : "-"}
                                     </td>
-                                    <td className="font-medium border py-5 px-4 border-stroke dark:border-opacity-20 text-black dark:text-white">
-                                        {Intl.NumberFormat("in-ID", {
-                                            style: "currency",
-                                            currency: "IDR",
-                                        }).format(
-                                            total.total_akhir_tahun
-                                                ? total.total_akhir_tahun
-                                                : 0
-                                        )}
+                                    <td className="font-medium text-right border py-5 px-4 border-stroke dark:border-opacity-20 text-black dark:text-white">
+                                        {total.total_akhir_tahun
+                                            ? Intl.NumberFormat("in-ID", {
+                                                  style: "currency",
+                                                  currency: "IDR",
+                                              }).format(total.total_akhir_tahun)
+                                            : "-"}
                                     </td>
                                 </tr>
                             </>

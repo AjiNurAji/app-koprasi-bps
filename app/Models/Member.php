@@ -4,13 +4,14 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
 class Member extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens, HasFactory, Notifiable, SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -33,6 +34,21 @@ class Member extends Authenticatable
         'username',
         'password',
     ];
+
+    public function pinjaman()
+    {
+        return $this->hasMany(Pinjaman::class, 'id_pinjaman');
+    }
+
+    public function simpananPokok()
+    {
+        return $this->hasMany(SimpananPokok::class, 'id_member');
+    }
+
+    public function simpananWajib()
+    {
+        return $this->hasMany(SimpananWajib::class, 'id_member');
+    }
 
     /**
      * The attributes that should be hidden for serialization.

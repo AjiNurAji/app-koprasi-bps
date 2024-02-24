@@ -78,14 +78,15 @@ const CardRekening = ({ data, user, bulan, saldo }) => {
                                         </div>
                                         <div className="flex flex-col gap-2 items-end font-semibold justify-start">
                                             <p>
-                                                {Intl.NumberFormat("in-ID", {
-                                                    style: "currency",
-                                                    currency: "IDR",
-                                                }).format(
-                                                    value.setor
-                                                        ? value.setor
-                                                        : 0
-                                                )}{" "}
+                                                {value.setor
+                                                    ? Intl.NumberFormat(
+                                                          "in-ID",
+                                                          {
+                                                              style: "currency",
+                                                              currency: "IDR",
+                                                          }
+                                                      ).format(value.setor)
+                                                    : "-"}{" "}
                                                 {value.setor_type ? (
                                                     <span className="ml-1 uppercase font-normal text-xs dark:text-white text-black dark:text-opacity-40">
                                                         ({value.setor_type})
@@ -93,14 +94,15 @@ const CardRekening = ({ data, user, bulan, saldo }) => {
                                                 ) : null}
                                             </p>
                                             <p>
-                                                {Intl.NumberFormat("in-ID", {
-                                                    style: "currency",
-                                                    currency: "IDR",
-                                                }).format(
-                                                    value.bunga_bank
-                                                        ? value.bunga_bank
-                                                        : 0
-                                                )}{" "}
+                                                {value.bunga_bank
+                                                    ? Intl.NumberFormat(
+                                                          "in-ID",
+                                                          {
+                                                              style: "currency",
+                                                              currency: "IDR",
+                                                          }
+                                                      ).format(value.bunga_bank)
+                                                    : "-"}{" "}
                                                 {value.bunga_bank_type ? (
                                                     <span className="ml-1 uppercase font-normal text-xs dark:text-white text-black dark:text-opacity-40">
                                                         ({value.bunga_bank_type}
@@ -109,14 +111,15 @@ const CardRekening = ({ data, user, bulan, saldo }) => {
                                                 ) : null}
                                             </p>
                                             <p>
-                                                {Intl.NumberFormat("in-ID", {
-                                                    style: "currency",
-                                                    currency: "IDR",
-                                                }).format(
-                                                    value.pajak
-                                                        ? value.pajak
-                                                        : 0
-                                                )}{" "}
+                                                {value.pajak
+                                                    ? Intl.NumberFormat(
+                                                          "in-ID",
+                                                          {
+                                                              style: "currency",
+                                                              currency: "IDR",
+                                                          }
+                                                      ).format(value.pajak)
+                                                    : "-"}{" "}
                                                 {value.pajak_type ? (
                                                     <span className="ml-1 uppercase font-normal text-xs dark:text-white text-black dark:text-opacity-40">
                                                         ({value.pajak_type})
@@ -124,12 +127,15 @@ const CardRekening = ({ data, user, bulan, saldo }) => {
                                                 ) : null}
                                             </p>
                                             <p>
-                                                {Intl.NumberFormat("in-ID", {
-                                                    style: "currency",
-                                                    currency: "IDR",
-                                                }).format(
-                                                    value.adm ? value.adm : 0
-                                                )}{" "}
+                                                {value.adm
+                                                    ? Intl.NumberFormat(
+                                                          "in-ID",
+                                                          {
+                                                              style: "currency",
+                                                              currency: "IDR",
+                                                          }
+                                                      ).format(value.adm)
+                                                    : "-"}{" "}
                                                 {value.adm_type ? (
                                                     <span className="ml-1 uppercase font-normal text-xs dark:text-white text-black dark:text-opacity-40">
                                                         ({value.adm_type})
@@ -137,14 +143,15 @@ const CardRekening = ({ data, user, bulan, saldo }) => {
                                                 ) : null}
                                             </p>
                                             <p>
-                                                {Intl.NumberFormat("in-ID", {
-                                                    style: "currency",
-                                                    currency: "IDR",
-                                                }).format(
-                                                    value.penarikan
-                                                        ? value.penarikan
-                                                        : 0
-                                                )}{" "}
+                                                {value.penarikan
+                                                    ? Intl.NumberFormat(
+                                                          "in-ID",
+                                                          {
+                                                              style: "currency",
+                                                              currency: "IDR",
+                                                          }
+                                                      ).format(value.penarikan)
+                                                    : "-"}{" "}
                                                 {value.penarikan_type ? (
                                                     <span className="ml-1 uppercase font-normal text-xs dark:text-white text-black dark:text-opacity-40">
                                                         ({value.penarikan_type})
@@ -152,14 +159,15 @@ const CardRekening = ({ data, user, bulan, saldo }) => {
                                                 ) : null}
                                             </p>
                                             <p className="text-black dark:text-white">
-                                                {Intl.NumberFormat("in-ID", {
-                                                    style: "currency",
-                                                    currency: "IDR",
-                                                }).format(
-                                                    value.saldo
-                                                        ? value.saldo
-                                                        : 0
-                                                )}
+                                                {value.saldo
+                                                    ? Intl.NumberFormat(
+                                                          "in-ID",
+                                                          {
+                                                              style: "currency",
+                                                              currency: "IDR",
+                                                          }
+                                                      ).format(value.saldo)
+                                                    : "-"}
                                             </p>
                                         </div>
                                     </div>

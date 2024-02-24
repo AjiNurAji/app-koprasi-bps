@@ -97,10 +97,14 @@ const TableJasaPiutang = ({ data }) => {
                                             : "bg-gray dark:bg-meta-4 bg-opacity-30 dark:bg-opacity-30"
                                     }`}
                                 >
-                                    {row.getVisibleCells().map((cell) => (
+                                    {row.getVisibleCells().map((cell, i) => (
                                         <td
                                             key={cell.id}
-                                            className="border py-5 px-4 border-stroke dark:border-opacity-20"
+                                            className={`${
+                                                i === 0
+                                                    ? "text-center"
+                                                    : "text-right"
+                                            } border py-5 px-4 border-stroke dark:border-opacity-20`}
                                         >
                                             {flexRender(
                                                 cell.column.columnDef.cell,

@@ -9,6 +9,7 @@ use Inertia\Inertia;
 use App\Models\SimpananPokok;
 use App\Models\JasaAnggota;
 use App\Models\SimpananWajib;
+use App\Models\Pinjaman;
 use App\Models\Member;
 use App\Models\Rekening;
 use App\Models\SimpananSukarela;
@@ -126,20 +127,10 @@ class HomepageController extends Controller
     // halaman simpanan sukarela
     public function simpananSukarela()
     {
-        $simpananSukarela = SimpananSukarela::where('tahun', date('Y'))->orderBy('updated_at', 'asc')->get();
-
-        foreach ($simpananSukarela as $data) {
-            $datas[] = [
-                'name' => $data->member->name,
-                'sukarela' => $data->sukarela === null ? null : $data->sukarela,
-                'selama_tahun' => $data->selama_tahun === null ? null : $data->selama_tahun,
-                'awal_tahun' => $data->awal_tahun === null ? null : $data->awal_tahun,
-                'shu' => $data->shu === null ? null : $data->shu,
-                'diambil' => $data->diambil === null ? null : $data->diambil,
-                'disimpan_kembali' => $data->disimpan_kembali === null ? null : $data->disimpan_kembali,
-                'akhir_taun' => $data->akhir_taun === null ? null : $data->akhir_taun,
-            ];
-        }
+        $simpananSukarela = SimpananSukarela::with(['member'])
+            ->where('tahun', date('Y'))
+            ->orderBy('updated_at', 'desc')
+            ->get()->toArray();
 
         $totalSukarelaPembulatan = simpananSukarela::where('tahun', date('Y'))->sum('sukarela');
         $totalShu = simpananSukarela::where('tahun', date('Y'))->sum('shu');
@@ -152,7 +143,7 @@ class HomepageController extends Controller
         $members = Member::orderBy('name', 'asc')->get();
 
         return Inertia::render('Simpanan/Sukarela', [
-            'data' => isset($datas) ? $datas : $simpananSukarela,
+            'data' => $simpananSukarela,
             'members' => $members,
             'total' => [
                 'total_sukarela' => $totalSukarelaPembulatan,
@@ -169,17 +160,10 @@ class HomepageController extends Controller
     // halaman simpanan pokok
     public function simpananPokok()
     {
-        $simpananPokok = SimpananPokok::where('tahun', date('Y'))->orderBy('updated_at', 'desc')->get();
-
-        foreach ($simpananPokok as $data) {
-            $datas[] = [
-                'name' => $data->member->name,
-                'awal_tahun' => $data->awal_tahun === null ? null : $data->awal_tahun,
-                'anggota_masuk' => $data->anggota_masuk === null ? null : $data->anggota_masuk,
-                'anggota_keluar' => $data->anggota_keluar === null ? null : $data->anggota_keluar,
-                'kekayaan' => ($data->awal_tahun === null ? null : $data->awal_tahun) + ($data->anggota_masuk === null ? null : $data->anggota_masuk) - ($data->anggota_keluar === null ? null : $data->anggota_keluar),
-            ];
-        }
+        $simpananPokok = SimpananPokok::with(['member'])
+            ->where('tahun', date('Y'))
+            ->orderBy('updated_at', 'desc')
+            ->get()->toArray();
 
         $awalTahunPokok = SimpananPokok::where('tahun', date('Y'))->sum('awal_tahun');
         $anggotaMasukPokok = SimpananPokok::where('tahun', date('Y'))->sum('anggota_masuk');
@@ -189,7 +173,7 @@ class HomepageController extends Controller
         $members = Member::orderBy('name', 'asc')->get();
 
         return Inertia::render('Simpanan/Pokok', [
-            'data' => isset($datas) ? $datas : $simpananPokok,
+            'data' => $simpananPokok,
             'members' => $members,
             'total' => [
                 'awal_tahun' => $awalTahunPokok,
@@ -203,16 +187,18 @@ class HomepageController extends Controller
     // halaman simpanan wajib
     public function simpananWajib()
     {
-        $simpananWajib = SimpananWajib::where('tahun', date('Y'))->orderBy('updated_at', 'desc')->get();
+        $simpananWajib = SimpananWajib::with(['member'])
+            ->where('tahun', date('Y'))
+            ->orderBy('updated_at', 'desc')
+            ->get()->toArray();
 
-        foreach ($simpananWajib as $data) {
-            $datas[] = [
-                'name' => $data->member->name,
-                'kekayaan_awal_tahun' => $data->kekayaan_awal_tahun === null ? null : $data->kekayaan_awal_tahun,
-                'simpanan_wajib' => $data->simpanan_wajib === null ? null : $data->simpanan_wajib,
-                'anggota_keluar' => $data->anggota_keluar === null ? null : $data->anggota_keluar,
-                'kekayaan' => ($data->kekayaan_awal_tahun === null ? null : $data->kekayaan_awal_tahun) + ($data->simpanan_wajib === null ? null : $data->simpanan_wajib) - ($data->anggota_keluar === null ? null : $data->anggota_keluar),
-            ];
+        $taunKemarin = SimpananWajib::with(['member'])
+            ->where('tahun', (date('Y') - 1))
+            ->orderBy('updated_at', 'desc')
+            ->get()->toArray();
+
+        foreach ($taunKemarin as $i => $cols) {
+            $simpananWajib[$i]['totalTahun'] = $cols['kekayaan_awal_tahun'] + $cols['simpanan_wajib'] - $cols['anggota_keluar'];
         }
 
         $kekayaanAwalTahun = SimpananWajib::where('tahun', date('Y'))->sum('kekayaan_awal_tahun');
@@ -222,7 +208,7 @@ class HomepageController extends Controller
         $members = Member::orderBy('name', 'asc')->get();
 
         return Inertia::render('Simpanan/Wajib', [
-            'data' => isset($datas) ? $datas : $simpananWajib,
+            'data' => $simpananWajib,
             'members' => $members,
             'total' => [
                 'kekayaan_awal_tahun' => $kekayaanAwalTahun,
@@ -400,5 +386,13 @@ class HomepageController extends Controller
             'datas' => $datas,
             'bulan' => $bulan
         ]);
+    }
+
+    // halaman pinjaman
+    public function pinjamanAnggota()
+    {
+        $data = Pinjaman::with(['member', 'member.pinjaman'])->get()->toArray();
+
+        return Inertia::render('admin/Pinjaman/Pinjaman', ['data' => $data]);
     }
 }

@@ -78,7 +78,7 @@
             <td style="border: 1px solid #000; padding: 2px 10px; word-wrap: break-word; text-align: left;">
             </td>
             <td style="border: 1px solid #000; padding: 2px 10px; word-wrap: break-word; text-align: right;">
-                {{ $data ? number_format($data->saldo_awal) : 0 }}
+                {{ $data ? number_format($data->saldo_awal, 0, ',', '.') : '-' }}
             </td>
         </tr>
 
@@ -88,11 +88,11 @@
                     {{ $d + 1 }}</td>
                 <td style="border: 1px solid #000; padding: 2px 10px;">{{ $col['bulan'] }}</td>
                 <td style="border: 1px solid #000; padding: 2px 10px; text-align: right;">
-                    {{ number_format($col['masuk']) }}</td>
+                    {{ $col['masuk'] ?  number_format($col['masuk'], 0, ',', '.') : '-' }}</td>
                 <td style="border: 1px solid #000; padding: 2px 10px; text-align: right;">
-                    {{ number_format($col['keluar']) }}</td>
+                    {{ $col['keluar'] ?  number_format($col['keluar'], 0, ',', '.') : '-' }}</td>
                 <td style="border: 1px solid #000; padding: 2px 10px; text-align: right;">
-                    {{ number_format($col['saldo']) }}</td>
+                    {{ $col['saldo'] ? number_format($col['saldo'], 0, ',', '.') : '-' }}</td>
             </tr>
         @endforeach
         <tr>
@@ -101,11 +101,11 @@
             <td style="border: 1px solid #000; text-align: center; padding: 2px 10px;">
                 Jumlah</td>
             <td style="border: 1px solid #000; padding: 2px 10px; text-align: right;">
-                {{ $data ? number_format($data->total_masuk) : 0 }}</td>
+                {{ $data ? number_format($data->total_masuk, 0, ',', '.') : '-' }}</td>
             <td style="border: 1px solid #000; padding: 2px 10px; text-align: right;">
-                {{ $data ? number_format($data->total_keluar) : 0 }}</td>
+                {{ $data ? number_format($data->total_keluar, 0, ',', '.') : '-' }}</td>
             <td style="border: 1px solid #000; padding: 2px 10px; text-align: right;">
-                {{ $data ? number_format($data->jumlah) : 0 }}</td>
+                {{ $data ? number_format($data->jumlah, 0, ',', '.') : '-' }}</td>
         </tr>
     </table>
 @endsection

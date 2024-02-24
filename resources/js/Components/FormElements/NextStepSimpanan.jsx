@@ -3,7 +3,7 @@ import CurrencyInput from "react-currency-input-field";
 const NextSimpanan = ({
     data,
     valueData,
-    setData,
+    awalTahun,
     type,
     handleNominal,
     getTahun,
@@ -17,20 +17,15 @@ const NextSimpanan = ({
                             htmlFor="awal_tahun"
                             className="mb-2.5 font-medium text-black dark:text-white"
                         >
-                            {data.awal_tahun
-                                ? `Tambah Awal Tahun ${getTahun.getFullYear()}`
-                                : `Awal Tahun ${getTahun.getFullYear()}`}
+                            {`Awal Tahun ${getTahun.getFullYear()}`}
                         </label>
                         <CurrencyInput
                             autoComplete="off"
-                            placeholder={`Masukkan nominal ${
-                                data.awal_tahun ? "tambahan" : "transaksi"
-                            }`}
                             allowDecimals={true}
                             name="awal_tahun"
                             id="awal_tahun"
                             required
-                            value={valueData.awal_tahun}
+                            value={awalTahun ? awalTahun : 0}
                             onValueChange={(value, name) =>
                                 handleNominal(value, name)
                             }
@@ -38,7 +33,7 @@ const NextSimpanan = ({
                                 locale: "in-ID",
                                 currency: "IDR",
                             }}
-                            className="w-full rounded-md border text-dark dark:text-white border-stroke bg-transparent py-2 pl-4 pr-6 transition-all duration-300 ease-in-out outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
+                            className="w-full disabled:bg-stroke dark:disabled:bg-strokedark rounded-md border text-dark dark:text-white border-stroke bg-transparent py-2 pl-4 pr-6 transition-all duration-300 ease-in-out outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                         />
                     </div>
                     <div className="w-full">
@@ -113,22 +108,17 @@ const NextSimpanan = ({
                             htmlFor="kekayaan_awal_tahun"
                             className="mb-2.5 font-medium text-black dark:text-white"
                         >
-                            {data.kekayaan_awal_tahun
-                                ? `Tambah Kekayaan Awal Tahun ${getTahun.getFullYear()}`
-                                : `Kekayaan Awal Tahun ${getTahun.getFullYear()}`}
+                            {`Kekayaan Awal Tahun ${getTahun.getFullYear()}`}
                         </label>
                         <CurrencyInput
                             autoComplete="off"
-                            placeholder={`Masukkan nominal ${
-                                data.kekayaan_awal_tahun
-                                    ? "tambahan"
-                                    : "transaksi"
-                            }`}
+                            
                             required
                             allowDecimals={true}
                             name="kekayaan_awal_tahun"
                             id="kekayaan_awal_tahun"
-                            value={valueData.kekayaan_awal_tahun}
+                            value={awalTahun ? awalTahun : 0}
+                            disabled
                             onValueChange={(value, name) =>
                                 handleNominal(value, name)
                             }
@@ -136,7 +126,7 @@ const NextSimpanan = ({
                                 locale: "in-ID",
                                 currency: "IDR",
                             }}
-                            className="w-full rounded-md border text-dark dark:text-white border-stroke bg-transparent py-2 pl-4 pr-6 transition-all duration-300 ease-in-out outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
+                            className="w-full disabled:bg-stroke dark:disabled:bg-strokedark rounded-md border text-dark dark:text-white border-stroke bg-transparent py-2 pl-4 pr-6 transition-all duration-300 ease-in-out outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                         />
                     </div>
                     <div className="w-full">

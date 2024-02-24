@@ -17,12 +17,19 @@ class SimpananController extends Controller
 
     public function getDataSimpananPokok(Request $request)
     {
-        $user = Auth::user();
-        $check = $user->role ? $user->role === 'admin' : false;
-        if ($check) {
-            $simpananPokok = SimpananPokok::where('id_member', $request->input('id_member'))->where('tahun', $request->input('tahun'))->first();
+        if (Auth::guard('admin')->check()) {
+            $simpananPokok = SimpananPokok::where('id_member', $request->input('id_member'))
+                ->where('tahun', $request->input('tahun'))
+                ->first();
+
+            $simpananTaunSebelumnya = SimpananPokok::where('id_member', $request->input('id_member'))
+                ->where('tahun', ($request->input('tahun') - 1))
+                ->first();
+
+            $awal_tahun = $simpananTaunSebelumnya->awal_tahun + $simpananTaunSebelumnya->anggota_masuk - $simpananTaunSebelumnya->anggota_keluar;
+
             if ($simpananPokok) {
-                return response()->json(['message' => 'Data berhasil didapatkan', 'simpanan' => $simpananPokok], 200);
+                return response()->json(['message' => 'Data berhasil didapatkan', 'simpanan' => $simpananPokok, 'sebelum' => $awal_tahun], 200);
             }
 
             $createData = SimpananPokok::create([
@@ -33,10 +40,10 @@ class SimpananController extends Controller
                 'bulan' => $request->input('bulan'),
             ]);
 
-            return response()->json(['message' => 'Data berhasil didapatkan', 'simpanan' => $createData], 200);
+            return response()->json(['message' => 'Data berhasil didapatkan', 'simpanan' => $createData, 'sebelum' => $awal_tahun], 200);
         }
 
-        return response()->json(['message' => 'Sorry, anda bukan admin'], 401);
+        return response()->json(['message' => 'Hanya bisa diakses oleh admin!'], 401);
     }
 
     public function simpananPokok(Request $request)
@@ -91,12 +98,19 @@ class SimpananController extends Controller
 
     public function getDataSimpananWajib(Request $request)
     {
-        $user = Auth::user();
-        $check = $user->role ? $user->role === 'admin' : false;
-        if ($check) {
-            $simpananWajib = SimpananWajib::where('id_member', $request->input('id_member'))->where('tahun', $request->input('tahun'))->first();
+        if (Auth::guard('admin')->check()) {
+            $simpananWajib = SimpananWajib::where('id_member', $request->input('id_member'))
+                ->where('tahun', $request->input('tahun'))
+                ->first();
+
+            $simpananTaunSebelumnya = SimpananWajib::where('id_member', $request->input('id_member'))
+                ->where('tahun', ($request->input('tahun') - 1))
+                ->first();
+
+            $awal_tahun = $simpananTaunSebelumnya->kekayaan_awal_tahun + $simpananTaunSebelumnya->simpanan_wajib - $simpananTaunSebelumnya->anggota_keluar;
+
             if ($simpananWajib) {
-                return response()->json(['message' => 'Data berhasil didapatkan', 'simpanan' => $simpananWajib], 200);
+                return response()->json(['message' => 'Data berhasil didapatkan', 'simpanan' => $simpananWajib, 'sebelum' => $awal_tahun], 200);
             }
 
             $createData = SimpananWajib::create([
@@ -107,7 +121,7 @@ class SimpananController extends Controller
                 'bulan' => $request->input('bulan'),
             ]);
 
-            return response()->json(['message' => 'Data berhasil didapatkan', 'simpanan' => $createData], 200);
+            return response()->json(['message' => 'Data berhasil didapatkan', 'simpanan' => $createData, 'sebelum' => $awal_tahun], 200);
         }
 
         return response()->json(['message' => 'Sorry, anda bukan admin'], 401);

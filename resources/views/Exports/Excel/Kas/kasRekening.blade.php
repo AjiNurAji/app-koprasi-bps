@@ -75,70 +75,70 @@
                 SALDO AWAL
             </td>
             <td style="border: 1px solid #000; padding: 2px 10px; word-wrap: break-word; text-align: right;">
-                {{ $data ? number_format($data->saldo_awal) : 0 }}
+                {{ $data ? number_format($data->saldo_awal, 0, ',', '.') : '-' }}
             </td>
             <td style="border: 1px solid #000; padding: 2px 10px; word-wrap: break-word; text-align: right;">
             </td>
             <td style="border: 1px solid #000; padding: 2px 10px; word-wrap: break-word; text-align: right;">
-                {{ $data ? number_format($data->saldo_awal) : 0 }}
+                {{ $data ? number_format($data->saldo_awal, 0, ',', '.') : '-' }}
             </td>
         </tr>
 
         @foreach ($datas as $d => $col)
             <tr>
                 <td style="border: 1px solid #000; text-transform: uppercase; padding: 2px 10px; text-align: center;">
-                    {{ $col['bulan'] == 'Januari' ? null : $col['bulan'] }}</td>
+                    {{ $col['bulan'] == 'Januari' ? '-' : $col['bulan'] }}</td>
                 <td style="border: 1px solid #000; padding: 2px 10px;">SETOR</td>
                 <td style="border: 1px solid #000; padding: 2px 10px; text-align: right;">
-                    {{ $col['setor_type']  == 'debet' ? number_format($col['setor']) : null}}</td>
+                    {{ $col['setor_type'] == 'debet' ? number_format($col['setor'], 0, ',', '.') : '-' }}</td>
                 <td style="border: 1px solid #000; padding: 2px 10px; text-align: right;">
-                    {{ $col['setor_type']  == 'kredit' ? number_format($col['setor']) : null}}</td>
+                    {{ $col['setor_type'] == 'kredit' ? number_format($col['setor'], 0, ',', '.') : '-' }}</td>
                 <td style="border: 1px solid #000; padding: 2px 10px; text-align: right;">
-                    {{ number_format($col['saldo_setor']) }}</td>
+                    {{ number_format($col['saldo_setor'], 0, ',', '.') }}</td>
             </tr>
             <tr>
                 <td style="border: 1px solid #000; padding: 2px 10px; text-align: center;">
-                    </td>
+                </td>
                 <td style="border: 1px solid #000; padding: 2px 10px;">BUNGA BANK</td>
                 <td style="border: 1px solid #000; padding: 2px 10px; text-align: right;">
-                    {{ $col['bunga_bank_type']  == 'debet' ? number_format($col['bunga_bank']) : null}}</td>
+                    {{ $col['bunga_bank_type'] == 'debet' ? number_format($col['bunga_bank'], 0, ',', '.') : '-' }}</td>
                 <td style="border: 1px solid #000; padding: 2px 10px; text-align: right;">
-                    {{ $col['bunga_bank_type']  == 'kredit' ? number_format($col['bunga_bank']) : null}}</td>
+                    {{ $col['bunga_bank_type'] == 'kredit' ? number_format($col['bunga_bank'], 0, ',', '.') : '-' }}</td>
                 <td style="border: 1px solid #000; padding: 2px 10px; text-align: right;">
-                    {{ number_format($col['saldo_bunga_bank']) }}</td>
+                    {{ number_format($col['saldo_bunga_bank'], 0, ',', '.') }}</td>
             </tr>
             <tr>
                 <td style="border: 1px solid #000; padding: 2px 10px; text-align: center;">
-                    </td>
+                </td>
                 <td style="border: 1px solid #000; padding: 2px 10px;">PAJAK</td>
                 <td style="border: 1px solid #000; padding: 2px 10px; text-align: right;">
-                    {{ $col['pajak_type']  == 'debet' ? number_format($col['pajak']) : null}}</td>
+                    {{ $col['pajak_type'] == 'debet' ? number_format($col['pajak'], 0, ',', '.') : '-' }}</td>
                 <td style="border: 1px solid #000; padding: 2px 10px; text-align: right;">
-                    {{ $col['pajak_type']  == 'kredit' ? number_format($col['pajak']) : null}}</td>
+                    {{ $col['pajak_type'] == 'kredit' ? number_format($col['pajak'], 0, ',', '.') : '-' }}</td>
                 <td style="border: 1px solid #000; padding: 2px 10px; text-align: right;">
-                    {{ number_format($col['saldo_pajak']) }}</td>
+                    {{ number_format($col['saldo_pajak'], 0, ',', '.') }}</td>
             </tr>
             <tr>
                 <td style="border: 1px solid #000; padding: 2px 10px; text-align: center;">
-                    </td>
+                </td>
                 <td style="border: 1px solid #000; padding: 2px 10px;">ADM</td>
                 <td style="border: 1px solid #000; padding: 2px 10px; text-align: right;">
-                    {{ $col['adm_type']  == 'debet' ? number_format($col['adm']) : null}}</td>
+                    {{ $col['adm_type'] == 'debet' ? number_format($col['adm'], 0, ',', '.') : '-' }}</td>
                 <td style="border: 1px solid #000; padding: 2px 10px; text-align: right;">
-                    {{ $col['adm_type']  == 'kredit' ? number_format($col['adm']) : null}}</td>
+                    {{ $col['adm_type'] == 'kredit' ? number_format($col['adm'], 0, ',', '.') : '-' }}</td>
                 <td style="border: 1px solid #000; padding: 2px 10px; text-align: right;">
-                    {{ number_format($col['saldo_adm']) }}</td>
+                    {{ number_format($col['saldo_adm'], 0, ',', '.') }}</td>
             </tr>
             <tr>
                 <td style="border: 1px solid #000; padding: 2px 10px; text-align: center;">
-                    </td>
+                </td>
                 <td style="border: 1px solid #000; padding: 2px 10px;">PENARIKAN</td>
                 <td style="border: 1px solid #000; padding: 2px 10px; text-align: right;">
-                    {{ $col['penarikan_type']  == 'debet' ? number_format($col['penarikan']) : null}}</td>
+                    {{ $col['penarikan_type'] == 'debet' ? number_format($col['penarikan'], 0, ',', '.') : '-' }}</td>
                 <td style="border: 1px solid #000; padding: 2px 10px; text-align: right;">
-                    {{ $col['penarikan_type']  == 'kredit' ? number_format($col['penarikan']) : null}}</td>
+                    {{ $col['penarikan_type'] == 'kredit' ? number_format($col['penarikan'], 0, ',', '.') : '-' }}</td>
                 <td style="border: 1px solid #000; padding: 2px 10px; text-align: right;">
-                    {{ number_format($col['saldo_penarikan']) }}</td>
+                    {{ number_format($col['saldo_penarikan'], 0, ',', '.') }}</td>
             </tr>
         @endforeach
         <tr>
@@ -147,11 +147,11 @@
             <td style="border: 1px solid #000; font-weight: bold; text-align: start; padding: 2px 10px;">
                 Jumlah</td>
             <td style="border: 1px solid #000; font-weight: bold; padding: 2px 10px; font-weight: bold; text-align: right;">
-                {{ $data ? number_format($data->total_debet) : 0 }}</td>
+                {{ $data ? number_format($data->total_debet, 0, ',', '.') : '-' }}</td>
             <td style="border: 1px solid #000; padding: 2px 10px; font-weight: bold; text-align: right;">
-                {{ $data ? number_format($data->total_kredit) : 0 }}</td>
+                {{ $data ? number_format($data->total_kredit, 0, ',', '.') : '-' }}</td>
             <td style="border: 1px solid #000; padding: 2px 10px; font-weight: bold; text-align: right;">
-                {{ $data ? number_format($data->jumlah) : 0 }}</td>
+                {{ $data ? number_format($data->jumlah, 0, ',', '.') : '-' }}</td>
         </tr>
     </table>
 @endsection

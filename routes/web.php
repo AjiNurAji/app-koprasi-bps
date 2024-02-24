@@ -9,6 +9,7 @@ use App\Http\Controllers\PDFController;
 use App\Http\Controllers\PiutangController;
 use App\Http\Controllers\SimpananController;
 use App\Http\Controllers\UserController;
+use App\Models\SimpananSukarela;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -77,37 +78,12 @@ Route::middleware(['auth:admin'])->group(function () {
     Route::get('/simpanan/sukarela', [HomepageController::class, 'simpananSukarela'])->name('simpanan_sukarela');
     Route::post('/simpanan/sukarela', [SimpananController::class, 'getDataSimpananSukarela'])->name('simpanan_sukarela');
     Route::post('/simpanan/sukarela/create', [SimpananController::class, 'simpananSukarela'])->name('simpanan_sukarela_create');
-    Route::get('/simpanan/sukarela/pdf', [PDFController::class, 'getExportSimpananSukarelaPDF'])->name('simpanan_sukarela_pdf');
-
-    //     foreach ($simpananWajib as $data) {
-    //         $datas[] = [
-    //             'name' => $data->member->name,
-    //             'kekayaan_awal_tahun' => $data->kekayaan_awal_tahun === null ? null : $data->kekayaan_awal_tahun,
-    //             'simpanan_wajib' => $data->simpanan_wajib === null ? null : $data->simpanan_wajib,
-    //             'anggota_keluar' => $data->anggota_keluar === null ? null : $data->anggota_keluar,
-    //             'kekayaan' => ($data->kekayaan_awal_tahun === null ? null : $data->kekayaan_awal_tahun) + ($data->simpanan_wajib === null ? null : $data->simpanan_wajib) - ($data->anggota_keluar === null ? null : $data->anggota_keluar),
-    //         ];
-    //     }
-
-    //     $kekayaanAwalTahun = SimpananWajib::where('tahun', date('Y'))->sum('kekayaan_awal_tahun');
-    //     $simpananWajibSum = SimpananWajib::where('tahun', date('Y'))->sum('simpanan_wajib');
-    //     $anggotaKeluar = SimpananWajib::where('tahun', date('Y'))->sum('anggota_keluar');
-    //     $totalWajib = $kekayaanAwalTahun + $simpananWajibSum - $anggotaKeluar;
-
-    //     return view('Exports.Simpanan.simpananWajib', [
-    //         'data' => isset($datas) ? $datas : $simpananWajib, 'total' => [
-    //             'kekayaan_awal_tahun' => $kekayaanAwalTahun,
-    //             'simpanan_wajib' => $simpananWajibSum,
-    //             'anggota_keluar' => $anggotaKeluar,
-    //             'jumlah' => $totalWajib,
-    //         ]
-    //     ]);
-    // })->name('simpanan_pokok_pdf');
 
     //upload file
     Route::get('index', 'UploadController@index');
 
     // piutang 
+    Route::get('/pinjaman-anggota', [HomepageController::class, 'pinjamanAnggota'])->name('pinjaman_anggota');
     Route::post('/jasa-anggota/set', [PiutangController::class, 'setJasaAnggota'])->name('jasa_anggota_set');
 });
 

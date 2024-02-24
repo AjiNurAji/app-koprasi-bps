@@ -118,17 +118,26 @@ const TableTunai = ({ data, bulan, saldo, user }) => {
                                                 : "bg-gray dark:bg-meta-4 bg-opacity-30 dark:bg-opacity-30"
                                         }`}
                                     >
-                                        {row.getVisibleCells().map((cell) => (
-                                            <td
-                                                key={cell.id}
-                                                className="border py-5 px-4 border-stroke dark:border-opacity-20"
-                                            >
-                                                {flexRender(
-                                                    cell.column.columnDef.cell,
-                                                    cell.getContext()
-                                                )}
-                                            </td>
-                                        ))}
+                                        {row
+                                            .getVisibleCells()
+                                            .map((cell, i) => (
+                                                <td
+                                                    key={cell.id}
+                                                    className={`${
+                                                        i === 0
+                                                            ? "text-center"
+                                                            : i === 1
+                                                            ? "text-left"
+                                                            : "text-right"
+                                                    } border py-5 px-4 border-stroke dark:border-opacity-20`}
+                                                >
+                                                    {flexRender(
+                                                        cell.column.columnDef
+                                                            .cell,
+                                                        cell.getContext()
+                                                    )}
+                                                </td>
+                                            ))}
                                     </tr>
                                 ))}
                                 <tr className="bg-white dark:bg-meta-4 dark:bg-opacity-15">
@@ -136,25 +145,21 @@ const TableTunai = ({ data, bulan, saldo, user }) => {
                                     <td className="border py-5 px-4 font-semibold border-stroke dark:border-opacity-20">
                                         Jumlah
                                     </td>
-                                    <td className="border py-5 px-4 font-semibold border-stroke dark:border-opacity-20">
-                                        {Intl.NumberFormat("in-ID", {
-                                            style: "currency",
-                                            currency: "IDR",
-                                        }).format(
-                                            saldo.total_masuk
-                                                ? saldo.total_masuk
-                                                : 0
-                                        )}
+                                    <td className="border py-5 px-4 font-semibold text-right border-stroke dark:border-opacity-20">
+                                        {saldo.total_masuk
+                                            ? Intl.NumberFormat("in-ID", {
+                                                  style: "currency",
+                                                  currency: "IDR",
+                                              }).format(saldo.total_masuk)
+                                            : "-"}
                                     </td>
-                                    <td className="border py-5 px-4 font-semibold border-stroke dark:border-opacity-20">
-                                        {Intl.NumberFormat("in-ID", {
-                                            style: "currency",
-                                            currency: "IDR",
-                                        }).format(
-                                            saldo.total_keluar
-                                                ? saldo.total_keluar
-                                                : 0
-                                        )}
+                                    <td className="border py-5 px-4 font-semibold text-right border-stroke dark:border-opacity-20">
+                                        {saldo.total_keluar
+                                            ? Intl.NumberFormat("in-ID", {
+                                                  style: "currency",
+                                                  currency: "IDR",
+                                              }).format(saldo.total_keluar)
+                                            : "-"}
                                     </td>
                                 </tr>
                             </>
