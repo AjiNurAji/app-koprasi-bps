@@ -690,22 +690,40 @@ export const columnsPinjaman = [
         header: "Dibayar",
     }),
 
-    columnHelper.accessor("pinjaman.sisa_pinjamanw", {
-        id: "kekayaan",
+    columnHelper.accessor("pinjaman.sisa_pinjaman", {
+        id: "sisa",
         cell: (data) => (
             <span className="font-medium text-black dark:text-white">
+                <span className="font-medium text-black dark:text-white">
+                {data.getValue()
+                    ? Intl.NumberFormat("in-ID", {
+                          style: "currency",
+                          currency: "IDR",
+                      }).format(data.getValue())
+                    : "-"}
+            </span>
+            </span>
+        ),
+        header: "Sisa",
+        enableGlobalFilter: false,
+    }),
+
+    columnHelper.accessor("pinjaman.sisa_pinjaman", {
+        id: "status",
+        cell: (data) => (
+            <span className="font-medium block w-full text-black dark:text-white">
                 {data.getValue() ? (
-                    <p className="inline-flex rounded-full bg-danger bg-opacity-10 py-1 px-3 text-sm font-medium text-danger">
+                    <p className="inline-block text-center w-full rounded-full bg-danger bg-opacity-10 py-1 px-3 text-sm font-medium text-danger">
                         Belum Lunas
                     </p>
                 ) : (
-                    <p className="inline-flex rounded-full bg-success bg-opacity-10 py-1 px-3 text-sm font-medium text-success">
+                    <p className="inline-block text-center w-full rounded-full bg-success bg-opacity-10 py-1 px-3 text-sm font-medium text-success">
                         Lunas
                     </p>
                 )}
             </span>
         ),
-        header: "status",
+        header: "Status",
         enableGlobalFilter: false,
     }),
 

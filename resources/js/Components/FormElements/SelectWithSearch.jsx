@@ -75,8 +75,7 @@ const SelectWithSearch = ({ data, value, setData, step }) => {
                 ref={trigger}
                 required
                 disabled={
-                    (value.id_member && step === 2) ||
-                    (value.id_member && step === 3)
+                    (value.id_member && step >= 2)
                         ? true
                         : false
                 }

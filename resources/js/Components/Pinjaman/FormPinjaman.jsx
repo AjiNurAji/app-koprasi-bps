@@ -24,6 +24,7 @@ const FormPinjaman = ({ members, setPopup, postUrl, directUrl }) => {
         hari: getTahun.toLocaleDateString("in-ID", { weekday: "long" }),
         tahun_sebelumnya: null,
         nominal: null,
+        jenis_bayar: "",
     });
 
     useEffect(() => {
@@ -35,6 +36,7 @@ const FormPinjaman = ({ members, setPopup, postUrl, directUrl }) => {
 
     const submit = async (e) => {
         e.preventDefault();
+        if (!data.nominal) return toast.error('Nominal Wajib Diisi!');
         setProcess(true);
 
         const create = await PostData(postUrl, data);
@@ -151,6 +153,8 @@ const FormPinjaman = ({ members, setPopup, postUrl, directUrl }) => {
                             awalTahun={pinjamanPrev}
                             getTahun={getTahun}
                             type={type}
+                            setData={setData}
+                            setStep={setStep}
                             handleNominal={handleNominal}
                             valueData={data}
                         />
@@ -169,7 +173,8 @@ const FormPinjaman = ({ members, setPopup, postUrl, directUrl }) => {
                                     >
                                         Lanjut
                                     </button>
-                                ) : step === 3 ? (
+                                ) : (step === 3 && type == "pinjam") ||
+                                  (step === 4 && type == "bayar") ? (
                                     <button
                                         type="submit"
                                         name="button-sumbit"
