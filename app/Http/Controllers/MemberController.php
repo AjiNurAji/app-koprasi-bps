@@ -69,6 +69,12 @@ class MemberController extends Controller
         return response()->json(['message' => 'Berhasil Menghapus anggota'], 200);
     }
 
+    public function updatedata(Request $requst, $uuid){
+        $user = Auth::user();
+        $user->update($request->all());
+        return response()->json(['message' => 'Berhasil Update anggota'], 200);
+    }
+
     /**
      * Display the specified resource.
      */

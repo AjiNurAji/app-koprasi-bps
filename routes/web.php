@@ -48,7 +48,11 @@ Route::middleware(['auth:admin'])->group(function () {
     Route::get('/simpanan/wajib', [HomepageController::class, 'simpananWajib'])->name('simpanan_wajib');
 
     // delete anggota
-    Route::get('/member/{uuid_member}', [MemberController::class, 'delete']);
+    Route::get('/member/{uuid}', [MemberController::class, 'delete']);
+
+    //edit anggota
+    Route::post('member/updatedata/{uuid}', [MemberController::class, 'updatedata'])->name('updatedata');
+
   
     Route::post('/simpanan/wajib', [SimpananController::class, 'getDataSimpananWajib'])->name('simpanan_wajib');
     Route::post('/simpanan/wajib/create', [SimpananController::class, 'simpananWajib'])->name('simpanan_wajib_create');
