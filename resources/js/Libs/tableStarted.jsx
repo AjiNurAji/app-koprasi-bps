@@ -660,15 +660,15 @@ export const columnsPinjaman = [
         header: "Nama",
     }),
 
-    columnHelper.accessor("total_pinjaman", {
+    columnHelper.accessor("pinjaman.total_pinjaman", {
         id: "pinjaman",
         cell: (data) => (
             <span className="font-medium text-black dark:text-white">
-                {data.getValue() || data.row.original.tahun_lalu
+                {data.getValue() || data.row.original.pinjaman.tahun_lalu
                     ? Intl.NumberFormat("in-ID", {
                           style: "currency",
                           currency: "IDR",
-                      }).format(data.getValue() + data.row.original.tahun_lalu)
+                      }).format(data.getValue() + data.row.original.pinjaman.tahun_lalu)
                     : "-"}
             </span>
         ),
@@ -690,22 +690,7 @@ export const columnsPinjaman = [
         header: "Dibayar",
     }),
 
-    // columnHelper.accessor("", {
-    //     id: "dibayar",
-    //     cell: (data) => (
-    //         <span className="font-medium text-black dark:text-white">
-    //             {data.getValue()
-    //                 ? Intl.NumberFormat("in-ID", {
-    //                       style: "currency",
-    //                       currency: "IDR",
-    //                   }).format(data.getValue())
-    //                 : "-"}
-    //         </span>
-    //     ),
-    //     header: "Dibayar",
-    // }),
-
-    columnHelper.accessor("sisa", {
+    columnHelper.accessor("pinjaman.sisa_pinjamanw", {
         id: "kekayaan",
         cell: (data) => (
             <span className="font-medium text-black dark:text-white">

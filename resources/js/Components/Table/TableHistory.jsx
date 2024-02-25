@@ -124,7 +124,7 @@ const TableHistory = ({ data }) => {
                         ) : (
                             <tr>
                                 <td
-                                    colSpan={6}
+                                    colSpan={8}
                                     className="text-center py-5 px-4 font-medium text-black dark:text-white"
                                 >
                                     Belum ada data nihh!

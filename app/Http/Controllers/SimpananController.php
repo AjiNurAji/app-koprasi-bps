@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Exports\SimpananPokokExport;
 use App\Models\Transaksi;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -10,7 +9,6 @@ use Illuminate\Support\Str;
 use App\Models\SimpananPokok;
 use App\Models\SimpananSukarela;
 use App\Models\SimpananWajib;
-use Carbon\Carbon;
 
 class SimpananController extends Controller
 {

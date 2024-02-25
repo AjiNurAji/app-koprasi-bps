@@ -15,11 +15,11 @@ return new class extends Migration
             $table->uuid('id_transaksi')->primary();
             $table->char('id_member')->nullable();
             $table->foreign('id_member')->references('id_member')->on('members')->onDelete('SET NULL')->onUpdate('SET NULL')->nullable();
-            $table->integer('nominal', false);
+            $table->integer('nominal', false)->nullable();
             $table->integer('tahun', false);
             $table->string('bulan', 12);
             $table->string('hari', 7);
-            $table->enum('nama_transaksi', ['simpanan_pokok', 'simpanan_sukarela', 'simpanan_wajib', 'pinjaman_harian', 'pinjaman_bulanan']);
+            $table->enum('nama_transaksi', ['simpanan_pokok', 'simpanan_sukarela', 'simpanan_wajib', 'pinjaman', 'bayar_pinjaman']);
             $table->enum('type', ['simpanan', 'pinjaman']);
             $table->timestamps();
         });

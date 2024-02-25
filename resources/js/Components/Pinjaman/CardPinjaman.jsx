@@ -8,7 +8,7 @@ const CardPinjaman = ({ jumlah, dibayar }) => {
                     <div className="flex h-11.5 w-11.5 items-center text-2xl text-primary dark:text-white justify-center rounded-full bg-meta-2 dark:bg-meta-4">
                         <LiaMoneyCheckSolid />
                     </div>
-                    <h2 className="font-bold text-lg">Banyak Pinjaman</h2>
+                    <h2 className="font-bold text-lg">Banyak Pinjaman {new Date().getFullYear()}</h2>
                 </div>
                 <div className="mt-4 flex items-end justify-between">
                     <div>

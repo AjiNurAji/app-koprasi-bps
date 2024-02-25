@@ -405,11 +405,21 @@ class HomepageController extends Controller
             $data[$i]['pinjaman']['tahun_lalu'] = $pinjaman ? $pinjaman->sisa : $pinjaman;
 
             $data[$i]['pinjaman']['total_pinjaman'] = $pinjaman ? $pinjaman->sisa + $pinjamanNow->sum('nominal') : $pinjamanNow->sum('nominal');
+            $data[$i]['pinjaman']['sisa_pinjaman'] = $pinjamanNow->sum('nominal');
         }
+
+        $pinjaman = Pinjaman::where('tahun', date('Y'))->get()->sum('nominal');
 
         $member = Member::orderBy('name', 'asc')->get();
 
-        return Inertia::render('admin/Pinjaman/Pinjaman', ['data' => $data, 'members' => $member]);
+        return Inertia::render('admin/Pinjaman/Pinjaman', [
+            'data' => $data, 
+            'members' => $member,
+            'cards' => [
+                'total_pinjaman' => $pinjaman,
+                'total_dibayar' => null,
+            ]
+        ]);
     }
 
     // halaman ad-art

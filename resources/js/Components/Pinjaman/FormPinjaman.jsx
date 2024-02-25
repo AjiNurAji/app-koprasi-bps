@@ -23,7 +23,7 @@ const FormPinjaman = ({ members, setPopup, postUrl, directUrl }) => {
         bulan: getTahun.toLocaleDateString("in-ID", { month: "long" }),
         hari: getTahun.toLocaleDateString("in-ID", { weekday: "long" }),
         tahun_sebelumnya: null,
-        type: "",
+        nominal: null,
     });
 
     useEffect(() => {
@@ -51,6 +51,10 @@ const FormPinjaman = ({ members, setPopup, postUrl, directUrl }) => {
 
     const handleStep = async (e) => {
         e.preventDefault();
+        if (!data.name)
+            return toast.error("Nama wajib diisi!", {
+                duration: 3000,
+            });
         setProcess(true);
         const toastLoading = toast.loading("Loading...");
 
@@ -67,8 +71,10 @@ const FormPinjaman = ({ members, setPopup, postUrl, directUrl }) => {
                     id: toastLoading,
                     duration: 3000,
                 });
-                setPinjaman(response.data.pinjaman);
                 setPinjamanPrev(response.data.sebelum);
+                if (response.data.pinjaman) {
+                    setPinjaman(response.data.pinjaman);
+                }
                 setProcess(false);
                 return setStep(3);
             }
@@ -102,8 +108,8 @@ const FormPinjaman = ({ members, setPopup, postUrl, directUrl }) => {
                     <button
                         className="border py-2 h-full rounded-md border-primary bg-primary text-white hover:bg-opacity-90"
                         onClick={() => {
-                            setType("pinjam")
-                            setStep(2)
+                            setType("pinjam");
+                            setStep(2);
                         }}
                     >
                         Pinjam
@@ -111,14 +117,14 @@ const FormPinjaman = ({ members, setPopup, postUrl, directUrl }) => {
                     <button
                         className="border py-2 h-full rounded-md border-primary bg-primary text-white hover:bg-opacity-90"
                         onClick={() => {
-                            setType("bayar")
-                            setStep(2)
+                            setType("bayar");
+                            setStep(2);
                         }}
                     >
                         Bayar
                     </button>
                 </div>
-            ) : step === 2 ? (
+            ) : (
                 <form
                     className="flex w-full flex-col gap-4"
                     onSubmit={submit}
@@ -139,7 +145,16 @@ const FormPinjaman = ({ members, setPopup, postUrl, directUrl }) => {
                             setData={setData}
                         />
                     </div>
-                    {step === 3 ? <StepPinjaman /> : null}
+                    {step === 2 ? null : (
+                        <StepPinjaman
+                            data={pinjaman}
+                            awalTahun={pinjamanPrev}
+                            getTahun={getTahun}
+                            type={type}
+                            handleNominal={handleNominal}
+                            valueData={data}
+                        />
+                    )}
                     <div className="w-full flex justify-end items-center">
                         {processing ? (
                             <ButtonLoading color="primary" />
@@ -154,7 +169,7 @@ const FormPinjaman = ({ members, setPopup, postUrl, directUrl }) => {
                                     >
                                         Lanjut
                                     </button>
-                                ) : (
+                                ) : step === 3 ? (
                                     <button
                                         type="submit"
                                         name="button-sumbit"
@@ -162,12 +177,12 @@ const FormPinjaman = ({ members, setPopup, postUrl, directUrl }) => {
                                     >
                                         Kirim
                                     </button>
-                                )}
+                                ) : null}
                             </>
                         )}
                     </div>
                 </form>
-            ) : null}
+            )}
         </>
     );
 };

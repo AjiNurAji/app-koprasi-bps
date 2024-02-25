@@ -9,11 +9,21 @@ const notFound = () => {
                 <div className="overflow-hidden w-20 h-auto">
                     <img src={bps} alt="Icon BPS" />
                 </div>
-                <h1 className="font-bold text-title-lg">Halaman tidak ditemukan | 404</h1>
-                <p className="font-semibold">Kembali ke - <a href={route('dashboard')} className="text-primary hover:underline">Dashboard</a> </p>
+                <h1 className="font-bold text-title-lg">
+                    Halaman tidak ditemukan | 404
+                </h1>
+                <p className="font-semibold">
+                    Kembali ke -{" "}
+                    <a
+                        href={route("dashboard")}
+                        className="text-primary hover:underline"
+                    >
+                        Halaman Utama
+                    </a>{" "}
+                </p>
             </div>
         </div>
-    )
-}
+    );
+};
 
 export default notFound;

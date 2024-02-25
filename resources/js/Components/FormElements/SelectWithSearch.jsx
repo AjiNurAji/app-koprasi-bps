@@ -13,18 +13,17 @@ const SelectWithSearch = ({ data, value, setData, step }) => {
     );
 
     useEffect(() => {
-        if(MEMBERS.length === 1) {
+        if (MEMBERS.length === 1) {
             return setData({
                 ...value,
                 id_member: MEMBERS[0].id_member,
-            })
+            });
         }
         return setData({
             ...value,
             id_member: undefined,
         });
     }, [value.name]);
-
 
     // close on click outside
     useEffect(() => {
@@ -75,7 +74,12 @@ const SelectWithSearch = ({ data, value, setData, step }) => {
                 name="name"
                 ref={trigger}
                 required
-                disabled={value.id_member && step === 2 ? true : false}
+                disabled={
+                    (value.id_member && step === 2) ||
+                    (value.id_member && step === 3)
+                        ? true
+                        : false
+                }
                 autoComplete="off"
                 value={value.name}
                 onChange={(e) =>
@@ -86,7 +90,7 @@ const SelectWithSearch = ({ data, value, setData, step }) => {
                 }
                 onFocus={() => setActive(true)}
                 placeholder="Masukkan nama lengkap anggota"
-                className="w-full disabled:bg-stroke dark:disabled:bg-strokedark rounded-md border text-dark dark:text-white border-stroke bg-transparent py-2 pl-4 pr-6 transition-all duration-300 ease-in-out outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
+                className="w-full dark:disabled:bg-transparent disabled:bg-transparent disabled:border-none disabled:px-1 rounded-md border text-dark dark:text-white border-stroke bg-transparent py-2 pl-4 pr-6 transition-all duration-300 ease-in-out outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
             />
 
             <div

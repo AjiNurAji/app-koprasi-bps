@@ -101,23 +101,25 @@ const StepPinjaman = ({
                         </div>
                     </div>
                 </>
-            ) : type === "piutang" ? (
+            ) : type === "pinjam" ? (
                 <>
                     <div className="w-full">
                         <label
-                            htmlFor="kekayaan_awal_tahun"
+                            htmlFor="taun_kemarin"
                             className="mb-2.5 font-medium text-black dark:text-white"
                         >
-                            {`Kekayaan Awal Tahun ${getTahun.getFullYear()}`}
+                            {`Sisa Pinjaman`}
                         </label>
                         <CurrencyInput
                             autoComplete="off"
-                            
                             required
                             allowDecimals={true}
-                            name="kekayaan_awal_tahun"
-                            id="kekayaan_awal_tahun"
-                            value={awalTahun ? awalTahun : 0}
+                            name="taun_kemarin"
+                            id="taun_kemarin"
+                            value={
+                                (awalTahun ? awalTahun : 0) +
+                                (data.sisa ? data.sisa : 0)
+                            }
                             disabled
                             onValueChange={(value, name) =>
                                 handleNominal(value, name)
@@ -126,27 +128,23 @@ const StepPinjaman = ({
                                 locale: "in-ID",
                                 currency: "IDR",
                             }}
-                            className="w-full disabled:bg-stroke dark:disabled:bg-strokedark rounded-md border text-dark dark:text-white border-stroke bg-transparent py-2 pl-4 pr-6 transition-all duration-300 ease-in-out outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
+                            className="w-full disabled:bg-transparent dark:disabled:bg-transparent disabled:border-none disabled:px-1 rounded-md border text-dark dark:text-white border-stroke bg-transparent py-2 pl-4 pr-6 transition-all duration-300 ease-in-out outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                         />
                     </div>
                     <div className="w-full">
                         <label
-                            htmlFor="simpanan_wajib"
+                            htmlFor="nominal"
                             className="mb-2.5 font-medium text-black dark:text-white"
                         >
-                            {data.simpanan_wajib
-                                ? "Tambah Simpanan Wajib"
-                                : "Simpanan Wajib"}
+                            Nominal
                         </label>
                         <CurrencyInput
                             autoComplete="off"
-                            placeholder={`Masukkan nominal ${
-                                data.simpanan_wajib ? "tambahan" : "transaksi"
-                            }`}
+                            placeholder={`Masukkan nominal pinjaman`}
                             allowDecimals={true}
-                            name="simpanan_wajib"
-                            id="simpanan_wajib"
-                            value={valueData.simpanan_wajib}
+                            name="nominal"
+                            id="nominal"
+                            value={valueData.nominal}
                             onValueChange={(value, name) =>
                                 handleNominal(value, name)
                             }
@@ -159,22 +157,22 @@ const StepPinjaman = ({
                     </div>
                     <div className="w-full">
                         <label
-                            htmlFor="anggota_keluar"
+                            htmlFor="total_pinjaman"
                             className="mb-2.5 font-medium text-black dark:text-white"
                         >
-                            {data.anggota_keluar
-                                ? "Tambah Anggota Keluar"
-                                : "Anggota Keluar"}
+                            Total Pinjaman
                         </label>
                         <CurrencyInput
                             autoComplete="off"
-                            placeholder={`Masukkan nominal ${
-                                data.anggota_keluar ? "tambahan" : "transaksi"
-                            }`}
                             allowDecimals={true}
-                            name="anggota_keluar"
-                            id="anggota_keluar"
-                            value={valueData.anggota_keluar}
+                            name="total_pinjaman"
+                            id="total_pinjaman"
+                            disabled
+                            value={
+                                (awalTahun ? awalTahun : 0) +
+                                (data.sisa ? data.sisa : 0) +
+                                (valueData.nominal ? valueData.nominal : 0)
+                            }
                             onValueChange={(value, name) =>
                                 handleNominal(value, name)
                             }
@@ -182,7 +180,7 @@ const StepPinjaman = ({
                                 locale: "in-ID",
                                 currency: "IDR",
                             }}
-                            className="w-full rounded-md border text-dark dark:text-white border-stroke bg-transparent py-2 pl-4 pr-6 transition-all duration-300 ease-in-out outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
+                            className="w-full disabled:bg-transparent dark:disabled:bg-transparent  disabled:border-none disabled:px-1 rounded-md border text-dark dark:text-white border-stroke bg-transparent py-2 pl-4 pr-6 transition-all duration-300 ease-in-out outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                         />
                     </div>
                 </>
