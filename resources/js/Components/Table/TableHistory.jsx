@@ -103,7 +103,8 @@ const TableHistory = ({ data }) => {
                                                 <td
                                                     key={cell.id}
                                                     className={`${
-                                                        i === 0 || i !== 2 || i !== 3
+                                                        i === 0 || i > 3
+                                                        
                                                             ? "text-center"
                                                             : i === 1
                                                             ? "text-left"

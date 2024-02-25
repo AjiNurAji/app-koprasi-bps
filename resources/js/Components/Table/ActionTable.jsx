@@ -3,7 +3,7 @@ import { BsTrash3 } from "react-icons/bs";
 
 const ActionTable = ({ id }) => {
     return (
-        <div className="flex items-center space-x-3.5">
+        <div className="flex justify-center items-center space-x-3.5">
             <a href={`/edit/${id}`} className="hover:text-primary text-lg">
                 <BiEdit />
             </a>

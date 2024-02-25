@@ -38,8 +38,8 @@ const FormSimpanan = ({ members, setPopup, postUrl, directUrl, type }) => {
     useEffect(() => {
         setData({
             ...data,
-            awal_tahun: simpananPrev ? simpananPrev : null,
-            tahun_sebelumnya: simpananPrev ? simpananPrev : null
+            awal_tahun: simpananPrev ? simpananPrev : 0,
+            tahun_sebelumnya: simpananPrev ? simpananPrev : 0
         })
     }, [simpananPrev])
 
@@ -77,8 +77,10 @@ const FormSimpanan = ({ members, setPopup, postUrl, directUrl, type }) => {
                     id: toastLoading,
                     duration: 3000,
                 });
-                setSimpanan(response.data.simpanan);
                 setSimpananPrev(response.data.sebelum);
+                if (response.data.simpanan) {
+                    setSimpanan(response.data.simpanan);
+                }
                 setProcess(false);
                 return setStep(2);
             }

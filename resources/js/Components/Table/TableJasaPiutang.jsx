@@ -5,7 +5,7 @@ import {
     getSortedRowModel,
     getPaginationRowModel,
     getFilteredRowModel,
-    flexRender
+    flexRender,
 } from "@tanstack/react-table";
 import CreatePopup from "../Popup/CreatePopup";
 import SearchTable from "./SearchTable";
@@ -51,6 +51,7 @@ const TableJasaPiutang = ({ data }) => {
             {popup ? (
                 <CreatePopup
                     createName="Tambah Jasa Anggota"
+                    popup={popup}
                     setPopup={setPopup}
                     form={<FormJasaAnggota setPopup={setPopup} />}
                 />

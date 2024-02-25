@@ -1,3 +1,4 @@
+import ActionButton from "@/Components/Pinjaman/ActionButton";
 import ActionTable from "@/Components/Table/ActionTable";
 import { createColumnHelper } from "@tanstack/react-table";
 
@@ -635,4 +636,97 @@ export const columnJasaPiutang = [
         header: "Dibuat pada",
         enableSorting: false,
     }),
+];
+
+export const columnsPinjaman = [
+    columnHelper.accessor("", {
+        id: "No",
+        cell: (data) => (
+            <span className="font-medium text-black dark:text-white">
+                {data.row.index + 1}
+            </span>
+        ),
+        header: "No",
+        rowSpan: 2,
+    }),
+
+    columnHelper.accessor("name", {
+        id: "Nama",
+        cell: (data) => (
+            <span className="font-medium text-black dark:text-white">
+                {data.getValue()}
+            </span>
+        ),
+        header: "Nama",
+    }),
+
+    columnHelper.accessor("total_pinjaman", {
+        id: "pinjaman",
+        cell: (data) => (
+            <span className="font-medium text-black dark:text-white">
+                {data.getValue() || data.row.original.tahun_lalu
+                    ? Intl.NumberFormat("in-ID", {
+                          style: "currency",
+                          currency: "IDR",
+                      }).format(data.getValue() + data.row.original.tahun_lalu)
+                    : "-"}
+            </span>
+        ),
+        header: `Total Pinjaman`,
+    }),
+
+    columnHelper.accessor("dibayar", {
+        id: "dibayar",
+        cell: (data) => (
+            <span className="font-medium text-black dark:text-white">
+                {data.getValue()
+                    ? Intl.NumberFormat("in-ID", {
+                          style: "currency",
+                          currency: "IDR",
+                      }).format(data.getValue())
+                    : "-"}
+            </span>
+        ),
+        header: "Dibayar",
+    }),
+
+    // columnHelper.accessor("", {
+    //     id: "dibayar",
+    //     cell: (data) => (
+    //         <span className="font-medium text-black dark:text-white">
+    //             {data.getValue()
+    //                 ? Intl.NumberFormat("in-ID", {
+    //                       style: "currency",
+    //                       currency: "IDR",
+    //                   }).format(data.getValue())
+    //                 : "-"}
+    //         </span>
+    //     ),
+    //     header: "Dibayar",
+    // }),
+
+    columnHelper.accessor("sisa", {
+        id: "kekayaan",
+        cell: (data) => (
+            <span className="font-medium text-black dark:text-white">
+                {data.getValue() ? (
+                    <p className="inline-flex rounded-full bg-danger bg-opacity-10 py-1 px-3 text-sm font-medium text-danger">
+                        Belum Lunas
+                    </p>
+                ) : (
+                    <p className="inline-flex rounded-full bg-success bg-opacity-10 py-1 px-3 text-sm font-medium text-success">
+                        Lunas
+                    </p>
+                )}
+            </span>
+        ),
+        header: "status",
+        enableGlobalFilter: false,
+    }),
+
+    columnHelper.accessor("id_member", {
+        id: "aksi",
+        cell: (data) => <ActionButton id={data.getValue()} />,
+        header: "Aksi",
+    })
 ];

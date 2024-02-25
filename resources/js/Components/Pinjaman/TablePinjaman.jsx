@@ -1,4 +1,4 @@
-import { columnSimpananWajib } from "@/Libs/tableStarted";
+import { columnsPinjaman } from "@/Libs/tableStarted";
 import {
     useReactTable,
     flexRender,
@@ -7,21 +7,21 @@ import {
     getFilteredRowModel,
 } from "@tanstack/react-table";
 import { useState } from "react";
-import PaginationTable from "./PaginationTable";
 import { FaMoneyBillTransfer } from "react-icons/fa6";
-import SearchTable from "./SearchTable";
 import CreatePopup from "@/Components/Popup/CreatePopup";
 import DownloadDropdown from "../DownloadDrodown";
-import FormSimpanan from "../FormElements/FormSimpanan";
+import SearchTable from "../Table/SearchTable";
+import PaginationTable from "../Table/PaginationTable";
+import FormPinjaman from "./FormPinjaman";
 
-const TableSimpananWajib = ({ data, members, total, type }) => {
+const TablePinjaman = ({ data, members, total }) => {
     const [datas] = useState([...data]);
     const [globalFilter, setGlobalFilter] = useState("");
     const [popup, setPopup] = useState(false);
 
     const table = useReactTable({
         data: datas,
-        columns: columnSimpananWajib,
+        columns: columnsPinjaman,
         state: {
             globalFilter,
         },
@@ -31,7 +31,7 @@ const TableSimpananWajib = ({ data, members, total, type }) => {
     });
 
     return (
-        <div className="rounded-md border border-stroke bg-white px-5 pt-6 pb-2.5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
+        <div className="rounded-md border mt-4 sm:mt-6 border-stroke bg-white px-5 pt-6 pb-2.5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
             {/* head component */}
             <div className="flex items-start md:items-center justify-between mb-3.5">
                 <button
@@ -42,12 +42,12 @@ const TableSimpananWajib = ({ data, members, total, type }) => {
                 </button>
                 <div className="flex flex-col-reverse md:flex-row items-end md:items-center justify-end gap-3">
                     <DownloadDropdown
-                        pdf="simpananwajib.pdf"
-                        csv="simpananwajib.csv"
-                        excel="simpananwajib.xlsx"
-                        routepdf={route("simpanan_wajib_pdf")}
-                        routecsv={route("simpanan_wajib_csv")}
-                        routeexcel={route("simpanan_wajib_excel")}
+                        pdf="simpananpokok.pdf"
+                        csv="simpananpokok.csv"
+                        excel="simpananpokok.xlsx"
+                        routepdf={route("simpanan_pokok_pdf")}
+                        routecsv={route("simpanan_pokok_csv")}
+                        routeexcel={route("simpanan_pokok_excel")}
                     />
                     <SearchTable
                         setGlobalFilter={setGlobalFilter}
@@ -58,33 +58,53 @@ const TableSimpananWajib = ({ data, members, total, type }) => {
             {/* popup create */}
             {popup ? (
                 <CreatePopup
-                    createName={`Transaksi Simpanan ${type}`}
+                    createName={`Transaksi Pinjaman`}
                     setPopup={setPopup}
                     popup={popup}
                     form={
-                        <FormSimpanan
+                        <FormPinjaman
                             members={members}
-                            postUrl={route("simpanan_wajib_create")}
-                            directUrl={route("simpanan_wajib")}
+                            postUrl={route("pinjaman_anggota_create")}
+                            directUrl={route("pinjaman_anggota")}
                             setPopup={setPopup}
-                            type={type}
                         />
                     }
                 />
             ) : null}
             {/* table */}
             <div className="max-w-full overflow-x-auto">
-                <table className="w-max table-auto rounded-md border border-stroke">
+                <table className="w-full table-auto rounded-md border border-stroke">
                     <thead className="rounded-md">
                         {table.getHeaderGroups().map((headerGroup) => (
                             <tr
                                 key={headerGroup.id}
-                                className="bg-gray-2 text-left dark:bg-meta-4"
+                                className="bg-gray-2 text-left dark:bg-meta-4 rounded-md"
                             >
                                 {headerGroup.headers.map((item) => (
                                     <th
                                         key={item.id}
-                                        className="relative py-4 px-4 font-medium text-black border dark:text-white border-stroke dark:border-opacity-20"
+                                        colSpan={item.colSpan}
+                                        rowSpan={
+                                            (item.index === 0 &&
+                                                item.depth === 1) ||
+                                            (item.index === 1 &&
+                                                item.depth === 1) ||
+                                            (item.index === 2 &&
+                                                item.depth === 1) ||
+                                            (item.index === 3 &&
+                                                item.depth === 1)
+                                                ? "2"
+                                                : ""
+                                        }
+                                        className={`${
+                                            (item.index === 3 &&
+                                                item.depth === 2) ||
+                                            (item.index === 4 &&
+                                                item.depth === 2) ||
+                                            item.depth === 1
+                                                ? ""
+                                                : "hidden"
+                                        } py-4 px-4 font-medium border border-stroke dark:border-opacity-20 text-black dark:text-white text-center`}
                                     >
                                         {flexRender(
                                             item.column.columnDef.header,
@@ -113,7 +133,7 @@ const TableSimpananWajib = ({ data, members, total, type }) => {
                                                 <td
                                                     key={cell.id}
                                                     className={`${
-                                                        i === 0
+                                                        i === 0 || i === 4
                                                             ? "text-center"
                                                             : i === 1
                                                             ? "text-left"
@@ -129,7 +149,7 @@ const TableSimpananWajib = ({ data, members, total, type }) => {
                                             ))}
                                     </tr>
                                 ))}
-                                <tr>
+                                {/* <tr>
                                     <td
                                         className="font-medium text-center border py-5 px-4 border-stroke dark:border-opacity-20 text-black dark:text-white"
                                         colSpan={2}
@@ -137,21 +157,19 @@ const TableSimpananWajib = ({ data, members, total, type }) => {
                                         TOTAL
                                     </td>
                                     <td className="font-medium text-right border py-5 px-4 border-stroke dark:border-opacity-20 text-black dark:text-white">
-                                        {total.kekayaan_awal_tahun
+                                        {total.awal_tahun
                                             ? Intl.NumberFormat("in-ID", {
                                                   style: "currency",
                                                   currency: "IDR",
-                                              }).format(
-                                                  total.kekayaan_awal_tahun
-                                              )
+                                              }).format(total.awal_tahun)
                                             : "-"}
                                     </td>
                                     <td className="font-medium text-right border py-5 px-4 border-stroke dark:border-opacity-20 text-black dark:text-white">
-                                        {total.simpanan_wajib
+                                        {total.anggota_masuk
                                             ? Intl.NumberFormat("in-ID", {
                                                   style: "currency",
                                                   currency: "IDR",
-                                              }).format(total.simpanan_wajib)
+                                              }).format(total.anggota_masuk)
                                             : "-"}
                                     </td>
                                     <td className="font-medium text-right border py-5 px-4 border-stroke dark:border-opacity-20 text-black dark:text-white">
@@ -170,7 +188,7 @@ const TableSimpananWajib = ({ data, members, total, type }) => {
                                               }).format(total.jumlah)
                                             : "-"}
                                     </td>
-                                </tr>
+                                </tr> */}
                             </>
                         ) : (
                             <tr>
@@ -183,6 +201,7 @@ const TableSimpananWajib = ({ data, members, total, type }) => {
                             </tr>
                         )}
                     </tbody>
+                    <tfoot></tfoot>
                 </table>
             </div>
             {/* pagination */}
@@ -191,4 +210,4 @@ const TableSimpananWajib = ({ data, members, total, type }) => {
     );
 };
 
-export default TableSimpananWajib;
+export default TablePinjaman;

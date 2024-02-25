@@ -15,13 +15,10 @@ return new class extends Migration
             $table->uuid('id_pinjaman')->primary();
             $table->char('id_member');
             $table->foreign('id_member')->references('id_member')->on('members')->onUpdate('cascade')->onDelete('cascade');
-            $table->integer('tahun', false)->nullable();
-            $table->string('bulan', 12)->nullable();
-            $table->string('hari', 7)->nullable();
+            $table->integer('tahun', false);
+            $table->string('bulan', 12);
+            $table->string('hari', 7);
             $table->integer('nominal', false)->nullable();
-            $table->integer('cicilan', false)->nullable();
-            $table->integer('langsung', false)->nullable();
-            $table->integer('dibayar', false)->nullable();
             $table->integer('sisa', false)->nullable();
             $table->timestamps();
         });

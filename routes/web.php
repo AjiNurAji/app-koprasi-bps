@@ -48,6 +48,9 @@ Route::middleware(['auth:admin,member'])->group(function () {
     Route::get('/kas/rekening', [HomepageController::class, 'kasRekening'])->name('kas_rekening');
     Route::post('/kas/rekening', [KasController::class, 'kasRekening'])->name('kas_rekening');
 
+    // ad-art
+    Route::get('/ad-art', [HomepageController::class, 'adART'])->name('ad-art');
+
     // jasa piutang
     Route::get('/jasa-anggota', [HomepageController::class, 'jasaPiutang'])->name('jasa_piutang');
 });
@@ -83,8 +86,10 @@ Route::middleware(['auth:admin'])->group(function () {
     Route::get('index', 'UploadController@index');
 
     // piutang 
-    Route::get('/pinjaman-anggota', [HomepageController::class, 'pinjamanAnggota'])->name('pinjaman_anggota');
     Route::post('/jasa-anggota/set', [PiutangController::class, 'setJasaAnggota'])->name('jasa_anggota_set');
+    Route::get('/pinjaman-anggota', [HomepageController::class, 'pinjamanAnggota'])->name('pinjaman_anggota');
+    Route::post('/pinjaman-anggota', [PiutangController::class, 'getPinjamanAnggota'])->name('pinjaman_anggota');
+    Route::post('/pinjaman-anggota/create', [PiutangController::class, 'pinjamanAnggota'])->name('pinjaman_anggota_create');
 });
 
 require __DIR__ . '/auth.php';

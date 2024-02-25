@@ -52,13 +52,6 @@ class MemberController extends Controller
                     'password' => Hash::make($request->input('password'))
                 ]);
 
-                $newMember = Member::orderBy('created_at', 'desc')->first();
-
-                Pinjaman::create([
-                    'id_pinjaman' => Str::uuid(),
-                    'id_member' => $newMember->id_member
-                ]);
-
                 return response()->json(['message' => 'Berhasil Menambahkan anggota'], 200);
             } catch (\Throwable $th) {
                 return response()->json(['message' => 'Gagal Menambahkan anggota, silahkan coba kembali!'], 500);

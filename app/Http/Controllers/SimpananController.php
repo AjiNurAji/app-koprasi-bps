@@ -26,21 +26,13 @@ class SimpananController extends Controller
                 ->where('tahun', ($request->input('tahun') - 1))
                 ->first();
 
-            $awal_tahun = $simpananTaunSebelumnya->awal_tahun + $simpananTaunSebelumnya->anggota_masuk - $simpananTaunSebelumnya->anggota_keluar;
+            $awal_tahun = $simpananTaunSebelumnya ? $simpananTaunSebelumnya->awal_tahun + $simpananTaunSebelumnya->anggota_masuk - $simpananTaunSebelumnya->anggota_keluar : null;
 
             if ($simpananPokok) {
                 return response()->json(['message' => 'Data berhasil didapatkan', 'simpanan' => $simpananPokok, 'sebelum' => $awal_tahun], 200);
             }
 
-            $createData = SimpananPokok::create([
-                'id_simpanan_pokok' => Str::uuid(),
-                'id_member' => $request->input('id_member'),
-                'tahun' => $request->input('tahun'),
-                'hari' => $request->input('hari'),
-                'bulan' => $request->input('bulan'),
-            ]);
-
-            return response()->json(['message' => 'Data berhasil didapatkan', 'simpanan' => $createData, 'sebelum' => $awal_tahun], 200);
+            return response()->json(['message' => 'Data berhasil didapatkan', 'sebelum' => $awal_tahun], 200);
         }
 
         return response()->json(['message' => 'Hanya bisa diakses oleh admin!'], 401);
@@ -80,6 +72,21 @@ class SimpananController extends Controller
                     'bulan' => $request->input('bulan')
                 ]);
 
+                if (!$simpananPokok) {
+                    SimpananPokok::create([
+                        'id_simpanan_pokok' => Str::uuid(),
+                        'id_member' => $request->input('id_member'),
+                        'tahun' => $request->input('tahun'),
+                        'hari' => $request->input('hari'),
+                        'bulan' => $request->input('bulan'),
+                        'awal_tahun' => $simpananPokok ? $simpananPokok->awal_tahun + $request->input('awal_tahun') : $request->input('awal_tahun'),
+                        'anggota_masuk' => $simpananPokok ? $simpananPokok->anggota_masuk + $request->input('anggota_masuk') : $request->input('anggota_masuk'),
+                        'anggota_keluar' => $simpananPokok ? $simpananPokok->anggota_keluar + $request->input('anggota_keluar') : $request->input('anggota_keluar'),
+
+                    ]);
+                    return response()->json(['message' => 'Berhasil melakukan transaksi'], 200);
+                }
+
                 $simpananPokok->update([
                     'awal_tahun' => $simpananPokok->awal_tahun ? $simpananPokok->awal_tahun + $request->input('awal_tahun') : $request->input('awal_tahun'),
                     'hari' => $request->input('hari'),
@@ -107,21 +114,13 @@ class SimpananController extends Controller
                 ->where('tahun', ($request->input('tahun') - 1))
                 ->first();
 
-            $awal_tahun = $simpananTaunSebelumnya->kekayaan_awal_tahun + $simpananTaunSebelumnya->simpanan_wajib - $simpananTaunSebelumnya->anggota_keluar;
+            $awal_tahun = $simpananTaunSebelumnya ? $simpananTaunSebelumnya->kekayaan_awal_tahun + $simpananTaunSebelumnya->simpanan_wajib - $simpananTaunSebelumnya->anggota_keluar : 0;
 
             if ($simpananWajib) {
                 return response()->json(['message' => 'Data berhasil didapatkan', 'simpanan' => $simpananWajib, 'sebelum' => $awal_tahun], 200);
             }
 
-            $createData = SimpananWajib::create([
-                'id_simpanan_wajib' => Str::uuid(),
-                'id_member' => $request->input('id_member'),
-                'tahun' => $request->input('tahun'),
-                'hari' => $request->input('hari'),
-                'bulan' => $request->input('bulan'),
-            ]);
-
-            return response()->json(['message' => 'Data berhasil didapatkan', 'simpanan' => $createData, 'sebelum' => $awal_tahun], 200);
+            return response()->json(['message' => 'Data berhasil didapatkan', 'sebelum' => $awal_tahun], 200);
         }
 
         return response()->json(['message' => 'Sorry, anda bukan admin'], 401);
@@ -136,7 +135,7 @@ class SimpananController extends Controller
                     'id_member' => 'required|string',
                     'tahun' => 'required|integer',
                     'bulan' => 'required|string',
-                    'kekayaan_awal_tahun' => 'integer|nullable',
+                    'awal_tahun' => 'integer|nullable',
                     'anggota_keluar' => 'integer|nullable',
                     'simpanan_wajib' => 'integer|nullable',
                 ]);
@@ -146,7 +145,7 @@ class SimpananController extends Controller
                     ->where('bulan', $request->input('bulan'))
                     ->first();
 
-                $nominal = $request->input('simpanan_wajib') + $request->input('kekayaan_awal_tahun');
+                $nominal = $request->input('simpanan_wajib') + $request->input('awal_tahun');
                 $keluar = $request->input('anggota_keluar');
 
                 Transaksi::create([
@@ -161,8 +160,22 @@ class SimpananController extends Controller
                     'bulan' => $request->input('bulan')
                 ]);
 
+                if (!$simpananWajib) {
+                    SimpananWajib::create([
+                        'id_simpanan_wajib' => Str::uuid(),
+                        'id_member' => $request->input('id_member'),
+                        'tahun' => $request->input('tahun'),
+                        'hari' => $request->input('hari'),
+                        'bulan' => $request->input('bulan'),
+                        'kekayaan_awal_tahun' => $simpananWajib ? $simpananWajib->kekayaan_awal_tahun + $request->input('awal_tahun') : $request->input('awal_tahun'),
+                        'simpanan_wajib' => $simpananWajib ? $simpananWajib->simpanan_wajib + $request->input('simpanan_wajib') : $request->input('simpanan_wajib'),
+                        'anggota_keluar' => $simpananWajib ? $simpananWajib->anggota_keluar + $request->input('anggota_keluar') : $request->input('anggota_keluar'),
+                    ]);
+                    return response()->json(['message' => 'Berhasil melakukan transaksi'], 200);
+                }
+
                 $simpananWajib->update([
-                    'kekayaan_awal_tahun' => $simpananWajib->kekayaan_awal_tahun ? $simpananWajib->kekayaan_awal_tahun + $request->input('kekayaan_awal_tahun') : $request->input('kekayaan_awal_tahun'),
+                    'kekayaan_awal_tahun' => $simpananWajib->kekayaan_awal_tahun ? $simpananWajib->kekayaan_awal_tahun + $request->input('awal_tahun') : $request->input('awal_tahun'),
                     'hari' => $request->input('hari'),
                     'simpanan_wajib' => $simpananWajib->simpanan_wajib ? $simpananWajib->simpanan_wajib + $request->input('simpanan_wajib') : $request->input('simpanan_wajib'),
                     'anggota_keluar' => $simpananWajib->anggota_keluar ? $simpananWajib->anggota_keluar + $request->input('anggota_keluar') : $request->input('anggota_keluar'),
@@ -179,23 +192,13 @@ class SimpananController extends Controller
 
     public function getDataSimpananSukarela(Request $request)
     {
-        $user = Auth::user();
-        $check = $user->role ? $user->role === 'admin' : false;
-        if ($check) {
+        if (Auth::guard('admin')->check()) {
             $simpananSukarela = SimpananSukarela::where('id_member', $request->input('id_member'))->where('tahun', $request->input('tahun'))->first();
             if ($simpananSukarela) {
                 return response()->json(['message' => 'Data berhasil didapatkan', 'simpanan' => $simpananSukarela], 200);
             }
 
-            $createData = SimpananSukarela::create([
-                'id_simpanan_sukarela' => Str::uuid(),
-                'id_member' => $request->input('id_member'),
-                'tahun' => $request->input('tahun'),
-                'hari' => $request->input('hari'),
-                'bulan' => $request->input('bulan'),
-            ]);
-
-            return response()->json(['message' => 'Data berhasil didapatkan', 'simpanan' => $createData], 200);
+            return response()->json(['message' => 'Data berhasil didapatkan'], 200);
         }
 
         return response()->json(['message' => 'Sorry, anda bukan admin'], 401);
@@ -242,6 +245,43 @@ class SimpananController extends Controller
                     'hari' => $request->input('hari'),
                     'bulan' => $request->input('bulan')
                 ]);
+
+                if (!$simpananSukarela) {
+                    SimpananSukarela::create([
+                        'id_simpanan_sukarela' => Str::uuid(),
+                        'id_member' => $request->input('id_member'),
+                        'tahun' => $request->input('tahun'),
+                        'hari' => $request->input('hari'),
+                        'bulan' => $request->input('bulan'),
+                        'sukarela' =>   $simpananSukarela
+                            ? $simpananSukarela->sukarela + $request->input('sukarela')
+                            : $request->input('sukarela'),
+                        'shu' =>    $simpananSukarela
+                            ? $simpananSukarela->shu + $request->input('shu')
+                            : $request->input('shu'),
+
+                        'awal_tahun' => $simpananSukarela
+                            ? $simpananSukarela->awal_tahun + $awal_tahun
+                            : $awal_tahun,
+
+                        'selama_tahun' => $simpananSukarela
+                            ? $simpananSukarela->selama_tahun + $request->input('selama_tahun')
+                            : $request->input('selama_tahun'),
+
+                        'diambil' => $simpananSukarela
+                            ? $simpananSukarela->diambil + $request->input('diambil')
+                            : $request->input('diambil'),
+
+                        'disimpan_kembali' => $simpananSukarela
+                            ? $simpananSukarela->disimpan_kembali + $request->input('disimpan_kembali')
+                            : $request->input('disimpan_kembali'),
+
+                        'akhir_taun' => $simpananSukarela
+                            ? $simpananSukarela->akhir_taun + $akhirTahun
+                            : $akhirTahun,
+                    ]);
+                    return response()->json(['message' => 'Berhasil melakukan transaksi'], 200);
+                }
 
                 $simpananSukarela->update([
                     'sukarela' =>   $simpananSukarela->sukarela

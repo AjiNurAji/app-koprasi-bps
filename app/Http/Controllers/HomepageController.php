@@ -391,8 +391,30 @@ class HomepageController extends Controller
     // halaman pinjaman
     public function pinjamanAnggota()
     {
-        $data = Pinjaman::with(['member', 'member.pinjaman'])->get()->toArray();
+        $data = Member::with(['pinjaman', 'pinjaman.bayar'])->get()->toArray();
 
-        return Inertia::render('admin/Pinjaman/Pinjaman', ['data' => $data]);
+        foreach ($data as $i => $v) {
+            $pinjaman = Pinjaman::where('id_member', $v['id_member'])
+                ->where('tahun', (date('Y') - 1))
+                ->first();
+
+            $pinjamanNow = Pinjaman::where('id_member', $v['id_member'])
+                ->where('tahun', date('Y'))
+                ->get();
+
+            $data[$i]['pinjaman']['tahun_lalu'] = $pinjaman ? $pinjaman->sisa : $pinjaman;
+
+            $data[$i]['pinjaman']['total_pinjaman'] = $pinjaman ? $pinjaman->sisa + $pinjamanNow->sum('nominal') : $pinjamanNow->sum('nominal');
+        }
+
+        $member = Member::orderBy('name', 'asc')->get();
+
+        return Inertia::render('admin/Pinjaman/Pinjaman', ['data' => $data, 'members' => $member]);
+    }
+
+    // halaman ad-art
+    public function adART()
+    {
+        return Inertia::render('AdART');
     }
 }

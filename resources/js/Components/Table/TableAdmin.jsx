@@ -52,6 +52,7 @@ const TableAdmin = ({ data }) => {
                 <CreatePopup
                     createName="Tambah Admin"
                     setPopup={setPopup}
+                    popup={popup}
                     form={<FormCreateAdmin setPopup={setPopup} />}
                 />
             ) : null}

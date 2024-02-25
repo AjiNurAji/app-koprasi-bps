@@ -25,6 +25,7 @@ const NextSimpanan = ({
                             name="awal_tahun"
                             id="awal_tahun"
                             required
+                            disabled={awalTahun}
                             value={awalTahun ? awalTahun : 0}
                             onValueChange={(value, name) =>
                                 handleNominal(value, name)
@@ -41,7 +42,7 @@ const NextSimpanan = ({
                             htmlFor="anggota_masuk"
                             className="mb-2.5 font-medium text-black dark:text-white"
                         >
-                            {data.anggota_masuk
+                            {data?.anggota_masuk
                                 ? "Tambah Anggota Masuk"
                                 : "Anggota Masuk"}
                         </label>
@@ -49,7 +50,7 @@ const NextSimpanan = ({
                             <CurrencyInput
                                 autoComplete="off"
                                 placeholder={`Masukkan nominal ${
-                                    data.anggota_masuk
+                                    data?.anggota_masuk
                                         ? "tambahan"
                                         : "transaksi"
                                 }`}
@@ -73,7 +74,7 @@ const NextSimpanan = ({
                             htmlFor="anggota_keluuar"
                             className="mb-2.5 font-medium text-black dark:text-white"
                         >
-                            {data.anggota_keluar
+                            {data?.anggota_keluar
                                 ? "Tambah Anggota Keluar"
                                 : "Anggota Keluar"}
                         </label>
@@ -81,7 +82,7 @@ const NextSimpanan = ({
                             <CurrencyInput
                                 autoComplete="off"
                                 placeholder={`Masukkan nominal ${
-                                    data.anggota_keluar
+                                    data?.anggota_keluar
                                         ? "tambahan"
                                         : "transaksi"
                                 }`}
@@ -118,7 +119,7 @@ const NextSimpanan = ({
                             name="kekayaan_awal_tahun"
                             id="kekayaan_awal_tahun"
                             value={awalTahun ? awalTahun : 0}
-                            disabled
+                            disabled={awalTahun}
                             onValueChange={(value, name) =>
                                 handleNominal(value, name)
                             }
@@ -134,14 +135,14 @@ const NextSimpanan = ({
                             htmlFor="simpanan_wajib"
                             className="mb-2.5 font-medium text-black dark:text-white"
                         >
-                            {data.simpanan_wajib
+                            {data?.simpanan_wajib
                                 ? "Tambah Simpanan Wajib"
                                 : "Simpanan Wajib"}
                         </label>
                         <CurrencyInput
                             autoComplete="off"
                             placeholder={`Masukkan nominal ${
-                                data.simpanan_wajib ? "tambahan" : "transaksi"
+                                data?.simpanan_wajib ? "tambahan" : "transaksi"
                             }`}
                             allowDecimals={true}
                             name="simpanan_wajib"
@@ -162,14 +163,14 @@ const NextSimpanan = ({
                             htmlFor="anggota_keluar"
                             className="mb-2.5 font-medium text-black dark:text-white"
                         >
-                            {data.anggota_keluar
+                            {data?.anggota_keluar
                                 ? "Tambah Anggota Keluar"
                                 : "Anggota Keluar"}
                         </label>
                         <CurrencyInput
                             autoComplete="off"
                             placeholder={`Masukkan nominal ${
-                                data.anggota_keluar ? "tambahan" : "transaksi"
+                                data?.anggota_keluar ? "tambahan" : "transaksi"
                             }`}
                             allowDecimals={true}
                             name="anggota_keluar"
@@ -193,14 +194,14 @@ const NextSimpanan = ({
                             htmlFor="sukarela"
                             className="mb-2.5 font-medium text-black dark:text-white"
                         >
-                            {data.sukarela
+                            {data?.sukarela
                                 ? "Tambah sukarela dari pembulatan"
                                 : "Sukarela dari pembulatan"}
                         </label>
                         <CurrencyInput
                             autoComplete="off"
                             placeholder={`Masukkan nominal ${
-                                data.sukarela ? "tambahan" : "transaksi"
+                                data?.sukarela ? "tambahan" : "transaksi"
                             }`}
                             allowDecimals={true}
                             name="sukarela"
@@ -221,14 +222,14 @@ const NextSimpanan = ({
                             htmlFor="shu"
                             className="mb-2.5 font-medium text-black dark:text-white"
                         >
-                            {data.shu
+                            {data?.shu
                                 ? "Tambah SHU yang disimpan"
                                 : "SHU yang disimpan"}
                         </label>
                         <CurrencyInput
                             autoComplete="off"
                             placeholder={`Masukkan nominal ${
-                                data.shu ? "tambahan" : "transaksi"
+                                data?.shu ? "tambahan" : "transaksi"
                             }`}
                             allowDecimals={true}
                             name="shu"
@@ -271,14 +272,14 @@ const NextSimpanan = ({
                             htmlFor="selama_tahun"
                             className="mb-2.5 font-medium text-black dark:text-white"
                         >
-                            {data.selama_tahun
+                            {data?.selama_tahun
                                 ? `Tambah selama tahun ${new Date().getFullYear()}`
                                 : `Selama tahun ${new Date().getFullYear()}`}
                         </label>
                         <CurrencyInput
                             autoComplete="off"
                             placeholder={`Masukkan nominal ${
-                                data.selama_tahun ? "tambahan" : "transaksi"
+                                data?.selama_tahun ? "tambahan" : "transaksi"
                             }`}
                             allowDecimals={true}
                             name="selama_tahun"
@@ -299,12 +300,12 @@ const NextSimpanan = ({
                             htmlFor="diambil"
                             className="mb-2.5 font-medium text-black dark:text-white"
                         >
-                            {data.diambil ? "Tambah diambil" : "Diambil"}
+                            {data?.diambil ? "Tambah diambil" : "Diambil"}
                         </label>
                         <CurrencyInput
                             autoComplete="off"
                             placeholder={`Masukkan nominal ${
-                                data.diambil ? "tambahan" : "transaksi"
+                                data?.diambil ? "tambahan" : "transaksi"
                             }`}
                             allowDecimals={true}
                             name="diambil"
@@ -325,14 +326,14 @@ const NextSimpanan = ({
                             htmlFor="disimpan_kembali"
                             className="mb-2.5 font-medium text-black dark:text-white"
                         >
-                            {data.disimpan_kembali
+                            {data?.disimpan_kembali
                                 ? "Tambah disimpan kembali"
                                 : "Disimpan kembali"}
                         </label>
                         <CurrencyInput
                             autoComplete="off"
                             placeholder={`Masukkan nominal ${
-                                data.disimpan_kembali ? "tambahan" : "transaksi"
+                                data?.disimpan_kembali ? "tambahan" : "transaksi"
                             }`}
                             allowDecimals={true}
                             name="disimpan_kembali"

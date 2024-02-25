@@ -37,9 +37,13 @@ class Member extends Authenticatable
 
     public function pinjaman()
     {
-        return $this->hasMany(Pinjaman::class, 'id_pinjaman');
+        return $this->hasMany(Pinjaman::class, 'id_member');
     }
 
+    public function bayar()
+    {
+        return $this->hasMany(BayarPinjaman::class, 'id_bayar_pinjaman');
+    }
     public function simpananPokok()
     {
         return $this->hasMany(SimpananPokok::class, 'id_member');

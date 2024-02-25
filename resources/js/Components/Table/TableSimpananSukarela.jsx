@@ -60,6 +60,7 @@ const TableSimpananSukarela = ({ data, members, total, type }) => {
                 <CreatePopup
                     createName={`Transaksi Simpanan ${type}`}
                     setPopup={setPopup}
+                    popup={popup}
                     form={
                         <FormSimpanan
                             members={members}

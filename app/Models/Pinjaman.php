@@ -19,17 +19,19 @@ class Pinjaman extends Model
         'id_pinjaman',
         'id_member',
         'bulan',
+        'nominal',
         'hari',
         'tahun',
-        'nominal',
-        'cicilan',
-        'langsung',
-        'dibayar',
         'sisa'
     ];
 
     public function member()
     {
         return $this->belongsTo(Member::class, 'id_member');
+    }
+
+    public function bayar()
+    {
+        return $this->hasMany(BayarPinjaman::class, 'id_pinjaman');
     }
 }
