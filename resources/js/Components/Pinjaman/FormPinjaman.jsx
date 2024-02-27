@@ -25,6 +25,8 @@ const FormPinjaman = ({ members, setPopup, postUrl, directUrl }) => {
         tahun_sebelumnya: null,
         nominal: null,
         jenis_bayar: "",
+        jasa_anggota: null,
+        id_pinjaman: "",
     });
 
     useEffect(() => {
@@ -143,6 +145,7 @@ const FormPinjaman = ({ members, setPopup, postUrl, directUrl }) => {
                         <SelectWithSearch
                             data={members}
                             value={data}
+                            type={type}
                             step={step}
                             setData={setData}
                         />

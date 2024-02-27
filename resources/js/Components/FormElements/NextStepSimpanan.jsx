@@ -12,7 +12,7 @@ const NextSimpanan = ({
         <>
             {type === "pokok" ? (
                 <>
-                    <div className="w-full">
+                    <div className="w-full p-3 border border-stroke dark:border-strokedark rounded-md bg-whiten dark:bg-black dark:bg-opacity-25">
                         <label
                             htmlFor="awal_tahun"
                             className="mb-2.5 font-medium text-black dark:text-white"
@@ -24,9 +24,8 @@ const NextSimpanan = ({
                             allowDecimals={true}
                             name="awal_tahun"
                             id="awal_tahun"
-                            required
                             disabled={awalTahun}
-                            value={awalTahun ? awalTahun : 0}
+                            value={awalTahun ? awalTahun : valueData.awal_tahun}
                             onValueChange={(value, name) =>
                                 handleNominal(value, name)
                             }
@@ -104,7 +103,7 @@ const NextSimpanan = ({
                 </>
             ) : type === "wajib" ? (
                 <>
-                    <div className="w-full">
+                    <div className="w-full p-3 border border-stroke dark:border-strokedark rounded-md bg-whiten dark:bg-black dark:bg-opacity-25">
                         <label
                             htmlFor="kekayaan_awal_tahun"
                             className="mb-2.5 font-medium text-black dark:text-white"
@@ -118,7 +117,7 @@ const NextSimpanan = ({
                             allowDecimals={true}
                             name="kekayaan_awal_tahun"
                             id="kekayaan_awal_tahun"
-                            value={awalTahun ? awalTahun : 0}
+                            value={awalTahun ? awalTahun : valueData.awal_tahun}
                             disabled={awalTahun}
                             onValueChange={(value, name) =>
                                 handleNominal(value, name)
@@ -127,7 +126,7 @@ const NextSimpanan = ({
                                 locale: "in-ID",
                                 currency: "IDR",
                             }}
-                            className="w-full disabled:bg-stroke dark:disabled:bg-strokedark rounded-md border text-dark dark:text-white border-stroke bg-transparent py-2 pl-4 pr-6 transition-all duration-300 ease-in-out outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
+                            className="w-full text-black border-none bg-transparent px-0 dark:text-whiten"
                         />
                     </div>
                     <div className="w-full">
@@ -245,7 +244,7 @@ const NextSimpanan = ({
                             className="w-full rounded-md border text-dark dark:text-white border-stroke bg-transparent py-2 pl-4 pr-6 transition-all duration-300 ease-in-out outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                         />
                     </div>
-                    <div className="w-full">
+                    <div className="w-full p-3 border border-stroke dark:border-strokedark rounded-md bg-whiten dark:bg-black dark:bg-opacity-25">
                         <label
                             htmlFor="awal_tahun"
                             className="mb-2.5 font-medium text-black dark:text-white"
@@ -258,13 +257,13 @@ const NextSimpanan = ({
                             allowDecimals={true}
                             name="awal_tahun"
                             id="awal_tahun"
-                            value={(valueData.sukarela ? valueData.sukarela : 0 )+ (valueData.shu ? valueData.shu : 0)}
+                            value={(valueData.sukarela ? valueData.sukarela : 0 ) + (valueData.shu ? valueData.shu : 0)}
                             disabled
                             intlConfig={{
                                 locale: "in-ID",
                                 currency: "IDR",
                             }}
-                            className="w-full rounded-md border disabled:bg-stroke dark:disabled:bg-strokedark disabled:text-opacity-90 text-dark dark:text-white border-stroke bg-transparent py-2 pl-4 pr-6 transition-all duration-300 ease-in-out outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
+                            className="w-full text-black border-none bg-transparent px-0 dark:text-whiten"
                         />
                     </div>
                     <div className="w-full">

@@ -18,6 +18,7 @@ class Pinjaman extends Model
     protected $fillable = [
         'id_pinjaman',
         'id_member',
+        'id_jasa_anggota',
         'bulan',
         'nominal',
         'hari',

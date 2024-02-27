@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import CurrencyInput from "react-currency-input-field";
 
 const StepPinjaman = ({
@@ -22,6 +22,16 @@ const StepPinjaman = ({
         setSteps(2);
         setStep(4);
     };
+
+    useEffect(() => {
+        setData({
+            ...valueData,
+            total_pinjaman:
+                (data.jasa_anggota / 100) *
+                    (valueData.nominal ? valueData.nominal : 0) +
+                (valueData.nominal ? valueData.nominal : 0),
+        });
+    }, [valueData.nominal]);
 
     return (
         <>
@@ -137,34 +147,6 @@ const StepPinjaman = ({
                 <>
                     <div className="w-full">
                         <label
-                            htmlFor="taun_kemarin"
-                            className="mb-2.5 font-medium text-black dark:text-white"
-                        >
-                            {`Sisa Pinjaman`}
-                        </label>
-                        <CurrencyInput
-                            autoComplete="off"
-                            required
-                            allowDecimals={true}
-                            name="taun_kemarin"
-                            id="taun_kemarin"
-                            value={
-                                (awalTahun ? awalTahun : 0) +
-                                (data.sisa ? data.sisa : 0)
-                            }
-                            disabled
-                            onValueChange={(value, name) =>
-                                handleNominal(value, name)
-                            }
-                            intlConfig={{
-                                locale: "in-ID",
-                                currency: "IDR",
-                            }}
-                            className="w-full disabled:bg-transparent dark:disabled:bg-transparent disabled:border-none disabled:px-1 rounded-md border text-dark dark:text-white border-stroke bg-transparent py-2 pl-4 pr-6 transition-all duration-300 ease-in-out outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
-                        />
-                    </div>
-                    <div className="w-full">
-                        <label
                             htmlFor="nominal"
                             className="mb-2.5 font-medium text-black dark:text-white"
                         >
@@ -188,33 +170,85 @@ const StepPinjaman = ({
                             className="w-full rounded-md border text-dark dark:text-white border-stroke bg-transparent py-2 pl-4 pr-6 transition-all duration-300 ease-in-out outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                         />
                     </div>
-                    <div className="w-full">
-                        <label
-                            htmlFor="total_pinjaman"
-                            className="mb-2.5 font-medium text-black dark:text-white"
-                        >
-                            Total Pinjaman
-                        </label>
-                        <CurrencyInput
-                            autoComplete="off"
-                            allowDecimals={true}
-                            name="total_pinjaman"
-                            id="total_pinjaman"
-                            disabled
-                            value={
-                                (awalTahun ? awalTahun : 0) +
-                                (data.sisa ? data.sisa : 0) +
-                                (valueData.nominal ? valueData.nominal : 0)
-                            }
-                            onValueChange={(value, name) =>
-                                handleNominal(value, name)
-                            }
-                            intlConfig={{
-                                locale: "in-ID",
-                                currency: "IDR",
-                            }}
-                            className="w-full disabled:bg-transparent dark:disabled:bg-transparent  disabled:border-none disabled:px-1 rounded-md border text-dark dark:text-white border-stroke bg-transparent py-2 pl-4 pr-6 transition-all duration-300 ease-in-out outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
-                        />
+                    <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 items-center gap-2">
+                        <div className="w-auto py-3 px-2 border border-stroke dark:border-strokedark rounded-md bg-whiten">
+                            <label
+                                htmlFor="jasa_anggota"
+                                className="mb-2.5 font-medium text-black dark:text-white"
+                            >
+                                Jasa Anggota
+                            </label>
+                            <input
+                                autoComplete="off"
+                                type="text"
+                                name="jasa_anggota"
+                                id="jasa_anggota"
+                                disabled
+                                value={
+                                    data.jasa_anggota
+                                        ? `${data.jasa_anggota}%`
+                                        : 0
+                                }
+                                className="w-full disabled:bg-transparent dark:disabled:bg-transparent  disabled:border-none disabled:px-1 rounded-md border text-dark dark:text-white border-stroke bg-transparent py-2 pl-4 pr-6 transition-all duration-300 ease-in-out outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
+                            />
+                        </div>
+                        <div className="w-auto py-3 px-2 border border-stroke dark:border-strokedark rounded-md bg-whiten">
+                            <label
+                                htmlFor="total_pinjaman"
+                                className="mb-2.5 font-medium text-black dark:text-white"
+                            >
+                                Total Jasa Anggota
+                            </label>
+                            <CurrencyInput
+                                autoComplete="off"
+                                allowDecimals={true}
+                                name="total_pinjaman"
+                                id="total_pinjaman"
+                                disabled
+                                value={
+                                    (data.jasa_anggota / 100) *
+                                    (valueData.nominal ? valueData.nominal : 0)
+                                }
+                                onValueChange={(value, name) =>
+                                    handleNominal(value, name)
+                                }
+                                intlConfig={{
+                                    locale: "in-ID",
+                                    currency: "IDR",
+                                }}
+                                className="w-full disabled:bg-transparent dark:disabled:bg-transparent  disabled:border-none disabled:px-1 rounded-md border text-dark dark:text-white border-stroke bg-transparent py-2 pl-4 pr-6 transition-all duration-300 ease-in-out outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
+                            />
+                        </div>
+                        <div className="w-auto py-3 px-2 border border-stroke dark:border-strokedark rounded-md bg-whiten">
+                            <label
+                                htmlFor="total_pinjaman"
+                                className="mb-2.5 font-medium text-black dark:text-white"
+                            >
+                                Total Pinjaman
+                            </label>
+                            <CurrencyInput
+                                autoComplete="off"
+                                allowDecimals={true}
+                                name="total_pinjaman"
+                                id="total_pinjaman"
+                                disabled
+                                value={
+                                    (data.jasa_anggota / 100) *
+                                        (valueData.nominal
+                                            ? valueData.nominal
+                                            : 0) +
+                                    (valueData.nominal ? valueData.nominal : 0)
+                                }
+                                onValueChange={(value, name) =>
+                                    handleNominal(value, name)
+                                }
+                                intlConfig={{
+                                    locale: "in-ID",
+                                    currency: "IDR",
+                                }}
+                                className="w-full disabled:bg-transparent dark:disabled:bg-transparent  disabled:border-none disabled:px-1 rounded-md border text-dark dark:text-white border-stroke bg-transparent py-2 pl-4 pr-6 transition-all duration-300 ease-in-out outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
+                            />
+                        </div>
                     </div>
                 </>
             ) : null}
