@@ -8,10 +8,9 @@ import axios from "axios";
 import SelectWithSearch from "../FormElements/SelectWithSearch";
 import StepPinjaman from "./StepPinjaman";
 
-const FormPinjaman = ({ members, setPopup, postUrl, directUrl }) => {
+const FormPinjaman = ({ members, setPopup, postUrl, directUrl, type, setType }) => {
     const [processing, setProcess] = useState(false);
     const [pinjaman, setPinjaman] = useState([]);
-    const [type, setType] = useState("");
     const [pinjamanPrev, setPinjamanPrev] = useState(null);
     const getTahun = new Date();
     const form = useRef(null);
@@ -27,6 +26,7 @@ const FormPinjaman = ({ members, setPopup, postUrl, directUrl }) => {
         jenis_bayar: "",
         jasa_anggota: null,
         id_pinjaman: "",
+        total_pinjaman: null,
     });
 
     useEffect(() => {
@@ -38,7 +38,7 @@ const FormPinjaman = ({ members, setPopup, postUrl, directUrl }) => {
 
     const submit = async (e) => {
         e.preventDefault();
-        if (!data.nominal) return toast.error('Nominal Wajib Diisi!');
+        if (!data.nominal) return toast.error("Nominal Wajib Diisi!");
         setProcess(true);
 
         const create = await PostData(postUrl, data);
@@ -95,6 +95,12 @@ const FormPinjaman = ({ members, setPopup, postUrl, directUrl }) => {
                 id: toastLoading,
                 duration: 3000,
             });
+            if (error.response.data.redirect) {
+                setTimeout(() => {
+                    router.get(route("jasa_piutang"));
+                    toast.success("Silahkan isi jasa anggota!");
+                }, 1000);
+            }
         }
     };
 

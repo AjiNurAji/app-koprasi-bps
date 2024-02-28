@@ -17,6 +17,7 @@ import FormPinjaman from "./FormPinjaman";
 const TablePinjaman = ({ data, members, total }) => {
     const [datas] = useState([...data]);
     const [globalFilter, setGlobalFilter] = useState("");
+    const [type, setType] = useState("");
     const [popup, setPopup] = useState(false);
 
     const table = useReactTable({
@@ -64,9 +65,11 @@ const TablePinjaman = ({ data, members, total }) => {
                     form={
                         <FormPinjaman
                             members={members}
-                            postUrl={route("pinjaman_anggota_create")}
+                            postUrl={type === "pinjam" ? route("pinjaman_anggota_create") : route('bayar_pinjaman')}
                             directUrl={route("pinjaman_anggota")}
                             setPopup={setPopup}
+                            type={type}
+                            setType={setType}
                         />
                     }
                 />

@@ -90,6 +90,7 @@ Route::middleware(['auth:admin'])->group(function () {
     Route::get('/pinjaman-anggota', [HomepageController::class, 'pinjamanAnggota'])->name('pinjaman_anggota');
     Route::post('/pinjaman-anggota', [PiutangController::class, 'getPinjamanAnggota'])->name('pinjaman_anggota');
     Route::post('/pinjaman-anggota/create', [PiutangController::class, 'pinjamanAnggota'])->name('pinjaman_anggota_create');
+    Route::post('/pinjaman-anggota/pay', [PiutangController::class, 'bayarPinjamanAnggota'])->name('bayar_pinjaman');
 });
 
 require __DIR__ . '/auth.php';

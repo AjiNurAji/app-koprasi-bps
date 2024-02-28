@@ -708,11 +708,15 @@ export const columnsPinjaman = [
         enableGlobalFilter: false,
     }),
 
-    columnHelper.accessor("pinjaman.sisa_pinjaman", {
+    columnHelper.accessor("pinjaman", {
         id: "status",
         cell: (data) => (
             <span className="font-medium block w-full text-black dark:text-white">
-                {data.getValue() ? (
+                {!data.getValue().total_pinjaman && !data.getValue().sisa_pinjaman && !data.getValue().tahun_lalu ? (
+                    <p className="inline-block text-center w-full rounded-full bg-primary bg-opacity-10 py-1 px-3 text-sm font-medium text-primary">
+                        Tidak Memiliki Pinjaman
+                    </p>
+                ) : data.getValue().sisa_pinjaman ? (
                     <p className="inline-block text-center w-full rounded-full bg-danger bg-opacity-10 py-1 px-3 text-sm font-medium text-danger">
                         Belum Lunas
                     </p>
@@ -721,6 +725,7 @@ export const columnsPinjaman = [
                         Lunas
                     </p>
                 )}
+                {/* {console.log(data.getValue())} */}
             </span>
         ),
         header: "Status",

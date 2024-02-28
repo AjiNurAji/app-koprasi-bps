@@ -104,10 +104,8 @@ class HomepageController extends Controller
 
         // dd($kas, $saldoTunai);
 
-        if ($kasTunai || $kasRekening) {
-            $totalKasTunai = ($saldoTunai ? $saldoTunai->saldo : $kasTunai) ? $kasTunai->saldo_awal : null;
-            $totalKasRekening = ($saldoRekening ? $saldoRekening->saldo : $kasRekening) ? $kasRekening->saldo_awal : null;
-        }
+        $totalKasTunai = ($saldoTunai ? $saldoTunai->saldo : $kasTunai) ? $kasTunai->saldo_awal : null;
+        $totalKasRekening = ($saldoRekening ? $saldoRekening->saldo : $kasRekening) ? $kasRekening->saldo_awal : null;
 
         return Inertia::render('Dashboard', [
             'chart' => [
@@ -333,57 +331,53 @@ class HomepageController extends Controller
             $kas->saldo = $saldoRekening ? $saldoRekening->saldo : $kas->saldo_awal;
         }
 
-        if ($rekening) {
-            foreach ($rekening as $i => $value) {
-                $setor = TrRekening::where('id_rekening', $value->id_rekening)
-                    ->where('type', 'setor')
-                    ->first();
+        foreach ($rekening as $i => $value) {
+            $setor = TrRekening::where('id_rekening', $value->id_rekening)
+                ->where('type', 'setor')
+                ->first();
 
-                $bunga_bank = TrRekening::where('id_rekening', $value->id_rekening)
-                    ->where('type', 'bunga_bank')
-                    ->first();
+            $bunga_bank = TrRekening::where('id_rekening', $value->id_rekening)
+                ->where('type', 'bunga_bank')
+                ->first();
 
-                $pajak = TrRekening::where('id_rekening', $value->id_rekening)
-                    ->where('type', 'pajak')
-                    ->first();
+            $pajak = TrRekening::where('id_rekening', $value->id_rekening)
+                ->where('type', 'pajak')
+                ->first();
 
-                $adm = TrRekening::where('id_rekening', $value->id_rekening)
-                    ->where('type', 'adm')
-                    ->first();
+            $adm = TrRekening::where('id_rekening', $value->id_rekening)
+                ->where('type', 'adm')
+                ->first();
 
-                $penarikan = TrRekening::where('id_rekening', $value->id_rekening)
-                    ->where('type', 'penarikan')
-                    ->first();
+            $penarikan = TrRekening::where('id_rekening', $value->id_rekening)
+                ->where('type', 'penarikan')
+                ->first();
 
-                $saldo = TrRekening::where('id_rekening', $value->id_rekening)
-                    ->orderBy('created_at', 'desc')
-                    ->first();
+            $saldo = TrRekening::where('id_rekening', $value->id_rekening)
+                ->orderBy('created_at', 'desc')
+                ->first();
 
-                // dd($setor);
-                $datas[] = [
-                    'bulan' => $value->bulan,
-                    'setor' => $setor ? $setor->nominal : null,
-                    'setor_type' => $setor ? $setor->rekening : null,
-                    'bunga_bank' => $bunga_bank ? $bunga_bank->nominal : null,
-                    'bunga_bank_type' => $bunga_bank ? $bunga_bank->rekening : null,
-                    'pajak' => $pajak ? $pajak->nominal : null,
-                    'pajak_type' => $pajak ? $pajak->rekening : null,
-                    'adm' => $adm ? $adm->nominal : null,
-                    'adm_type' => $adm ? $adm->rekening : null,
-                    'penarikan' => $penarikan ? $penarikan->nominal : null,
-                    'penarikan_type' => $penarikan ? $penarikan->rekening : null,
-                    'saldo' => $saldo ? $saldo->saldo : null
-                ];
-            }
-        } else {
-            $datas = [];
+            // dd($setor);
+            $datas[] = [
+                'bulan' => $value->bulan,
+                'setor' => $setor ? $setor->nominal : null,
+                'setor_type' => $setor ? $setor->rekening : null,
+                'bunga_bank' => $bunga_bank ? $bunga_bank->nominal : null,
+                'bunga_bank_type' => $bunga_bank ? $bunga_bank->rekening : null,
+                'pajak' => $pajak ? $pajak->nominal : null,
+                'pajak_type' => $pajak ? $pajak->rekening : null,
+                'adm' => $adm ? $adm->nominal : null,
+                'adm_type' => $adm ? $adm->rekening : null,
+                'penarikan' => $penarikan ? $penarikan->nominal : null,
+                'penarikan_type' => $penarikan ? $penarikan->rekening : null,
+                'saldo' => $saldo ? $saldo->saldo : null
+            ];
         }
 
 
         return Inertia::render('admin/Kas/Rekening', [
             'data' => $kas,
-            'rekening' => $datas,
-            'datas' => $datas,
+            'rekening' => isset($datas) ? $datas : $rekening,
+            'datas' => isset($datas) ? $datas : $rekening,
             'bulan' => $bulan
         ]);
     }
@@ -413,7 +407,7 @@ class HomepageController extends Controller
         $member = Member::orderBy('name', 'asc')->get();
 
         return Inertia::render('admin/Pinjaman/Pinjaman', [
-            'data' => $data, 
+            'data' => $data,
             'members' => $member,
             'cards' => [
                 'total_pinjaman' => $pinjaman,
