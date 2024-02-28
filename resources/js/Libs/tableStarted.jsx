@@ -675,7 +675,7 @@ export const columnsPinjaman = [
         header: `Total Pinjaman`,
     }),
 
-    columnHelper.accessor("dibayar", {
+    columnHelper.accessor("pinjaman.dibayar", {
         id: "dibayar",
         cell: (data) => (
             <span className="font-medium text-black dark:text-white">
@@ -725,7 +725,6 @@ export const columnsPinjaman = [
                         Lunas
                     </p>
                 )}
-                {/* {console.log(data.getValue())} */}
             </span>
         ),
         header: "Status",

@@ -23,6 +23,7 @@ class BayarPinjaman extends Model
         'hari',
         'tahun',
         'nominal',
+        'sisa',
         'jenis',
     ];
 

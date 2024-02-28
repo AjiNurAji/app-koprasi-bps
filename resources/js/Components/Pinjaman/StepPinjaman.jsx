@@ -33,6 +33,9 @@ const StepPinjaman = ({
         });
     }, [valueData.nominal]);
 
+
+    console.log(data)
+
     return (
         <>
             {type === "bayar" ? (
@@ -68,11 +71,7 @@ const StepPinjaman = ({
                                     id="pinjaman"
                                     disabled
                                     value={
-                                        (awalTahun ? awalTahun : 0) +
                                         (data.sisa ? data.sisa : 0)
-                                    }
-                                    onValueChange={(value, name) =>
-                                        handleNominal(value, name)
                                     }
                                     intlConfig={{
                                         locale: "in-ID",

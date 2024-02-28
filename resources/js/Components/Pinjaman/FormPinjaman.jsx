@@ -8,7 +8,14 @@ import axios from "axios";
 import SelectWithSearch from "../FormElements/SelectWithSearch";
 import StepPinjaman from "./StepPinjaman";
 
-const FormPinjaman = ({ members, setPopup, postUrl, directUrl, type, setType }) => {
+const FormPinjaman = ({
+    members,
+    setPopup,
+    postUrl,
+    directUrl,
+    type,
+    setType,
+}) => {
     const [processing, setProcess] = useState(false);
     const [pinjaman, setPinjaman] = useState([]);
     const [pinjamanPrev, setPinjamanPrev] = useState(null);
@@ -53,6 +60,7 @@ const FormPinjaman = ({ members, setPopup, postUrl, directUrl, type, setType }) 
         setProcess(false);
     };
 
+
     const handleStep = async (e) => {
         e.preventDefault();
         if (!data.name)
@@ -63,7 +71,7 @@ const FormPinjaman = ({ members, setPopup, postUrl, directUrl, type, setType }) 
         const toastLoading = toast.loading("Loading...");
 
         try {
-            const response = await axios.post(directUrl, data, {
+            const response = await axios.post((type === "pinjam" ? directUrl : route("bayar_pinjaman_anggota")), data, {
                 headers: {
                     Accept: "application/json",
                     "Content-Type": "application/json",

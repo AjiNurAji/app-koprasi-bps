@@ -91,7 +91,6 @@ const SelectWithSearch = ({ data, value, setData, type, step }) => {
 
             <div
                 ref={dropdown}
-                onBlur={() => setActive(false)}
                 onFocus={() => setActive(true)}
                 className={`absolute z-999 h-auto max-h-45 overflow-y-auto right-0 mt-1 flex w-full flex-col rounded-md border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark ${
                     active === true ? "block" : "hidden"

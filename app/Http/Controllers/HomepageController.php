@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\BayarPinjaman;
 use App\Models\Kas;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -392,17 +393,29 @@ class HomepageController extends Controller
                 ->where('tahun', (date('Y') - 1))
                 ->first();
 
-            $pinjamanNow = Pinjaman::where('id_member', $v['id_member'])
-                ->where('tahun', date('Y'))
+            $pinjamanNow = Pinjaman::where([
+                    ['id_member', $v['id_member']],
+                    ['tahun', date('Y')]
+                ])
                 ->get();
+
+                // dd($pinjamanNow->sum('nominal'));
+
+            $bayar = BayarPinjaman::where([
+                ['id_member', $v['id_member']],
+            ])
+            ->orderBy('created_at', 'desc')
+            ->get();
 
             $data[$i]['pinjaman']['tahun_lalu'] = $pinjaman ? $pinjaman->sisa : $pinjaman;
 
             $data[$i]['pinjaman']['total_pinjaman'] = $pinjaman ? $pinjaman->sisa + $pinjamanNow->sum('nominal') : $pinjamanNow->sum('nominal');
-            $data[$i]['pinjaman']['sisa_pinjaman'] = $pinjamanNow->sum('nominal');
+            $data[$i]['pinjaman']['sisa_pinjaman'] = $pinjamanNow ? $pinjamanNow->sum('nominal') - ($bayar ? $bayar->sum('nominal') : 0) : 0;
+            $data[$i]['pinjaman']['dibayar'] = $bayar ? $bayar->sum('nominal') : 0;
         }
 
         $pinjaman = Pinjaman::where('tahun', date('Y'))->get()->sum('nominal');
+        $terbayar = BayarPinjaman::where('tahun', date('Y'))->get()->sum('nominal');
 
         $member = Member::orderBy('name', 'asc')->get();
 
@@ -411,7 +424,7 @@ class HomepageController extends Controller
             'members' => $member,
             'cards' => [
                 'total_pinjaman' => $pinjaman,
-                'total_dibayar' => null,
+                'total_dibayar' => $terbayar,
             ]
         ]);
     }

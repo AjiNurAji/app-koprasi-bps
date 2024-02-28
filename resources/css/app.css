@@ -77,6 +77,11 @@ button:active {
     visibility: visible;
 }
 
+.nprogress-busy main {
+    overflow-y: hidden;
+}
+
+
 img[alt="Muhamad Yusuf Aradabila"],
 img[alt="Aji Nur Aji"] {
     scale: 1.50;
