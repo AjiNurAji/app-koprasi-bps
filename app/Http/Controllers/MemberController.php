@@ -78,7 +78,7 @@ class MemberController extends Controller
             $member->delete();
             return response()->json(['message' => 'Berhasil menghapus anggota'], 200);
         } else {
-            return response()->json(['message'=> 'Gagal menghapus anggota'], 200);
+            return response()->json(['message'=> 'Gagal menghapus anggota'], 401);
         }
         
     //     $user->delete();
@@ -90,7 +90,7 @@ class MemberController extends Controller
             'username'=> 'required',
             'name' => 'required',
             'email'=> 'required',
-            'password'=> 'required',
+            'password'=> 'required'
         ]);
         try {
             $member = Member::findOrFail($requst->input('id_member'));
@@ -98,27 +98,27 @@ class MemberController extends Controller
                 'username'=> $requst->input('username'),
                 'name'=> $requst->input('name'),
                 'email'=> $requst->input('email'),
-                'password'=> $requst->input('password'),
+                'password'=> $requst->input('password')
             ]);
 
-            if ($requst->input('password') !== null) {
-                $updateData = $member->update([
-                    'password' => Hash::make($requst->input('password')),
-                    ]);
+            // if ($requst->input('password') !== null) {
+            //     $updateData = $member->update([
+            //         'password' => Hash::make($requst->input('password')),
+            //         ]);
         }
         if ($updateData) {
             if ($requst->input('id_member') != $requst->input('')) {
             $url = "/uuid/{$request->input('id_member')}";
-            return response()->json(["message"=> "Update berhasil diperbaharui"], 200);
+            return response()->json(['message'=> 'Update berhasil diperbaharui'], 200);
 
             // return redirect($url);
         } else {
-            return response()->json(["message"=> "Update berhasil diperbaharui"], 200);
+            return response()->json(['message'=> 'Update berhasil diperbaharui'], 200);
 
             // return redirect()->back();
         }
         } else {
-            return response()->json(["message"=> "Update gagal, cek kembali data yang anda masukan"], 400);
+            return response()->json(['message'=> 'Update gagal, cek kembali data yang anda masukan'], 401);
 
             // return redirect()->back()->withInput();
         }      
@@ -127,8 +127,30 @@ class MemberController extends Controller
         // return response()->json(['message' => 'Berhasil Update anggota'], 200);
     } catch (\Exception $e) {
         // return response()->json(["message"=> $e->getMessage()], 400);
-        return response()->json(["message" => "Update gagal, cek kembali data yang anda masukan"], 400);
+        return response()->json(['message' => 'Update gagal, cek kembali data yang anda masukan'], 401);
         // return redirect()->back();
+    }
+
+    public function update_password(Request $request) {
+        $request->validate([
+            'old_password' => 'required',
+            'new_password'=> 'required',
+            'confirm_password' => 'required'
+        ]);
+
+        $current_user = Auth()->user();
+        if(Hash::check($request->old_password, $current_user->password)) {
+
+            $current_user->update([
+                'password'=> bcrypt($request->new_password)
+            ]);
+
+            return response()->json(['message'=> 'berhasil mengubah password'], 200);
+
+        } else {
+            return response()->json(['message'=> 'error, password yang anda masukan salah'], 200);
+        }
+
     }
 
     /**

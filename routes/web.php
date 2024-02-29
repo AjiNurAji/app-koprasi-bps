@@ -53,6 +53,9 @@ Route::middleware(['auth:admin'])->group(function () {
     //edit anggota
     Route::post('member/updatedata/{id}', [MemberController::class, 'updatedata'])->name('updatedata');
 
+    // edit dan update password
+    Route::get('/Member/change-password','MemberController@change-password')->name('change-password');
+    Route::post('/Member/update-password','MemberController@update-password')->name('update_password');
   
     Route::post('/simpanan/wajib', [SimpananController::class, 'getDataSimpananWajib'])->name('simpanan_wajib');
     Route::post('/simpanan/wajib/create', [SimpananController::class, 'simpananWajib'])->name('simpanan_wajib_create');
