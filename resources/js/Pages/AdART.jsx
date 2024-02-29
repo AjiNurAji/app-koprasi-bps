@@ -14,7 +14,7 @@ const AdART = ({ auth }) => {
             <FileInput
                 label="Tambahkan file ad/art"
                 fileType="PDF"
-                max="100MB"
+                max="200MB"
                 accept=".pdf"
                 name={"file"}
                 data={data}
