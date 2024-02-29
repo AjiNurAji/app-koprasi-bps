@@ -1,7 +1,16 @@
 import { useEffect, useRef, useState } from "react";
 import { GrClearOption } from "react-icons/gr";
 
-const FileInput = ({ fileType, max, accept, name, data, setData }) => {
+const FileInput = ({
+    fileType,
+    max,
+    accept,
+    name,
+    data,
+    setData,
+    label,
+    note,
+}) => {
     const fileRef = useRef(null);
     const dropzone = useRef(null);
     const [file, setFile] = useState();
@@ -36,16 +45,16 @@ const FileInput = ({ fileType, max, accept, name, data, setData }) => {
     useEffect(() => {
         dropzone?.current.addEventListener("dragover", (e) => {
             e.preventDefault();
-            setActive(true)
+            setActive(true);
         });
 
         dropzone?.current.addEventListener("dragleave", () => {
-            setActive(false)
+            setActive(false);
         });
 
         dropzone?.current.addEventListener("drop", (e) => {
             e.preventDefault();
-            setActive(false)
+            setActive(false);
 
             const files = e.dataTransfer.files;
             setFile(files);
@@ -58,12 +67,14 @@ const FileInput = ({ fileType, max, accept, name, data, setData }) => {
         <div className="w-full relative">
             <label
                 htmlFor="dropzone-file"
-                className="mb-2.5 font-medium text-black dark:text-white"
+                className="mb-2.5 inline-block font-medium text-black dark:text-white"
             >
-                Foto Profile{" "}
-                <span className="text-meta-1 text-xs">
-                    (jika tidak ingin diganti kosongkan)
-                </span>
+                {label}
+                {note ? (
+                    <span className="text-meta-1 text-xs">
+                       {" "}({note})
+                    </span>
+                ) : null}
             </label>
             <label
                 htmlFor="dropzone-file"
@@ -74,7 +85,9 @@ const FileInput = ({ fileType, max, accept, name, data, setData }) => {
                         : file[0].size < 2048576
                         ? "!border-meta-3"
                         : "!border-meta-1"
-                } border-dashed rounded-md cursor-pointer dark:bg-black hover:bg-stroke hover:bg-opacity-25 ${active ? "!border-primary bg-stroke bg-opacity-25" : null}`}
+                } border-dashed rounded-md cursor-pointer dark:bg-black hover:bg-stroke dark:hover:bg-black dark:hover:bg-opacity-60 hover:bg-opacity-25 ${
+                    active ? "!border-primary bg-stroke bg-opacity-25" : null
+                }`}
             >
                 <div className="flex flex-col w-full relative items-center justify-center pt-5 pb-6">
                     {file === undefined ? (
@@ -108,7 +121,11 @@ const FileInput = ({ fileType, max, accept, name, data, setData }) => {
                         <>
                             {preview && (
                                 <span className="w-60 h-auto mb-3">
-                                    <img className="w-full h-auto" src={preview} alt={file[0].name} />
+                                    <img
+                                        className="w-full h-auto"
+                                        src={preview}
+                                        alt={file[0].name}
+                                    />
                                 </span>
                             )}
                             <p className="mb-2 text-sm text-center px-5 text-gray-500 dark:text-gray-400">
@@ -139,7 +156,7 @@ const FileInput = ({ fileType, max, accept, name, data, setData }) => {
             {file ? (
                 <button
                     type="button"
-                    className="absolute top-8 right-2 cursor-pointer rounded-md border border-primary bg-primary p-2 text-white transition hover:bg-opacity-90 w-fit"
+                    className="absolute top-10 right-2 cursor-pointer rounded-md border border-primary bg-primary p-2 text-white transition hover:bg-opacity-90 w-fit"
                     onClick={() => {
                         fileRef.current.value = null;
                         setFile(undefined);

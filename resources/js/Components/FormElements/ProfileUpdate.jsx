@@ -76,6 +76,8 @@ const ProfileUpdate = ({ user }) => {
                     />
                 </div>
                 <FileInput
+                    label={"Foto Profile"}
+                    note="jika tidak ingin diganti kosongkan"
                     fileType=" PNG, JPG, JPEG or WEBP"
                     max="2MB"
                     accept=".png, .jpg, .webp, .jpeg"
