@@ -1,5 +1,6 @@
 import Breadcrumb from "@/Components/Dashboard/El/Breadcrumb"
 import Authenticated from "@/Layouts/AuthenticatedLayout"
+import { Head } from "@inertiajs/react";
 
 const AdART = ({ auth }) => {
     return  (

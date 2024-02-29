@@ -64,7 +64,7 @@ const PinjamanMember = ({ auth, pinjaman, bulan }) => {
                                 style: "currency",
                                 currency: "IDR",
                             }).format(
-                                pinjaman.total_sisa ? pinjaman.total_sisa : 0
+                                pinjaman.sisa ? pinjaman.sisa : 0
                             )}
                         </p>
                     </div>

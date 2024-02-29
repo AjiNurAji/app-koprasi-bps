@@ -50,7 +50,7 @@ export const lineChartOption = {
         //   position: "top",
         // },
         grid: {
-            borderColor: '#E2E8F0',
+            borderColor: "#E2E8F0",
             xaxis: {
                 lines: {
                     show: true,
@@ -104,9 +104,9 @@ export const lineChartOption = {
             labels: {
                 style: {
                     colors: "current-fill",
-                    cssClass: "fill-black dark:fill-white"
-                }
-            }
+                    cssClass: "fill-black dark:fill-white",
+                },
+            },
         },
         yaxis: {
             title: {
@@ -119,9 +119,11 @@ export const lineChartOption = {
             labels: {
                 style: {
                     colors: "current-fill",
-                    cssClass: "fill-black dark:fill-white"
-                }
-            }
+                    cssClass: "fill-black dark:fill-white",
+                },
+                formatter: (val, index) =>
+                    Intl.NumberFormat("in-ID").format(val),
+            },
         },
     },
 };
@@ -191,6 +193,11 @@ export const barChartOption = {
                 colors: "current-fill",
                 cssClass: "fill-black dark:fill-white",
             },
+            formatter: (val, index) =>
+                Intl.NumberFormat("in-ID", {
+                    style: "currency",
+                    currency: "IDR",
+                }).format(val),
         },
     },
     legend: {

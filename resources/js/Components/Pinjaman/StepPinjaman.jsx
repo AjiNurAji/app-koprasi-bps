@@ -33,9 +33,6 @@ const StepPinjaman = ({
         });
     }, [valueData.nominal]);
 
-
-    console.log(data)
-
     return (
         <>
             {type === "bayar" ? (

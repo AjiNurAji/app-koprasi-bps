@@ -8,6 +8,7 @@ use App\Http\Controllers\MemberController;
 use App\Http\Controllers\PDFController;
 use App\Http\Controllers\PiutangController;
 use App\Http\Controllers\SimpananController;
+use App\Http\Controllers\UploadController;
 use App\Http\Controllers\UserController;
 use App\Models\SimpananSukarela;
 use Illuminate\Support\Facades\Route;
@@ -83,7 +84,7 @@ Route::middleware(['auth:admin'])->group(function () {
     Route::post('/simpanan/sukarela/create', [SimpananController::class, 'simpananSukarela'])->name('simpanan_sukarela_create');
 
     //upload file
-    Route::get('index', 'UploadController@index');
+    Route::post('/upload-file', [UploadController::class, 'index'])->name('post_file');
 
     // piutang 
     // set jasa anggota

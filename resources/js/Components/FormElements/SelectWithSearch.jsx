@@ -86,7 +86,7 @@ const SelectWithSearch = ({ data, value, setData, type, step }) => {
                 }}
                 onFocus={() => setActive(true)}
                 placeholder="Masukkan nama lengkap anggota"
-                className="w-full dark:disabled:bg-transparent disabled:bg-transparent disabled:border-none disabled:px-1 rounded-md border text-dark dark:text-white border-stroke bg-transparent py-2 pl-4 pr-6 transition-all duration-300 ease-in-out outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
+                className="w-full dark:disabled:bg-transparent capitalize disabled:bg-transparent disabled:border-none disabled:px-1 rounded-md border text-dark dark:text-white border-stroke bg-transparent py-2 pl-4 pr-6 transition-all duration-300 ease-in-out outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
             />
 
             <div
@@ -112,7 +112,7 @@ const SelectWithSearch = ({ data, value, setData, type, step }) => {
                                     {MEMBERS.map((item) => (
                                         <div
                                             key={item.id_member}
-                                            className="w-full text-start text-black hover:bg-black hover:bg-opacity-5 dark:text-white py-1.5 px-3 rounded-md cursor-pointer"
+                                            className="w-full capitalize text-start text-black hover:bg-black hover:bg-opacity-5 dark:text-white py-1.5 px-3 rounded-md cursor-pointer"
                                             onClick={(e) =>
                                                 handleValue(e, item)
                                             }

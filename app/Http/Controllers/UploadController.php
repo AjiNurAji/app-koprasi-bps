@@ -9,13 +9,9 @@ use App\Upload;
 class UploadController extends Controller
 {
 
-    public function index()
+    public function index(Request $request)
     {
-        $files = Upload::all();
-
-        foreach ($files as $file) {
-            // return '<img src=' . asset($file->path) . '" alt="">';
-        }
+        dd($request->file('image'));
     }
 
     public function upload(Request $request)

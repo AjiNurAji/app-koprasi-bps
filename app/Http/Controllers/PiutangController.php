@@ -146,7 +146,7 @@ class PiutangController extends Controller
                     ->get()
                     ->first();
 
-                $sisa = $terbayar ? $terbayar->sisa + $request->input('total_pinjaman') : $pinjaman->sisa + $request->input('total_pinjaman');
+                $sisa = ($terbayar ? $terbayar->sisa + $request->input('total_pinjaman') : $pinjaman) ? $pinjaman->sisa + $request->input('total_pinjaman') : $request->input('total_pinjaman');
 
                 Transaksi::create([
                     'id_transaksi' => Str::uuid(),

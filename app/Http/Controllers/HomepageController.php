@@ -57,10 +57,17 @@ class HomepageController extends Controller
         // simpanan chart
         foreach ($bulan as $item) {
             for ($i = 0; $i < 12; $i++) {
-                $simpananPokokCount[] = Transaksi::whereBetween('created_at', [Carbon::now()->startOfMonth(), Carbon::now()->endOfMonth()])
+                $simpananCount[] = Transaksi::whereBetween('created_at', [Carbon::now()->startOfMonth(), Carbon::now()->endOfMonth()])
                     ->where('bulan', $item[$i])
                     ->where('tahun', date('Y'))
                     ->where('type', 'simpanan')
+                    ->get()
+                    ->count();
+
+                $pinjamanCount[] = Transaksi::whereBetween('created_at', [Carbon::now()->startOfMonth(), Carbon::now()->endOfMonth()])
+                    ->where('bulan', $item[$i])
+                    ->where('tahun', date('Y'))
+                    ->where('type', 'pinjaman')
                     ->get()
                     ->count();
             }
@@ -72,6 +79,12 @@ class HomepageController extends Controller
                     ->where('hari', $item[$i])
                     ->where('tahun', date('Y'))
                     ->where('type', 'simpanan')
+                    ->sum('nominal');
+
+                $totalPinjamanPerhari[] = Transaksi::whereBetween('created_at', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])
+                    ->where('hari', $item[$i])
+                    ->where('tahun', date('Y'))
+                    ->where('type', 'pinjaman')
                     ->sum('nominal');
             }
         }
@@ -110,8 +123,10 @@ class HomepageController extends Controller
 
         return Inertia::render('Dashboard', [
             'chart' => [
-                'perbulan' => $simpananPokokCount,
-                'perhari' => $totalSimpananPerhari
+                'perbulan' => $simpananCount,
+                'perhari' => $totalSimpananPerhari,
+                'pinjaman_perbulan' => $pinjamanCount,
+                'pinjaman_perhari' => $totalPinjamanPerhari,
             ],
             'cards' => [
                 'simpananPokok' => $totalPokok,

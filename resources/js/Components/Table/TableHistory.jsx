@@ -50,7 +50,7 @@ const TableHistory = ({ data }) => {
             </div>
             {/* table */}
             <div className="max-w-full overflow-x-auto">
-                <table className="w-max table-auto rounded-md border border-stroke dark:border-strokedark">
+                <table className="w-full table-auto rounded-md border border-stroke dark:border-strokedark">
                     <thead className="rounded-md">
                         <tr className="hidden">
                             <th colSpan={8} style={{ textAlign: "center" }}>
