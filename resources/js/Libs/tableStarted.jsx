@@ -29,7 +29,7 @@ export const columnsMember = [
     columnHelper.accessor("name", {
         id: "namaLengkap",
         cell: (data) => (
-            <span className="text-black dark:text-white">
+            <span className="text-black capitalize dark:text-white">
                 {data.getValue()}
             </span>
         ),
@@ -80,7 +80,7 @@ export const columnAdmin = [
     columnHelper.accessor("name", {
         id: "name",
         cell: (data) => (
-            <span className="text-black dark:text-white">
+            <span className="text-black capitalize dark:text-white">
                 {data.getValue()}
             </span>
         ),
@@ -111,7 +111,7 @@ export const columnsSimpananPokok = [
     columnHelper.accessor("member.name", {
         id: "Nama",
         cell: (data) => (
-            <span className="font-medium text-black dark:text-white">
+            <span className="font-medium capitalize text-black dark:text-white">
                 {data.getValue()}
             </span>
         ),
@@ -212,7 +212,7 @@ export const columnSimpananWajib = [
     columnHelper.accessor("member.name", {
         id: "name",
         cell: (data) => (
-            <span className="font-medium text-black dark:text-white">
+            <span className="font-medium capitalize text-black dark:text-white">
                 {data.getValue()}
             </span>
         ),
@@ -305,7 +305,7 @@ export const columnsSimpananSukarela = [
     columnHelper.accessor("member.name", {
         id: "Nama",
         cell: (data) => (
-            <span className="font-medium text-black dark:text-white">
+            <span className="font-medium capitalize text-black dark:text-white">
                 {data.getValue()}
             </span>
         ),
@@ -451,7 +451,7 @@ export const HistoryOptionTable = [
     columnHelper.accessor("name", {
         id: "name",
         cell: (data) => (
-            <span className="font-medium text-black dark:text-white">
+            <span className="font-medium capitalize text-black dark:text-white">
                 {data.getValue()}
             </span>
         ),
@@ -653,7 +653,7 @@ export const columnsPinjaman = [
     columnHelper.accessor("name", {
         id: "Nama",
         cell: (data) => (
-            <span className="font-medium text-black dark:text-white">
+            <span className="font-medium capitalize text-black dark:text-white">
                 {data.getValue()}
             </span>
         ),

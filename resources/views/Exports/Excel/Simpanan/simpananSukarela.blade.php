@@ -62,7 +62,7 @@
             <tr>
                 <td style="border: 1px solid #000; padding: 2px 10px; border-collapse: collapse; text-align: center;">
                     {{ $d + 1 }}</td>
-                <td style="border: 1px solid #000; padding: 2px 10px; border-collapse: collapse;">{{ $col['name'] }}</td>
+                <td style="border: 1px solid #000; padding: 2px 10px; border-collapse: collapse; text-transform: capitalize;">{{ $col['name'] }}</td>
                 <td style="border: 1px solid #000; padding: 2px 10px; border-collapse: collapse; text-align: right;">
                     {{ $col['sukarela'] ? number_format($col['sukarela'], 0, ',', '.') : '-' }}
                 </td>

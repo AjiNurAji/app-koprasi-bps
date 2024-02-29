@@ -86,12 +86,22 @@ Route::middleware(['auth:admin'])->group(function () {
     Route::get('index', 'UploadController@index');
 
     // piutang 
+    // set jasa anggota
     Route::post('/jasa-anggota/set', [PiutangController::class, 'setJasaAnggota'])->name('jasa_anggota_set');
+
+    // halaman pinjaman
     Route::get('/pinjaman-anggota', [HomepageController::class, 'pinjamanAnggota'])->name('pinjaman_anggota');
+
+    // buat pinjaman
     Route::post('/pinjaman-anggota', [PiutangController::class, 'getPinjamanAnggota'])->name('pinjaman_anggota');
     Route::post('/pinjaman-anggota/create', [PiutangController::class, 'pinjamanAnggota'])->name('pinjaman_anggota_create');
+
+    // bayar pinjaman
     Route::post('/pinjaman-anggota/get-pay', [PiutangController::class, 'getBayarPinjamanAnggota'])->name('bayar_pinjaman_anggota');
     Route::post('/pinjaman-anggota/pay', [PiutangController::class, 'bayarPinjamanAnggota'])->name('bayar_pinjaman');
+
+    // view pinjaman
+    Route::get('/pinjaman-anggota/{id}', [HomepageController::class, 'viewPinjaman'])->name('view_pinjaman_anggota');
 });
 
 require __DIR__ . '/auth.php';

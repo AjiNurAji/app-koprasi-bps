@@ -52,7 +52,7 @@
             <tr>
                 <td style="border: 1px solid #000; padding: 2px 10px; text-align: center;">
                     {{ $d + 1 }}</td>
-                <td style="border: 1px solid #000; padding: 2px 10px;">{{ $col['name'] }}</td>
+                <td style="border: 1px solid #000; padding: 2px 10px; text-transform: capitalize;">{{ $col['name'] }}</td>
                 <td style="border: 1px solid #000; padding: 2px 10px; text-align: right;">
                     {{ $col['awal_tahun'] ? number_format($col['awal_tahun'], 0, ',', '.') : '-' }}</td>
                 <td style="border: 1px solid #000; padding: 2px 10px; text-align: right;">

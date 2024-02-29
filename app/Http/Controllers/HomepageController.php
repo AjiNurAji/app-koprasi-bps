@@ -394,18 +394,18 @@ class HomepageController extends Controller
                 ->first();
 
             $pinjamanNow = Pinjaman::where([
-                    ['id_member', $v['id_member']],
-                    ['tahun', date('Y')]
-                ])
+                ['id_member', $v['id_member']],
+                ['tahun', date('Y')]
+            ])
                 ->get();
 
-                // dd($pinjamanNow->sum('nominal'));
+            // dd($pinjamanNow->sum('nominal'));
 
             $bayar = BayarPinjaman::where([
                 ['id_member', $v['id_member']],
             ])
-            ->orderBy('created_at', 'desc')
-            ->get();
+                ->orderBy('created_at', 'desc')
+                ->get();
 
             $data[$i]['pinjaman']['tahun_lalu'] = $pinjaman ? $pinjaman->sisa : $pinjaman;
 
@@ -427,6 +427,84 @@ class HomepageController extends Controller
                 'total_dibayar' => $terbayar,
             ]
         ]);
+    }
+
+    // view pinjaman
+    public function viewPinjaman(string $id)
+    {
+        $bulan = [
+            [
+                'Januari',
+                'Februari',
+                'Maret',
+                'April',
+                'Mei',
+                'Juni',
+                'Juli',
+                'Agustus',
+                'September',
+                'Oktober',
+                'November',
+                'Desember',
+            ]
+        ];
+
+        $hari = [
+            [
+                'Senin',
+                'Selasa',
+                'Rabu',
+                'Kamis',
+                'Jumat',
+                'Sabtu',
+                'Minggu'
+            ]
+        ];
+
+
+        $member = Member::with(['pinjaman', 'pinjaman.bayar'])->findOrFail($id);
+
+        $tahunLalu = Pinjaman::where([
+            ['id_member', $member->id_member],
+            ['tahun', date('Y') - 1]
+        ])
+            ->orderBy('created_at', 'desc')
+            ->get()
+            ->first();
+
+        foreach ($bulan as $item) {
+            for ($i = 0; $i < 12; $i++) {
+                $totalPinjaman[] = Pinjaman::whereBetween('created_at', [Carbon::now()->startOfMonth(), Carbon::now()->endOfMonth()])
+                    ->where([
+                        ['bulan', $item[$i]],
+                        ['tahun', date('Y')],
+                        ['id_member', $member->id_member]
+                    ])
+                    ->get()
+                    ->sum('nominal');
+            }
+        }
+
+        $terbayar = BayarPinjaman::whereBetween('created_at', [Carbon::now()->startOfMonth(), Carbon::now()->endOfMonth()])
+            ->where([
+                ['tahun', date('Y')],
+                ['id_member', $member->id_member]
+            ])->get()->sum('nominal');
+
+        $member->tahun_lalu = $tahunLalu ? $tahunLalu->sisa : 0;
+        $member->total_pinjaman = $totalPinjaman;
+        $member->total_terbayar = $terbayar;
+        $member->total = Pinjaman::whereBetween('created_at', [Carbon::now()->startOfMonth(), Carbon::now()->endOfMonth()])
+            ->where([
+                ['tahun', date('Y')],
+                ['id_member', $member->id_member]
+            ])
+            ->get()
+            ->sum('nominal');
+
+        $member->sisa = $member->total - $member->total_terbayar;
+
+        return Inertia::render('admin/Pinjaman/PinjamanMember', ['pinjaman' => $member, 'bulan' => $bulan[0]]);
     }
 
     // halaman ad-art

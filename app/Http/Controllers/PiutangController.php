@@ -69,9 +69,9 @@ class PiutangController extends Controller
 
             $pinjaman['jasa_anggota'] = $jasaAnggota->persentase;
             isset($pinjaman['sisa']) ?? $pinjaman['sisa'] = $bayar ? $bayar->sisa : $pinjaman->sisa;
-            
+
             $awal_tahun = $simpananTaunSebelumnya ? $simpananTaunSebelumnya->sisa : null;
-            
+
             if ($pinjaman) {
                 return response()->json(['message' => 'Data berhasil didapatkan', 'pinjaman' => $pinjaman, 'sebelum' => $awal_tahun], 200);
             }
@@ -135,7 +135,9 @@ class PiutangController extends Controller
                     'total_pinjaman' => 'integer|nullable',
                 ]);
 
-                $pinjaman = Pinjaman::where('id_member', $request->input('id_member'))->first();
+                $pinjaman = Pinjaman::where('id_member', $request->input('id_member'))
+                    ->orderBy('created_at', 'desc')
+                    ->get()->first();
 
                 $terbayar = BayarPinjaman::where([
                     ['id_member', $request->input('id_member')],
@@ -143,6 +145,8 @@ class PiutangController extends Controller
                     ->orderBy('created_at', 'desc')
                     ->get()
                     ->first();
+
+                $sisa = $terbayar ? $terbayar->sisa + $request->input('total_pinjaman') : $pinjaman->sisa + $request->input('total_pinjaman');
 
                 Transaksi::create([
                     'id_transaksi' => Str::uuid(),
@@ -162,7 +166,7 @@ class PiutangController extends Controller
                     'tahun' => $request->input('tahun'),
                     'hari' => $request->input('hari'),
                     'bulan' => $request->input('bulan'),
-                    'sisa' => ($terbayar ? $terbayar->sisa + $request->input('total_pinjaman') : $pinjaman) ? $pinjaman->sisa + $request->input('total_pinjaman') : $request->input('total_pinjaman'),
+                    'sisa' => $sisa,
                 ]);
 
                 return response()->json(['message' => 'Berhasil melakukan transaksi'], 200);
@@ -189,7 +193,6 @@ class PiutangController extends Controller
 
                 $pinjaman = Pinjaman::where([
                     ['id_member', $request->input('id_member')],
-                    ['tahun', $request->input('tahun')],
                 ])
                     ->orderBy('created_at', 'desc')
                     ->get()
@@ -197,9 +200,13 @@ class PiutangController extends Controller
 
                 $bayar = BayarPinjaman::where([
                     ['id_member', $request->input('id_member')],
+                    ['id_pinjaman', $pinjaman->id_pinjaman]
                 ])
                     ->orderBy('created_at', 'desc')
-                    ->get();
+                    ->get()
+                    ->first();
+
+                $sisa = $bayar ? $bayar->sisa - $request->input('nominal') : $pinjaman->sisa - $request->input('nominal');
 
                 Transaksi::create([
                     'id_transaksi' => Str::uuid(),
@@ -217,8 +224,7 @@ class PiutangController extends Controller
                     'id_member' => $request->input('id_member'),
                     'nominal' => $request->input('nominal'),
                     'id_pinjaman' => $pinjaman->id_pinjaman,
-                    // 'sisa' => $pinjaman ? $pinjaman->sisa - ($bayar ? $bayar->sum('nominal') : 0) : 0,
-                    'sisa' => isset($bayar->sisa) ? $bayar->sisa - $request->input('nominal') : $pinjaman->sisa - $request->input('nominal'),
+                    'sisa' => $sisa,
                     'tahun' => $request->input('tahun'),
                     'hari' => $request->input('hari'),
                     'bulan' => $request->input('bulan'),
