@@ -63,16 +63,72 @@ class MemberController extends Controller
         return response()->json(['message' => 'Sorry, hanya admin yang dapat menambah anggota!'], 401);
     }
 
-    public function delete($uuid) {
-        $user = Auth::user();
-        $user->delete();
-        return response()->json(['message' => 'Berhasil Menghapus anggota'], 200);
+    public function editData(string $uuid) {
+        try {
+            $user = Auth::guard('member')->user();
+            
+            $member = Member::with('uuid')->findOrFail($uuid);
+        }
     }
 
-    public function updatedata(Request $requst, $uuid){
-        $user = Auth::user();
-        $user->update($request->all());
-        return response()->json(['message' => 'Berhasil Update anggota'], 200);
+    public function softDeleteData(string $uuid) {
+        $member = Member::findOrFail($uuid);
+
+        if ($member) {
+            $member->delete();
+            return response()->json(['message' => 'Berhasil menghapus anggota'], 200);
+        } else {
+            return response()->json(['message'=> 'Gagal menghapus anggota'], 200);
+        }
+        
+    //     $user->delete();
+    //     return response()->json(['message' => 'Berhasil Menghapus anggota'], 200);
+    }
+
+    public function updatedata(Request $requst, $uuid) {
+        $requst->validate([
+            'username'=> 'required',
+            'name' => 'required',
+            'email'=> 'required',
+            'password'=> 'required',
+        ]);
+        try {
+            $member = Member::findOrFail($requst->input('id_member'));
+            $updateData = $member->update([
+                'username'=> $requst->input('username'),
+                'name'=> $requst->input('name'),
+                'email'=> $requst->input('email'),
+                'password'=> $requst->input('password'),
+            ]);
+
+            if ($requst->input('password') !== null) {
+                $updateData = $member->update([
+                    'password' => Hash::make($requst->input('password')),
+                    ]);
+        }
+        if ($updateData) {
+            if ($requst->input('id_member') != $requst->input('')) {
+            $url = "/uuid/{$request->input('id_member')}";
+            return response()->json(["message"=> "Update berhasil diperbaharui"], 200);
+
+            // return redirect($url);
+        } else {
+            return response()->json(["message"=> "Update berhasil diperbaharui"], 200);
+
+            // return redirect()->back();
+        }
+        } else {
+            return response()->json(["message"=> "Update gagal, cek kembali data yang anda masukan"], 400);
+
+            // return redirect()->back()->withInput();
+        }      
+        // $user = Auth::user();
+        // $user->update($request->all());
+        // return response()->json(['message' => 'Berhasil Update anggota'], 200);
+    } catch (\Exception $e) {
+        // return response()->json(["message"=> $e->getMessage()], 400);
+        return response()->json(["message" => "Update gagal, cek kembali data yang anda masukan"], 400);
+        // return redirect()->back();
     }
 
     /**

@@ -48,10 +48,10 @@ Route::middleware(['auth:admin'])->group(function () {
     Route::get('/simpanan/wajib', [HomepageController::class, 'simpananWajib'])->name('simpanan_wajib');
 
     // delete anggota
-    Route::get('/member/{uuid}', [MemberController::class, 'delete']);
+    Route::post('/member/{id}', [MemberController::class, 'softDeletes']);
 
     //edit anggota
-    Route::post('member/updatedata/{uuid}', [MemberController::class, 'updatedata'])->name('updatedata');
+    Route::post('member/updatedata/{id}', [MemberController::class, 'updatedata'])->name('updatedata');
 
   
     Route::post('/simpanan/wajib', [SimpananController::class, 'getDataSimpananWajib'])->name('simpanan_wajib');
