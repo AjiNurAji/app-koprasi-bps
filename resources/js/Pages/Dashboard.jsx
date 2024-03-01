@@ -13,17 +13,49 @@ const Dashboard = ({ auth, chart, cards }) => {
             <Head title="Dashboard" />
 
             <div className="flex  gap-4 flex-col md:flex-row md:gap-6 flex-wrap">
-                <Card total={66336032} icon={<FaMoneyBillWave />} type="Uang Kas Tunai" view={"/uangkas/tunai"} />
-                <Card total={168285259} icon={<BsFillCreditCard2FrontFill />} type="Uang Kas Rekening" />
-                <Card total={cards.simpananPokok} icon={<GiWallet />} type="Simpanan Pokok" />
-                <Card total={208530000} icon={<GiPayMoney />} type="Simpanan Wajib" />
-                <Card total={78882173} icon={<GiReceiveMoney />} type="Simpanan Sukarela" />
+                <Card
+                    user={auth.user}
+                    total={cards.kas_tunai}
+                    icon={<FaMoneyBillWave />}
+                    type="Uang Kas Tunai"
+                    view={route("kas_tunai")}
+                />
+                <Card
+                    user={auth.user}
+                    total={cards.kas_rekening}
+                    icon={<BsFillCreditCard2FrontFill />}
+                    type="Uang Kas Rekening"
+                    view={route('kas_rekening')}
+                />
+                <Card
+                    user={auth.user}
+                    total={cards.simpananPokok}
+                    icon={<GiWallet />}
+                    type="Simpanan Pokok"
+                    view={route("simpanan_pokok")}
+                />
+                <Card
+                    user={auth.user}
+                    total={cards.simpananWajib}
+                    icon={<GiPayMoney />}
+                    type="Simpanan Wajib"
+                    view={route("simpanan_wajib")}
+                    />
+                <Card
+                    user={auth.user}
+                    total={cards.simpananSukarela}
+                    icon={<GiReceiveMoney />}
+                    type="Simpanan Sukarela"
+                    view={route("simpanan_sukarela")}
+                />
             </div>
 
-            <div className="mt-4 grid grid-cols-12 gap-4 md:mt-6 md:gap-6 2xl:mt-7.5 2xl:gap-7.5">
-                <LineChart data={chart} />
-                <BarChart data={chart} />
-            </div>
+            {auth.user.role ? (
+                <div className="mt-4 grid grid-cols-12 gap-4 md:mt-6 md:gap-6 2xl:mt-7.5 2xl:gap-7.5">
+                    <LineChart data={chart} />
+                    <BarChart data={chart} />
+                </div>
+            ) : null}
         </Authenticated>
     );
 };

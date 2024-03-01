@@ -1,14 +1,14 @@
 import { toast } from "react-hot-toast";
 import axios from "axios";
 
-const PostData = async (url, data) => {
+const PostData = async (url, data, content) => {
     const toastLoading = toast.loading("Loading...");
 
     try {
         const response = await axios.post(url, data, {
             headers: {
                 Accept: "application/json",
-                "Content-Type": "application/json",
+                "Content-Type": content ? content : "application/json",
             },
         });
 

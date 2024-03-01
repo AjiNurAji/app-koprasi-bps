@@ -47,7 +47,7 @@ const Login = () => {
             <Head title="Log in" />
             <div className="flex items-center justify-between min-h-screen w-full">
                 <BoxIlus />
-                <div className="md:basis-1/2 basis-full p-5 md:px-25 h-screen flex justify-center items-center bg-white dark:bg-boxdark-2">
+                <div className="xl:basis-1/2 md:basis-2/3 basis-full p-5 md:px-25 h-screen flex justify-center items-center bg-white dark:bg-boxdark-2">
                     <div className="flex justify-center items-center flex-col gap-3 w-full">
                         <div className="flex justify-center items-center flex-col gap-2">
                             <div className="w-20 h-auto overflow-hidden">

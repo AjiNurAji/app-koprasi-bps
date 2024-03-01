@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import { toast } from "react-hot-toast";
 import ButtonLoading from "../ButtonLoading";
 import { useForm } from "@inertiajs/react";
@@ -11,6 +11,7 @@ import axios from "axios";
 const FormSimpanan = ({ members, setPopup, postUrl, directUrl, type }) => {
     const [processing, setProcess] = useState(false);
     const [simpanan, setSimpanan] = useState([]);
+    const [simpananPrev, setSimpananPrev] = useState(null);
     const getTahun = new Date();
     const form = useRef(null);
     const [step, setStep] = useState(1);
@@ -18,14 +19,29 @@ const FormSimpanan = ({ members, setPopup, postUrl, directUrl, type }) => {
         name: "",
         id_member: "",
         tahun: getTahun.getFullYear(),
-        bulan: getTahun.toLocaleDateString("id-ID", { month: "long" }),
-        hari: getTahun.toLocaleDateString("id-ID", { weekday: "long" }),
+        bulan: getTahun.toLocaleDateString("in-ID", { month: "long" }),
+        hari: getTahun.toLocaleDateString("in-ID", { weekday: "long" }),
         awal_tahun: null,
+        tahun_sebelumnya: null, 
         anggota_masuk: null,
         anggota_keluar: null,
         simpanan_wajib: null,
         kekayaan_awal_tahun: null,
+        sukarela: null,
+        shu: null,
+        selama_tahun: null,
+        diambil: null,
+        disimpan_kembali: null,
+        akhir_tahun: null,
     });
+
+    useEffect(() => {
+        setData({
+            ...data,
+            awal_tahun: simpananPrev ? simpananPrev : 0,
+            tahun_sebelumnya: simpananPrev ? simpananPrev : 0
+        })
+    }, [simpananPrev])
 
     const submit = async (e) => {
         e.preventDefault();
@@ -61,7 +77,10 @@ const FormSimpanan = ({ members, setPopup, postUrl, directUrl, type }) => {
                     id: toastLoading,
                     duration: 3000,
                 });
-                setSimpanan(response.data.simpanan);
+                setSimpananPrev(response.data.sebelum);
+                if (response.data.simpanan) {
+                    setSimpanan(response.data.simpanan);
+                }
                 setProcess(false);
                 return setStep(2);
             }
@@ -105,12 +124,14 @@ const FormSimpanan = ({ members, setPopup, postUrl, directUrl, type }) => {
                 <SelectWithSearch
                     data={members}
                     value={data}
+                    step={step}
                     setData={setData}
                 />
             </div>
             {step === 1 ? null : (
                 <NextSimpanan
                     data={simpanan}
+                    awalTahun={simpananPrev}
                     getTahun={getTahun}
                     type={type}
                     step={step}

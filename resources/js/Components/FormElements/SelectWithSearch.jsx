@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 
-const SelectWithSearch = ({ data, value, setData }) => {
+const SelectWithSearch = ({ data, value, setData, type, step }) => {
     const [active, setActive] = useState(false);
     const [member, setMember] = useState([...data]);
     const dropdown = useRef(null);
@@ -13,18 +13,17 @@ const SelectWithSearch = ({ data, value, setData }) => {
     );
 
     useEffect(() => {
-        if(MEMBERS.length === 1) {
+        if (MEMBERS.length === 1) {
             return setData({
                 ...value,
                 id_member: MEMBERS[0].id_member,
-            })
+            });
         }
         return setData({
             ...value,
             id_member: undefined,
         });
     }, [value.name]);
-
 
     // close on click outside
     useEffect(() => {
@@ -75,22 +74,23 @@ const SelectWithSearch = ({ data, value, setData }) => {
                 name="name"
                 ref={trigger}
                 required
+                disabled={value.id_member && step >= (type ? 3 : 2) ? true : false}
                 autoComplete="off"
                 value={value.name}
-                onChange={(e) =>
+                onChange={(e) => {
                     setData({
                         ...value,
                         name: e.target.value,
-                    })
-                }
+                    });
+                    setActive(true);
+                }}
                 onFocus={() => setActive(true)}
                 placeholder="Masukkan nama lengkap anggota"
-                className="w-full rounded-md border text-dark dark:text-white border-stroke bg-transparent py-2 pl-4 pr-6 transition-all duration-300 ease-in-out outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
+                className="w-full dark:disabled:bg-transparent capitalize disabled:bg-transparent disabled:border-none disabled:px-1 rounded-md border text-dark dark:text-white border-stroke bg-transparent py-2 pl-4 pr-6 transition-all duration-300 ease-in-out outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
             />
 
             <div
                 ref={dropdown}
-                onBlur={() => setActive(false)}
                 onFocus={() => setActive(true)}
                 className={`absolute z-999 h-auto max-h-45 overflow-y-auto right-0 mt-1 flex w-full flex-col rounded-md border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark ${
                     active === true ? "block" : "hidden"
@@ -112,7 +112,7 @@ const SelectWithSearch = ({ data, value, setData }) => {
                                     {MEMBERS.map((item) => (
                                         <div
                                             key={item.id_member}
-                                            className="w-full text-start text-black hover:bg-black hover:bg-opacity-5 dark:text-white py-1.5 px-3 rounded-md cursor-pointer"
+                                            className="w-full capitalize text-start text-black hover:bg-black hover:bg-opacity-5 dark:text-white py-1.5 px-3 rounded-md cursor-pointer"
                                             onClick={(e) =>
                                                 handleValue(e, item)
                                             }

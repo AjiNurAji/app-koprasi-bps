@@ -6,7 +6,7 @@ import {
     getCoreRowModel,
     getPaginationRowModel,
     getFilteredRowModel,
-    getSortedRowModel
+    getSortedRowModel,
 } from "@tanstack/react-table";
 import { HistoryOptionTable } from "@/Libs/tableStarted";
 import SearchTable from "./SearchTable";
@@ -16,7 +16,6 @@ import { HiArrowsUpDown } from "react-icons/hi2";
 const TableHistory = ({ data }) => {
     const [datas] = useState([...data]);
     const [globalFilter, setGlobalFilter] = useState("");
-    const tableRef = useRef(null);
 
     const table = useReactTable({
         data: datas,
@@ -35,10 +34,12 @@ const TableHistory = ({ data }) => {
             {/* head component */}
             <div className="flex items-start flex-row-reverse md:items-center justify-between mb-3.5">
                 <DownloadDropdown
-                    data={datas}
-                    filename="historytransaksi"
-                    sheet="historytransaksi"
-                    tableRef={tableRef}
+                    pdf="History Transaksi.pdf"
+                    csv="History Transaksi.csv"
+                    excel="History Transaksi.xlsx"
+                    routepdf={route("history_pdf")}
+                    routecsv={route("history_csv")}
+                    routeexcel={route("history_excel")}
                 />
                 <div className="flex flex-col-reverse md:flex-row items-end md:items-center justify-end gap-3">
                     <SearchTable
@@ -49,11 +50,12 @@ const TableHistory = ({ data }) => {
             </div>
             {/* table */}
             <div className="max-w-full overflow-x-auto">
-                <table className="w-full table-auto rounded-md border border-stroke" ref={tableRef}>
+                <table className="w-full table-auto rounded-md border border-stroke dark:border-strokedark">
                     <thead className="rounded-md">
                         <tr className="hidden">
-                            <th colSpan={7} style={{ textAlign: "center" }}>
-                                History Transaksi {new Date().getFullYear()} <br /> <br /> <br />
+                            <th colSpan={8} style={{ textAlign: "center" }}>
+                                History Transaksi {new Date().getFullYear()}{" "}
+                                <br /> <br /> <br />
                             </th>
                         </tr>
                         {table.getHeaderGroups().map((headerGroup) => (
@@ -71,7 +73,10 @@ const TableHistory = ({ data }) => {
                                             item.getContext()
                                         )}
                                         {item.column.getCanSort() && (
-                                            <button className="absolute top-5.5 text-md bottom-5 text-black dark:text-white dark:text-opacity-40 hover:text-primary dark:hover:text-opacity-100 text-opacity-40 right-3" onClick={item.column.getToggleSortingHandler()}>
+                                            <button
+                                                className="absolute top-5.5 text-md bottom-5 text-black dark:text-white dark:text-opacity-40 hover:text-primary dark:hover:text-opacity-100 text-opacity-40 right-3"
+                                                onClick={item.column.getToggleSortingHandler()}
+                                            >
                                                 <HiArrowsUpDown />
                                             </button>
                                         )}
@@ -92,24 +97,34 @@ const TableHistory = ({ data }) => {
                                                 : "bg-gray dark:bg-meta-4 bg-opacity-30 dark:bg-opacity-30"
                                         }`}
                                     >
-                                        {row.getVisibleCells().map((cell) => (
-                                            <td
-                                                key={cell.id}
-                                                className="border py-5 px-4 border-stroke dark:border-opacity-20"
-                                            >
-                                                {flexRender(
-                                                    cell.column.columnDef.cell,
-                                                    cell.getContext()
-                                                )}
-                                            </td>
-                                        ))}
+                                        {row
+                                            .getVisibleCells()
+                                            .map((cell, i) => (
+                                                <td
+                                                    key={cell.id}
+                                                    className={`${
+                                                        i === 0 || i > 3
+                                                        
+                                                            ? "text-center"
+                                                            : i === 1
+                                                            ? "text-left"
+                                                            : "text-right"
+                                                    } border py-5 px-4 border-stroke dark:border-opacity-20`}
+                                                >
+                                                    {flexRender(
+                                                        cell.column.columnDef
+                                                            .cell,
+                                                        cell.getContext()
+                                                    )}
+                                                </td>
+                                            ))}
                                     </tr>
                                 ))}
                             </>
                         ) : (
                             <tr>
                                 <td
-                                    colSpan={6}
+                                    colSpan={8}
                                     className="text-center py-5 px-4 font-medium text-black dark:text-white"
                                 >
                                     Belum ada data nihh!

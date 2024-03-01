@@ -1,11 +1,16 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ExportController;
 use App\Http\Controllers\HomepageController;
+use App\Http\Controllers\KasController;
 use App\Http\Controllers\MemberController;
 use App\Http\Controllers\PDFController;
+use App\Http\Controllers\PiutangController;
 use App\Http\Controllers\SimpananController;
-use App\Models\SimpananWajib;
+use App\Http\Controllers\UploadController;
+use App\Http\Controllers\UserController;
+use App\Models\SimpananSukarela;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -31,12 +36,36 @@ Route::middleware(['auth:admin,member'])->group(function () {
     Route::get('/team', function () {
         return Inertia::render('Team/Team');
     })->name('team');
+
+    // update
+    Route::get('/profile', [UserController::class, 'index'])->name('profile');
+    Route::post('/profile/update', [UserController::class, 'updateProfile'])->name('update_profile');
+    
+    // kas
+    Route::post('/kas/saldo_awal', [KasController::class, 'setSaldoAwal'])->name('set_saldo_awal');
+    Route::get('/kas/tunai', [HomepageController::class, 'kasTunai'])->name('kas_tunai');
+    Route::post('/kas/tunai', [KasController::class, 'kasTunai'])->name('kas_tunai');
+
+    Route::get('/kas/rekening', [HomepageController::class, 'kasRekening'])->name('kas_rekening');
+    Route::post('/kas/rekening', [KasController::class, 'kasRekening'])->name('kas_rekening');
+
+    // ad-art
+    Route::get('/ad-art', [HomepageController::class, 'adART'])->name('ad-art');
+
+    // jasa piutang
+    Route::get('/jasa-anggota', [HomepageController::class, 'jasaPiutang'])->name('jasa_piutang');
 });
 
 Route::middleware(['auth:admin'])->group(function () {
+    // admin
+    Route::get('/admin', [HomepageController::class, 'admin'])->name('admin');
+
     // member
     Route::get('/members', [MemberController::class, 'index'])->name('members');
     Route::post('/members/create', [MemberController::class, 'store'])->name('create_member');
+    
+    // history
+    Route::get('/history', [HomepageController::class, 'history'])->name('history');
 
     // simpanan
     // pokok
@@ -59,42 +88,33 @@ Route::middleware(['auth:admin'])->group(function () {
   
     Route::post('/simpanan/wajib', [SimpananController::class, 'getDataSimpananWajib'])->name('simpanan_wajib');
     Route::post('/simpanan/wajib/create', [SimpananController::class, 'simpananWajib'])->name('simpanan_wajib_create');
-
-    // history
-    Route::get('/history', [HomepageController::class, 'history'])->name('history');
-
-    Route::post('/simpanan/pokok/table', [PDFController::class, 'ExportSimpananPokokPDF'])->name('simpanan_pokok_pdf');
-    Route::post('/simpanan/wajib/table', [PDFController::class, 'ExportSimpananWajibPDF'])->name('simpanan_wajib_pdf');
-    // Route::get('/simpanan/wajib/table', function () {
-    //     $simpananWajib = SimpananWajib::where('tahun', date('Y'))->get();
-
-    //     foreach ($simpananWajib as $data) {
-    //         $datas[] = [
-    //             'name' => $data->member->name,
-    //             'kekayaan_awal_tahun' => $data->kekayaan_awal_tahun === null ? null : $data->kekayaan_awal_tahun,
-    //             'simpanan_wajib' => $data->simpanan_wajib === null ? null : $data->simpanan_wajib,
-    //             'anggota_keluar' => $data->anggota_keluar === null ? null : $data->anggota_keluar,
-    //             'kekayaan' => ($data->kekayaan_awal_tahun === null ? null : $data->kekayaan_awal_tahun) + ($data->simpanan_wajib === null ? null : $data->simpanan_wajib) - ($data->anggota_keluar === null ? null : $data->anggota_keluar),
-    //         ];
-    //     }
-
-    //     $kekayaanAwalTahun = SimpananWajib::where('tahun', date('Y'))->sum('kekayaan_awal_tahun');
-    //     $simpananWajibSum = SimpananWajib::where('tahun', date('Y'))->sum('simpanan_wajib');
-    //     $anggotaKeluar = SimpananWajib::where('tahun', date('Y'))->sum('anggota_keluar');
-    //     $totalWajib = $kekayaanAwalTahun + $simpananWajibSum - $anggotaKeluar;
-
-    //     return view('Exports.Simpanan.simpananWajib', [
-    //         'data' => isset($datas) ? $datas : $simpananWajib, 'total' => [
-    //             'kekayaan_awal_tahun' => $kekayaanAwalTahun,
-    //             'simpanan_wajib' => $simpananWajibSum,
-    //             'anggota_keluar' => $anggotaKeluar,
-    //             'jumlah' => $totalWajib,
-    //         ]
-    //     ]);
-    // })->name('simpanan_pokok_pdf');
+    
+    // sukarela
+    Route::get('/simpanan/sukarela', [HomepageController::class, 'simpananSukarela'])->name('simpanan_sukarela');
+    Route::post('/simpanan/sukarela', [SimpananController::class, 'getDataSimpananSukarela'])->name('simpanan_sukarela');
+    Route::post('/simpanan/sukarela/create', [SimpananController::class, 'simpananSukarela'])->name('simpanan_sukarela_create');
 
     //upload file
-    Route::get('index', 'UploadController@index');
+    Route::post('/upload-file', [UploadController::class, 'index'])->name('post_file');
+
+    // piutang 
+    // set jasa anggota
+    Route::post('/jasa-anggota/set', [PiutangController::class, 'setJasaAnggota'])->name('jasa_anggota_set');
+
+    // halaman pinjaman
+    Route::get('/pinjaman-anggota', [HomepageController::class, 'pinjamanAnggota'])->name('pinjaman_anggota');
+
+    // buat pinjaman
+    Route::post('/pinjaman-anggota', [PiutangController::class, 'getPinjamanAnggota'])->name('pinjaman_anggota');
+    Route::post('/pinjaman-anggota/create', [PiutangController::class, 'pinjamanAnggota'])->name('pinjaman_anggota_create');
+
+    // bayar pinjaman
+    Route::post('/pinjaman-anggota/get-pay', [PiutangController::class, 'getBayarPinjamanAnggota'])->name('bayar_pinjaman_anggota');
+    Route::post('/pinjaman-anggota/pay', [PiutangController::class, 'bayarPinjamanAnggota'])->name('bayar_pinjaman');
+
+    // view pinjaman
+    Route::get('/pinjaman-anggota/{id}', [HomepageController::class, 'viewPinjaman'])->name('view_pinjaman_anggota');
 });
 
 require __DIR__ . '/auth.php';
+require __DIR__.'/file.php';
