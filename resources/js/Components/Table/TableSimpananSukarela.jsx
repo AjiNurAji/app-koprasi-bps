@@ -74,7 +74,7 @@ const TableSimpananSukarela = ({ data, members, total, type }) => {
             ) : null}
             {/* table */}
             <div className="max-w-full overflow-x-auto">
-                <table className="w-max table-auto rounded-md border border-stroke">
+                <table className="w-full table-auto rounded-md border border-stroke">
                     <thead className="rounded-md">
                         {table.getHeaderGroups().map((headerGroup) => (
                             <tr

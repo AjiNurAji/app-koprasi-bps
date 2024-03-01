@@ -24,7 +24,6 @@ const ProfileUpdate = ({ user }) => {
             data,
             "multipart/form-data"
         );
-        console.log(response);
     };
 
     return (
@@ -84,6 +83,7 @@ const ProfileUpdate = ({ user }) => {
                     name={"image"}
                     data={data}
                     setData={setData}
+                    max_size={2097152}
                 />
                 <div className="w-full flex justify-end items-center">
                     {processing ? (

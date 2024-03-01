@@ -1,6 +1,7 @@
 import ActionButton from "@/Components/Pinjaman/ActionButton";
 import ActionTable from "@/Components/Table/ActionTable";
 import { createColumnHelper } from "@tanstack/react-table";
+import profile from "@/assets/images/user.png";
 
 const columnHelper = createColumnHelper();
 
@@ -16,14 +17,25 @@ export const columnsMember = [
         rowSpan: 2,
     }),
 
-    columnHelper.accessor("username", {
-        id: "username",
+    columnHelper.accessor("image", {
+        cell: (data) => (
+            <span className="block w-10 h-10 overflow-hidden rounded-full">
+                <img src={data.getValue() ? data.getValue() : profile} />
+            </span>
+        ),
+        header: "Foto",
+        enableSorting: false,
+    }),
+
+    columnHelper.accessor("NIP", {
+        id: "NIP",
         cell: (data) => (
             <span className="text-black dark:text-white">
                 {data.getValue()}
             </span>
         ),
-        header: "Username",
+        header: "NIP",
+        enableSorting: false,
     }),
 
     columnHelper.accessor("name", {
@@ -36,14 +48,14 @@ export const columnsMember = [
         header: "Nama Lengkap",
     }),
 
-    columnHelper.accessor("email", {
-        id: "email",
+    columnHelper.accessor("no_hp", {
+        id: "no_hp",
         cell: (data) => (
             <span className="text-black dark:text-white">
                 {data.getValue()}
             </span>
         ),
-        header: "Alamat Email",
+        header: "No HP",
         enableSorting: false,
     }),
 

@@ -29,11 +29,11 @@ class MemberController extends Controller
         if (Auth::guard('admin')->check()) {
             try {
                 $request->validate([
-                    'username' => 'required|string',
-                    'email' => 'required|email',
+                    'nip' => 'required|string',
+                    'no_hp' => 'required|email',
                     'name' => 'required|string',
                     'password' => 'required|string',
-                    'image' => 'image|nullabel'
+                    'image' => 'image|nullable'
                 ]);
 
                 // check email sudah ada atau belum

@@ -10,6 +10,7 @@ const FileInput = ({
     setData,
     label,
     note,
+    max_size
 }) => {
     const fileRef = useRef(null);
     const dropzone = useRef(null);
@@ -61,7 +62,7 @@ const FileInput = ({
         });
     }, []);
 
-    // console.log()
+    // console.log(file[0].size)
 
     return (
         <div className="w-full relative">
@@ -82,7 +83,7 @@ const FileInput = ({
                 className={`flex flex-col items-center justify-center w-full h-auto border-2 ${
                     file === undefined
                         ? "border-stroke dark:border-strokedark"
-                        : file[0].size < 2048576
+                        : file[0].size < max_size
                         ? "!border-meta-3"
                         : "!border-meta-1"
                 } border-dashed rounded-md cursor-pointer dark:bg-black hover:bg-stroke dark:hover:bg-black dark:hover:bg-opacity-60 hover:bg-opacity-25 ${
@@ -120,7 +121,7 @@ const FileInput = ({
                     ) : (
                         <>
                             {preview && (
-                                <span className="w-60 h-auto mb-3">
+                                <span className="w-40 h-auto mb-3">
                                     <img
                                         className="w-full h-auto"
                                         src={preview}

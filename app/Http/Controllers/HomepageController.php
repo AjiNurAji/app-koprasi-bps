@@ -489,8 +489,7 @@ class HomepageController extends Controller
 
         foreach ($bulan as $item) {
             for ($i = 0; $i < 12; $i++) {
-                $totalPinjaman[] = Pinjaman::whereBetween('created_at', [Carbon::now()->startOfMonth(), Carbon::now()->endOfMonth()])
-                    ->where([
+                $totalPinjaman[] = Pinjaman::where([
                         ['bulan', $item[$i]],
                         ['tahun', date('Y')],
                         ['id_member', $member->id_member]
@@ -500,8 +499,7 @@ class HomepageController extends Controller
             }
         }
 
-        $terbayar = BayarPinjaman::whereBetween('created_at', [Carbon::now()->startOfMonth(), Carbon::now()->endOfMonth()])
-            ->where([
+        $terbayar = BayarPinjaman::where([
                 ['tahun', date('Y')],
                 ['id_member', $member->id_member]
             ])->get()->sum('nominal');
@@ -509,8 +507,7 @@ class HomepageController extends Controller
         $member->tahun_lalu = $tahunLalu ? $tahunLalu->sisa : 0;
         $member->total_pinjaman = $totalPinjaman;
         $member->total_terbayar = $terbayar;
-        $member->total = Pinjaman::whereBetween('created_at', [Carbon::now()->startOfMonth(), Carbon::now()->endOfMonth()])
-            ->where([
+        $member->total = Pinjaman::where([
                 ['tahun', date('Y')],
                 ['id_member', $member->id_member]
             ])

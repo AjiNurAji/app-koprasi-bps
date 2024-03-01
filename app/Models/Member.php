@@ -31,7 +31,6 @@ class Member extends Authenticatable
         'id_member',
         'NIP',
         'name',
-        'username',
         'no_hp',
         'password'
     ];
