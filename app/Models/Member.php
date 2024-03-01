@@ -29,10 +29,11 @@ class Member extends Authenticatable
 
     protected $fillable = [
         'id_member',
-        'email',
+        'NIP',
         'name',
         'username',
-        'password',
+        'no_hp',
+        'password'
     ];
 
     public function pinjaman()
