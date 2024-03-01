@@ -65,9 +65,12 @@ class MemberController extends Controller
 
     public function editData(string $uuid) {
         try {
-            $user = Auth::guard('member')->user();
+            $member = Member::findOrFail($uuid);
             
-            $member = Member::with('uuid')->findOrFail($uuid);
+
+        }
+        catch (\Exception $th) {
+            return response()->json(['message'=> 'Data tidak ditemukan'],404);
         }
     }
 
@@ -85,70 +88,85 @@ class MemberController extends Controller
     //     return response()->json(['message' => 'Berhasil Menghapus anggota'], 200);
     }
 
-    public function updatedata(Request $requst, $uuid) {
-        $requst->validate([
-            'username'=> 'required',
-            'name' => 'required',
-            'email'=> 'required',
-            'password'=> 'required'
+    public function updatedata(Request $request, string $uuid) {
+        $request->validate([
+            'username'=> 'nullable|string',
+            'name' => 'nullable|string',
+            'NIP'=> 'nullable|string',
+            'password'=> 'nullable|string',
+            'old_password'=> 'nullable|string',
+            'no_hp'=> 'nullable|string'
         ]);
         try {
-            $member = Member::findOrFail($requst->input('id_member'));
+            $member = Member::findOrFail($request->input('id_member'));
+
+            
+            
             $updateData = $member->update([
-                'username'=> $requst->input('username'),
-                'name'=> $requst->input('name'),
-                'email'=> $requst->input('email'),
-                'password'=> $requst->input('password')
+                'username'=> $request->input('username'),
+                'name'=> $request->input('name'),
+                'email'=> $request->input('email'),
             ]);
+            
+            if ($request->input('password') && $request->input('old_password')) {
+                if(Hash::check($request->old_password, $member->password)) {    
+                    $member->update([
+                        'password'=> Hash::make($request->input('password')),
+                    ]);
+                } else {
+                    return response()->json(['message'=> 'error, password yang anda masukan salah'], 401);
+                }
+            }
 
             // if ($requst->input('password') !== null) {
             //     $updateData = $member->update([
             //         'password' => Hash::make($requst->input('password')),
             //         ]);
-        }
-        if ($updateData) {
-            if ($requst->input('id_member') != $requst->input('')) {
-            $url = "/uuid/{$request->input('id_member')}";
-            return response()->json(['message'=> 'Update berhasil diperbaharui'], 200);
-
-            // return redirect($url);
-        } else {
-            return response()->json(['message'=> 'Update berhasil diperbaharui'], 200);
-
+            if ($updateData) {
+                if ($request->input('id_member') != $request->input('')) {
+                $url = "/uuid/{$request->input('id_member')}";
+                return response()->json(['message'=> 'Update berhasil diperbaharui'], 200);
+    
+                // return redirect($url);
+            } else {
+                return response()->json(['message'=> 'Update berhasil diperbaharui'], 200);
+    
+                // return redirect()->back();
+            }
+            } else {
+                return response()->json(['message'=> 'Update gagal, cek kembali data yang anda masukan'], 401);
+    
+                // return redirect()->back()->withInput();
+            }      
+            // $user = Auth::user();
+            // $user->update($request->all());
+            // return response()->json(['message' => 'Berhasil Update anggota'], 200);
+        } catch (\Exception $e) {
+            // return response()->json(["message"=> $e->getMessage()], 400);
+            return response()->json(['message' => 'Update gagal, cek kembali data yang anda masukan'], 401);
             // return redirect()->back();
         }
-        } else {
-            return response()->json(['message'=> 'Update gagal, cek kembali data yang anda masukan'], 401);
-
-            // return redirect()->back()->withInput();
-        }      
-        // $user = Auth::user();
-        // $user->update($request->all());
-        // return response()->json(['message' => 'Berhasil Update anggota'], 200);
-    } catch (\Exception $e) {
-        // return response()->json(["message"=> $e->getMessage()], 400);
-        return response()->json(['message' => 'Update gagal, cek kembali data yang anda masukan'], 401);
-        // return redirect()->back();
     }
 
-    public function update_password(Request $request) {
+    public function update_password(Request $request, string $uuid) {
         $request->validate([
             'old_password' => 'required',
             'new_password'=> 'required',
             'confirm_password' => 'required'
         ]);
+ 
+        $member = Member::findOrFail($uuid);
 
-        $current_user = Auth()->user();
-        if(Hash::check($request->old_password, $current_user->password)) {
+        if(Hash::check($request->old_password, $member->password)) {
 
-            $current_user->update([
-                'password'=> bcrypt($request->new_password)
+            $member->update([
+                'password'=> Hash::make($request->new_password)
             ]);
 
-            return response()->json(['message'=> 'berhasil mengubah password'], 200);
+            return response()->json(['message'=> 'Berhasil mengganti password'], 200);
 
         } else {
-            return response()->json(['message'=> 'error, password yang anda masukan salah'], 200);
+            return response()->json(['message'=> 'Error, password yang anda masukan salah'], 401);
         }
 
     }
