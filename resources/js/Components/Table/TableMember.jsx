@@ -68,7 +68,7 @@ const TableMember = ({ data }) => {
                                 {headerGroup.headers.map((item) => (
                                     <th
                                         key={item.id}
-                                        className="relative py-4 px-4 font-medium text-black border dark:text-white border-stroke dark:border-opacity-20"
+                                        className={` ${ item.index < 2 && "text-center" } relative py-4 px-4 font-medium text-black border dark:text-white border-stroke dark:border-opacity-20`}
                                     >
                                         {flexRender(
                                             item.column.columnDef.header,
@@ -98,7 +98,7 @@ const TableMember = ({ data }) => {
                                     {row.getVisibleCells().map((cell) => (
                                         <td
                                             key={cell.id}
-                                            className="border py-5 px-4 border-stroke dark:border-opacity-20"
+                                            className={` border py-5 px-4 border-stroke dark:border-opacity-20`}
                                         >
                                             {flexRender(
                                                 cell.column.columnDef.cell,
@@ -111,7 +111,7 @@ const TableMember = ({ data }) => {
                         ) : (
                             <tr>
                                 <td
-                                    colSpan={5}
+                                    colSpan={6}
                                     className="text-center py-5 px-4"
                                 >
                                     Belum ada data nihh!

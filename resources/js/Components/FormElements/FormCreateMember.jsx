@@ -98,6 +98,7 @@ const FormCreateMember = ({ setPopup }) => {
                     id="no_hp"
                     name="no_hp"
                     maxLength={13}
+                    minLength={11}
                     required
                     onChange={(e) => handleValue(e)}
                     placeholder="Masukkan nomor handphone anggota"

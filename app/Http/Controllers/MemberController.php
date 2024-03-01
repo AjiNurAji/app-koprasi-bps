@@ -30,24 +30,21 @@ class MemberController extends Controller
             try {
                 $request->validate([
                     'nip' => 'required|string',
-                    'no_hp' => 'required|email',
+                    'no_hp' => 'required|max:13',
                     'name' => 'required|string',
-                    'password' => 'required|string',
-                    'image' => 'image|nullable'
+                    'password' => 'required|string'
                 ]);
 
                 // check email sudah ada atau belum
 
-                if(Member::where('username', $request->input('username'))->first()) {
-                    return response()->json(['message' => 'Anggota dengan username ini sudah ada!'], 401);
-                } else if (Member::where('email', $request->input('email'))->first()) {
-                    return response()->json(['message' => 'Anggota dengan email ini sudah ada!'], 401);
+                if(Member::where('NIP', $request->input('nip'))->first()) {
+                    return response()->json(['message' => 'Anggota dengan NIP ini sudah ada!'], 401);
                 }
 
                 Member::create([
                     'id_member' => Str::uuid(),
-                    'username' => $request->input('username'),
-                    'email' => $request->input('email'),
+                    'NIP' => $request->input('nip'),
+                    'no_hp' => $request->input('no_hp'),
                     'name' => $request->input('name'),
                     'password' => Hash::make($request->input('password'))
                 ]);

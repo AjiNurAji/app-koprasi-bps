@@ -18,8 +18,12 @@ return new class extends Migration
             $table->integer('tahun', false);
             $table->string('bulan', 12);
             $table->string('hari', 7);
-            $table->integer('nominal', false)->nullable();
-            $table->integer('sisa', false)->nullable();
+            $table->date('tanggal_pinjam');
+            $table->string('jangka_waktu', 35);
+            $table->string('untuk_keperluan', 255);
+            $table->string('bank_tujuan');
+            $table->integer('no_rek', false);
+            $table->integer('nominal', false);
             $table->timestamps();
         });
     }

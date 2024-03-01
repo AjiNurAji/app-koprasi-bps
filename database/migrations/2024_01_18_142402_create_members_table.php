@@ -13,10 +13,12 @@ return new class extends Migration
     {
         Schema::create('members', function (Blueprint $table) {
             $table->uuid('id_member')->primary();
-            $table->string('NIP', 60)->unique();
+            $table->char('NIP', 20)->unique();
             $table->string('no_hp', 13);
             $table->string('name', 35);
             $table->string('password');
+            $table->string('image')->nullable();
+            $table->timestamp('deleted_at')->nullable();
             $table->timestamps();
         });
     }

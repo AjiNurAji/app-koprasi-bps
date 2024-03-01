@@ -9,7 +9,7 @@ export const columnsMember = [
     columnHelper.accessor("", {
         id: "No",
         cell: (data) => (
-            <span className="font-medium text-black dark:text-white">
+            <span className="font-medium block text-center text-black dark:text-white">
                 {data.row.index + 1}
             </span>
         ),
@@ -19,9 +19,11 @@ export const columnsMember = [
 
     columnHelper.accessor("image", {
         cell: (data) => (
-            <span className="block w-10 h-10 overflow-hidden rounded-full">
-                <img src={data.getValue() ? data.getValue() : profile} />
-            </span>
+            <div className="flex justify-center items-center w-full h-full">
+                <span className="block w-15 h-15 overflow-hidden rounded-full">
+                    <img src={data.getValue() ? data.getValue() : profile} />
+                </span>
+            </div>
         ),
         header: "Foto",
         enableSorting: false,
@@ -680,7 +682,10 @@ export const columnsPinjaman = [
                     ? Intl.NumberFormat("in-ID", {
                           style: "currency",
                           currency: "IDR",
-                      }).format(data.getValue() + data.row.original.pinjaman.tahun_lalu)
+                      }).format(
+                          data.getValue() +
+                              data.row.original.pinjaman.tahun_lalu
+                      )
                     : "-"}
             </span>
         ),
@@ -707,13 +712,13 @@ export const columnsPinjaman = [
         cell: (data) => (
             <span className="font-medium text-black dark:text-white">
                 <span className="font-medium text-black dark:text-white">
-                {data.getValue()
-                    ? Intl.NumberFormat("in-ID", {
-                          style: "currency",
-                          currency: "IDR",
-                      }).format(data.getValue())
-                    : "-"}
-            </span>
+                    {data.getValue()
+                        ? Intl.NumberFormat("in-ID", {
+                              style: "currency",
+                              currency: "IDR",
+                          }).format(data.getValue())
+                        : "-"}
+                </span>
             </span>
         ),
         header: "Sisa",
@@ -724,7 +729,9 @@ export const columnsPinjaman = [
         id: "status",
         cell: (data) => (
             <span className="font-medium block w-full text-black dark:text-white">
-                {!data.getValue().total_pinjaman && !data.getValue().sisa_pinjaman && !data.getValue().tahun_lalu ? (
+                {!data.getValue().total_pinjaman &&
+                !data.getValue().sisa_pinjaman &&
+                !data.getValue().tahun_lalu ? (
                     <p className="inline-block text-center w-full rounded-full bg-primary bg-opacity-10 py-1 px-3 text-sm font-medium text-primary">
                         Tidak Memiliki Pinjaman
                     </p>
@@ -747,5 +754,5 @@ export const columnsPinjaman = [
         id: "aksi",
         cell: (data) => <ActionButton id={data.getValue()} />,
         header: "Aksi",
-    })
+    }),
 ];

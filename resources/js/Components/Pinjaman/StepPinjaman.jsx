@@ -7,7 +7,6 @@ const StepPinjaman = ({
     awalTahun,
     type,
     handleNominal,
-    getTahun,
     setStep,
     setData,
 }) => {
@@ -57,7 +56,7 @@ const StepPinjaman = ({
                             <div className="w-full">
                                 <label
                                     htmlFor="pinjaman"
-                                    className="mb-2.5 font-medium text-black dark:text-white"
+                                    className="mb-2.5 inline-block font-medium text-black dark:text-white"
                                 >
                                     Total Pinjaman
                                 </label>
@@ -67,9 +66,7 @@ const StepPinjaman = ({
                                     name="pinjaman"
                                     id="pinjaman"
                                     disabled
-                                    value={
-                                        (data.sisa ? data.sisa : 0)
-                                    }
+                                    value={data.sisa ? data.sisa : 0}
                                     intlConfig={{
                                         locale: "in-ID",
                                         currency: "IDR",
@@ -80,7 +77,7 @@ const StepPinjaman = ({
                             <div className="w-full">
                                 <label
                                     htmlFor="nominal"
-                                    className="mb-2.5 capitalize font-medium text-black dark:text-white"
+                                    className="mb-2.5 inline-block capitalize font-medium text-black dark:text-white"
                                 >
                                     {`Nominal Bayar ${valueData.jenis_bayar}`}
                                 </label>
@@ -107,7 +104,7 @@ const StepPinjaman = ({
                             <div className="w-full">
                                 <label
                                     htmlFor="sisa"
-                                    className="mb-2.5 font-medium text-black dark:text-white"
+                                    className="mb-2.5 inline-block font-medium text-black dark:text-white"
                                 >
                                     Sisa Pinjaman
                                 </label>
@@ -141,12 +138,67 @@ const StepPinjaman = ({
                 </>
             ) : type === "pinjam" ? (
                 <>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6">
+                        <div className="w-full">
+                            <label
+                                htmlFor="nip"
+                                className="mb-2.5 inline-block font-medium text-black dark:text-white"
+                            >
+                                NIP
+                            </label>
+                            <span className="bg-transparent dark:bg-transparent block text-start px-1">
+                                {valueData.nip ? valueData.nip : "-"}
+                            </span>
+                        </div>
+                        <div className="w-full">
+                            <label
+                                htmlFor="no_hp"
+                                className="mb-2.5 inline-block font-medium text-black dark:text-white"
+                            >
+                                No HP
+                            </label>
+                            <span className="bg-transparent dark:bg-transparent block text-start px-1">
+                                {valueData.no_hp ? valueData.no_hp : "-"}
+                            </span>
+                        </div>
+                    </div>
+                    <div className="w-full">
+                        <label
+                            htmlFor="date"
+                            className="mb-2.5 inline-block font-medium text-black dark:text-white"
+                        >
+                            Tanggal Pinjam
+                        </label>
+                        <input
+                            type="date"
+                            name="date"
+                            id="date"
+                            value={valueData.date}
+                            onChange={(e) => {
+                                const value = e.target.value;
+                                const date = new Date(value);
+
+                                setData({
+                                    ...valueData,
+                                    date: e.target.value,
+                                    hari: date.toLocaleDateString("in-ID", {
+                                        weekday: "long",
+                                    }),
+                                    tahun: date.getFullYear(),
+                                    bulan: date.toLocaleDateString("in-ID", {
+                                        month: "long",
+                                    }),
+                                });
+                            }}
+                            className="w-full rounded-md border text-dark dark:text-white border-stroke bg-transparent py-2 pl-4 pr-6 transition-all duration-300 ease-in-out outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
+                        />
+                    </div>
                     <div className="w-full">
                         <label
                             htmlFor="nominal"
-                            className="mb-2.5 font-medium text-black dark:text-white"
+                            className="mb-2.5 font-medium inline-block text-black dark:text-white"
                         >
-                            Nominal
+                            Nominal Pengajuan Pinjaman
                         </label>
                         <CurrencyInput
                             autoComplete="off"
@@ -166,11 +218,24 @@ const StepPinjaman = ({
                             className="w-full rounded-md border text-dark dark:text-white border-stroke bg-transparent py-2 pl-4 pr-6 transition-all duration-300 ease-in-out outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                         />
                     </div>
+                    <div className="w-full">
+                        <label
+                            htmlFor="jangka_waktu"
+                            className="mb-2.5 font-medium inline-block text-black dark:text-white"
+                        >
+                            Jangka Waktu
+                        </label>
+                        <div className="flex flex-col gap-3 justify-start items-start">
+                            <input type="radio" name="jangka_waktu" />
+                            <input type="radio" name="jangka_waktu" />
+                            <input type="radio" name="jangka_waktu" />
+                        </div>
+                    </div>
                     <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 items-center gap-2">
                         <div className="w-auto py-3 px-2 border border-stroke dark:border-strokedark rounded-md bg-whiten">
                             <label
                                 htmlFor="jasa_anggota"
-                                className="mb-2.5 font-medium text-black dark:text-white"
+                                className="inline-block font-medium text-black dark:text-white"
                             >
                                 Jasa Anggota
                             </label>
@@ -191,7 +256,7 @@ const StepPinjaman = ({
                         <div className="w-auto py-3 px-2 border border-stroke dark:border-strokedark rounded-md bg-whiten">
                             <label
                                 htmlFor="total_pinjaman"
-                                className="mb-2.5 font-medium text-black dark:text-white"
+                                className="inline-block font-medium text-black dark:text-white"
                             >
                                 Total Jasa Anggota
                             </label>
@@ -218,7 +283,7 @@ const StepPinjaman = ({
                         <div className="w-auto py-3 px-2 border border-stroke dark:border-strokedark rounded-md bg-whiten">
                             <label
                                 htmlFor="total_pinjaman"
-                                className="mb-2.5 font-medium text-black dark:text-white"
+                                className="inline-block font-medium text-black dark:text-white"
                             >
                                 Total Pinjaman
                             </label>

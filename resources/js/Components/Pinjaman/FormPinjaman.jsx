@@ -19,22 +19,26 @@ const FormPinjaman = ({
     const [processing, setProcess] = useState(false);
     const [pinjaman, setPinjaman] = useState([]);
     const [pinjamanPrev, setPinjamanPrev] = useState(null);
-    const getTahun = new Date();
     const form = useRef(null);
     const [step, setStep] = useState(1);
     const { data, setData } = useForm({
         name: "",
         id_member: "",
-        tahun: getTahun.getFullYear(),
-        bulan: getTahun.toLocaleDateString("in-ID", { month: "long" }),
-        hari: getTahun.toLocaleDateString("in-ID", { weekday: "long" }),
+        nip: "",
+        no_hp: "",
         tahun_sebelumnya: null,
         nominal: null,
         jenis_bayar: "",
         jasa_anggota: null,
         id_pinjaman: "",
+        hari: "",
+        tahun: null,
+        bulan: "",
+        date: "",
         total_pinjaman: null,
     });
+
+    console.log(data)
 
     useEffect(() => {
         setData({
@@ -130,7 +134,7 @@ const FormPinjaman = ({
                             setStep(2);
                         }}
                     >
-                        Pinjam
+                        Pinjaman
                     </button>
                     <button
                         className="border py-2 h-full rounded-md border-primary bg-primary text-white hover:bg-opacity-90"
@@ -139,7 +143,7 @@ const FormPinjaman = ({
                             setStep(2);
                         }}
                     >
-                        Bayar
+                        Pembayaran
                     </button>
                 </div>
             ) : (
@@ -152,7 +156,7 @@ const FormPinjaman = ({
                     <div className="w-full">
                         <label
                             htmlFor="username"
-                            className="mb-2.5 font-medium text-black dark:text-white"
+                            className="mb-2.5 inline-block font-medium text-black dark:text-white"
                         >
                             Nama Lengkap
                         </label>
@@ -168,7 +172,6 @@ const FormPinjaman = ({
                         <StepPinjaman
                             data={pinjaman}
                             awalTahun={pinjamanPrev}
-                            getTahun={getTahun}
                             type={type}
                             setData={setData}
                             setStep={setStep}
