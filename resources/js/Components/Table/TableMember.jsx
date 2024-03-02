@@ -14,9 +14,10 @@ import { HiArrowsUpDown } from "react-icons/hi2";
 import SearchTable from "./SearchTable";
 import CreatePopup from "@/Components/Popup/CreatePopup";
 import FormCreateMember from "@/Components/FormElements/FormCreateMember";
+import { useEffect } from "react";
 
 const TableMember = ({ data }) => {
-    const [datas] = useState([...data]);
+    const [datas, setDatas] = useState([...data]);
     const [globalFilter, setGlobalFilter] = useState("");
     const [popup, setPopup] = useState(false);
 
@@ -31,6 +32,10 @@ const TableMember = ({ data }) => {
         getPaginationRowModel: getPaginationRowModel(),
         getFilteredRowModel: getFilteredRowModel(),
     });
+
+    useEffect(() => {
+        setDatas([...data]);
+    }, [data]);
 
     return (
         <div className="rounded-md border border-stroke bg-white px-5 pt-6 pb-2.5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
@@ -68,14 +73,19 @@ const TableMember = ({ data }) => {
                                 {headerGroup.headers.map((item) => (
                                     <th
                                         key={item.id}
-                                        className={` ${ item.index < 2 && "text-center" } relative py-4 px-4 font-medium text-black border dark:text-white border-stroke dark:border-opacity-20`}
+                                        className={` ${
+                                            item.index < 2 && "text-center"
+                                        } relative py-4 px-4 font-medium text-black border dark:text-white border-stroke dark:border-opacity-20`}
                                     >
                                         {flexRender(
                                             item.column.columnDef.header,
                                             item.getContext()
                                         )}
                                         {item.column.getCanSort() && (
-                                            <button className="absolute top-5.5 text-md bottom-5 text-black dark:text-white dark:text-opacity-40 hover:text-primary dark:hover:text-opacity-100 text-opacity-40 right-3" onClick={item.column.getToggleSortingHandler()}>
+                                            <button
+                                                className="absolute top-5.5 text-md bottom-5 text-black dark:text-white dark:text-opacity-40 hover:text-primary dark:hover:text-opacity-100 text-opacity-40 right-3"
+                                                onClick={item.column.getToggleSortingHandler()}
+                                            >
                                                 <HiArrowsUpDown />
                                             </button>
                                         )}

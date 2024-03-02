@@ -71,11 +71,11 @@ const FileInput = ({
                 className="mb-2.5 inline-block font-medium text-black dark:text-white"
             >
                 {label}
-                {note ? (
-                    <span className="text-meta-1 text-xs">
-                       {" "}({note})
+                {note && (
+                    <span className="text-danger font-normal text-xs">
+                       {` * ${note}`}
                     </span>
-                ) : null}
+                )}
             </label>
             <label
                 htmlFor="dropzone-file"

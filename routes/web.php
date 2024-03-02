@@ -76,11 +76,13 @@ Route::middleware(['auth:admin'])->group(function () {
     // wajib
     Route::get('/simpanan/wajib', [HomepageController::class, 'simpananWajib'])->name('simpanan_wajib');
 
+    
     // delete anggota
-    Route::post('/member/{id}', [MemberController::class, 'softDeletes']);
-
+    Route::delete('/members/{id}', [MemberController::class, 'softDeletes'])->name('delete_member');
+    
     //edit anggota
-    Route::post('member/updatedata/{id}', [MemberController::class, 'updatedata'])->name('updatedata');
+    Route::get('/members/{id}', [MemberController::class, 'editData'])->name('edit_member');
+    Route::post('/members', [MemberController::class, 'updatedata'])->name('update_member');
 
     // edit dan update password
     Route::get('/Member/change-password','MemberController@change-password')->name('change-password');

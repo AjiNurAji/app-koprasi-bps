@@ -68,7 +68,7 @@ const Login = () => {
                                     htmlFor="username"
                                     className="mb-2.5 font-medium text-black dark:text-white"
                                 >
-                                    Username or Email
+                                    Username or NIP
                                 </label>
                                 <input
                                     type="text"
@@ -78,7 +78,7 @@ const Login = () => {
                                     ref={inputUsername}
                                     required
                                     onChange={(e) => handleValue(e)}
-                                    placeholder="Masukkan username atau email anda"
+                                    placeholder="Masukkan username atau nip anda"
                                     className="w-full rounded-md border text-dark dark:text-white border-stroke bg-transparent py-2 pl-4 pr-6 transition-all duration-300 ease-in-out outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                                 />
                             </div>

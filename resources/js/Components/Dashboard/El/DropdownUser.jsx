@@ -70,7 +70,7 @@ const DropdownUser = ({ user }) => {
                         {user.name}
                     </span>
                     <span className="block text-xs">
-                        {user.role ? user.role : "anggota"}
+                        {user.role ? user.role : user.NIP}
                     </span>
                 </span>
 

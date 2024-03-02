@@ -26,7 +26,7 @@ const Sidebar = ({ pathname, sidebarOpen, setSidebarOpen, user }) => {
 
     // close on click outside
     useEffect(() => {
-        const clickHandler = ({target}) => {
+        const clickHandler = ({ target }) => {
             if (!sidebar.current || !trigger.current) return;
             if (
                 !sidebarOpen ||
@@ -69,31 +69,51 @@ const Sidebar = ({ pathname, sidebarOpen, setSidebarOpen, user }) => {
             }`}
         >
             {/* <!-- SIDEBAR HEADER --> */}
-            <div className="flex items-center justify-between gap-2 px-6 py-5.5 lg:py-6.5">
+            <div className="flex items-center justify-between gap-4 px-6 py-5.5 lg:py-6.5">
                 <a href="/dashboard">
                     <img src={Logo} alt="Logo" loading="lazy" />
                 </a>
 
                 <button
-                    ref={trigger}
-                    onClick={() => setSidebarOpen(!sidebarOpen)}
                     aria-controls="sidebar"
-                    aria-expanded={sidebarOpen}
-                    className="block lg:hidden text-body hover:text-white"
+                    ref={trigger}
+                    onClick={(e) => {
+                        e.stopPropagation();
+                        setSidebarOpen(!sidebarOpen);
+                    }}
+                    className="z-99999 block rounded-md border border-stroke bg-transparent p-1.5 shadow-sm dark:border-strokedark dark:bg-boxdark lg:hidden"
                 >
-                    <svg
-                        className="fill-current"
-                        width="20"
-                        height="18"
-                        viewBox="0 0 20 18"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                    >
-                        <path
-                            d="M19 8.175H2.98748L9.36248 1.6875C9.69998 1.35 9.69998 0.825 9.36248 0.4875C9.02498 0.15 8.49998 0.15 8.16248 0.4875L0.399976 8.3625C0.0624756 8.7 0.0624756 9.225 0.399976 9.5625L8.16248 17.4375C8.31248 17.5875 8.53748 17.7 8.76248 17.7C8.98748 17.7 9.17498 17.625 9.36248 17.475C9.69998 17.1375 9.69998 16.6125 9.36248 16.275L3.02498 9.8625H19C19.45 9.8625 19.825 9.4875 19.825 9.0375C19.825 8.55 19.45 8.175 19 8.175Z"
-                            fill=""
-                        />
-                    </svg>
+                    <span className="relative block h-5.5 w-5.5 cursor-pointer">
+                        <span className="du-block absolute right-0 h-full w-full">
+                            <span
+                                className={`relative top-0 left-0 my-1 block h-0.5 w-0 rounded-md bg-stroke delay-[0] duration-200 ease-in-out dark:bg-white ${
+                                    !sidebarOpen && "!w-full delay-300"
+                                }`}
+                            ></span>
+                            <span
+                                className={`relative top-0 left-0 my-1 block h-0.5 w-0 rounded-md bg-stroke delay-150 duration-200 ease-in-out dark:bg-white ${
+                                    !sidebarOpen && "delay-400 !w-full"
+                                }`}
+                            ></span>
+                            <span
+                                className={`relative top-0 left-0 my-1 block h-0.5 w-0 rounded-md bg-stroke delay-200 duration-200 ease-in-out dark:bg-white ${
+                                    !sidebarOpen && "!w-full delay-500"
+                                }`}
+                            ></span>
+                        </span>
+                        <span className="absolute right-0 h-full w-full rotate-45">
+                            <span
+                                className={`absolute left-2.5 top-0 block h-full w-0.5 rounded-md bg-stroke delay-300 duration-200 ease-in-out dark:bg-white ${
+                                    !sidebarOpen && "!h-0 !delay-[0]"
+                                }`}
+                            ></span>
+                            <span
+                                className={`delay-400 absolute left-0 top-2.5 block h-0.5 w-full rounded-md bg-stroke duration-200 ease-in-out dark:bg-white ${
+                                    !sidebarOpen && "!h-0 !delay-200"
+                                }`}
+                            ></span>
+                        </span>
+                    </span>
                 </button>
             </div>
             {/* <!-- SIDEBAR HEADER --> */}
@@ -452,7 +472,7 @@ const Sidebar = ({ pathname, sidebarOpen, setSidebarOpen, user }) => {
                             {/* <!-- Menu AD/ART --> */}
                             <li>
                                 <a
-                                    href={route('ad-art')}
+                                    href={route("ad-art")}
                                     className={`group relative flex items-center gap-2.5 rounded-md py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${
                                         pathname.includes("chart") &&
                                         "bg-graydark dark:bg-meta-4"
