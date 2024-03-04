@@ -38,8 +38,6 @@ const FormPinjaman = ({
         total_pinjaman: null,
     });
 
-    console.log(data)
-
     useEffect(() => {
         setData({
             ...data,

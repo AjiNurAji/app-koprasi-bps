@@ -1,16 +1,13 @@
 <?php
 
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\ExportController;
 use App\Http\Controllers\HomepageController;
 use App\Http\Controllers\KasController;
 use App\Http\Controllers\MemberController;
-use App\Http\Controllers\PDFController;
 use App\Http\Controllers\PiutangController;
 use App\Http\Controllers\SimpananController;
 use App\Http\Controllers\UploadController;
 use App\Http\Controllers\UserController;
-use App\Models\SimpananSukarela;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -51,6 +48,9 @@ Route::middleware(['auth:admin,member'])->group(function () {
 
     // ad-art
     Route::get('/ad-art', [HomepageController::class, 'adART'])->name('ad-art');
+
+    // transaksi
+    Route::get('/pinjaman-anggota/transaction', [HomepageController::class, 'pinjamanTransaction'])->name('pinjaman_transaksi');
 
     // jasa piutang
     Route::get('/jasa-anggota', [HomepageController::class, 'jasaPiutang'])->name('jasa_piutang');

@@ -144,6 +144,7 @@ export const columnsSimpananPokok = [
                             ? Intl.NumberFormat("in-ID", {
                                   style: "currency",
                                   currency: "IDR",
+                                  maximumFractionDigits: "0"
                               }).format(data.getValue())
                             : "-"}
                     </span>
@@ -160,6 +161,7 @@ export const columnsSimpananPokok = [
                             ? Intl.NumberFormat("in-ID", {
                                   style: "currency",
                                   currency: "IDR",
+                                  maximumFractionDigits: "0"
                               }).format(data.getValue())
                             : "-"}
                     </span>
@@ -174,8 +176,9 @@ export const columnsSimpananPokok = [
                     <span className="font-medium text-black dark:text-white">
                         {data.getValue()
                             ? Intl.NumberFormat("in-ID", {
-                                  style: "currency",
+                                  style: "currency",maximumFractionDigits: "0"
                                   currency: "IDR",
+
                               }).format(data.getValue())
                             : "-"}
                     </span>
@@ -198,6 +201,7 @@ export const columnsSimpananPokok = [
                     ? Intl.NumberFormat("in-ID", {
                           style: "currency",
                           currency: "IDR",
+                          maximumFractionDigits: "0"
                       }).format(
                           data.row.original.awal_tahun +
                               data.row.original.anggota_masuk -
@@ -241,6 +245,7 @@ export const columnSimpananWajib = [
                     ? Intl.NumberFormat("in-ID", {
                           style: "currency",
                           currency: "IDR",
+                          maximumFractionDigits: "0"
                       }).format(data.getValue())
                     : "-"}
             </span>
@@ -257,6 +262,7 @@ export const columnSimpananWajib = [
                     ? Intl.NumberFormat("in-ID", {
                           style: "currency",
                           currency: "IDR",
+                          maximumFractionDigits: "0"
                       }).format(data.getValue())
                     : "-"}
             </span>
@@ -273,6 +279,7 @@ export const columnSimpananWajib = [
                     ? Intl.NumberFormat("in-ID", {
                           style: "currency",
                           currency: "IDR",
+                          maximumFractionDigits: "0"
                       }).format(data.getValue())
                     : "-"}
             </span>
@@ -291,6 +298,7 @@ export const columnSimpananWajib = [
                     ? Intl.NumberFormat("in-ID", {
                           style: "currency",
                           currency: "IDR",
+                          maximumFractionDigits: "0"
                       }).format(
                           data.row.original.kekayaan_awal_tahun +
                               data.row.original.simpanan_wajib -
@@ -334,6 +342,7 @@ export const columnsSimpananSukarela = [
                     ? Intl.NumberFormat("in-ID", {
                           style: "currency",
                           currency: "IDR",
+                          maximumFractionDigits: "0"
                       }).format(data.getValue())
                     : "-"}
             </span>
@@ -349,6 +358,7 @@ export const columnsSimpananSukarela = [
                     ? Intl.NumberFormat("in-ID", {
                           style: "currency",
                           currency: "IDR",
+                          maximumFractionDigits: "0"
                       }).format(data.getValue())
                     : "-"}
             </span>
@@ -368,6 +378,7 @@ export const columnsSimpananSukarela = [
                             ? Intl.NumberFormat("in-ID", {
                                   style: "currency",
                                   currency: "IDR",
+                                  maximumFractionDigits: "0"
                               }).format(data.getValue())
                             : "-"}
                     </span>
@@ -385,6 +396,7 @@ export const columnsSimpananSukarela = [
                             ? Intl.NumberFormat("in-ID", {
                                   style: "currency",
                                   currency: "IDR",
+                                  maximumFractionDigits: "0"
                               }).format(data.getValue())
                             : "-"}
                     </span>
@@ -402,6 +414,7 @@ export const columnsSimpananSukarela = [
                             ? Intl.NumberFormat("in-ID", {
                                   style: "currency",
                                   currency: "IDR",
+                                  maximumFractionDigits: "0"
                               }).format(data.getValue())
                             : "-"}
                     </span>
@@ -419,6 +432,7 @@ export const columnsSimpananSukarela = [
                             ? Intl.NumberFormat("in-ID", {
                                   style: "currency",
                                   currency: "IDR",
+                                  maximumFractionDigits: "0"
                               }).format(data.getValue())
                             : "-"}
                     </span>
@@ -436,6 +450,7 @@ export const columnsSimpananSukarela = [
                             ? Intl.NumberFormat("in-ID", {
                                   style: "currency",
                                   currency: "IDR",
+                                  maximumFractionDigits: "0"
                               }).format(data.getValue())
                             : "-"}
                     </span>
@@ -480,6 +495,7 @@ export const HistoryOptionTable = [
                     ? Intl.NumberFormat("in-ID", {
                           style: "currency",
                           currency: "IDR",
+                          maximumFractionDigits: "0"
                       }).format(data.getValue())
                     : "-"}
             </span>
@@ -497,6 +513,7 @@ export const HistoryOptionTable = [
                     ? Intl.NumberFormat("in-ID", {
                           style: "currency",
                           currency: "IDR",
+                          maximumFractionDigits: "0"
                       }).format(data.getValue())
                     : "-"}
             </span>
@@ -589,6 +606,7 @@ export const columnKasTunai = [
                     ? Intl.NumberFormat("in-ID", {
                           style: "currency",
                           currency: "IDR",
+                          maximumFractionDigits: "0"
                       }).format(data.getValue())
                     : "-"}
             </span>
@@ -606,6 +624,7 @@ export const columnKasTunai = [
                     ? Intl.NumberFormat("in-ID", {
                           style: "currency",
                           currency: "IDR",
+                          maximumFractionDigits: "0"
                       }).format(data.getValue())
                     : "-"}
             </span>
@@ -682,6 +701,7 @@ export const columnsPinjaman = [
                     ? Intl.NumberFormat("in-ID", {
                           style: "currency",
                           currency: "IDR",
+                          maximumFractionDigits: "0"
                       }).format(
                           data.getValue() +
                               data.row.original.pinjaman.tahun_lalu
@@ -700,6 +720,7 @@ export const columnsPinjaman = [
                     ? Intl.NumberFormat("in-ID", {
                           style: "currency",
                           currency: "IDR",
+                          maximumFractionDigits: "0"
                       }).format(data.getValue())
                     : "-"}
             </span>
@@ -716,6 +737,7 @@ export const columnsPinjaman = [
                         ? Intl.NumberFormat("in-ID", {
                               style: "currency",
                               currency: "IDR",
+                              maximumFractionDigits: "0"
                           }).format(data.getValue())
                         : "-"}
                 </span>

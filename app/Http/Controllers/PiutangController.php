@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\BayarPinjaman;
 use App\Models\JasaAnggota;
+use App\Models\Member;
 use App\Models\Pinjaman;
 use App\Models\Transaksi;
 use Illuminate\Http\Request;
@@ -36,8 +37,11 @@ class PiutangController extends Controller
     public function getPinjamanAnggota(Request $request)
     {
         if (Auth::guard('admin')->check()) {
+
+            $member = Member::where('NIP', $request->input('nip'))->first();
+
             $pinjaman = Pinjaman::where([
-                ['id_member', $request->input('id_member')],
+                ['id_member', $member->id_member],
                 ['tahun', $request->input('tahun')],
             ])
                 ->orderBy('created_at', 'desc')
@@ -45,7 +49,7 @@ class PiutangController extends Controller
                 ->first();
 
             $simpananTaunSebelumnya = Pinjaman::where([
-                ['id_member', $request->input('id_member')],
+                ['id_member', $member->id_member],
                 ['tahun', ($request->input('tahun') - 1)]
             ])
                 ->orderBy('created_at', 'desc')
@@ -57,7 +61,7 @@ class PiutangController extends Controller
                 ->first();
 
             $bayar = BayarPinjaman::where([
-                ['id_member', $request->input('id_member')],
+                ['id_member', $member->id_member],
             ])
                 ->orderBy('created_at', 'desc')
                 ->get()
@@ -73,11 +77,11 @@ class PiutangController extends Controller
             $awal_tahun = $simpananTaunSebelumnya ? $simpananTaunSebelumnya->sisa : null;
 
             if ($pinjaman) {
-                return response()->json(['message' => 'Data berhasil didapatkan', 'pinjaman' => $pinjaman, 'sebelum' => $awal_tahun], 200);
+                return response()->json(['message' => 'Data berhasil didapatkan', 'member' => $member, 'pinjaman' => $pinjaman, 'sebelum' => $awal_tahun], 200);
             }
 
 
-            return response()->json(['message' => 'Data berhasil didapatkan', 'sebelum' => $awal_tahun], 200);
+            return response()->json(['message' => 'Data berhasil didapatkan', 'member' => $member, 'sebelum' => $awal_tahun], 200);
         }
 
         return response()->json(['message' => 'Hanya bisa dakses oleh admin!'], 401);

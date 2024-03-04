@@ -519,6 +519,12 @@ class HomepageController extends Controller
         return Inertia::render('admin/Pinjaman/PinjamanMember', ['pinjaman' => $member, 'bulan' => $bulan[0]]);
     }
 
+    // transaction page
+    public function pinjamanTransaction() 
+    {
+        return Inertia::render('Pinjaman/Transaction');
+    }
+
     // halaman ad-art
     public function adART()
     {
