@@ -11,6 +11,8 @@ const TransactionPinjaman = ({ datas, user, step, setStep }) => {
     const [pinjaman, setPinjaman] = useState([]);
     const [member, setMember] = useState([]);
     const [pinjamanPrev, setPinjamanPrev] = useState(null);
+    const [waktu, setWaktu] = useState(null);
+    const [disabled, setDisabled] = useState(true);
     const [type, setType] = useState("");
     const form = useRef(null);
     const nipRef = useRef(null);
@@ -29,6 +31,10 @@ const TransactionPinjaman = ({ datas, user, step, setStep }) => {
         bulan: "",
         date: "",
         total_pinjaman: null,
+        jangka_waktu: "",
+        keperluan: "",
+        bank_tujuan: "",
+        no_rek: "",
     });
 
     useEffect(() => {
@@ -43,8 +49,44 @@ const TransactionPinjaman = ({ datas, user, step, setStep }) => {
             ...data,
             name: member ? member.name : null,
             no_hp: member ? member.no_hp : null,
+            id_member: member ? member.id_member : null,
         });
     }, [member]);
+
+    useEffect(() => {
+        if (waktu === 1) {
+            setData({
+                ...data,
+                jangka_waktu: "1 Bulan",
+            });
+        } else if (waktu === 2) {
+            setData({
+                ...data,
+                jangka_waktu: "10 Bulan",
+            });
+        } else if (waktu === 3) {
+            setData({
+                ...data,
+                jangka_waktu: "20 Bulan Berjalan",
+            });
+        }
+
+        if (waktu === 4) {
+            setDisabled(false);
+        } else {
+            setDisabled(true);
+        }
+    }, [waktu]);
+
+    useEffect(() => {
+        setData({
+            ...data,
+            total_pinjaman:
+                (pinjaman.jasa_anggota / 100) *
+                    (data.nominal ? data.nominal : 0) +
+                (data.nominal ? data.nominal : 0),
+        });
+    }, [data.nominal]);
 
     const submit = async (e) => {
         e.preventDefault();
@@ -55,9 +97,8 @@ const TransactionPinjaman = ({ datas, user, step, setStep }) => {
 
         if (create) {
             form.current.reset();
-            setPopup(false);
             setProcess(false);
-            router.get(route("pinjaman_anggota"));
+            setStep(1)
         }
 
         setProcess(false);
@@ -123,8 +164,6 @@ const TransactionPinjaman = ({ datas, user, step, setStep }) => {
         }
     };
 
-    console.log({ data, member });
-
     const handleNominal = (v, n) => {
         setData({
             ...data,
@@ -140,7 +179,7 @@ const TransactionPinjaman = ({ datas, user, step, setStep }) => {
     };
 
     return (
-        <div className="rounded-md border mt-4 sm:mt-6 border-stroke bg-white px-5 pt-6 pb-2.5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
+        <div className="rounded-md border mt-4 sm:mt-6 border-stroke bg-white px-5 py-6 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
             {step === 1 ? (
                 <div className="w-full">
                     <label
@@ -258,6 +297,37 @@ const TransactionPinjaman = ({ datas, user, step, setStep }) => {
                     </div>
                     <div className="w-full">
                         <label
+                            htmlFor="date"
+                            className="mb-2.5 inline-block font-medium text-black dark:text-white"
+                        >
+                            Tanggal Pinjam
+                        </label>
+                        <input
+                            type="date"
+                            name="date"
+                            id="date"
+                            value={data.date}
+                            onChange={(e) => {
+                                const value = e.target.value;
+                                const date = new Date(value);
+
+                                setData({
+                                    ...data,
+                                    date: e.target.value,
+                                    hari: date.toLocaleDateString("in-ID", {
+                                        weekday: "long",
+                                    }),
+                                    tahun: date.getFullYear(),
+                                    bulan: date.toLocaleDateString("in-ID", {
+                                        month: "long",
+                                    }),
+                                });
+                            }}
+                            className="w-full rounded-md border text-dark dark:text-white border-stroke bg-transparent py-2 pl-4 pr-6 transition-all duration-300 ease-in-out outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
+                        />
+                    </div>
+                    <div className="w-full">
+                        <label
                             htmlFor="nominal"
                             className="mb-2.5 font-medium inline-block text-black dark:text-white"
                         >
@@ -265,7 +335,7 @@ const TransactionPinjaman = ({ datas, user, step, setStep }) => {
                         </label>
                         <CurrencyInput
                             autoComplete="off"
-                            placeholder={`Masukkan nominal pinjaman`}
+                            placeholder={`Masukkan nominal pengajuan pinjaman`}
                             allowDecimals={true}
                             name="nominal"
                             id="nominal"
@@ -280,7 +350,7 @@ const TransactionPinjaman = ({ datas, user, step, setStep }) => {
                             }}
                             className="w-full rounded-md border text-dark dark:text-white border-stroke bg-transparent py-2 pl-4 pr-6 transition-all duration-300 ease-in-out outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                         />
-                        <d className="flex items-center gap-3 mt-1">
+                        <div className="flex items-center gap-6 mt-1">
                             <div className="w-max">
                                 <small className="font-medium block">
                                     Jasa Anggota
@@ -300,7 +370,7 @@ const TransactionPinjaman = ({ datas, user, step, setStep }) => {
                                         ? Intl.NumberFormat("in-ID", {
                                               style: "currency",
                                               currency: "IDR",
-                                              maximumFractionDigits: "0"
+                                              maximumFractionDigits: "0",
                                           }).format(
                                               (pinjaman.jasa_anggota / 100) *
                                                   (data.nominal
@@ -310,7 +380,171 @@ const TransactionPinjaman = ({ datas, user, step, setStep }) => {
                                         : "-"}
                                 </small>
                             </div>
-                        </d>
+                            <div className="w-max">
+                                <small className="font-medium block">
+                                    Total Pinjaman
+                                </small>
+                                <small>
+                                    {data.nominal
+                                        ? Intl.NumberFormat("in-ID", {
+                                              style: "currency",
+                                              currency: "IDR",
+                                              maximumFractionDigits: "0",
+                                          }).format(
+                                              (pinjaman.jasa_anggota / 100) *
+                                                  (data.nominal
+                                                      ? data.nominal
+                                                      : 0) +
+                                                  (data.nominal
+                                                      ? data.nominal
+                                                      : 0)
+                                          )
+                                        : "-"}
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="w-full">
+                        <label
+                            htmlFor="jangka_waktu"
+                            className="mb-2.5 font-medium inline-block text-black dark:text-white"
+                        >
+                            Jangka Waktu
+                        </label>
+                        <div className="w-full flex flex-col gap-4">
+                            <div className="flex items-center gap-3">
+                                <input
+                                    type="radio"
+                                    name="jangka_waktu"
+                                    value={1}
+                                    id="one"
+                                    onClick={() => setWaktu(1)}
+                                />
+                                <label
+                                    htmlFor="one"
+                                    className="w-max cursor-pointer"
+                                >
+                                    1 Bulan
+                                </label>
+                            </div>
+                            <div className="flex items-center gap-3">
+                                <input
+                                    type="radio"
+                                    name="jangka_waktu"
+                                    id="two"
+                                    value={2}
+                                    onClick={() => setWaktu(2)}
+                                />
+                                <label
+                                    htmlFor="two"
+                                    className="w-max cursor-pointer"
+                                >
+                                    10 Bulan
+                                </label>
+                            </div>
+                            <div className="flex items-center gap-3">
+                                <input
+                                    type="radio"
+                                    name="jangka_waktu"
+                                    id="three"
+                                    value={3}
+                                    onClick={() => setWaktu(3)}
+                                />
+                                <label
+                                    className="w-max cursor-pointer"
+                                    htmlFor="three"
+                                >
+                                    20 Bulan Berjalan
+                                </label>
+                            </div>
+                            <div className="flex items-center gap-3">
+                                <input
+                                    type="radio"
+                                    name="jangka_waktu"
+                                    id="lain"
+                                    value={4}
+                                    onClick={() => setWaktu(4)}
+                                />
+                                <label
+                                    className="w-max cursor-pointer"
+                                    htmlFor="lain"
+                                >
+                                    Yang lain :{" "}
+                                </label>
+                                <input
+                                    type="text"
+                                    id="jangka_waktu"
+                                    name="jangka_waktu"
+                                    ref={nipRef}
+                                    required
+                                    disabled={disabled}
+                                    onChange={(e) => handleValue(e)}
+                                    placeholder="Ex: 12 Bulan"
+                                    className="w-auto rounded-md capitalize disabled:bg-whiten border text-dark dark:text-white border-stroke bg-transparent py-1 pl-2 pr-3 transition-all duration-300 ease-in-out outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
+                                />
+                            </div>
+                        </div>
+                    </div>
+                    <div className="w-full">
+                        <label
+                            htmlFor="keperluan"
+                            className="mb-2.5 inline-block font-medium text-black dark:text-white"
+                        >
+                            Untuk Keperluan
+                        </label>
+                        <textarea
+                            name="keperluan"
+                            id="keperluan"
+                            onChange={(e) => handleValue(e)}
+                            rows="2"
+                            required
+                            value={data.keperluan}
+                            className="w-full resize-none rounded-md disabled:bg-whiten border text-dark dark:text-white border-stroke bg-transparent py-1 pl-2 pr-3 transition-all duration-300 ease-in-out outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
+                            placeholder="Keperluan peminjaman"
+                        ></textarea>
+                    </div>
+                    <div className="w-full">
+                        <label
+                            htmlFor="bank_tujuan"
+                            className="mb-2.5 inline-block font-medium text-black dark:text-white"
+                        >
+                            Bank Tujuan
+                        </label>
+                        <input
+                            type="text"
+                            id="bank_tujuan"
+                            name="bank_tujuan"
+                            required
+                            onChange={(e) => handleValue(e)}
+                            placeholder="Masukkan Bank Tujuan"
+                            className="w-full rounded-md border text-dark dark:text-white border-stroke bg-transparent py-2 pl-4 pr-6 transition-all duration-300 ease-in-out outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
+                        />
+                    </div>
+                    <div className="w-full">
+                        <label
+                            htmlFor="no_rek"
+                            className="mb-2.5 inline-block font-medium text-black dark:text-white"
+                        >
+                            No Rekening
+                        </label>
+                        <input
+                            type="text"
+                            id="no_rek"
+                            name="no_rek"
+                            required
+                            onChange={(e) => handleValue(e)}
+                            placeholder="Masukkan Nomor Rekening"
+                            className="w-full rounded-md border text-dark dark:text-white border-stroke bg-transparent py-2 pl-4 pr-6 transition-all duration-300 ease-in-out outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
+                        />
+                    </div>
+                    <div className="w-full">
+                        <button
+                            type="submit"
+                            name="button-sumbit"
+                            className="w-full cursor-pointer rounded-md border border-primary bg-primary p-2 text-white transition hover:bg-opacity-90"
+                        >
+                            Kirim
+                        </button>
                     </div>
                 </form>
             )}

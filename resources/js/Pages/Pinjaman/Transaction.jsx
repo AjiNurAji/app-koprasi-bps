@@ -11,7 +11,7 @@ const Transaction = ({ auth }) => {
             <Head title="Transaksi Pinjaman" />
             <a
                 href={route("pinjaman_anggota")}
-                className="bg-danger click_animation text-white py-2 px-3 rounded-md mb-3 inline-block"
+                className="bg-danger click_animation text-white py-2 px-3 rounded-md inline-block"
             >
                 <LuArrowLeft />
             </a>
