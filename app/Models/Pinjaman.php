@@ -27,6 +27,7 @@ class Pinjaman extends Model
         'jangka_waktu',
         'no_rek',
         'tanggal_pinjam',
+        'sisa',
     ];
 
     public function member()

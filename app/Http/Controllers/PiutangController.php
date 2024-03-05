@@ -143,7 +143,8 @@ class PiutangController extends Controller
                     'total_pinjaman' => 'integer|nullable',
                     'date' => 'required|date',
                     'keperluan' => 'required|string',
-                    'bank_tujuan' => 'required|string'
+                    'bank_tujuan' => 'required|string',
+                    'jangka_waktu' => 'required|string',
                 ]);
 
                 $pinjaman = Pinjaman::where('id_member', $request->input('id_member'))
@@ -156,6 +157,12 @@ class PiutangController extends Controller
                     ->orderBy('created_at', 'desc')
                     ->get()
                     ->first();
+
+                    $nominal = ($terbayar ? $terbayar->sisa + $request->input('total_pinjaman') : $pinjaman) 
+                    ? $pinjaman->sisa + $request->input('total_pinjaman') 
+                    : $request->input('total_pinjaman');
+
+                    // dd($nominal);
 
                 Transaksi::create([
                     'id_transaksi' => Str::uuid(),
@@ -180,9 +187,7 @@ class PiutangController extends Controller
                     'jangka_waktu' => $request->input('jangka_waktu'),
                     'no_rek' => $request->input('no_rek'),
                     'tanggal_pinjam' => $request->input('date'),
-                    'sisa' => ($terbayar ? $terbayar->sisa + $request->input('total_pinjaman') : $pinjaman) 
-                        ? $pinjaman->sisa + $request->input('total_pinjaman') 
-                        : $request->input('total_pinjaman'),
+                    'sisa' => $nominal,
                 ]);
 
                 return response()->json(['message' => 'Berhasil melakukan transaksi'], 200);
