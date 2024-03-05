@@ -34,7 +34,7 @@ const TransactionPinjaman = ({ datas, user, step, setStep }) => {
         jangka_waktu: "",
         keperluan: "",
         bank_tujuan: "",
-        no_rek: "",
+        no_rek: null,
     });
 
     useEffect(() => {
@@ -98,7 +98,7 @@ const TransactionPinjaman = ({ datas, user, step, setStep }) => {
         if (create) {
             form.current.reset();
             setProcess(false);
-            setStep(1)
+            setStep(1);
         }
 
         setProcess(false);
@@ -179,7 +179,7 @@ const TransactionPinjaman = ({ datas, user, step, setStep }) => {
     };
 
     return (
-        <div className="rounded-md border mt-4 sm:mt-6 border-stroke bg-white px-5 py-6 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
+        <div className="rounded-md border mt-4 sm:mt-6 border-stroke bg-white px-5 py-6 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5">
             {step === 1 ? (
                 <div className="w-full">
                     <label
@@ -210,7 +210,7 @@ const TransactionPinjaman = ({ datas, user, step, setStep }) => {
                     </div>
                 </div>
             ) : step === 2 ? (
-                <>
+                <form className="w-full" onSubmit={handleStep}>
                     <div className="w-full">
                         <label
                             htmlFor="nip"
@@ -234,8 +234,7 @@ const TransactionPinjaman = ({ datas, user, step, setStep }) => {
                             <ButtonLoading color="primary" />
                         ) : (
                             <button
-                                type="button"
-                                onClick={handleStep}
+                                type="submit"
                                 name="button-sumbit"
                                 className="w-full cursor-pointer rounded-md border border-primary bg-primary p-2 text-white transition hover:bg-opacity-90"
                             >
@@ -243,14 +242,24 @@ const TransactionPinjaman = ({ datas, user, step, setStep }) => {
                             </button>
                         )}
                     </div>
-                </>
+                </form>
             ) : (
                 <form
-                    className="flex w-full flex-col gap-4"
+                    className="flex w-full flex-col relative gap-4"
                     onSubmit={submit}
                     ref={form}
                     autoComplete="off"
                 >
+                    <button 
+                    onClick={(e) => {
+                        e.preventDefault();
+                        setStep(1);
+                        form.current.reset();
+                    }}
+                    className="absolute top-2 right-2 text-xs cursor-pointer rounded-md border border-danger bg-danger py-1 px-3 text-white transition hover:bg-opacity-90">
+                        Batal
+                    </button>
+
                     <div className="w-full">
                         <label
                             htmlFor="jenis_transaksi"
@@ -528,23 +537,27 @@ const TransactionPinjaman = ({ datas, user, step, setStep }) => {
                             No Rekening
                         </label>
                         <input
-                            type="text"
+                            type="number"
                             id="no_rek"
                             name="no_rek"
                             required
-                            onChange={(e) => handleValue(e)}
+                            onChange={(e) => handleNominal(e.target.value, e.target.name)}
                             placeholder="Masukkan Nomor Rekening"
                             className="w-full rounded-md border text-dark dark:text-white border-stroke bg-transparent py-2 pl-4 pr-6 transition-all duration-300 ease-in-out outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                         />
                     </div>
                     <div className="w-full">
-                        <button
-                            type="submit"
-                            name="button-sumbit"
-                            className="w-full cursor-pointer rounded-md border border-primary bg-primary p-2 text-white transition hover:bg-opacity-90"
-                        >
-                            Kirim
-                        </button>
+                        {processing ? (
+                            <ButtonLoading color="primary" />
+                        ) : (
+                            <button
+                                type="submit"
+                                name="button-sumbit"
+                                className="w-full cursor-pointer rounded-md border border-primary bg-primary p-2 text-white transition hover:bg-opacity-90"
+                            >
+                                Kirim
+                            </button>
+                        )}
                     </div>
                 </form>
             )}

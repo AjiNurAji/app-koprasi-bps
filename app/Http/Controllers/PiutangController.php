@@ -7,6 +7,7 @@ use App\Models\JasaAnggota;
 use App\Models\Member;
 use App\Models\Pinjaman;
 use App\Models\Transaksi;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
@@ -40,48 +41,51 @@ class PiutangController extends Controller
 
             $member = Member::where('NIP', $request->input('nip'))->first();
 
-            $pinjaman = Pinjaman::where([
-                ['id_member', $member->id_member],
-                ['tahun', $request->input('tahun')],
-            ])
-                ->orderBy('created_at', 'desc')
-                ->get()
-                ->first();
+            if ($member) {
+                $pinjaman = Pinjaman::where([
+                    ['id_member', $member->id_member],
+                    ['tahun', $request->input('tahun')],
+                ])
+                    ->orderBy('created_at', 'desc')
+                    ->get()
+                    ->first();
 
-            $simpananTaunSebelumnya = Pinjaman::where([
-                ['id_member', $member->id_member],
-                ['tahun', ($request->input('tahun') - 1)]
-            ])
-                ->orderBy('created_at', 'desc')
-                ->get()
-                ->first();
+                $simpananTaunSebelumnya = Pinjaman::where([
+                    ['id_member', $member->id_member],
+                    ['tahun', ($request->input('tahun') - 1)]
+                ])
+                    ->orderBy('created_at', 'desc')
+                    ->get()
+                    ->first();
 
-            $jasaAnggota = JasaAnggota::orderBy('created_at', 'desc')
-                ->get()
-                ->first();
+                $jasaAnggota = JasaAnggota::orderBy('created_at', 'desc')
+                    ->get()
+                    ->first();
 
-            $bayar = BayarPinjaman::where([
-                ['id_member', $member->id_member],
-            ])
-                ->orderBy('created_at', 'desc')
-                ->get()
-                ->first();
+                $bayar = BayarPinjaman::where([
+                    ['id_member', $member->id_member],
+                ])
+                    ->orderBy('created_at', 'desc')
+                    ->get()
+                    ->first();
 
-            if (!$jasaAnggota) {
-                return response()->json(['message' => 'Mohon set jasa anggota terlebih dahulu!', 'redirect' => route('jasa_piutang')], 404);
+                if (!$jasaAnggota) {
+                    return response()->json(['message' => 'Mohon set jasa anggota terlebih dahulu!', 'redirect' => route('jasa_piutang')], 404);
+                }
+
+                $pinjaman['jasa_anggota'] = $jasaAnggota->persentase;
+                isset($pinjaman['sisa']) ?? $pinjaman['sisa'] = $bayar ? $bayar->sisa : $pinjaman->sisa;
+
+                $awal_tahun = $simpananTaunSebelumnya ? $simpananTaunSebelumnya->sisa : null;
+
+                if ($pinjaman) {
+                    return response()->json(['message' => 'Data berhasil didapatkan', 'member' => $member, 'pinjaman' => $pinjaman, 'sebelum' => $awal_tahun], 200);
+                }
+
+                return response()->json(['message' => 'Data berhasil didapatkan', 'member' => $member, 'sebelum' => $awal_tahun], 200);
             }
 
-            $pinjaman['jasa_anggota'] = $jasaAnggota->persentase;
-            isset($pinjaman['sisa']) ?? $pinjaman['sisa'] = $bayar ? $bayar->sisa : $pinjaman->sisa;
-
-            $awal_tahun = $simpananTaunSebelumnya ? $simpananTaunSebelumnya->sisa : null;
-
-            if ($pinjaman) {
-                return response()->json(['message' => 'Data berhasil didapatkan', 'member' => $member, 'pinjaman' => $pinjaman, 'sebelum' => $awal_tahun], 200);
-            }
-
-
-            return response()->json(['message' => 'Data berhasil didapatkan', 'member' => $member, 'sebelum' => $awal_tahun], 200);
+            return response()->json(['message' => 'Data tidak ditemukan!'], 404);
         }
 
         return response()->json(['message' => 'Hanya bisa dakses oleh admin!'], 401);
@@ -137,6 +141,9 @@ class PiutangController extends Controller
                     'bulan' => 'required|string',
                     'hari' => 'required|string',
                     'total_pinjaman' => 'integer|nullable',
+                    'date' => 'required|date',
+                    'keperluan' => 'required|string',
+                    'bank_tujuan' => 'required|string'
                 ]);
 
                 $pinjaman = Pinjaman::where('id_member', $request->input('id_member'))
@@ -149,8 +156,6 @@ class PiutangController extends Controller
                     ->orderBy('created_at', 'desc')
                     ->get()
                     ->first();
-
-                $sisa = ($terbayar ? $terbayar->sisa + $request->input('total_pinjaman') : $pinjaman) ? $pinjaman->sisa + $request->input('total_pinjaman') : $request->input('total_pinjaman');
 
                 Transaksi::create([
                     'id_transaksi' => Str::uuid(),
@@ -167,10 +172,17 @@ class PiutangController extends Controller
                     'id_pinjaman' => Str::uuid(),
                     'id_member' => $request->input('id_member'),
                     'nominal' => $request->input('total_pinjaman'),
-                    'tahun' => $request->input('tahun'),
-                    'hari' => $request->input('hari'),
                     'bulan' => $request->input('bulan'),
-                    'sisa' => $sisa,
+                    'hari' => $request->input('hari'),
+                    'tahun' => $request->input('tahun'),
+                    'bank_tujuan' => $request->input('bank_tujuan'),
+                    'untuk_keperluan' => $request->input('keperluan'),
+                    'jangka_waktu' => $request->input('jangka_waktu'),
+                    'no_rek' => $request->input('no_rek'),
+                    'tanggal_pinjam' => $request->input('date'),
+                    'sisa' => ($terbayar ? $terbayar->sisa + $request->input('total_pinjaman') : $pinjaman) 
+                        ? $pinjaman->sisa + $request->input('total_pinjaman') 
+                        : $request->input('total_pinjaman'),
                 ]);
 
                 return response()->json(['message' => 'Berhasil melakukan transaksi'], 200);
