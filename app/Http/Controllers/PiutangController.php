@@ -7,7 +7,6 @@ use App\Models\JasaAnggota;
 use App\Models\Member;
 use App\Models\Pinjaman;
 use App\Models\Transaksi;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
@@ -94,37 +93,51 @@ class PiutangController extends Controller
     public function getBayarPinjamanAnggota(Request $request)
     {
         if (Auth::guard('admin')->check()) {
-            $pinjaman = Pinjaman::where([
-                ['id_member', $request->input('id_member')],
-                ['tahun', $request->input('tahun')],
-            ])
-                ->orderBy('created_at', 'desc')
-                ->get();
 
+            $member = Member::where('NIP', $request->input('nip'))->first();
 
-            $bayar = BayarPinjaman::where([
-                ['id_member', $request->input('id_member')],
-            ])
-                ->orderBy('created_at', 'desc')
-                ->get();
+            if ($member) {
 
-            $pinjaman['sisa'] = $pinjaman ? $pinjaman->sum('nominal') - ($bayar ? $bayar->sum('nominal') : 0) : 0;
-
-            if ($bayar) {
-                $terbayar = BayarPinjaman::where([
-                    ['id_member', $request->input('id_member')],
+                $pinjaman = Pinjaman::where([
+                    ['id_member', $member->id_member],
                 ])
                     ->orderBy('created_at', 'desc')
-                    ->get()
-                    ->first();
+                    ->get();
 
-                if (isset($terbayar->sisa) && !$terbayar->sisa)
-                    return response()->json(['message' => 'Pinjaman sudah terbayar!'], 500);
+
+                $bayar = BayarPinjaman::where([
+                    ['id_member', $member->id_member],
+                ])
+                    ->orderBy('created_at', 'desc')
+                    ->get();
+
+                $total = $pinjaman->sum('nominal');
+
+                $sisa = $pinjaman ? $total - ($bayar ? $bayar->sum('nominal') : 0) : 0;
+
+                if ($bayar) {
+                    $terbayar = BayarPinjaman::where([
+                        ['id_member', $request->input('id_member')],
+                    ])
+                        ->orderBy('created_at', 'desc')
+                        ->get()
+                        ->first();
+
+                    if (isset($terbayar->sisa) && !$terbayar->sisa)
+                        return response()->json(['message' => 'Pinjaman sudah terbayar!'], 500);
+                }
+
+                if ($pinjaman) {
+                    return response()->json(['message' => 'Data berhasil didapatkan', 'member' => $member, 'pinjaman' => [
+                        'pinjaman' => $pinjaman,
+                        'bayar' => $bayar,
+                        'sisa' => $sisa,
+                        'total' => $total
+                    ]], 200);
+                }
             }
 
-            if ($pinjaman) {
-                return response()->json(['message' => 'Data berhasil didapatkan', 'pinjaman' => $pinjaman], 200);
-            }
+            return response()->json(['message' => 'Data tidak ditemukan!'], 404);
         }
 
         return response()->json(['message' => 'Hanya bisa dakses oleh admin!'], 401);
@@ -158,11 +171,11 @@ class PiutangController extends Controller
                     ->get()
                     ->first();
 
-                    $nominal = ($terbayar ? $terbayar->sisa + $request->input('total_pinjaman') : $pinjaman) 
-                    ? $pinjaman->sisa + $request->input('total_pinjaman') 
+                $nominal = ($terbayar ? $terbayar->sisa + $request->input('total_pinjaman') : $pinjaman)
+                    ? $pinjaman->sisa + $request->input('total_pinjaman')
                     : $request->input('total_pinjaman');
 
-                    // dd($nominal);
+                // dd($nominal);
 
                 Transaksi::create([
                     'id_transaksi' => Str::uuid(),
@@ -210,9 +223,12 @@ class PiutangController extends Controller
                     'bulan' => 'required|string',
                     'hari' => 'required|string',
                     'nominal' => 'integer|nullable',
+                    'method' => 'required|string',
+                    'jenis_bayar' => 'required|string',
+                    'catatan' => 'required|string',
                 ]);
 
-                $pinjaman = Pinjaman::where([
+                $pinjaman = Pinjaman::whereBetween('tahun', [date('Y') - 1, date('Y')])->where([
                     ['id_member', $request->input('id_member')],
                 ])
                     ->orderBy('created_at', 'desc')
@@ -245,11 +261,14 @@ class PiutangController extends Controller
                     'id_member' => $request->input('id_member'),
                     'nominal' => $request->input('nominal'),
                     'id_pinjaman' => $pinjaman->id_pinjaman,
+                    'tanggal_bayar' => $request->input('date'),
                     'sisa' => $sisa,
                     'tahun' => $request->input('tahun'),
                     'hari' => $request->input('hari'),
                     'bulan' => $request->input('bulan'),
                     'jenis' => $request->input('jenis_bayar'),
+                    'method' => $request->input('method'),
+                    'note' => $request->input('catatan'),
                 ]);
 
                 return response()->json(['message' => 'Berhasil melakukan transaksi'], 200);

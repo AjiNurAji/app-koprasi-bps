@@ -22,7 +22,7 @@ return new class extends Migration
             $table->string('jangka_waktu', 20);
             $table->string('untuk_keperluan', 255);
             $table->string('bank_tujuan');
-            $table->integer('no_rek', false);
+            $table->char('no_rek', 25);
             $table->integer('nominal', false);
             $table->integer('sisa', false);
             $table->timestamps();

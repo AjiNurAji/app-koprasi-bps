@@ -23,6 +23,9 @@ class BayarPinjaman extends Model
         'hari',
         'tahun',
         'nominal',
+        'note',
+        'method',
+        'tanggal_bayar',
         'sisa',
         'jenis',
     ];
