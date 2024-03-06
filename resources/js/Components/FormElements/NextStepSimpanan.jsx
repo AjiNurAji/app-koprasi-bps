@@ -12,10 +12,10 @@ const NextSimpanan = ({
         <>
             {type === "pokok" ? (
                 <>
-                    <div className="w-full p-3 border border-stroke dark:border-strokedark rounded-md bg-whiten dark:bg-black dark:bg-opacity-25">
+                    <div className="w-full">
                         <label
                             htmlFor="awal_tahun"
-                            className="mb-2.5 font-medium text-black dark:text-white"
+                            className="mb-2.5 inline-block font-medium text-black dark:text-white"
                         >
                             {`Awal Tahun ${getTahun.getFullYear()}`}
                         </label>
@@ -39,7 +39,7 @@ const NextSimpanan = ({
                     <div className="w-full">
                         <label
                             htmlFor="anggota_masuk"
-                            className="mb-2.5 font-medium text-black dark:text-white"
+                            className="mb-2.5 inline-block font-medium text-black dark:text-white"
                         >
                             {data?.anggota_masuk
                                 ? "Tambah Anggota Masuk"
@@ -71,7 +71,7 @@ const NextSimpanan = ({
                     <div className="w-full">
                         <label
                             htmlFor="anggota_keluuar"
-                            className="mb-2.5 font-medium text-black dark:text-white"
+                            className="mb-2.5 inline-block font-medium text-black dark:text-white"
                         >
                             {data?.anggota_keluar
                                 ? "Tambah Anggota Keluar"
@@ -106,7 +106,7 @@ const NextSimpanan = ({
                     <div className="w-full p-3 border border-stroke dark:border-strokedark rounded-md bg-whiten dark:bg-black dark:bg-opacity-25">
                         <label
                             htmlFor="kekayaan_awal_tahun"
-                            className="mb-2.5 font-medium text-black dark:text-white"
+                            className="mb-2.5 inline-block font-medium text-black dark:text-white"
                         >
                             {`Kekayaan Awal Tahun ${getTahun.getFullYear()}`}
                         </label>
@@ -132,7 +132,7 @@ const NextSimpanan = ({
                     <div className="w-full">
                         <label
                             htmlFor="simpanan_wajib"
-                            className="mb-2.5 font-medium text-black dark:text-white"
+                            className="mb-2.5 inline-block font-medium text-black dark:text-white"
                         >
                             {data?.simpanan_wajib
                                 ? "Tambah Simpanan Wajib"
@@ -160,7 +160,7 @@ const NextSimpanan = ({
                     <div className="w-full">
                         <label
                             htmlFor="anggota_keluar"
-                            className="mb-2.5 font-medium text-black dark:text-white"
+                            className="mb-2.5 inline-block font-medium text-black dark:text-white"
                         >
                             {data?.anggota_keluar
                                 ? "Tambah Anggota Keluar"
@@ -191,7 +191,7 @@ const NextSimpanan = ({
                     <div className="w-full">
                         <label
                             htmlFor="sukarela"
-                            className="mb-2.5 font-medium text-black dark:text-white"
+                            className="mb-2.5 inline-block font-medium text-black dark:text-white"
                         >
                             {data?.sukarela
                                 ? "Tambah sukarela dari pembulatan"
@@ -219,7 +219,7 @@ const NextSimpanan = ({
                     <div className="w-full">
                         <label
                             htmlFor="shu"
-                            className="mb-2.5 font-medium text-black dark:text-white"
+                            className="mb-2.5 inline-block font-medium text-black dark:text-white"
                         >
                             {data?.shu
                                 ? "Tambah SHU yang disimpan"
@@ -247,7 +247,7 @@ const NextSimpanan = ({
                     <div className="w-full p-3 border border-stroke dark:border-strokedark rounded-md bg-whiten dark:bg-black dark:bg-opacity-25">
                         <label
                             htmlFor="awal_tahun"
-                            className="mb-2.5 font-medium text-black dark:text-white"
+                            className="mb-2.5 inline-block font-medium text-black dark:text-white"
                         >
                             {`Awal ${new Date().getFullYear()}`}
                         </label>
@@ -269,7 +269,7 @@ const NextSimpanan = ({
                     <div className="w-full">
                         <label
                             htmlFor="selama_tahun"
-                            className="mb-2.5 font-medium text-black dark:text-white"
+                            className="mb-2.5 inline-block font-medium text-black dark:text-white"
                         >
                             {data?.selama_tahun
                                 ? `Tambah selama tahun ${new Date().getFullYear()}`
@@ -297,7 +297,7 @@ const NextSimpanan = ({
                     <div className="w-full">
                         <label
                             htmlFor="diambil"
-                            className="mb-2.5 font-medium text-black dark:text-white"
+                            className="mb-2.5 inline-block font-medium text-black dark:text-white"
                         >
                             {data?.diambil ? "Tambah diambil" : "Diambil"}
                         </label>
@@ -323,7 +323,7 @@ const NextSimpanan = ({
                     <div className="w-full">
                         <label
                             htmlFor="disimpan_kembali"
-                            className="mb-2.5 font-medium text-black dark:text-white"
+                            className="mb-2.5 inline-block font-medium text-black dark:text-white"
                         >
                             {data?.disimpan_kembali
                                 ? "Tambah disimpan kembali"

@@ -6,7 +6,7 @@ import { router } from "@inertiajs/react";
 import ButtonLoading from "../ButtonLoading";
 import CurrencyInput from "react-currency-input-field";
 
-const TransactionPinjaman = ({ datas, user, step, setStep }) => {
+const TransactionPinjaman = ({ step, setStep }) => {
     const [processing, setProcess] = useState(false);
     const [pinjaman, setPinjaman] = useState([]);
     const [member, setMember] = useState([]);

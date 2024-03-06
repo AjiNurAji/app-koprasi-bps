@@ -447,36 +447,6 @@ class HomepageController extends Controller
     // view pinjaman
     public function viewPinjaman(string $id)
     {
-        $bulan = [
-            [
-                'Januari',
-                'Februari',
-                'Maret',
-                'April',
-                'Mei',
-                'Juni',
-                'Juli',
-                'Agustus',
-                'September',
-                'Oktober',
-                'November',
-                'Desember',
-            ]
-        ];
-
-        $hari = [
-            [
-                'Senin',
-                'Selasa',
-                'Rabu',
-                'Kamis',
-                'Jumat',
-                'Sabtu',
-                'Minggu'
-            ]
-        ];
-
-
         $member = Member::with(['pinjaman', 'pinjaman.bayar'])->findOrFail($id);
 
         $tahunLalu = Pinjaman::where([
@@ -487,26 +457,14 @@ class HomepageController extends Controller
             ->get()
             ->first();
 
-        foreach ($bulan as $item) {
-            for ($i = 0; $i < 12; $i++) {
-                $totalPinjaman[] = Pinjaman::where([
-                        ['bulan', $item[$i]],
-                        ['tahun', date('Y')],
-                        ['id_member', $member->id_member]
-                    ])
-                    ->get()
-                    ->sum('nominal');
-            }
-        }
-
         $terbayar = BayarPinjaman::where([
                 ['tahun', date('Y')],
                 ['id_member', $member->id_member]
-            ])->get()->sum('nominal');
+            ])->get();
 
         $member->tahun_lalu = $tahunLalu ? $tahunLalu->sisa : 0;
-        $member->total_pinjaman = $totalPinjaman;
-        $member->total_terbayar = $terbayar;
+        $member->bayar = $terbayar;
+        $member->total_terbayar = $terbayar->sum('nominal');
         $member->total = Pinjaman::where([
                 ['tahun', date('Y')],
                 ['id_member', $member->id_member]
@@ -516,7 +474,7 @@ class HomepageController extends Controller
 
         $member->sisa = $member->total - $member->total_terbayar;
 
-        return Inertia::render('admin/Pinjaman/PinjamanMember', ['pinjaman' => $member, 'bulan' => $bulan[0]]);
+        return Inertia::render('admin/Pinjaman/PinjamanMember', ['pinjaman' => $member]);
     }
 
     // transaction page
@@ -524,7 +482,11 @@ class HomepageController extends Controller
     {
         return Inertia::render('Pinjaman/Transaction');
     }
-
+    public function pokokTransaksi() 
+    {
+        return Inertia::render('Simpanan/Transaction/Pokok');
+    }
+    
     // halaman ad-art
     public function adART()
     {

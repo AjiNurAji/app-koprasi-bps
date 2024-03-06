@@ -1,74 +1,152 @@
 import Authenticated from "@/Layouts/AuthenticatedLayout";
 import { Head } from "@inertiajs/react";
 
-const PinjamanMember = ({ auth, pinjaman, bulan }) => {
+const PinjamanMember = ({ auth, pinjaman }) => {
     const date = new Date();
-    console.log({ pinjaman, bulan });
+    console.log(pinjaman);
     return (
         <Authenticated user={auth.user}>
             <Head title={`Pinjaman ${pinjaman.name}`} />
-            <a className="bg-primary text-white py-2 px-3 rounded-md mb-3 inline-block" href={route('pinjaman_anggota')}>Kembali</a>
-            <div className="rounded-md mb-4 md:mb-6 w-full flex-auto relative border border-stroke bg-white py-6 px-7.5 shadow-default dark:border-strokedark dark:bg-boxdark">
-                <h1 className="font-bold uppercase text-xl">
-                    Daftar Pinjaman {pinjaman.name} {date.getFullYear()}
+            <a
+                className="bg-primary text-white py-2 px-3 rounded-md mb-3 inline-block"
+                href={route("pinjaman_anggota")}
+            >
+                Kembali
+            </a>
+            <div className="rounded-md w-full flex-auto relative border border-stroke bg-white py-6 px-7.5 shadow-default dark:border-strokedark dark:bg-boxdark">
+                <h1 className="font-bold uppercase text-center text-xl">
+                    Daftar Pinjaman {pinjaman.name}
                 </h1>
-                <div className="flex justify-between items-start w-full mt-3">
-                    <div className="flex flex-col gap-2 items-start justify-start">
-                        <p className="font-bold">
-                            Sisa Pinjaman {date.getFullYear() - 1}{" "}
-                        </p>
-                        {bulan.map((value, i) => (
-                            <p key={i}>{value}</p>
+                <table className="w-full mt-10">
+                    <thead>
+                        <tr>
+                            <th
+                                colSpan={4}
+                                className="px-4 py-2 border border-stroke dark:border-strokedark font-medium  text-center bg-whiten dark:bg-strokedark dark:bg-opacity-50 capitalize"
+                            >
+                                pinjaman
+                            </th>
+                        </tr>
+                        <tr>
+                            <th className="px-4 py-2 border border-stroke dark:border-strokedark font-medium  text-start bg-whiten dark:bg-strokedark dark:bg-opacity-50 capitalize">
+                                Tanggal Pinjam
+                            </th>
+                            <th className="px-4 py-2 border border-stroke dark:border-strokedark font-medium  text-start bg-whiten dark:bg-strokedark dark:bg-opacity-50 capitalize">
+                                Nominal
+                            </th>
+                            <th className="px-4 py-2 border border-stroke dark:border-strokedark font-medium  text-start bg-whiten dark:bg-strokedark dark:bg-opacity-50 capitalize">
+                                Jangka Waktu
+                            </th>
+                            <th className="px-4 py-2 border border-stroke dark:border-strokedark font-medium  text-start bg-whiten dark:bg-strokedark dark:bg-opacity-50 capitalize">
+                                Untuk Keperluan
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {pinjaman.pinjaman.map((value, i) => (
+                            <tr key={i}>
+                                <td className="px-4 py-2 border border-stroke dark:border-strokedark font-normal  text-start">
+                                    {value.tanggal_pinjam}
+                                </td>
+                                <td className="px-4 py-2 border border-stroke dark:border-strokedark font-normal  text-start">
+                                    {Intl.NumberFormat("in-ID", {
+                                        style: "currency",
+                                        currency: "IDR",
+                                        maximumFractionDigits: "0",
+                                    }).format(value.nominal)}
+                                </td>
+                                <td className="px-4 py-2 border border-stroke dark:border-strokedark font-normal  text-start">
+                                    {value.jangka_waktu}
+                                </td>
+                                <td className="px-4 py-2 border border-stroke dark:border-strokedark font-normal  text-start">
+                                    {value.untuk_keperluan}
+                                </td>
+                            </tr>
                         ))}
-                        <p className="font-bold">Total</p>
-                        <p className="font-bold">Dibayar</p>
-                        <p className="font-bold">Sisa</p>
-                    </div>
-                    <div className="flex flex-col gap-2 items-end font-semibold justify-start">
-                        <p>
-                            {pinjaman.tahun_lalu
-                                ? Intl.NumberFormat("in-ID", {
-                                      style: "currency",
-                                      currency: "IDR",
-                                  }).format(pinjaman.tahun_lalu)
-                                : "-"}
-                        </p>
-                        {pinjaman.total_pinjaman.map((value, i) => (
-                            <p key={i}>
-                                {value
-                                    ? Intl.NumberFormat("in-ID", {
-                                          style: "currency",
-                                          currency: "IDR",
-                                      }).format(value)
-                                    : "-"}
-                            </p>
+                        <tr>
+                            <td colSpan={3} className="px-4 py-2 border border-stroke dark:border-strokedark font-medium text-center">
+                                Total Pinjaman
+                            </td>
+                            <td className="px-4 py-2 border border-stroke dark:border-strokedark font-medium text-center">
+                                {Intl.NumberFormat("in-ID", {
+                                    style: "currency",
+                                    currency: "IDR",
+                                    maximumFractionDigits: "0",
+                                }).format(pinjaman.total)}
+                            </td>
+                        </tr>
+                    </tbody>
+                    <thead>
+                        <tr>
+                            <th
+                                colSpan={4}
+                                className="px-4 py-2 border border-stroke dark:border-strokedark font-medium  text-center bg-whiten dark:bg-strokedark dark:bg-opacity-50 capitalize"
+                            >
+                                Pembayaran
+                            </th>
+                        </tr>
+                        <tr>
+                            <th className="px-4 py-2 border border-stroke dark:border-strokedark font-medium  text-start bg-whiten dark:bg-strokedark dark:bg-opacity-50 capitalize">
+                                Tanggal Bayar
+                            </th>
+                            <th className="px-4 py-2 border border-stroke dark:border-strokedark font-medium  text-start bg-whiten dark:bg-strokedark dark:bg-opacity-50 capitalize">
+                                Nominal
+                            </th>
+                            <th className="px-4 py-2 border border-stroke dark:border-strokedark font-medium  text-start bg-whiten dark:bg-strokedark dark:bg-opacity-50 capitalize">
+                                Metode Pembayaran
+                            </th>
+                            <th className="px-4 py-2 border border-stroke dark:border-strokedark font-medium  text-start bg-whiten dark:bg-strokedark dark:bg-opacity-50 capitalize">
+                                Catatan
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {pinjaman.bayar.map((value, i) => (
+                            <tr key={i}>
+                                <td className="px-4 py-2 border border-stroke dark:border-strokedark font-normal  text-start">
+                                    {value.tanggal_bayar}
+                                </td>
+                                <td className="px-4 py-2 border border-stroke dark:border-strokedark font-normal  text-start">
+                                    {Intl.NumberFormat("in-ID", {
+                                        style: "currency",
+                                        currency: "IDR",
+                                        maximumFractionDigits: "0",
+                                    }).format(value.nominal)}
+                                </td>
+                                <td className="px-4 py-2 border border-stroke dark:border-strokedark font-normal  text-start">
+                                    {value.method}
+                                </td>
+                                <td className="px-4 py-2 border border-stroke dark:border-strokedark font-normal  text-start">
+                                    {value.note}
+                                </td>
+                            </tr>
                         ))}
-                        <p>
-                            {pinjaman.total
-                                ? Intl.NumberFormat("in-ID", {
-                                      style: "currency",
-                                      currency: "IDR",
-                                  }).format(pinjaman.total)
-                                : "-"}
-                        </p>
-                        <p>
-                            {pinjaman.total_terbayar
-                                ? Intl.NumberFormat("in-ID", {
-                                      style: "currency",
-                                      currency: "IDR",
-                                  }).format(pinjaman.total_terbayar)
-                                : "-"}
-                        </p>
-                        <p>
-                            {Intl.NumberFormat("in-ID", {
-                                style: "currency",
-                                currency: "IDR",
-                            }).format(
-                                pinjaman.sisa ? pinjaman.sisa : 0
-                            )}
-                        </p>
-                    </div>
-                </div>
+                        <tr>
+                            <td colSpan={3} className="px-4 py-2 border border-stroke dark:border-strokedark font-medium text-center">
+                                Total Terbayar
+                            </td>
+                            <td className="px-4 py-2 border border-stroke dark:border-strokedark font-medium text-center">
+                                {Intl.NumberFormat("in-ID", {
+                                    style: "currency",
+                                    currency: "IDR",
+                                    maximumFractionDigits: "0",
+                                }).format(pinjaman.total_terbayar)}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colSpan={3} className="px-4 py-2 border border-stroke dark:border-strokedark font-medium text-center">
+                                Sisa Pinjaman
+                            </td>
+                            <td className="px-4 py-2 border border-stroke dark:border-strokedark font-medium text-center">
+                                {Intl.NumberFormat("in-ID", {
+                                    style: "currency",
+                                    currency: "IDR",
+                                    maximumFractionDigits: "0",
+                                }).format(pinjaman.sisa)}
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </Authenticated>
     );

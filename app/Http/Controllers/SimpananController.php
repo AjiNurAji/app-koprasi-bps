@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Member;
 use App\Models\Transaksi;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -16,21 +17,27 @@ class SimpananController extends Controller
     public function getDataSimpananPokok(Request $request)
     {
         if (Auth::guard('admin')->check()) {
-            $simpananPokok = SimpananPokok::where('id_member', $request->input('id_member'))
-                ->where('tahun', $request->input('tahun'))
-                ->first();
+            $member = Member::where('NIP', $request->input('nip'))->first();
 
-            $simpananTaunSebelumnya = SimpananPokok::where('id_member', $request->input('id_member'))
-                ->where('tahun', ($request->input('tahun') - 1))
-                ->first();
+            if ($member) {
+                $simpananPokok = SimpananPokok::where('id_member', $member->id_member)
+                    ->where('tahun', $request->input('tahun'))
+                    ->first();
 
-            $awal_tahun = $simpananTaunSebelumnya ? $simpananTaunSebelumnya->awal_tahun + $simpananTaunSebelumnya->anggota_masuk - $simpananTaunSebelumnya->anggota_keluar : null;
+                $simpananTaunSebelumnya = SimpananPokok::where('id_member', $member->id_member)
+                    ->where('tahun', ($request->input('tahun') - 1))
+                    ->first();
 
-            if ($simpananPokok) {
-                return response()->json(['message' => 'Data berhasil didapatkan', 'simpanan' => $simpananPokok, 'sebelum' => $awal_tahun], 200);
+                $awal_tahun = $simpananTaunSebelumnya ? $simpananTaunSebelumnya->awal_tahun + $simpananTaunSebelumnya->anggota_masuk - $simpananTaunSebelumnya->anggota_keluar : null;
+
+                if ($simpananPokok) {
+                    return response()->json(['message' => 'Data berhasil didapatkan', 'member' => $member, 'simpanan' => $simpananPokok, 'sebelum' => $awal_tahun], 200);
+                }
+
+                return response()->json(['message' => 'Data berhasil didapatkan', 'member' => $member, 'sebelum' => $awal_tahun], 200);
             }
 
-            return response()->json(['message' => 'Data berhasil didapatkan', 'sebelum' => $awal_tahun], 200);
+            return response()->json(['message' => 'Data tidak ditemukan!'], 404);
         }
 
         return response()->json(['message' => 'Hanya bisa diakses oleh admin!'], 401);
