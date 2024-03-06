@@ -80,6 +80,11 @@ Route::middleware(['auth:admin'])->group(function () {
     Route::post('/simpanan/wajib', [SimpananController::class, 'getDataSimpananWajib'])->name('simpanan_wajib');
     Route::post('/simpanan/wajib/create', [SimpananController::class, 'simpananWajib'])->name('simpanan_wajib_create');
 
+    // sukarela
+    Route::get('/simpanan/sukarela', [HomepageController::class, 'simpananSukarela'])->name('simpanan_sukarela');
+    Route::get('/simpanan/sukarela/transaction', [HomepageController::class, 'sukarelaTransaksi'])->name('sukarela_transaction');
+    Route::post('/simpanan/sukarela', [SimpananController::class, 'getDataSimpananSukarela'])->name('simpanan_sukarela');
+    Route::post('/simpanan/sukarela/create', [SimpananController::class, 'simpananSukarela'])->name('simpanan_sukarela_create');
     
     // delete anggota
     Route::delete('/members/{id}', [MemberController::class, 'softDeletes'])->name('delete_member');
@@ -93,10 +98,6 @@ Route::middleware(['auth:admin'])->group(function () {
     Route::post('/Member/update-password','MemberController@update-password')->name('update_password');
   
     
-    // sukarela
-    Route::get('/simpanan/sukarela', [HomepageController::class, 'simpananSukarela'])->name('simpanan_sukarela');
-    Route::post('/simpanan/sukarela', [SimpananController::class, 'getDataSimpananSukarela'])->name('simpanan_sukarela');
-    Route::post('/simpanan/sukarela/create', [SimpananController::class, 'simpananSukarela'])->name('simpanan_sukarela_create');
 
     //upload file
     Route::post('/upload-file', [UploadController::class, 'index'])->name('post_file');

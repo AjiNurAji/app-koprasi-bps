@@ -491,6 +491,11 @@ class HomepageController extends Controller
     {
         return Inertia::render('Simpanan/Transaction/Wajib');
     }
+
+    public function sukarelaTransaksi()
+    {
+        return Inertia::render('Simpanan/Transaction/Sukarela');
+    }
     
     // halaman ad-art
     public function adART()

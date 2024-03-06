@@ -145,7 +145,6 @@ class SimpananController extends Controller
                     'tahun' => 'required|integer',
                     'bulan' => 'required|string',
                     'awal_tahun' => 'integer|nullable',
-                    'anggota_keluar' => 'integer|nullable',
                     'simpanan_wajib' => 'integer|nullable',
                 ]);
 
@@ -178,7 +177,7 @@ class SimpananController extends Controller
                         'tahun' => $request->input('tahun'),
                         'hari' => $request->input('hari'),
                         'bulan' => $request->input('bulan'),
-                        'kekayaan_awal_tahun' => $simpananWajib ? $simpananWajib->kekayaan_awal_tahun + $request->input('awal_tahun') : $request->input('awal_tahun'),
+                        'kekayaan_awal_tahun' => $simpananWajib->kekayaan_awal_tahun,
                         'simpanan_wajib' => $simpananWajib ? $simpananWajib->simpanan_wajib + $request->input('simpanan_wajib') : $request->input('simpanan_wajib'),
                         'anggota_keluar' => $simpananWajib ? $simpananWajib->anggota_keluar + $request->input('anggota_keluar') : $request->input('anggota_keluar'),
                     ]);
@@ -186,7 +185,6 @@ class SimpananController extends Controller
                 }
 
                 $simpananWajib->update([
-                    'kekayaan_awal_tahun' => $simpananWajib->kekayaan_awal_tahun ? $simpananWajib->kekayaan_awal_tahun + $request->input('awal_tahun') : $request->input('awal_tahun'),
                     'hari' => $request->input('hari'),
                     'simpanan_wajib' => $simpananWajib->simpanan_wajib ? $simpananWajib->simpanan_wajib + $request->input('simpanan_wajib') : $request->input('simpanan_wajib'),
                     'anggota_keluar' => $simpananWajib->anggota_keluar ? $simpananWajib->anggota_keluar + $request->input('anggota_keluar') : $request->input('anggota_keluar'),
@@ -212,7 +210,7 @@ class SimpananController extends Controller
             return response()->json(['message' => 'Data berhasil didapatkan'], 200);
         }
 
-        return response()->json(['message' => 'Sorry, anda bukan admin'], 401);
+        return response()->json(['message' => 'Hanya bisa diakses oleh admin!'], 401);
     }
 
     public function simpananSukarela(Request $request)

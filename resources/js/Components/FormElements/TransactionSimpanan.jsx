@@ -10,6 +10,7 @@ const TransactionSimpanan = ({ type, directUrl, postUrl }) => {
     const [processing, setProcess] = useState(false);
     const [simpanan, setSimpanan] = useState([]);
     const [simpananPrev, setSimpananPrev] = useState(null);
+    const [jenis, setType] = useState();
     const [member, setMember] = useState([]);
     const form = useRef(null);
     const nipRef = useRef(null);
@@ -35,6 +36,9 @@ const TransactionSimpanan = ({ type, directUrl, postUrl }) => {
         disimpan_kembali: null,
         akhir_tahun: null,
     });
+
+
+    console.log(jenis)
 
     useEffect(() => {
         setData({
@@ -128,7 +132,45 @@ const TransactionSimpanan = ({ type, directUrl, postUrl }) => {
     return (
         <>
             {step === 1 ? (
-                <form className="w-full" onSubmit={handleStep}>
+                <form className="w-full flex flex-col gap-4" onSubmit={handleStep}>
+                    {type !== "pokok" && (
+                        <div className="w-full">
+                            <label
+                                htmlFor="jenis_transaksi"
+                                className="mb-2.5 inline-block font-medium text-black dark:text-white"
+                            >
+                                Jenis Transaksi
+                            </label>
+                            {!jenis ? (
+                                <div className="grid grid-cols-2 gap-4 sm:gap-6 mb-2 items-center justify-center">
+                                    <button
+                                        type="button"
+                                        className="border py-2 h-full rounded-md border-primary bg-primary text-white hover:bg-opacity-90"
+                                        onClick={(e) => {
+                                            e.preventDefault();
+                                            setType("simpan");
+                                        }}
+                                    >
+                                        Tambah Simpanan
+                                    </button>
+                                    <button
+                                        type="button"
+                                        className="border py-2 h-full rounded-md border-primary bg-primary text-white hover:bg-opacity-90"
+                                        onClick={(e) => {
+                                            e.preventDefault();
+                                            setType("ambil");
+                                        }}
+                                    >
+                                        Ambil Simpanan
+                                    </button>
+                                </div>
+                            ) : (
+                                <span className="bg-transparent capitalize dark:bg-transparent block text-start px-1">
+                                    {jenis ? jenis : "-"}
+                                </span>
+                            )}
+                        </div>
+                    )}
                     <div className="w-full">
                         <label
                             htmlFor="nip"
@@ -147,7 +189,7 @@ const TransactionSimpanan = ({ type, directUrl, postUrl }) => {
                             className="w-full rounded-md border text-dark dark:text-white border-stroke bg-transparent py-2 pl-4 pr-6 transition-all duration-300 ease-in-out outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                         />
                     </div>
-                    <div className="w-full mt-4">
+                    <div className="w-full">
                         {processing ? (
                             <ButtonLoading color="primary" />
                         ) : (
@@ -162,7 +204,7 @@ const TransactionSimpanan = ({ type, directUrl, postUrl }) => {
                     </div>
                 </form>
             ) : (
-                <form className="w-full" ref={form} onSubmit={submit}>
+                <form className="w-full flex flex-col gap-4" ref={form} onSubmit={submit}>
                     <div className="flex flex-col gap-4">
                         <div className="w-full">
                             <label
@@ -225,13 +267,14 @@ const TransactionSimpanan = ({ type, directUrl, postUrl }) => {
                             awalTahun={simpananPrev}
                             getTahun={new Date()}
                             type={type}
+                            jenis={jenis}
                             step={step}
                             valueData={data}
                             setData={setData}
                             handleNominal={handleNominal}
                         />
                     </div>
-                    <div className="w-full mt-4">
+                    <div className="w-full">
                         {processing ? (
                             <ButtonLoading color="primary" />
                         ) : (
