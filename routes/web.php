@@ -73,9 +73,12 @@ Route::middleware(['auth:admin'])->group(function () {
     Route::get('/simpanan/pokok/transaction', [HomepageController::class, 'pokokTransaksi'])->name('transaksi_pokok');
     Route::post('/simpanan/pokok', [SimpananController::class, 'getDataSimpananPokok'])->name('simpanan_pokok');
     Route::post('/simpanan/pokok/create', [SimpananController::class, 'simpananPokok'])->name('simpanan_pokok_create');
-
+    
     // wajib
     Route::get('/simpanan/wajib', [HomepageController::class, 'simpananWajib'])->name('simpanan_wajib');
+    Route::get('/simpanan/wajib/transaction', [HomepageController::class, 'wajibTransaksi'])->name('transaksi_wajib');
+    Route::post('/simpanan/wajib', [SimpananController::class, 'getDataSimpananWajib'])->name('simpanan_wajib');
+    Route::post('/simpanan/wajib/create', [SimpananController::class, 'simpananWajib'])->name('simpanan_wajib_create');
 
     
     // delete anggota
@@ -89,8 +92,6 @@ Route::middleware(['auth:admin'])->group(function () {
     Route::get('/Member/change-password','MemberController@change-password')->name('change-password');
     Route::post('/Member/update-password','MemberController@update-password')->name('update_password');
   
-    Route::post('/simpanan/wajib', [SimpananController::class, 'getDataSimpananWajib'])->name('simpanan_wajib');
-    Route::post('/simpanan/wajib/create', [SimpananController::class, 'simpananWajib'])->name('simpanan_wajib_create');
     
     // sukarela
     Route::get('/simpanan/sukarela', [HomepageController::class, 'simpananSukarela'])->name('simpanan_sukarela');

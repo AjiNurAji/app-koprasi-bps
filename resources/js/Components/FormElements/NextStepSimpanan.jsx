@@ -103,7 +103,7 @@ const NextSimpanan = ({
                 </>
             ) : type === "wajib" ? (
                 <>
-                    <div className="w-full p-3 border border-stroke dark:border-strokedark rounded-md bg-whiten dark:bg-black dark:bg-opacity-25">
+                    <div className="w-full">
                         <label
                             htmlFor="kekayaan_awal_tahun"
                             className="mb-2.5 inline-block font-medium text-black dark:text-white"
@@ -117,7 +117,7 @@ const NextSimpanan = ({
                             allowDecimals={true}
                             name="kekayaan_awal_tahun"
                             id="kekayaan_awal_tahun"
-                            value={awalTahun ? awalTahun : valueData.awal_tahun}
+                            value={awalTahun ? awalTahun : valueData.kekayaan_awal_tahun}
                             disabled={awalTahun}
                             onValueChange={(value, name) =>
                                 handleNominal(value, name)
@@ -126,7 +126,7 @@ const NextSimpanan = ({
                                 locale: "in-ID",
                                 currency: "IDR",
                             }}
-                            className="w-full text-black border-none bg-transparent px-0 dark:text-whiten"
+                            className="w-full disabled:bg-stroke dark:disabled:bg-strokedark rounded-md border text-dark dark:text-white border-stroke bg-transparent py-2 pl-4 pr-6 transition-all duration-300 ease-in-out outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                         />
                     </div>
                     <div className="w-full">

@@ -40,51 +40,49 @@ class PiutangController extends Controller
 
             $member = Member::where('NIP', $request->input('nip'))->first();
 
-            if ($member) {
-                $pinjaman = Pinjaman::where([
-                    ['id_member', $member->id_member],
-                    ['tahun', $request->input('tahun')],
-                ])
-                    ->orderBy('created_at', 'desc')
-                    ->get()
-                    ->first();
+            if (!$member) return response()->json(['message' => 'Data tidak ditemukan!'], 404);
 
-                $simpananTaunSebelumnya = Pinjaman::where([
-                    ['id_member', $member->id_member],
-                    ['tahun', ($request->input('tahun') - 1)]
-                ])
-                    ->orderBy('created_at', 'desc')
-                    ->get()
-                    ->first();
+            $pinjaman = Pinjaman::where([
+                ['id_member', $member->id_member],
+                ['tahun', $request->input('tahun')],
+            ])
+                ->orderBy('created_at', 'desc')
+                ->get()
+                ->first();
 
-                $jasaAnggota = JasaAnggota::orderBy('created_at', 'desc')
-                    ->get()
-                    ->first();
+            $simpananTaunSebelumnya = Pinjaman::where([
+                ['id_member', $member->id_member],
+                ['tahun', ($request->input('tahun') - 1)]
+            ])
+                ->orderBy('created_at', 'desc')
+                ->get()
+                ->first();
 
-                $bayar = BayarPinjaman::where([
-                    ['id_member', $member->id_member],
-                ])
-                    ->orderBy('created_at', 'desc')
-                    ->get()
-                    ->first();
+            $jasaAnggota = JasaAnggota::orderBy('created_at', 'desc')
+                ->get()
+                ->first();
 
-                if (!$jasaAnggota) {
-                    return response()->json(['message' => 'Mohon set jasa anggota terlebih dahulu!', 'redirect' => route('jasa_piutang')], 404);
-                }
+            $bayar = BayarPinjaman::where([
+                ['id_member', $member->id_member],
+            ])
+                ->orderBy('created_at', 'desc')
+                ->get()
+                ->first();
 
-                $pinjaman['jasa_anggota'] = $jasaAnggota->persentase;
-                isset($pinjaman['sisa']) ?? $pinjaman['sisa'] = $bayar ? $bayar->sisa : $pinjaman->sisa;
-
-                $awal_tahun = $simpananTaunSebelumnya ? $simpananTaunSebelumnya->sisa : null;
-
-                if ($pinjaman) {
-                    return response()->json(['message' => 'Data berhasil didapatkan', 'member' => $member, 'pinjaman' => $pinjaman, 'sebelum' => $awal_tahun], 200);
-                }
-
-                return response()->json(['message' => 'Data berhasil didapatkan', 'member' => $member, 'sebelum' => $awal_tahun], 200);
+            if (!$jasaAnggota) {
+                return response()->json(['message' => 'Mohon set jasa anggota terlebih dahulu!', 'redirect' => route('jasa_piutang')], 404);
             }
 
-            return response()->json(['message' => 'Data tidak ditemukan!'], 404);
+            $pinjaman['jasa_anggota'] = $jasaAnggota->persentase;
+            isset($pinjaman['sisa']) ?? $pinjaman['sisa'] = $bayar ? $bayar->sisa : $pinjaman->sisa;
+
+            $awal_tahun = $simpananTaunSebelumnya ? $simpananTaunSebelumnya->sisa : null;
+
+            if ($pinjaman) {
+                return response()->json(['message' => 'Data berhasil didapatkan', 'member' => $member, 'pinjaman' => $pinjaman, 'sebelum' => $awal_tahun], 200);
+            }
+
+            return response()->json(['message' => 'Data berhasil didapatkan', 'member' => $member, 'sebelum' => $awal_tahun], 200);
         }
 
         return response()->json(['message' => 'Hanya bisa dakses oleh admin!'], 401);
@@ -96,48 +94,45 @@ class PiutangController extends Controller
 
             $member = Member::where('NIP', $request->input('nip'))->first();
 
-            if ($member) {
+            if (!$member) return response()->json(['message' => 'Data tidak ditemukan!'], 404);
 
-                $pinjaman = Pinjaman::where([
-                    ['id_member', $member->id_member],
+            $pinjaman = Pinjaman::where([
+                ['id_member', $member->id_member],
+            ])
+                ->orderBy('created_at', 'desc')
+                ->get();
+
+
+            $bayar = BayarPinjaman::where([
+                ['id_member', $member->id_member],
+            ])
+                ->orderBy('created_at', 'desc')
+                ->get();
+
+            $total = $pinjaman->sum('nominal');
+
+            $sisa = $pinjaman ? $total - ($bayar ? $bayar->sum('nominal') : 0) : 0;
+
+            if ($bayar) {
+                $terbayar = BayarPinjaman::where([
+                    ['id_member', $request->input('id_member')],
                 ])
                     ->orderBy('created_at', 'desc')
-                    ->get();
+                    ->get()
+                    ->first();
 
-
-                $bayar = BayarPinjaman::where([
-                    ['id_member', $member->id_member],
-                ])
-                    ->orderBy('created_at', 'desc')
-                    ->get();
-
-                $total = $pinjaman->sum('nominal');
-
-                $sisa = $pinjaman ? $total - ($bayar ? $bayar->sum('nominal') : 0) : 0;
-
-                if ($bayar) {
-                    $terbayar = BayarPinjaman::where([
-                        ['id_member', $request->input('id_member')],
-                    ])
-                        ->orderBy('created_at', 'desc')
-                        ->get()
-                        ->first();
-
-                    if (isset($terbayar->sisa) && !$terbayar->sisa)
-                        return response()->json(['message' => 'Pinjaman sudah terbayar!'], 500);
-                }
-
-                if ($pinjaman) {
-                    return response()->json(['message' => 'Data berhasil didapatkan', 'member' => $member, 'pinjaman' => [
-                        'pinjaman' => $pinjaman,
-                        'bayar' => $bayar,
-                        'sisa' => $sisa,
-                        'total' => $total
-                    ]], 200);
-                }
+                if (isset($terbayar->sisa) && !$terbayar->sisa)
+                    return response()->json(['message' => 'Pinjaman sudah terbayar!'], 500);
             }
 
-            return response()->json(['message' => 'Data tidak ditemukan!'], 404);
+            if ($pinjaman) {
+                return response()->json(['message' => 'Data berhasil didapatkan', 'member' => $member, 'pinjaman' => [
+                    'pinjaman' => $pinjaman,
+                    'bayar' => $bayar,
+                    'sisa' => $sisa,
+                    'total' => $total
+                ]], 200);
+            }
         }
 
         return response()->json(['message' => 'Hanya bisa dakses oleh admin!'], 401);

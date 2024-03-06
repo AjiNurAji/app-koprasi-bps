@@ -10,14 +10,11 @@ import { useState } from "react";
 import PaginationTable from "./PaginationTable";
 import { FaMoneyBillTransfer } from "react-icons/fa6";
 import SearchTable from "./SearchTable";
-import CreatePopup from "@/Components/Popup/CreatePopup";
 import DownloadDropdown from "../DownloadDrodown";
-import FormSimpanan from "../FormElements/FormSimpanan";
 
-const TableSimpananWajib = ({ data, members, total, type }) => {
+const TableSimpananWajib = ({ data, total }) => {
     const [datas] = useState([...data]);
     const [globalFilter, setGlobalFilter] = useState("");
-    const [popup, setPopup] = useState(false);
 
     const table = useReactTable({
         data: datas,
@@ -34,12 +31,12 @@ const TableSimpananWajib = ({ data, members, total, type }) => {
         <div className="rounded-md border border-stroke bg-white px-5 pt-6 pb-2.5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
             {/* head component */}
             <div className="flex items-start md:items-center justify-between mb-3.5">
-                <button
+                <a
                     className="p-3 hover:bg-opacity-95 transition-all duration-300 ease-in-out bg-primary text-white rounded-md text-xl"
-                    onClick={() => setPopup(true)}
+                    href={route('transaksi_wajib')}
                 >
                     <FaMoneyBillTransfer />
-                </button>
+                </a>
                 <div className="flex flex-col-reverse md:flex-row items-end md:items-center justify-end gap-3">
                     <DownloadDropdown
                         pdf="simpananwajib.pdf"
@@ -55,23 +52,6 @@ const TableSimpananWajib = ({ data, members, total, type }) => {
                     />
                 </div>
             </div>
-            {/* popup create */}
-            {popup ? (
-                <CreatePopup
-                    createName={`Transaksi Simpanan ${type}`}
-                    setPopup={setPopup}
-                    popup={popup}
-                    form={
-                        <FormSimpanan
-                            members={members}
-                            postUrl={route("simpanan_wajib_create")}
-                            directUrl={route("simpanan_wajib")}
-                            setPopup={setPopup}
-                            type={type}
-                        />
-                    }
-                />
-            ) : null}
             {/* table */}
             <div className="max-w-full overflow-x-auto">
                 <table className="w-full table-auto rounded-md border border-stroke">

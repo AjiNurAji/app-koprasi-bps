@@ -46,7 +46,7 @@ const TransactionSimpanan = ({ type, directUrl, postUrl }) => {
 
     const submit = async (e) => {
         e.preventDefault();
-        if (!data.date) return toast.error('Mohon set tanggal transaksi!');
+        if (!data.date) return toast.error("Mohon set tanggal transaksi!");
         setProcess(true);
 
         const create = await PostData(postUrl, data);
@@ -112,6 +112,8 @@ const TransactionSimpanan = ({ type, directUrl, postUrl }) => {
     useEffect(() => {
         setData({
             ...data,
+            name: member ? member.name : null,
+            nip: member ? member.NIP : null,
             id_member: member ? member.id_member : null,
         });
     }, [member]);
@@ -162,6 +164,28 @@ const TransactionSimpanan = ({ type, directUrl, postUrl }) => {
             ) : (
                 <form className="w-full" ref={form} onSubmit={submit}>
                     <div className="flex flex-col gap-4">
+                        <div className="w-full">
+                            <label
+                                htmlFor="nip"
+                                className="mb-2.5 inline-block font-medium text-black dark:text-white"
+                            >
+                                NIP Anggota
+                            </label>
+                            <span className="bg-transparent capitalize dark:bg-transparent block text-start px-1">
+                                {data.nip ? data.nip : "-"}
+                            </span>
+                        </div>
+                        <div className="w-full">
+                            <label
+                                htmlFor="name"
+                                className="mb-2.5 inline-block font-medium text-black dark:text-white"
+                            >
+                                Nama Anggota
+                            </label>
+                            <span className="bg-transparent capitalize dark:bg-transparent block text-start px-1">
+                                {data.name ? data.name : "-"}
+                            </span>
+                        </div>
                         <div className="w-full">
                             <label
                                 htmlFor="date"
