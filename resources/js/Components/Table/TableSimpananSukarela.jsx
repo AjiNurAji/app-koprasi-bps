@@ -165,6 +165,7 @@ const TableSimpananSukarela = ({ data, members, total, type }) => {
                                             ? Intl.NumberFormat("in-ID", {
                                                   style: "currency",
                                                   currency: "IDR",
+                                                  maximumFractionDigits:"0"
                                               }).format(total.total_sukarela)
                                             : "-"}
                                     </td>
@@ -173,6 +174,7 @@ const TableSimpananSukarela = ({ data, members, total, type }) => {
                                             ? Intl.NumberFormat("in-ID", {
                                                   style: "currency",
                                                   currency: "IDR",
+                                                  maximumFractionDigits:"0"
                                               }).format(total.total_shu)
                                             : "-"}
                                     </td>
@@ -181,6 +183,7 @@ const TableSimpananSukarela = ({ data, members, total, type }) => {
                                             ? Intl.NumberFormat("in-ID", {
                                                   style: "currency",
                                                   currency: "IDR",
+                                                  maximumFractionDigits:"0"
                                               }).format(total.total_awal_tahun)
                                             : "-"}
                                     </td>
@@ -189,6 +192,7 @@ const TableSimpananSukarela = ({ data, members, total, type }) => {
                                             ? Intl.NumberFormat("in-ID", {
                                                   style: "currency",
                                                   currency: "IDR",
+                                                  maximumFractionDigits:"0"
                                               }).format(
                                                   total.total_selama_tahun
                                               )
@@ -199,6 +203,7 @@ const TableSimpananSukarela = ({ data, members, total, type }) => {
                                             ? Intl.NumberFormat("in-ID", {
                                                   style: "currency",
                                                   currency: "IDR",
+                                                  maximumFractionDigits:"0"
                                               }).format(total.total_diambil)
                                             : "-"}
                                     </td>
@@ -207,6 +212,7 @@ const TableSimpananSukarela = ({ data, members, total, type }) => {
                                             ? Intl.NumberFormat("in-ID", {
                                                   style: "currency",
                                                   currency: "IDR",
+                                                  maximumFractionDigits:"0"
                                               }).format(
                                                   total.total_disimpan_kembali
                                               )
@@ -217,6 +223,7 @@ const TableSimpananSukarela = ({ data, members, total, type }) => {
                                             ? Intl.NumberFormat("in-ID", {
                                                   style: "currency",
                                                   currency: "IDR",
+                                                  maximumFractionDigits:"0"
                                               }).format(total.total_akhir_tahun)
                                             : "-"}
                                     </td>

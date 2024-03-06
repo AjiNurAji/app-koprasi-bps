@@ -18,15 +18,16 @@ const TransactionSimpanan = ({ type, directUrl, postUrl }) => {
         name: "",
         id_member: "",
         nip: "",
+        date: "",
         tahun: null,
         bulan: "",
         hari: "",
-        awal_tahun: null,
+        awal_tahun: 0,
         tahun_sebelumnya: null,
         anggota_masuk: null,
         anggota_keluar: null,
         simpanan_wajib: null,
-        kekayaan_awal_tahun: null,
+        kekayaan_awal_tahun: 0,
         sukarela: null,
         shu: null,
         selama_tahun: null,
@@ -45,13 +46,13 @@ const TransactionSimpanan = ({ type, directUrl, postUrl }) => {
 
     const submit = async (e) => {
         e.preventDefault();
+        if (!data.date) return toast.error('Mohon set tanggal transaksi!');
         setProcess(true);
 
         const create = await PostData(postUrl, data);
 
         if (create) {
             form.current.reset();
-            setPopup(false);
             setProcess(false);
             router.get(directUrl);
         }
@@ -159,8 +160,42 @@ const TransactionSimpanan = ({ type, directUrl, postUrl }) => {
                     </div>
                 </form>
             ) : (
-                <form className="w-full" onSubmit={submit}>
+                <form className="w-full" ref={form} onSubmit={submit}>
                     <div className="flex flex-col gap-4">
+                        <div className="w-full">
+                            <label
+                                htmlFor="date"
+                                className="mb-2.5 inline-block font-medium text-black dark:text-white"
+                            >
+                                Tanggal Transaksi
+                            </label>
+                            <input
+                                type="date"
+                                name="date"
+                                id="date"
+                                value={data.date}
+                                onChange={(e) => {
+                                    const value = e.target.value;
+                                    const date = new Date(value);
+
+                                    setData({
+                                        ...data,
+                                        date: e.target.value,
+                                        hari: date.toLocaleDateString("in-ID", {
+                                            weekday: "long",
+                                        }),
+                                        tahun: date.getFullYear(),
+                                        bulan: date.toLocaleDateString(
+                                            "in-ID",
+                                            {
+                                                month: "long",
+                                            }
+                                        ),
+                                    });
+                                }}
+                                className="w-full rounded-md border text-dark dark:text-white border-stroke bg-transparent py-2 pl-4 pr-6 transition-all duration-300 ease-in-out outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
+                            />
+                        </div>
                         <NextSimpanan
                             data={simpanan}
                             awalTahun={simpananPrev}
@@ -172,7 +207,7 @@ const TransactionSimpanan = ({ type, directUrl, postUrl }) => {
                             handleNominal={handleNominal}
                         />
                     </div>
-                    <div className="w-full mt-4w">
+                    <div className="w-full mt-4">
                         {processing ? (
                             <ButtonLoading color="primary" />
                         ) : (

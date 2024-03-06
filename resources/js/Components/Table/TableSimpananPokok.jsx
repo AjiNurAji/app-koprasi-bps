@@ -143,6 +143,7 @@ const TableSimpananPokok = ({ data, total }) => {
                                             ? Intl.NumberFormat("in-ID", {
                                                   style: "currency",
                                                   currency: "IDR",
+                                                  maximumFractionDigits:"0"
                                               }).format(total.awal_tahun)
                                             : "-"}
                                     </td>
@@ -151,6 +152,7 @@ const TableSimpananPokok = ({ data, total }) => {
                                             ? Intl.NumberFormat("in-ID", {
                                                   style: "currency",
                                                   currency: "IDR",
+                                                  maximumFractionDigits:"0"
                                               }).format(total.anggota_masuk)
                                             : "-"}
                                     </td>
@@ -159,6 +161,7 @@ const TableSimpananPokok = ({ data, total }) => {
                                             ? Intl.NumberFormat("in-ID", {
                                                   style: "currency",
                                                   currency: "IDR",
+                                                  maximumFractionDigits:"0"
                                               }).format(total.anggota_keluar)
                                             : "-"}
                                     </td>
@@ -167,6 +170,7 @@ const TableSimpananPokok = ({ data, total }) => {
                                             ? Intl.NumberFormat("in-ID", {
                                                   style: "currency",
                                                   currency: "IDR",
+                                                  maximumFractionDigits:"0"
                                               }).format(total.jumlah)
                                             : "-"}
                                     </td>

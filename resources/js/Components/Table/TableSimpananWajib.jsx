@@ -141,6 +141,7 @@ const TableSimpananWajib = ({ data, members, total, type }) => {
                                             ? Intl.NumberFormat("in-ID", {
                                                   style: "currency",
                                                   currency: "IDR",
+                                                  maximumFractionDigits:"0"
                                               }).format(
                                                   total.kekayaan_awal_tahun
                                               )
@@ -151,6 +152,7 @@ const TableSimpananWajib = ({ data, members, total, type }) => {
                                             ? Intl.NumberFormat("in-ID", {
                                                   style: "currency",
                                                   currency: "IDR",
+                                                  maximumFractionDigits:"0"
                                               }).format(total.simpanan_wajib)
                                             : "-"}
                                     </td>
@@ -159,6 +161,7 @@ const TableSimpananWajib = ({ data, members, total, type }) => {
                                             ? Intl.NumberFormat("in-ID", {
                                                   style: "currency",
                                                   currency: "IDR",
+                                                  maximumFractionDigits:"0"
                                               }).format(total.anggota_keluar)
                                             : "-"}
                                     </td>
@@ -167,6 +170,7 @@ const TableSimpananWajib = ({ data, members, total, type }) => {
                                             ? Intl.NumberFormat("in-ID", {
                                                   style: "currency",
                                                   currency: "IDR",
+                                                  maximumFractionDigits:"0"
                                               }).format(total.jumlah)
                                             : "-"}
                                     </td>
