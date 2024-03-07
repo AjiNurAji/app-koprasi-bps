@@ -8,12 +8,12 @@ import PostData from "@/Libs/postData";
 const FormCreateMember = ({ setPopup }) => {
     const [hide, setHide] = useState(true);
     const [processing, setProcess] = useState(false);
-    const inputUsername = useRef(null);
+    const inputNip = useRef(null);
     const form = useRef(null);
     const { data, setData } = useForm({
-        username: "",
+        nip: "",
         name: "",
-        email: "",
+        no_hp: "",
         password: "",
     });
 
@@ -30,7 +30,7 @@ const FormCreateMember = ({ setPopup }) => {
             router.get(route("members"));
         }
 
-        inputUsername.current.focus();
+        inputNip.current.focus();
         setProcess(false);
     };
 
@@ -52,25 +52,25 @@ const FormCreateMember = ({ setPopup }) => {
         <form className="flex flex-col gap-4" onSubmit={submit} ref={form} autoComplete="off">
             <div className="w-full">
                 <label
-                    htmlFor="username"
+                    htmlFor="nip"
                     className="mb-2.5 font-medium text-black dark:text-white"
                 >
-                    Username
+                    NIP
                 </label>
                 <input
                     type="text"
-                    ref={inputUsername}
-                    id="username"
-                    name="username"
+                    ref={inputNip}
+                    id="nip"
+                    name="nip"
                     required
                     onChange={(e) => handleValue(e)}
-                    placeholder="Buatkan username untuk anggota"
+                    placeholder="Masukkan NIP anggota"
                     className="w-full rounded-md border text-dark dark:text-white border-stroke bg-transparent py-2 pl-4 pr-6 transition-all duration-300 ease-in-out outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                 />
             </div>
             <div className="w-full">
                 <label
-                    htmlFor="username"
+                    htmlFor="namaLengkap"
                     className="mb-2.5 font-medium text-black dark:text-white"
                 >
                     Nama Lengkap
@@ -88,18 +88,20 @@ const FormCreateMember = ({ setPopup }) => {
             </div>
             <div className="w-full">
                 <label
-                    htmlFor="email"
+                    htmlFor="no_hp"
                     className="mb-2.5 font-medium text-black dark:text-white"
                 >
-                    Alamat Email
+                    Nomor Handphone
                 </label>
                 <input
-                    type="email"
-                    id="email"
-                    name="email"
+                    type="text"
+                    id="no_hp"
+                    name="no_hp"
+                    maxLength={13}
+                    minLength={11}
                     required
                     onChange={(e) => handleValue(e)}
-                    placeholder="Masukkan alamat email anggota"
+                    placeholder="Masukkan nomor handphone anggota"
                     className="w-full rounded-md border text-dark dark:text-white border-stroke bg-transparent py-2 pl-4 pr-6 transition-all duration-300 ease-in-out outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                 />
             </div>

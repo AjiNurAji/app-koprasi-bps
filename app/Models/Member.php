@@ -27,12 +27,14 @@ class Member extends Authenticatable
 
     protected $keyType = 'string';
 
+    protected $dates = ['deleted_at'];
+
     protected $fillable = [
         'id_member',
         'NIP',
         'name',
-        'username',
         'no_hp',
+        'image',
         'password'
     ];
 

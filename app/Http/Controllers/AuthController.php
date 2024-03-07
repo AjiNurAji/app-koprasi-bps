@@ -38,11 +38,11 @@ class AuthController extends Controller
             ];
 
             $credentialsMember = [
-                'email' => $request->input('username'),
+                'NIP' => $request->input('username'),
                 'password' => $request->input('password')
             ];
 
-            if (Auth::guard('admin')->attempt($credentials) || Auth::guard('member')->attempt($credentials)) {
+            if (Auth::guard('admin')->attempt($credentials)) {
                 $request->session()->regenerate();
                 return response()->json(['message' => 'Berhasil Login'], 200);
             } else if (Auth::guard('member')->attempt($credentialsMember)) {

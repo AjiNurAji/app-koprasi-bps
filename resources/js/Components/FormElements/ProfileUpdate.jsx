@@ -11,11 +11,34 @@ const ProfileUpdate = ({ user }) => {
     const [processing, setProcess] = useState(false);
 
     const { data, setData } = useForm({
-        username: "",
+        nip: "",
+        no_hp: "",
         image: null,
         name: "",
-        password: "",
+        username: "",
+        old_password: "",
+        new_password: "",
+        confirm_password: "",
     });
+
+    const setValue = (e) => {
+        setData({
+            ...data,
+            [e.target.name]: e.target.value,
+        });
+    };
+
+    useEffect(() => {
+        setData({
+            ...data,
+            name: user.name,
+            nip: user.NIP,
+            no_hp: user.no_hp,
+            username: user.usermame,
+        });
+    }, [user]);
+
+    console.log(data);
 
     const submit = async (e) => {
         e.preventDefault();
@@ -24,20 +47,17 @@ const ProfileUpdate = ({ user }) => {
             data,
             "multipart/form-data"
         );
-        console.log(response);
     };
 
     return (
-        <div className="relative px-5 py-6.5 border border-stroke dark:border-strokedark rounded-md bg-white dark:bg-boxdark">
-            <h2 className="absolute bg-primary px-2.5 py-1 rounded-full -top-3 font-bold text-lg text-white">
-                Ubah Data
-            </h2>
-            <form
-                className="flex flex-col gap-4 w-full mt-4"
-                onSubmit={submit}
-                // ref={form}
-                encType="multipart/form-data"
-            >
+        <form
+            className="flex flex-col gap-4 w-full mt-4 px-5 pb-5"
+            onSubmit={submit}
+            // ref={form}
+            encType="multipart/form-data"
+            autoComplete="off"
+        >
+            {user.role ? (
                 <div className="w-full">
                     <label
                         htmlFor="username"
@@ -48,58 +68,188 @@ const ProfileUpdate = ({ user }) => {
                     <input
                         type="text"
                         // ref={inputUsername}
-                        autoComplete="username"
+                        autoComplete="off"
                         id="username"
                         name="username"
-                        value={user.username}
-                        onChange={(e) => handleValue(e)}
+                        value={data.username}
+                        onChange={(e) => setValue(e)}
                         placeholder="Ganti username"
                         className="w-full rounded-md border text-dark dark:text-white border-stroke bg-transparent py-2 pl-4 pr-6 transition-all duration-300 ease-in-out outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                     />
                 </div>
+            ) : (
                 <div className="w-full">
                     <label
-                        htmlFor="namaLengkap"
-                        className="mb-2.5 font-medium text-black dark:text-white"
+                        htmlFor="nip"
+                        className="mb-2.5 inline-block font-medium text-black dark:text-white"
                     >
-                        Nama Lengkap
+                        NIP
                     </label>
                     <input
                         type="text"
-                        autoComplete="namaLengkap"
-                        id="namaLengkap"
-                        name="name"
-                        value={user.name}
-                        onChange={(e) => handleValue(e)}
-                        placeholder="Ganti nama"
+                        name="nip"
+                        id="nip"
+                        value={data.nip}
+                        onChange={(e) => setValue(e)}
+                        placeholder="Masukkan NIP anggota"
                         className="w-full rounded-md border text-dark dark:text-white border-stroke bg-transparent py-2 pl-4 pr-6 transition-all duration-300 ease-in-out outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                     />
                 </div>
-                <FileInput
-                    label={"Foto Profile"}
-                    note="jika tidak ingin diganti kosongkan"
-                    fileType=" PNG, JPG, JPEG or WEBP"
-                    max="2MB"
-                    accept=".png, .jpg, .webp, .jpeg"
-                    name={"image"}
-                    data={data}
-                    setData={setData}
+            )}
+            <div className="w-full">
+                <label
+                    htmlFor="no_hp"
+                    className="mb-2.5 inline-block font-medium text-black dark:text-white"
+                >
+                    No HP
+                </label>
+                <input
+                    type="text"
+                    name="no_hp"
+                    id="no_hp"
+                    maxLength={13}
+                    value={data.no_hp}
+                    onChange={(e) => setValue(e)}
+                    placeholder="Masukkan no hp"
+                    className="w-full rounded-md border capitalize text-dark dark:text-white border-stroke bg-transparent py-2 pl-4 pr-6 transition-all duration-300 ease-in-out outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                 />
-                <div className="w-full flex justify-end items-center">
-                    {processing ? (
-                        <ButtonLoading color="primary" />
-                    ) : (
-                        <button
-                            type="submit"
-                            name="button-sumbit"
-                            className="w-full cursor-pointer rounded-md border border-primary bg-primary p-2 text-white transition hover:bg-opacity-90"
-                        >
-                            Update Data
-                        </button>
-                    )}
+            </div>
+            <div className="w-full">
+                <label
+                    htmlFor="namaLengkap"
+                    className="mb-2.5 font-medium text-black dark:text-white"
+                >
+                    Nama Lengkap
+                </label>
+                <input
+                    type="text"
+                    autoComplete="namaLengkap"
+                    id="namaLengkap"
+                    name="name"
+                    value={data.name}
+                    onChange={(e) => setValue(e)}
+                    placeholder="Ganti nama"
+                    className="w-full rounded-md capitalize border text-dark dark:text-white border-stroke bg-transparent py-2 pl-4 pr-6 transition-all duration-300 ease-in-out outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
+                />
+            </div>
+            <FileInput
+                label={"Foto Profile"}
+                note="jika tidak ingin diganti kosongkan"
+                fileType=" PNG, JPG, JPEG or WEBP"
+                max="2MB"
+                accept=".png, .jpg, .webp, .jpeg"
+                name={"image"}
+                data={data}
+                setData={setData}
+                max_size={2097152}
+            />
+
+            <div className="w-full">
+                <h5 className="capitalize text-danger text-xs">
+                    * kosongkan old password, new password & confirm password jika tidak ingin
+                    diganti!
+                </h5>
+                <label
+                    htmlFor="old_password"
+                    className="mb-2.5 inline-block font-medium text-black dark:text-white"
+                >
+                    Old Password
+                </label>
+                <div className="relative w-full">
+                    <input
+                        type={hide ? "password" : "text"}
+                        name="old_password"
+                        onChange={(e) => setValue(e)}
+                        value={data.old_password}
+                        autoComplete="off"
+                        id="old_password"
+                        placeholder="Masukkan new password"
+                        className="relative w-full rounded-md border text-dark dark:text-white border-stroke bg-transparent py-2 pl-4 pr-6 transition-all duration-300 ease-in-out outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
+                    />
+                    <div
+                        onClick={() => setHide(!hide)}
+                        className="absolute top-3.5 right-4 cursor-pointer text-body hover:text-black dark:hover:text-white"
+                    >
+                        {hide ? <PiEyeLight /> : <PiEyeSlash />}
+                    </div>
                 </div>
-            </form>
-        </div>
+            </div>
+            <div className="w-full">
+                <label
+                    htmlFor="new_password"
+                    className="mb-2.5 inline-block font-medium text-black dark:text-white"
+                >
+                    New Password
+                </label>
+                <div className="relative w-full">
+                    <input
+                        type={hide ? "password" : "text"}
+                        name="new_password"
+                        onChange={(e) => setValue(e)}
+                        value={data.new_password}
+                        autoComplete="off"
+                        id="new_password"
+                        placeholder="Masukkan new password"
+                        className="relative w-full rounded-md border text-dark dark:text-white border-stroke bg-transparent py-2 pl-4 pr-6 transition-all duration-300 ease-in-out outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
+                    />
+                    <div
+                        onClick={() => setHide(!hide)}
+                        className="absolute top-3.5 right-4 cursor-pointer text-body hover:text-black dark:hover:text-white"
+                    >
+                        {hide ? <PiEyeLight /> : <PiEyeSlash />}
+                    </div>
+                </div>
+            </div>
+            <div className="w-full">
+                <label
+                    htmlFor="confirm_password"
+                    className="mb-2.5 inline-block font-medium text-black dark:text-white"
+                >
+                    Confirm Password
+                </label>
+                <div className="relative w-full">
+                    <input
+                        type={hide ? "password" : "text"}
+                        name="confirm_password"
+                        onChange={(e) => setValue(e)}
+                        value={data.confirm_password}
+                        autoComplete="off"
+                        id="confirm_password"
+                        placeholder="Confirm password"
+                        className={`${
+                            data.confirm_password &&
+                            data.new_password !== data.confirm_password &&
+                            "!border-danger"
+                        } relative w-full rounded-md border text-dark dark:text-white border-stroke bg-transparent py-2 pl-4 pr-6 transition-all duration-300 ease-in-out outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary`}
+                    />
+                    <div
+                        onClick={() => setHide(!hide)}
+                        className="absolute top-3.5 right-4 cursor-pointer text-body hover:text-black dark:hover:text-white"
+                    >
+                        {hide ? <PiEyeLight /> : <PiEyeSlash />}
+                    </div>
+                </div>
+                {data.confirm_password &&
+                    data.new_password !== data.confirm_password && (
+                        <span className="text-xs text-danger">
+                            Confirm password tidak sama!
+                        </span>
+                    )}
+            </div>
+            <div className="w-full flex justify-end items-center">
+                {processing ? (
+                    <ButtonLoading color="primary" />
+                ) : (
+                    <button
+                        type="submit"
+                        name="button-sumbit"
+                        className="w-full cursor-pointer rounded-md border border-primary bg-primary p-2 text-white transition hover:bg-opacity-90"
+                    >
+                        Update Data
+                    </button>
+                )}
+            </div>
+        </form>
     );
 };
 

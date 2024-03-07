@@ -1,6 +1,7 @@
 import ActionButton from "@/Components/Pinjaman/ActionButton";
 import ActionTable from "@/Components/Table/ActionTable";
 import { createColumnHelper } from "@tanstack/react-table";
+import profile from "@/assets/images/user.png";
 
 const columnHelper = createColumnHelper();
 
@@ -8,7 +9,7 @@ export const columnsMember = [
     columnHelper.accessor("", {
         id: "No",
         cell: (data) => (
-            <span className="font-medium text-black dark:text-white">
+            <span className="font-medium block text-center text-black dark:text-white">
                 {data.row.index + 1}
             </span>
         ),
@@ -16,14 +17,27 @@ export const columnsMember = [
         rowSpan: 2,
     }),
 
-    columnHelper.accessor("username", {
-        id: "username",
+    columnHelper.accessor("image", {
+        cell: (data) => (
+            <div className="flex justify-center items-center w-full h-full">
+                <span className="block w-15 h-15 overflow-hidden rounded-full">
+                    <img src={data.getValue() ? data.getValue() : profile} />
+                </span>
+            </div>
+        ),
+        header: "Foto",
+        enableSorting: false,
+    }),
+
+    columnHelper.accessor("NIP", {
+        id: "NIP",
         cell: (data) => (
             <span className="text-black dark:text-white">
                 {data.getValue()}
             </span>
         ),
-        header: "Username",
+        header: "NIP",
+        enableSorting: false,
     }),
 
     columnHelper.accessor("name", {
@@ -36,14 +50,14 @@ export const columnsMember = [
         header: "Nama Lengkap",
     }),
 
-    columnHelper.accessor("email", {
-        id: "email",
+    columnHelper.accessor("no_hp", {
+        id: "no_hp",
         cell: (data) => (
             <span className="text-black dark:text-white">
                 {data.getValue()}
             </span>
         ),
-        header: "Alamat Email",
+        header: "No HP",
         enableSorting: false,
     }),
 
@@ -130,6 +144,7 @@ export const columnsSimpananPokok = [
                             ? Intl.NumberFormat("in-ID", {
                                   style: "currency",
                                   currency: "IDR",
+                                  maximumFractionDigits: "0",
                               }).format(data.getValue())
                             : "-"}
                     </span>
@@ -146,6 +161,7 @@ export const columnsSimpananPokok = [
                             ? Intl.NumberFormat("in-ID", {
                                   style: "currency",
                                   currency: "IDR",
+                                  maximumFractionDigits: "0",
                               }).format(data.getValue())
                             : "-"}
                     </span>
@@ -162,6 +178,7 @@ export const columnsSimpananPokok = [
                             ? Intl.NumberFormat("in-ID", {
                                   style: "currency",
                                   currency: "IDR",
+                                  maximumFractionDigits: "0",
                               }).format(data.getValue())
                             : "-"}
                     </span>
@@ -184,6 +201,7 @@ export const columnsSimpananPokok = [
                     ? Intl.NumberFormat("in-ID", {
                           style: "currency",
                           currency: "IDR",
+                          maximumFractionDigits: "0",
                       }).format(
                           data.row.original.awal_tahun +
                               data.row.original.anggota_masuk -
@@ -227,6 +245,7 @@ export const columnSimpananWajib = [
                     ? Intl.NumberFormat("in-ID", {
                           style: "currency",
                           currency: "IDR",
+                          maximumFractionDigits: "0",
                       }).format(data.getValue())
                     : "-"}
             </span>
@@ -243,6 +262,7 @@ export const columnSimpananWajib = [
                     ? Intl.NumberFormat("in-ID", {
                           style: "currency",
                           currency: "IDR",
+                          maximumFractionDigits: "0",
                       }).format(data.getValue())
                     : "-"}
             </span>
@@ -259,6 +279,7 @@ export const columnSimpananWajib = [
                     ? Intl.NumberFormat("in-ID", {
                           style: "currency",
                           currency: "IDR",
+                          maximumFractionDigits: "0",
                       }).format(data.getValue())
                     : "-"}
             </span>
@@ -277,6 +298,7 @@ export const columnSimpananWajib = [
                     ? Intl.NumberFormat("in-ID", {
                           style: "currency",
                           currency: "IDR",
+                          maximumFractionDigits: "0",
                       }).format(
                           data.row.original.kekayaan_awal_tahun +
                               data.row.original.simpanan_wajib -
@@ -320,6 +342,7 @@ export const columnsSimpananSukarela = [
                     ? Intl.NumberFormat("in-ID", {
                           style: "currency",
                           currency: "IDR",
+                          maximumFractionDigits: "0",
                       }).format(data.getValue())
                     : "-"}
             </span>
@@ -335,6 +358,7 @@ export const columnsSimpananSukarela = [
                     ? Intl.NumberFormat("in-ID", {
                           style: "currency",
                           currency: "IDR",
+                          maximumFractionDigits: "0",
                       }).format(data.getValue())
                     : "-"}
             </span>
@@ -354,6 +378,7 @@ export const columnsSimpananSukarela = [
                             ? Intl.NumberFormat("in-ID", {
                                   style: "currency",
                                   currency: "IDR",
+                                  maximumFractionDigits: "0",
                               }).format(data.getValue())
                             : "-"}
                     </span>
@@ -371,6 +396,7 @@ export const columnsSimpananSukarela = [
                             ? Intl.NumberFormat("in-ID", {
                                   style: "currency",
                                   currency: "IDR",
+                                  maximumFractionDigits: "0",
                               }).format(data.getValue())
                             : "-"}
                     </span>
@@ -388,6 +414,7 @@ export const columnsSimpananSukarela = [
                             ? Intl.NumberFormat("in-ID", {
                                   style: "currency",
                                   currency: "IDR",
+                                  maximumFractionDigits: "0",
                               }).format(data.getValue())
                             : "-"}
                     </span>
@@ -405,6 +432,7 @@ export const columnsSimpananSukarela = [
                             ? Intl.NumberFormat("in-ID", {
                                   style: "currency",
                                   currency: "IDR",
+                                  maximumFractionDigits: "0",
                               }).format(data.getValue())
                             : "-"}
                     </span>
@@ -422,6 +450,7 @@ export const columnsSimpananSukarela = [
                             ? Intl.NumberFormat("in-ID", {
                                   style: "currency",
                                   currency: "IDR",
+                                  maximumFractionDigits: "0",
                               }).format(data.getValue())
                             : "-"}
                     </span>
@@ -466,6 +495,7 @@ export const HistoryOptionTable = [
                     ? Intl.NumberFormat("in-ID", {
                           style: "currency",
                           currency: "IDR",
+                          maximumFractionDigits: "0",
                       }).format(data.getValue())
                     : "-"}
             </span>
@@ -483,6 +513,7 @@ export const HistoryOptionTable = [
                     ? Intl.NumberFormat("in-ID", {
                           style: "currency",
                           currency: "IDR",
+                          maximumFractionDigits: "0",
                       }).format(data.getValue())
                     : "-"}
             </span>
@@ -575,6 +606,7 @@ export const columnKasTunai = [
                     ? Intl.NumberFormat("in-ID", {
                           style: "currency",
                           currency: "IDR",
+                          maximumFractionDigits: "0",
                       }).format(data.getValue())
                     : "-"}
             </span>
@@ -592,6 +624,7 @@ export const columnKasTunai = [
                     ? Intl.NumberFormat("in-ID", {
                           style: "currency",
                           currency: "IDR",
+                          maximumFractionDigits: "0",
                       }).format(data.getValue())
                     : "-"}
             </span>
@@ -668,7 +701,11 @@ export const columnsPinjaman = [
                     ? Intl.NumberFormat("in-ID", {
                           style: "currency",
                           currency: "IDR",
-                      }).format(data.getValue() + data.row.original.pinjaman.tahun_lalu)
+                          maximumFractionDigits: "0",
+                      }).format(
+                          data.getValue() +
+                              data.row.original.pinjaman.tahun_lalu
+                      )
                     : "-"}
             </span>
         ),
@@ -683,6 +720,7 @@ export const columnsPinjaman = [
                     ? Intl.NumberFormat("in-ID", {
                           style: "currency",
                           currency: "IDR",
+                          maximumFractionDigits: "0",
                       }).format(data.getValue())
                     : "-"}
             </span>
@@ -695,13 +733,14 @@ export const columnsPinjaman = [
         cell: (data) => (
             <span className="font-medium text-black dark:text-white">
                 <span className="font-medium text-black dark:text-white">
-                {data.getValue()
-                    ? Intl.NumberFormat("in-ID", {
-                          style: "currency",
-                          currency: "IDR",
-                      }).format(data.getValue())
-                    : "-"}
-            </span>
+                    {data.getValue()
+                        ? Intl.NumberFormat("in-ID", {
+                              style: "currency",
+                              currency: "IDR",
+                              maximumFractionDigits: "0",
+                          }).format(data.getValue())
+                        : "-"}
+                </span>
             </span>
         ),
         header: "Sisa",
@@ -712,7 +751,9 @@ export const columnsPinjaman = [
         id: "status",
         cell: (data) => (
             <span className="font-medium block w-full text-black dark:text-white">
-                {!data.getValue().total_pinjaman && !data.getValue().sisa_pinjaman && !data.getValue().tahun_lalu ? (
+                {!data.getValue().total_pinjaman &&
+                !data.getValue().sisa_pinjaman &&
+                !data.getValue().tahun_lalu ? (
                     <p className="inline-block text-center w-full rounded-full bg-primary bg-opacity-10 py-1 px-3 text-sm font-medium text-primary">
                         Tidak Memiliki Pinjaman
                     </p>
@@ -735,5 +776,5 @@ export const columnsPinjaman = [
         id: "aksi",
         cell: (data) => <ActionButton id={data.getValue()} />,
         header: "Aksi",
-    })
+    }),
 ];

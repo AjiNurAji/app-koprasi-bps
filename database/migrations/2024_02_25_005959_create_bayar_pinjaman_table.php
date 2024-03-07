@@ -22,6 +22,10 @@ return new class extends Migration
             $table->integer('tahun', false);
             $table->string('bulan', 12);
             $table->string('hari', 7);
+            $table->date('tanggal_bayar');
+            $table->string('method', 15);
+            $table->string('note', 255);
+            $table->integer('sisa', false);
             $table->timestamps();
         });
     }

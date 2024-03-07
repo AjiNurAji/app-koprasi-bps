@@ -18,12 +18,16 @@ class Pinjaman extends Model
     protected $fillable = [
         'id_pinjaman',
         'id_member',
-        'id_jasa_anggota',
         'bulan',
         'nominal',
         'hari',
         'tahun',
-        'sisa'
+        'bank_tujuan',
+        'untuk_keperluan',
+        'jangka_waktu',
+        'no_rek',
+        'tanggal_pinjam',
+        'sisa',
     ];
 
     public function member()

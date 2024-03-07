@@ -10,9 +10,7 @@ import { useState } from "react";
 import PaginationTable from "./PaginationTable";
 import { FaMoneyBillTransfer } from "react-icons/fa6";
 import SearchTable from "./SearchTable";
-import CreatePopup from "@/Components/Popup/CreatePopup";
 import DownloadDropdown from "../DownloadDrodown";
-import FormSimpanan from "../FormElements/FormSimpanan";
 
 const TableSimpananSukarela = ({ data, members, total, type }) => {
     const [datas] = useState([...data]);
@@ -34,12 +32,12 @@ const TableSimpananSukarela = ({ data, members, total, type }) => {
         <div className="rounded-md border border-stroke bg-white px-5 pt-6 pb-2.5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
             {/* head component */}
             <div className="flex items-start md:items-center justify-between mb-3.5">
-                <button
+                <a
                     className="p-3 hover:bg-opacity-95 transition-all duration-300 ease-in-out bg-primary text-white rounded-md text-xl"
-                    onClick={() => setPopup(true)}
+                    href={route('sukarela_transaction')}
                 >
                     <FaMoneyBillTransfer />
-                </button>
+                </a>
                 <div className="flex flex-col-reverse md:flex-row items-end md:items-center justify-end gap-3">
                     <DownloadDropdown
                         pdf="simpanansukarela.pdf"
@@ -55,26 +53,9 @@ const TableSimpananSukarela = ({ data, members, total, type }) => {
                     />
                 </div>
             </div>
-            {/* popup create */}
-            {popup ? (
-                <CreatePopup
-                    createName={`Transaksi Simpanan ${type}`}
-                    setPopup={setPopup}
-                    popup={popup}
-                    form={
-                        <FormSimpanan
-                            members={members}
-                            postUrl={route("simpanan_sukarela_create")}
-                            directUrl={route("simpanan_sukarela")}
-                            setPopup={setPopup}
-                            type={type}
-                        />
-                    }
-                />
-            ) : null}
             {/* table */}
             <div className="max-w-full overflow-x-auto">
-                <table className="w-max table-auto rounded-md border border-stroke">
+                <table className="w-full table-auto rounded-md border border-stroke">
                     <thead className="rounded-md">
                         {table.getHeaderGroups().map((headerGroup) => (
                             <tr
@@ -165,6 +146,7 @@ const TableSimpananSukarela = ({ data, members, total, type }) => {
                                             ? Intl.NumberFormat("in-ID", {
                                                   style: "currency",
                                                   currency: "IDR",
+                                                  maximumFractionDigits:"0"
                                               }).format(total.total_sukarela)
                                             : "-"}
                                     </td>
@@ -173,6 +155,7 @@ const TableSimpananSukarela = ({ data, members, total, type }) => {
                                             ? Intl.NumberFormat("in-ID", {
                                                   style: "currency",
                                                   currency: "IDR",
+                                                  maximumFractionDigits:"0"
                                               }).format(total.total_shu)
                                             : "-"}
                                     </td>
@@ -181,6 +164,7 @@ const TableSimpananSukarela = ({ data, members, total, type }) => {
                                             ? Intl.NumberFormat("in-ID", {
                                                   style: "currency",
                                                   currency: "IDR",
+                                                  maximumFractionDigits:"0"
                                               }).format(total.total_awal_tahun)
                                             : "-"}
                                     </td>
@@ -189,6 +173,7 @@ const TableSimpananSukarela = ({ data, members, total, type }) => {
                                             ? Intl.NumberFormat("in-ID", {
                                                   style: "currency",
                                                   currency: "IDR",
+                                                  maximumFractionDigits:"0"
                                               }).format(
                                                   total.total_selama_tahun
                                               )
@@ -199,6 +184,7 @@ const TableSimpananSukarela = ({ data, members, total, type }) => {
                                             ? Intl.NumberFormat("in-ID", {
                                                   style: "currency",
                                                   currency: "IDR",
+                                                  maximumFractionDigits:"0"
                                               }).format(total.total_diambil)
                                             : "-"}
                                     </td>
@@ -207,6 +193,7 @@ const TableSimpananSukarela = ({ data, members, total, type }) => {
                                             ? Intl.NumberFormat("in-ID", {
                                                   style: "currency",
                                                   currency: "IDR",
+                                                  maximumFractionDigits:"0"
                                               }).format(
                                                   total.total_disimpan_kembali
                                               )
@@ -217,6 +204,7 @@ const TableSimpananSukarela = ({ data, members, total, type }) => {
                                             ? Intl.NumberFormat("in-ID", {
                                                   style: "currency",
                                                   currency: "IDR",
+                                                  maximumFractionDigits:"0"
                                               }).format(total.total_akhir_tahun)
                                             : "-"}
                                     </td>

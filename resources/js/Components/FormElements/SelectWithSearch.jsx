@@ -62,6 +62,8 @@ const SelectWithSearch = ({ data, value, setData, type, step }) => {
             ...value,
             name: v.name,
             id_member: v.id_member,
+            nip: v.NIP,
+            no_hp: v.no_hp
         });
         setActive(false);
     };

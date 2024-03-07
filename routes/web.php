@@ -1,16 +1,13 @@
 <?php
 
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\ExportController;
 use App\Http\Controllers\HomepageController;
 use App\Http\Controllers\KasController;
 use App\Http\Controllers\MemberController;
-use App\Http\Controllers\PDFController;
 use App\Http\Controllers\PiutangController;
 use App\Http\Controllers\SimpananController;
 use App\Http\Controllers\UploadController;
 use App\Http\Controllers\UserController;
-use App\Models\SimpananSukarela;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -52,6 +49,9 @@ Route::middleware(['auth:admin,member'])->group(function () {
     // ad-art
     Route::get('/ad-art', [HomepageController::class, 'adART'])->name('ad-art');
 
+    // transaksi
+    Route::get('/pinjaman-anggota/transaction', [HomepageController::class, 'pinjamanTransaction'])->name('pinjaman_transaksi');
+
     // jasa piutang
     Route::get('/jasa-anggota', [HomepageController::class, 'jasaPiutang'])->name('jasa_piutang');
 });
@@ -70,29 +70,34 @@ Route::middleware(['auth:admin'])->group(function () {
     // simpanan
     // pokok
     Route::get('/simpanan/pokok', [HomepageController::class, 'simpananPokok'])->name('simpanan_pokok');
+    Route::get('/simpanan/pokok/transaction', [HomepageController::class, 'pokokTransaksi'])->name('transaksi_pokok');
     Route::post('/simpanan/pokok', [SimpananController::class, 'getDataSimpananPokok'])->name('simpanan_pokok');
-    Route::post('/simpanan/pokok/ceate', [SimpananController::class, 'simpananPokok'])->name('simpanan_pokok_create');
-
+    Route::post('/simpanan/pokok/create', [SimpananController::class, 'simpananPokok'])->name('simpanan_pokok_create');
+    
     // wajib
     Route::get('/simpanan/wajib', [HomepageController::class, 'simpananWajib'])->name('simpanan_wajib');
+    Route::get('/simpanan/wajib/transaction', [HomepageController::class, 'wajibTransaksi'])->name('transaksi_wajib');
+    Route::post('/simpanan/wajib', [SimpananController::class, 'getDataSimpananWajib'])->name('simpanan_wajib');
+    Route::post('/simpanan/wajib/create', [SimpananController::class, 'simpananWajib'])->name('simpanan_wajib_create');
 
+    // sukarela
+    Route::get('/simpanan/sukarela', [HomepageController::class, 'simpananSukarela'])->name('simpanan_sukarela');
+    Route::get('/simpanan/sukarela/transaction', [HomepageController::class, 'sukarelaTransaksi'])->name('sukarela_transaction');
+    Route::post('/simpanan/sukarela', [SimpananController::class, 'getDataSimpananSukarela'])->name('simpanan_sukarela');
+    Route::post('/simpanan/sukarela/create', [SimpananController::class, 'simpananSukarela'])->name('simpanan_sukarela_create');
+    
     // delete anggota
-    Route::post('/member/{id}', [MemberController::class, 'softDeletes']);
-
+    Route::delete('/members/{id}', [MemberController::class, 'softDeletes'])->name('delete_member');
+    
     //edit anggota
-    Route::post('member/updatedata/{id}', [MemberController::class, 'updatedata'])->name('updatedata');
+    Route::get('/members/{id}', [MemberController::class, 'editData'])->name('edit_member');
+    Route::post('/members', [MemberController::class, 'updatedata'])->name('update_member');
 
     // edit dan update password
     Route::get('/Member/change-password','MemberController@change-password')->name('change-password');
     Route::post('/Member/update-password','MemberController@update-password')->name('update_password');
   
-    Route::post('/simpanan/wajib', [SimpananController::class, 'getDataSimpananWajib'])->name('simpanan_wajib');
-    Route::post('/simpanan/wajib/create', [SimpananController::class, 'simpananWajib'])->name('simpanan_wajib_create');
     
-    // sukarela
-    Route::get('/simpanan/sukarela', [HomepageController::class, 'simpananSukarela'])->name('simpanan_sukarela');
-    Route::post('/simpanan/sukarela', [SimpananController::class, 'getDataSimpananSukarela'])->name('simpanan_sukarela');
-    Route::post('/simpanan/sukarela/create', [SimpananController::class, 'simpananSukarela'])->name('simpanan_sukarela_create');
 
     //upload file
     Route::post('/upload-file', [UploadController::class, 'index'])->name('post_file');

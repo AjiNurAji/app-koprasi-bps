@@ -8,17 +8,13 @@ import {
 } from "@tanstack/react-table";
 import { useState } from "react";
 import { FaMoneyBillTransfer } from "react-icons/fa6";
-import CreatePopup from "@/Components/Popup/CreatePopup";
 import DownloadDropdown from "../DownloadDrodown";
 import SearchTable from "../Table/SearchTable";
 import PaginationTable from "../Table/PaginationTable";
-import FormPinjaman from "./FormPinjaman";
 
 const TablePinjaman = ({ data, members, total }) => {
     const [datas] = useState([...data]);
     const [globalFilter, setGlobalFilter] = useState("");
-    const [type, setType] = useState("");
-    const [popup, setPopup] = useState(false);
 
     const table = useReactTable({
         data: datas,
@@ -35,12 +31,13 @@ const TablePinjaman = ({ data, members, total }) => {
         <div className="rounded-md border mt-4 sm:mt-6 border-stroke bg-white px-5 pt-6 pb-2.5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
             {/* head component */}
             <div className="flex items-start md:items-center justify-between mb-3.5">
-                <button
+                <a
+                    href={route('pinjaman_transaksi')}
                     className="p-3 hover:bg-opacity-95 transition-all duration-300 ease-in-out bg-primary text-white rounded-md text-xl"
-                    onClick={() => setPopup(true)}
+                    // onClick={() => setPopup(true)}
                 >
                     <FaMoneyBillTransfer />
-                </button>
+                </a>
                 <div className="flex flex-col-reverse md:flex-row items-end md:items-center justify-end gap-3">
                     <DownloadDropdown
                         pdf="simpananpokok.pdf"
@@ -56,24 +53,6 @@ const TablePinjaman = ({ data, members, total }) => {
                     />
                 </div>
             </div>
-            {/* popup create */}
-            {popup ? (
-                <CreatePopup
-                    createName={`Transaksi Pinjaman`}
-                    setPopup={setPopup}
-                    popup={popup}
-                    form={
-                        <FormPinjaman
-                            members={members}
-                            postUrl={type === "pinjam" ? route("pinjaman_anggota_create") : route('bayar_pinjaman')}
-                            directUrl={route("pinjaman_anggota")}
-                            setPopup={setPopup}
-                            type={type}
-                            setType={setType}
-                        />
-                    }
-                />
-            ) : null}
             {/* table */}
             <div className="max-w-full overflow-x-auto">
                 <table className="w-full table-auto rounded-md border border-stroke">

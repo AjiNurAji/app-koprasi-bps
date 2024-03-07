@@ -9,10 +9,10 @@ const Profile = ({ auth, data }) => {
         <Authenticated user={auth.user}>
             <Head title={data.name} />
             <Breadcrumb pageName="Profile" />
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
+            <div className="grid grid-cols-1 gap-10">
                 <div className="overflow-hidden rounded-md border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
                     <div className="relative z-20 h-25 md:h-45 bg-primary dark:bg-black rounded-md"></div>
-                    <div className="px-4 pb-6 text-center lg:pb-8 xl:pb-11.5">
+                    <div className="px-4 text-center">
                         <div className="relative z-30 mx-auto -mt-22 h-20 w-full max-w-20 rounded-full bg-white dark:bg-boxdark p-1 sm:h-44 sm:max-w-44 sm:p-3">
                             <div className="relative drop-shadow-2">
                                 <img
@@ -31,8 +31,8 @@ const Profile = ({ auth, data }) => {
                             </p>
                         </div>
                     </div>
+                    <ProfileUpdate user={data} />
                 </div>
-                <ProfileUpdate user={data} />
             </div>
         </Authenticated>
     );

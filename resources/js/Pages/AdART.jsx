@@ -19,6 +19,7 @@ const AdART = ({ auth }) => {
                 name={"file"}
                 data={data}
                 setData={setData}
+                max_size={209715200}
             />
         </Authenticated>
     );

@@ -13,6 +13,7 @@ button {
     outline: none !important;
 }
 
+.click_animation:hover,
 button:hover {
     scale: 0.98;
 }
