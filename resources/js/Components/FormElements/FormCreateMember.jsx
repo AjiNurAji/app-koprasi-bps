@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { PiEyeLight, PiEyeSlash } from "react-icons/pi";
 import ButtonLoading from "../ButtonLoading";
 import { useForm } from "@inertiajs/react";
@@ -41,8 +41,15 @@ const FormCreateMember = ({ setPopup }) => {
         });
     };
 
+    useEffect(() => {
+        setData({
+            ...data,
+            name: data.name.toLowerCase()
+        })
+    }, [data.name])
+
     return (
-        <form className="flex flex-col gap-4" onSubmit={submit} ref={form}>
+        <form className="flex flex-col gap-4" onSubmit={submit} ref={form} autoComplete="off">
             <div className="w-full">
                 <label
                     htmlFor="username"
@@ -53,7 +60,6 @@ const FormCreateMember = ({ setPopup }) => {
                 <input
                     type="text"
                     ref={inputUsername}
-                    autoComplete="username"
                     id="username"
                     name="username"
                     required
@@ -71,13 +77,13 @@ const FormCreateMember = ({ setPopup }) => {
                 </label>
                 <input
                     type="text"
-                    autoComplete="namaLengkap"
                     id="namaLengkap"
                     name="name"
                     required
+                    value={data.name}
                     onChange={(e) => handleValue(e)}
                     placeholder="Masukkan nama lengkap anggota"
-                    className="w-full rounded-md border text-dark dark:text-white border-stroke bg-transparent py-2 pl-4 pr-6 transition-all duration-300 ease-in-out outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
+                    className="w-full rounded-md capitalize border text-dark dark:text-white border-stroke bg-transparent py-2 pl-4 pr-6 transition-all duration-300 ease-in-out outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                 />
             </div>
             <div className="w-full">
@@ -89,7 +95,6 @@ const FormCreateMember = ({ setPopup }) => {
                 </label>
                 <input
                     type="email"
-                    autoComplete="email"
                     id="email"
                     name="email"
                     required
@@ -111,8 +116,8 @@ const FormCreateMember = ({ setPopup }) => {
                         name="password"
                         required
                         onChange={(e) => handleValue(e)}
-                        autoComplete="current-password"
                         id="password"
+                        autoComplete="off"
                         placeholder="Buatkan password untuk anggota"
                         className="relative w-full rounded-md border text-dark dark:text-white border-stroke bg-transparent py-2 pl-4 pr-6 transition-all duration-300 ease-in-out outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                     />

@@ -20,6 +20,12 @@ class DatabaseSeeder extends Seeder
             'role' => 'admin',
         ]);
 
+        // \App\Models\Kas::create([
+        //     'name' => 'tunai',
+        //     'saldo_awal' => 23612066,
+        //     'tahun' => date('Y'),
+        // ]);
+
         // for($i = 1; $i <= 15; $i++) {
         //     \App\Models\Member::create([
         //         'email' => fake()->email(),

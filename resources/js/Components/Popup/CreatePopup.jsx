@@ -1,10 +1,23 @@
 import { AiOutlineCloseCircle } from "react-icons/ai";
+import { useRef, useEffect } from "react";
 
-const CreatePopup = ({ createName, setPopup, form }) => {
+const CreatePopup = ({ createName, setPopup, form, popup }) => {
+    // close if the esc key is pressed
+    useEffect(() => {
+        const keyHandler = ({ keyCode }) => {
+            if (!popup || keyCode !== 27) return;
+            setPopup(false);
+        };
+        document.addEventListener("keydown", keyHandler);
+        return () => document.removeEventListener("keydown", keyHandler);
+    });
+
     return (
-        <div className="fixed bg-black bg-opacity-30 top-0 right-0 w-full min-h-screen flex justify-center items-center z-9999">
-            <div className="flex bg-white border dark:bg-boxdark dark:border-strokedark border-stroke p-5 rounded-md flex-col w-11/12 md:w-1/2">
-                <div className="mb-6 flex justify-between items-center">
+        <div className="fixed bg-black dark:bg-opacity-60 bg-opacity-30 top-0 right-0 w-full min-h-screen h-max flex justify-center items-center z-9999 overflow-y-auto px-5 overflow-x-hidden">
+            <div
+                className="flex absolute bg-white border dark:bg-boxdark dark:border-strokedark border-stroke p-5 rounded-md flex-col w-auto mx-5 md:mx-0"
+            >
+                <div className="mb-6 gap-10 flex justify-between items-center">
                     <h2 className="capitalize text-title-md2 font-semibold text-black dark:text-white">
                         {createName}
                     </h2>

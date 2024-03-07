@@ -6,20 +6,18 @@ import {
     getPaginationRowModel,
     getFilteredRowModel,
 } from "@tanstack/react-table";
-import { useRef, useState } from "react";
+import { useState } from "react";
 import PaginationTable from "./PaginationTable";
 import { FaMoneyBillTransfer } from "react-icons/fa6";
 import SearchTable from "./SearchTable";
 import CreatePopup from "@/Components/Popup/CreatePopup";
 import DownloadDropdown from "../DownloadDrodown";
 import FormSimpanan from "../FormElements/FormSimpanan";
-import SimpananWajibExport from "@/Pages/admin/Exports/SimpananWajib";
 
 const TableSimpananWajib = ({ data, members, total, type }) => {
     const [datas] = useState([...data]);
     const [globalFilter, setGlobalFilter] = useState("");
     const [popup, setPopup] = useState(false);
-    const tableRef = useRef(null);
 
     const table = useReactTable({
         data: datas,
@@ -44,16 +42,12 @@ const TableSimpananWajib = ({ data, members, total, type }) => {
                 </button>
                 <div className="flex flex-col-reverse md:flex-row items-end md:items-center justify-end gap-3">
                     <DownloadDropdown
-                        filename="simpananwajib"
-                        sheet="simpananwajib"
-                        tableRef={tableRef}
-                        data={data}
-                        route={route('simpanan_wajib_pdf')}
-                    />
-                    <SimpananWajibExport
-                        tableRef={tableRef}
-                        data={data}
-                        total={total}
+                        pdf="simpananwajib.pdf"
+                        csv="simpananwajib.csv"
+                        excel="simpananwajib.xlsx"
+                        routepdf={route("simpanan_wajib_pdf")}
+                        routecsv={route("simpanan_wajib_csv")}
+                        routeexcel={route("simpanan_wajib_excel")}
                     />
                     <SearchTable
                         setGlobalFilter={setGlobalFilter}
@@ -66,6 +60,7 @@ const TableSimpananWajib = ({ data, members, total, type }) => {
                 <CreatePopup
                     createName={`Transaksi Simpanan ${type}`}
                     setPopup={setPopup}
+                    popup={popup}
                     form={
                         <FormSimpanan
                             members={members}
@@ -112,17 +107,26 @@ const TableSimpananWajib = ({ data, members, total, type }) => {
                                                 : "bg-gray dark:bg-meta-4 bg-opacity-30 dark:bg-opacity-30"
                                         }`}
                                     >
-                                        {row.getVisibleCells().map((cell) => (
-                                            <td
-                                                key={cell.id}
-                                                className="border py-5 px-4 border-stroke dark:border-opacity-20"
-                                            >
-                                                {flexRender(
-                                                    cell.column.columnDef.cell,
-                                                    cell.getContext()
-                                                )}
-                                            </td>
-                                        ))}
+                                        {row
+                                            .getVisibleCells()
+                                            .map((cell, i) => (
+                                                <td
+                                                    key={cell.id}
+                                                    className={`${
+                                                        i === 0
+                                                            ? "text-center"
+                                                            : i === 1
+                                                            ? "text-left"
+                                                            : "text-right"
+                                                    } border py-5 px-4 border-stroke dark:border-opacity-20`}
+                                                >
+                                                    {flexRender(
+                                                        cell.column.columnDef
+                                                            .cell,
+                                                        cell.getContext()
+                                                    )}
+                                                </td>
+                                            ))}
                                     </tr>
                                 ))}
                                 <tr>
@@ -132,44 +136,39 @@ const TableSimpananWajib = ({ data, members, total, type }) => {
                                     >
                                         TOTAL
                                     </td>
-                                    <td className="font-medium border py-5 px-4 border-stroke dark:border-opacity-20 text-black dark:text-white">
-                                        {Intl.NumberFormat("id-ID", {
-                                            style: "currency",
-                                            currency: "IDR",
-                                        }).format(
-                                            total.kekayaan_awal_tahun
-                                                ? total.kekayaan_awal_tahun
-                                                : 0
-                                        )}
+                                    <td className="font-medium text-right border py-5 px-4 border-stroke dark:border-opacity-20 text-black dark:text-white">
+                                        {total.kekayaan_awal_tahun
+                                            ? Intl.NumberFormat("in-ID", {
+                                                  style: "currency",
+                                                  currency: "IDR",
+                                              }).format(
+                                                  total.kekayaan_awal_tahun
+                                              )
+                                            : "-"}
                                     </td>
-                                    <td className="font-medium border py-5 px-4 border-stroke dark:border-opacity-20 text-black dark:text-white">
-                                        {Intl.NumberFormat("id-ID", {
-                                            style: "currency",
-                                            currency: "IDR",
-                                        }).format(
-                                            total.simpanan_wajib
-                                                ? total.simpanan_wajib
-                                                : 0
-                                        )}
+                                    <td className="font-medium text-right border py-5 px-4 border-stroke dark:border-opacity-20 text-black dark:text-white">
+                                        {total.simpanan_wajib
+                                            ? Intl.NumberFormat("in-ID", {
+                                                  style: "currency",
+                                                  currency: "IDR",
+                                              }).format(total.simpanan_wajib)
+                                            : "-"}
                                     </td>
-                                    <td className="font-medium border py-5 px-4 border-stroke dark:border-opacity-20 text-black dark:text-white">
-                                        {Intl.NumberFormat("id-ID", {
-                                            style: "currency",
-                                            currency: "IDR",
-                                        }).format(
-                                            total.anggota_keluar
-                                                ? total.anggota_keluar
-                                                : 0
-                                        )}
+                                    <td className="font-medium text-right border py-5 px-4 border-stroke dark:border-opacity-20 text-black dark:text-white">
+                                        {total.anggota_keluar
+                                            ? Intl.NumberFormat("in-ID", {
+                                                  style: "currency",
+                                                  currency: "IDR",
+                                              }).format(total.anggota_keluar)
+                                            : "-"}
                                     </td>
-                                    <td className="font-medium border py-5 px-4 border-stroke dark:border-opacity-20 text-black dark:text-white">
-                                        {}
-                                        {Intl.NumberFormat("id-ID", {
-                                            style: "currency",
-                                            currency: "IDR",
-                                        }).format(
-                                            total.jumlah ? total.jumlah : 0
-                                        )}
+                                    <td className="font-medium text-right border py-5 px-4 border-stroke dark:border-opacity-20 text-black dark:text-white">
+                                        {total.jumlah
+                                            ? Intl.NumberFormat("in-ID", {
+                                                  style: "currency",
+                                                  currency: "IDR",
+                                              }).format(total.jumlah)
+                                            : "-"}
                                     </td>
                                 </tr>
                             </>

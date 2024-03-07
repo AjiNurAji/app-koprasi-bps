@@ -1,5 +1,5 @@
 import { barChartOption } from "@/Libs/chartOption";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import ReactApexChart from "react-apexcharts";
 
 const BarChart = ({ data }) => {
@@ -12,12 +12,10 @@ const BarChart = ({ data }) => {
             },
             {
                 name: "Pinjaman",
-                data: [400000, 23, 20, 8, 13, 27, 15],
+                data: data.pinjaman_perhari,
             },
         ],
     });
-
-    console.log(state.series[0].data);
 
     return (
         <div className="col-span-12 rounded-sm border border-stroke bg-white p-7.5 shadow-default dark:border-strokedark dark:bg-boxdark xl:col-span-4">

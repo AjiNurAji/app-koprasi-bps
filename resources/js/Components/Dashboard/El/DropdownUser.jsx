@@ -4,7 +4,7 @@ import { IoPower } from "react-icons/io5";
 import { RiSettings4Line } from "react-icons/ri";
 import axios from "axios";
 import toast from "react-hot-toast";
-import UserOne from "@/assets/images/user-01.webp";
+import UserOne from "@/assets/images/user.png";
 import { router } from "@inertiajs/react";
 
 const DropdownUser = ({ user }) => {
@@ -75,7 +75,7 @@ const DropdownUser = ({ user }) => {
                 </span>
 
                 <span className="h-12 w-12 rounded-full">
-                    <img src={UserOne} alt="User" />
+                    <img src={user.image ? user.image : UserOne} alt={user.username} />
                 </span>
 
                 <svg
@@ -109,20 +109,11 @@ const DropdownUser = ({ user }) => {
                 <ul className="flex flex-col gap-5 border-b border-stroke px-6 py-7.5 dark:border-strokedark">
                     <li>
                         <a
-                            href="/profile"
+                            href={route('profile')}
                             className="flex items-center gap-3.5 text-sm font-medium duration-300 ease-in-out hover:text-primary dark:hover:text-white lg:text-base"
                         >
                             <CgProfile className="w-6 h-6" />
                             My Profile
-                        </a>
-                    </li>
-                    <li>
-                        <a
-                            href="/settings"
-                            className="flex items-center gap-3.5 text-sm font-medium duration-300 ease-in-out hover:text-primary dark:hover:text-white lg:text-base"
-                        >
-                            <RiSettings4Line className="w-6 h-6" />
-                            Account Settings
                         </a>
                     </li>
                 </ul>

@@ -13,6 +13,10 @@ button {
     outline: none !important;
 }
 
+button:hover {
+    scale: 0.98;
+}
+
 .click_animation:active,
 button:active {
     scale: 0.95;
@@ -72,6 +76,11 @@ button:active {
     opacity: 1;
     visibility: visible;
 }
+
+.nprogress-busy main {
+    overflow-y: hidden;
+}
+
 
 img[alt="Muhamad Yusuf Aradabila"],
 img[alt="Aji Nur Aji"] {

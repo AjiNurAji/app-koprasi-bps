@@ -3,7 +3,11 @@ import Logo from "@/assets/images/dark-logo.png";
 import SidebarLinkGroup from "./El/SidebarLinkGroup";
 import { LuLayoutDashboard, LuUsers } from "react-icons/lu";
 import { PiUsersThree } from "react-icons/pi";
-import { RiHandCoinLine } from "react-icons/ri";
+import {
+    RiHandCoinLine,
+    RiAdminLine,
+    RiUserSettingsLine,
+} from "react-icons/ri";
 import { HiOutlineDocumentText, HiOutlineDocumentPlus } from "react-icons/hi2";
 import { IoWalletOutline } from "react-icons/io5";
 import { GrMoney } from "react-icons/gr";
@@ -22,7 +26,7 @@ const Sidebar = ({ pathname, sidebarOpen, setSidebarOpen, user }) => {
 
     // close on click outside
     useEffect(() => {
-        const clickHandler = (target) => {
+        const clickHandler = ({target}) => {
             if (!sidebar.current || !trigger.current) return;
             if (
                 !sidebarOpen ||
@@ -124,22 +128,56 @@ const Sidebar = ({ pathname, sidebarOpen, setSidebarOpen, user }) => {
                             {/* <!-- Menu Item Dashboard --> */}
 
                             {user.role ? (
-                                <li>
-                                    <a
-                                        href={route("members")}
-                                        className={`group relative flex items-center gap-2.5 rounded-md py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${
-                                            pathname.includes("members") &&
-                                            "bg-graydark dark:bg-meta-4"
-                                        }`}
-                                    >
-                                        <LuUsers
-                                            className="stroke-current"
-                                            width={18}
-                                            height={18}
-                                        />
-                                        Data Anggota
-                                    </a>
-                                </li>
+                                <>
+                                    <li>
+                                        <a
+                                            href={route("members")}
+                                            className={`group relative flex items-center gap-2.5 rounded-md py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${
+                                                pathname.includes("members") &&
+                                                "bg-graydark dark:bg-meta-4"
+                                            }`}
+                                        >
+                                            <LuUsers
+                                                className="stroke-current"
+                                                width={18}
+                                                height={18}
+                                            />
+                                            Data Anggota
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a
+                                            href={route("admin")}
+                                            className={`group relative flex items-center gap-2.5 rounded-md py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${
+                                                pathname.includes("admin") &&
+                                                "bg-graydark dark:bg-meta-4"
+                                            }`}
+                                        >
+                                            <RiAdminLine
+                                                className="stroke-current"
+                                                width={18}
+                                                height={18}
+                                            />
+                                            Data Admin
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a
+                                            href={route("jasa_piutang")}
+                                            className={`group relative flex items-center gap-2.5 rounded-md py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${
+                                                pathname.includes("jasa") &&
+                                                "bg-graydark dark:bg-meta-4"
+                                            }`}
+                                        >
+                                            <RiUserSettingsLine
+                                                className="stroke-current"
+                                                width={18}
+                                                height={18}
+                                            />
+                                            Jasa Piutang Anggota
+                                        </a>
+                                    </li>
+                                </>
                             ) : null}
                             {/* <!-- Menu Item kas --> */}
                             <SidebarLinkGroup
@@ -201,7 +239,9 @@ const Sidebar = ({ pathname, sidebarOpen, setSidebarOpen, user }) => {
                                                 <ul className="mt-4 mb-5.5 flex flex-col gap-2.5 pl-6">
                                                     <li>
                                                         <a
-                                                            href={"/kas/tunai"}
+                                                            href={route(
+                                                                "kas_tunai"
+                                                            )}
                                                             className={
                                                                 "group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white " +
                                                                 (pathname.includes(
@@ -365,104 +405,23 @@ const Sidebar = ({ pathname, sidebarOpen, setSidebarOpen, user }) => {
                                 </SidebarLinkGroup>
                                 {/* <!-- Menu Item simpanan --> */}
                                 {/* <!-- Menu Item pinjaman --> */}
-                                <SidebarLinkGroup
-                                    activeCondition={
-                                        pathname === "/pinjaman" ||
-                                        pathname.includes("pinjaman")
-                                    }
-                                >
-                                    {(handleClick, open) => {
-                                        return (
-                                            <Fragment>
-                                                <button
-                                                    className={`group w-full relative flex items-center gap-2.5 rounded-md py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${
-                                                        (pathname ===
-                                                            "/pinjaman" ||
-                                                            pathname.includes(
-                                                                "pinjaman"
-                                                            )) &&
-                                                        "bg-graydark dark:bg-meta-4"
-                                                    }`}
-                                                    onClick={(e) => {
-                                                        e.preventDefault();
-                                                        sidebarExpanded
-                                                            ? handleClick()
-                                                            : setSidebarExpanded(
-                                                                  true
-                                                              );
-                                                    }}
-                                                >
-                                                    <RiHandCoinLine
-                                                        className="stroke-current"
-                                                        width={18}
-                                                        height={18}
-                                                    />
-                                                    Pinjaman Anggota
-                                                    <svg
-                                                        className={`absolute right-4 top-1/2 -translate-y-1/2 fill-current ${
-                                                            open && "rotate-180"
-                                                        }`}
-                                                        width="20"
-                                                        height="20"
-                                                        viewBox="0 0 20 20"
-                                                        fill="none"
-                                                        xmlns="http://www.w3.org/2000/svg"
-                                                    >
-                                                        <path
-                                                            fillRule="evenodd"
-                                                            clipRule="evenodd"
-                                                            d="M4.41107 6.9107C4.73651 6.58527 5.26414 6.58527 5.58958 6.9107L10.0003 11.3214L14.4111 6.91071C14.7365 6.58527 15.2641 6.58527 15.5896 6.91071C15.915 7.23614 15.915 7.76378 15.5896 8.08922L10.5896 13.0892C10.2641 13.4147 9.73651 13.4147 9.41107 13.0892L4.41107 8.08922C4.08563 7.76378 4.08563 7.23614 4.41107 6.9107Z"
-                                                            fill=""
-                                                        />
-                                                    </svg>
-                                                </button>
-                                                {/* <!-- Dropdown Menu Start --> */}
-                                                <div
-                                                    className={`translate transform overflow-hidden ${
-                                                        !open && "hidden"
-                                                    }`}
-                                                >
-                                                    <ul className="mt-4 mb-5.5 flex flex-col gap-2.5 pl-6">
-                                                        <li>
-                                                            <a
-                                                                href={
-                                                                    "/pinjaman/harian"
-                                                                }
-                                                                className={
-                                                                    "group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white " +
-                                                                    (pathname.includes(
-                                                                        "pinjaman/harian"
-                                                                    ) &&
-                                                                        "!text-white")
-                                                                }
-                                                            >
-                                                                Pinjaman Harian
-                                                            </a>
-                                                        </li>
-                                                        <li>
-                                                            <a
-                                                                href={
-                                                                    "/pinjaman/bulanan"
-                                                                }
-                                                                className={
-                                                                    "group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white " +
-                                                                    (pathname.includes(
-                                                                        "pinjaman/bulanan"
-                                                                    ) &&
-                                                                        "!text-white")
-                                                                }
-                                                            >
-                                                                Pinjaman Bulanan
-                                                            </a>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                                {/* <!-- Dropdown Menu End --> */}
-                                            </Fragment>
-                                        );
-                                    }}
-                                </SidebarLinkGroup>
-                                {/* <!-- Menu Item simpanan --> */}
+                                <li>
+                                    <a
+                                        href={route("pinjaman_anggota")}
+                                        className={`group relative flex items-center gap-2.5 rounded-md py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${
+                                            pathname.includes("pinjaman") &&
+                                            "bg-graydark dark:bg-meta-4"
+                                        }`}
+                                    >
+                                        <RiHandCoinLine
+                                            className="stroke-current"
+                                            width={18}
+                                            height={18}
+                                        />
+                                        Pinjaman Anggota
+                                    </a>
+                                </li>
+                                {/* <!-- Menu Item history --> */}
                                 <li>
                                     <a
                                         href={route("history")}
@@ -493,7 +452,7 @@ const Sidebar = ({ pathname, sidebarOpen, setSidebarOpen, user }) => {
                             {/* <!-- Menu AD/ART --> */}
                             <li>
                                 <a
-                                    href="/ad-art"
+                                    href={route('ad-art')}
                                     className={`group relative flex items-center gap-2.5 rounded-md py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${
                                         pathname.includes("chart") &&
                                         "bg-graydark dark:bg-meta-4"
@@ -527,7 +486,7 @@ const Sidebar = ({ pathname, sidebarOpen, setSidebarOpen, user }) => {
                             {/* <!-- Menu Team --> */}
                             <li>
                                 <a
-                                    href={route('team')}
+                                    href={route("team")}
                                     className={`group relative flex items-center gap-2.5 rounded-md py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${
                                         pathname.includes("chart") &&
                                         "bg-graydark dark:bg-meta-4"

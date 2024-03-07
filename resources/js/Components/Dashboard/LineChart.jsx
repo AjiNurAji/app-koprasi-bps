@@ -13,7 +13,7 @@ const LineChart = ({ data }) => {
 
             {
                 name: "Pinjaman",
-                data: [30, 25, 36, 30, 45, 35, 64, 52, 59, 36, 39, 51],
+                data: data.pinjaman_perbulan,
             },
         ],
     });
@@ -30,8 +30,8 @@ const LineChart = ({ data }) => {
                                 Transaksi Simpanan
                             </p>
                             <p className="text-sm font-medium">
-                                01.01.{date.getFullYear()} - 01.01.
-                                {date.getFullYear() + 1}
+                                01.01.{date.getFullYear()} - 31.12.
+                                {date.getFullYear()}
                             </p>
                         </div>
                     </div>
@@ -44,8 +44,8 @@ const LineChart = ({ data }) => {
                                 Transaksi Pinjaman
                             </p>
                             <p className="text-sm font-medium">
-                                01.01.{date.getFullYear()} - 01.01.
-                                {date.getFullYear() + 1}
+                                01.01.{date.getFullYear()} - 31.12.
+                                {date.getFullYear()}
                             </p>
                         </div>
                     </div>
