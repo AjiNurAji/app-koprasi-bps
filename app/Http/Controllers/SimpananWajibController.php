@@ -41,9 +41,29 @@ class SimpananWajibController extends Controller
                 return response()->json(['message' => 'Berhasil melakukan transaksi'], 200);
             } catch (\Thowrable $th) {
                 return response()->json(['message' => 'Gagal Login, coba lagi nanti!'], 500);
-            }
+              }
         }
 
             return response()->json(['message' => 'Sorry, anda bukan admin'], 401);
       }
+
+      public function ambilSimpananWajib(Request $request) {
+        if (Auth::guard('admin')->check()) {
+
+            $member = Member::where('NIP', $request->input('nip'))->first();
+
+            $bayar = bayarSimpananSukarela::where([
+                ['id_member', $member->id_member],
+            ])
+            ->orderBy('created_at', 'desc')
+            ->get()
+            ->first();
+        }
+
+        if (!$piutangAnggota) {
+            return response()->json(['message' => 'Mohon isi data anggota'], 404);
+        }
+        }
 }
+
+

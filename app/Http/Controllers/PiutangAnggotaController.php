@@ -47,5 +47,4 @@ class PiutangAnggotaController extends Controller
 
                 return response()->json(['message' => 'Sorry, anda bukan admin'], 401);
     }
-   
 }

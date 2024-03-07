@@ -52,4 +52,22 @@ class SimpananSukarelaController extends Controller
 
                 return response()->json(['message' => 'Sorry, anda bukan admin'], 401);
     }
+
+    public function ambilSimpananSukarela(Request $request) {
+        if (Auth::guard('admin')->check()) {
+
+            $member = Member::where('NIP', $request->input('nip'))->first();
+
+            $get = SimpananSukarela::where([
+                ['id_member', $member->id_member],
+            ])
+            ->orderBy('created_at', 'desc')
+            ->get()
+            ->first();
+        }
+
+        if (!$piutangAnggota) {
+            return response()->json(['message' => 'Mohon isi data anggota'], 404);
+        }
+    }
 }
