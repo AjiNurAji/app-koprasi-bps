@@ -12,19 +12,26 @@ class simpananWajibExport implements FromView, ShouldAutoSize
 {
     use Exportable;
 
+    private $simpanan;
+
+    public function __construct($data)
+    {
+        $this->simpanan = $data;
+    }
+
     public function view(): View
     {
-        $simpananWajib = SimpananWajib::where('tahun', date('Y'))->get();
+        $simpananWajib = $this->simpanan;
 
-        foreach ($simpananWajib as $data) {
-            $datas[] = [
-                'name' => $data->member->name,
-                'kekayaan_awal_tahun' => $data->kekayaan_awal_tahun === null ? null : $data->kekayaan_awal_tahun,
-                'simpanan_wajib' => $data->simpanan_wajib === null ? null : $data->simpanan_wajib,
-                'anggota_keluar' => $data->anggota_keluar === null ? null : $data->anggota_keluar,
-                'kekayaan' => ($data->kekayaan_awal_tahun === null ? null : $data->kekayaan_awal_tahun) + ($data->simpanan_wajib === null ? null : $data->simpanan_wajib) - ($data->anggota_keluar === null ? null : $data->anggota_keluar),
-            ];
-        }
+        // foreach ($simpananWajib as $data) {
+        //     $datas[] = [
+        //         'name' => $data->member->name,
+        //         'kekayaan_awal_tahun' => $data->kekayaan_awal_tahun === null ? null : $data->kekayaan_awal_tahun,
+        //         'simpanan_wajib' => $data->simpanan_wajib === null ? null : $data->simpanan_wajib,
+        //         'anggota_keluar' => $data->anggota_keluar === null ? null : $data->anggota_keluar,
+        //         'kekayaan' => ($data->kekayaan_awal_tahun === null ? null : $data->kekayaan_awal_tahun) + ($data->simpanan_wajib === null ? null : $data->simpanan_wajib) - ($data->anggota_keluar === null ? null : $data->anggota_keluar),
+        //     ];
+        // }
 
         $kekayaanAwalTahun = SimpananWajib::where('tahun', date('Y'))->sum('kekayaan_awal_tahun');
         $simpananWajibSum = SimpananWajib::where('tahun', date('Y'))->sum('simpanan_wajib');

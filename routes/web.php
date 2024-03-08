@@ -5,6 +5,7 @@ use App\Http\Controllers\HomepageController;
 use App\Http\Controllers\KasController;
 use App\Http\Controllers\MemberController;
 use App\Http\Controllers\PiutangController;
+use App\Http\Controllers\RekapitulasiController;
 use App\Http\Controllers\SimpananController;
 use App\Http\Controllers\UploadController;
 use App\Http\Controllers\UserController;
@@ -70,20 +71,21 @@ Route::middleware(['auth:admin'])->group(function () {
     // simpanan
     // pokok
     Route::get('/simpanan/pokok', [HomepageController::class, 'simpananPokok'])->name('simpanan_pokok');
-    Route::get('/simpanan/pokok/transaction', [HomepageController::class, 'pokokTransaksi'])->name('transaksi_pokok');
     Route::post('/simpanan/pokok', [SimpananController::class, 'getDataSimpananPokok'])->name('simpanan_pokok');
+    Route::get('/simpanan/pokok/transaction', [HomepageController::class, 'pokokTransaksi'])->name('transaksi_pokok');
     Route::post('/simpanan/pokok/create', [SimpananController::class, 'simpananPokok'])->name('simpanan_pokok_create');
     
     // wajib
     Route::get('/simpanan/wajib', [HomepageController::class, 'simpananWajib'])->name('simpanan_wajib');
-    Route::get('/simpanan/wajib/transaction', [HomepageController::class, 'wajibTransaksi'])->name('transaksi_wajib');
     Route::post('/simpanan/wajib', [SimpananController::class, 'getDataSimpananWajib'])->name('simpanan_wajib');
+    Route::post('/simpanan/wajib/rekapitulasi', [RekapitulasiController::class, 'simpananWajib'])->name('rekap_simpanan_wajib');
+    Route::get('/simpanan/wajib/transaction', [HomepageController::class, 'wajibTransaksi'])->name('transaksi_wajib');
     Route::post('/simpanan/wajib/create', [SimpananController::class, 'simpananWajib'])->name('simpanan_wajib_create');
 
     // sukarela
     Route::get('/simpanan/sukarela', [HomepageController::class, 'simpananSukarela'])->name('simpanan_sukarela');
-    Route::get('/simpanan/sukarela/transaction', [HomepageController::class, 'sukarelaTransaksi'])->name('sukarela_transaction');
     Route::post('/simpanan/sukarela', [SimpananController::class, 'getDataSimpananSukarela'])->name('simpanan_sukarela');
+    Route::get('/simpanan/sukarela/transaction', [HomepageController::class, 'sukarelaTransaksi'])->name('sukarela_transaction');
     Route::post('/simpanan/sukarela/create', [SimpananController::class, 'simpananSukarela'])->name('simpanan_sukarela_create');
     
     // delete anggota
@@ -94,8 +96,8 @@ Route::middleware(['auth:admin'])->group(function () {
     Route::post('/members', [MemberController::class, 'updatedata'])->name('update_member');
 
     // edit dan update password
-    Route::get('/Member/change-password','MemberController@change-password')->name('change-password');
-    Route::post('/Member/update-password','MemberController@update-password')->name('update_password');
+    Route::get('/member/change-password','MemberController@change-password')->name('change-password');
+    Route::post('/member/update-password','MemberController@update-password')->name('update_password');
   
     
 

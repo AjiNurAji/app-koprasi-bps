@@ -13,8 +13,9 @@ return new class extends Migration
     {
         Schema::create('ambil_simpanan', function (Blueprint $table) {
             $table->uuid('_id')->primary();
-            $table->char('id_member')->nullable();
-            $table->foreign('id_member')->references('id_member')->on('members')->onDelete('SET NULL')->onUpdate('cascade');
+            $table->char('id_member');
+            $table->foreign('id_member')->references('id_member')->on('members')->onDelete('cascade')->onUpdate('cascade');
+            $table->string('name', 40);
             $table->date('tanggal_ambil');
             $table->integer('nominal', false);
             $table->string('note', 255);

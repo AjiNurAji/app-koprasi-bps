@@ -16,12 +16,16 @@ return new class extends Migration
             $table->char('id_member')->nullable();
             $table->foreign('id_member')->references('id_member')->on('members')->onUpdate('cascade')->onDelete('cascade');
             $table->integer('sukarela', false)->nullable();
+            $table->string('name', 40);
             $table->integer('shu', false)->nullable();
             $table->integer('awal_tahun', false)->nullable();
             $table->integer('selama_tahun', false)->nullable();
             $table->integer('diambil', false)->nullable();
             $table->integer('disimpan_kembali', false)->nullable();
             $table->integer('akhir_taun', false)->nullable();
+            $table->integer('tahun', false);
+            $table->string('bulan', 12);
+            $table->string('hari', 7);
             $table->timestamps();
         });
     }

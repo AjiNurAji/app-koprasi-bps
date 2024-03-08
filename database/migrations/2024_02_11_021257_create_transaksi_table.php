@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('transaksi', function (Blueprint $table) {
             $table->uuid('id_transaksi')->primary();
-            $table->char('id_member')->nullable();
-            $table->foreign('id_member')->references('id_member')->on('members')->onDelete('SET NULL')->onUpdate('SET NULL')->nullable();
+            $table->char('id_member');
+            $table->foreign('id_member')->references('id_member')->on('members')->onDelete('cascade')->onUpdate('cascade');
             $table->integer('nominal', false)->nullable();
             $table->integer('tahun', false);
             $table->string('bulan', 12);

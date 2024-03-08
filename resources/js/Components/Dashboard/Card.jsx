@@ -17,6 +17,7 @@ const Card = ({ icon, total, type, view, user }) => {
                         {Intl.NumberFormat("in-ID", {
                             style: "currency",
                             currency: "IDR",
+                            maximumFractionDigits: "0"
                         }).format(total ? total : 0)}
                     </h4>
                 </div>

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\AmbilSimpanan;
 use App\Models\BayarPinjaman;
 use App\Models\Kas;
 use Illuminate\Http\Request;
@@ -97,7 +98,7 @@ class HomepageController extends Controller
 
         $awalTahunWajib = SimpananWajib::where('tahun', date('Y'))->sum('kekayaan_awal_tahun');
         $wajibSimpanan = SimpananWajib::where('tahun', date('Y'))->sum('simpanan_wajib');
-        $anggotaKeluarWajib = SimpananWajib::where('tahun', date('Y'))->sum('anggota_keluar');
+        $anggotaKeluarWajib = AmbilSimpanan::whereBetween('created_at', [Carbon::now()->startOfYear(), Carbon::now()->endOfYear()])->where('simpanan', 'wajib')->sum('nominal');
         $totalWajib = $awalTahunWajib + $wajibSimpanan - $anggotaKeluarWajib;
 
         $totalSukarela = SimpananSukarela::where('tahun', date('Y'))->sum('akhir_taun');
@@ -150,7 +151,7 @@ class HomepageController extends Controller
         $totalShu = simpananSukarela::where('tahun', date('Y'))->sum('shu');
         $totalAwalTahun = simpananSukarela::where('tahun', date('Y'))->sum('awal_tahun');
         $totalSelamaTahun = simpananSukarela::where('tahun', date('Y'))->sum('selama_tahun');
-        $totalDiambil = simpananSukarela::where('tahun', date('Y'))->sum('diambil');
+        $totalDiambil = AmbilSimpanan::whereBetween('created_at', [Carbon::now()->startOfYear(), Carbon::now()->endOfYear()])->where('simpanan', 'sukarela')->sum('nominal');
         $totalDisimpanKembali = simpananSukarela::where('tahun', date('Y'))->sum('disimpan_kembali');
         $totalAkhirTahun = simpananSukarela::where('tahun', date('Y'))->sum('akhir_taun');
 
@@ -217,7 +218,7 @@ class HomepageController extends Controller
 
         $kekayaanAwalTahun = SimpananWajib::where('tahun', date('Y'))->sum('kekayaan_awal_tahun');
         $simpananWajibSum = SimpananWajib::where('tahun', date('Y'))->sum('simpanan_wajib');
-        $anggotaKeluar = SimpananWajib::where('tahun', date('Y'))->sum('anggota_keluar');
+        $anggotaKeluar = AmbilSimpanan::whereBetween('created_at', [Carbon::now()->startOfYear(), Carbon::now()->endOfYear()])->where('simpanan', 'wajib')->sum('nominal');
         $totalWajib = $kekayaanAwalTahun + $simpananWajibSum - $anggotaKeluar;
         $members = Member::orderBy('name', 'asc')->get();
 
@@ -348,27 +349,27 @@ class HomepageController extends Controller
         }
 
         foreach ($rekening as $i => $value) {
-            $setor = TrRekening::where('id_rekening', $value->id_rekening)
+            $setor = TrRekening::where('id_rekening', $value->id_tr_rekening)
                 ->where('type', 'setor')
                 ->first();
 
-            $bunga_bank = TrRekening::where('id_rekening', $value->id_rekening)
+            $bunga_bank = TrRekening::where('id_rekening', $value->id_tr_rekening)
                 ->where('type', 'bunga_bank')
                 ->first();
 
-            $pajak = TrRekening::where('id_rekening', $value->id_rekening)
+            $pajak = TrRekening::where('id_rekening', $value->id_tr_rekening)
                 ->where('type', 'pajak')
                 ->first();
 
-            $adm = TrRekening::where('id_rekening', $value->id_rekening)
+            $adm = TrRekening::where('id_rekening', $value->id_tr_rekening)
                 ->where('type', 'adm')
                 ->first();
 
-            $penarikan = TrRekening::where('id_rekening', $value->id_rekening)
+            $penarikan = TrRekening::where('id_rekening', $value->id_tr_rekening)
                 ->where('type', 'penarikan')
                 ->first();
 
-            $saldo = TrRekening::where('id_rekening', $value->id_rekening)
+            $saldo = TrRekening::where('id_rekening', $value->id_tr_rekening)
                 ->orderBy('created_at', 'desc')
                 ->first();
 

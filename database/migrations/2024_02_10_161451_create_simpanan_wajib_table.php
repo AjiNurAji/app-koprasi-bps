@@ -20,7 +20,6 @@ return new class extends Migration
             $table->string('hari', 7);
             $table->integer('kekayaan_awal_tahun', false)->nullable();
             $table->integer('simpanan_wajib', false)->nullable();
-            $table->integer('anggota_keluar', false)->nullable();
             $table->timestamps();
         });
     }

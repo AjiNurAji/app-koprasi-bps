@@ -8,6 +8,7 @@ const NextSimpanan = ({
     type,
     handleNominal,
     getTahun,
+    step,
 }) => {
     return (
         <>
@@ -140,9 +141,7 @@ const NextSimpanan = ({
                                     htmlFor="simpanan_wajib"
                                     className="mb-2.5 inline-block font-medium text-black dark:text-white"
                                 >
-                                    {data?.simpanan_wajib
-                                        ? "Tambah Simpanan Wajib"
-                                        : "Simpanan Wajib"}
+                                    Nominal Simpan
                                 </label>
                                 <CurrencyInput
                                     autoComplete="off"
@@ -170,20 +169,37 @@ const NextSimpanan = ({
                         <>
                             <div className="w-full">
                                 <label
+                                    htmlFor="simpanan_wajib"
+                                    className="mb-2.5 inline-block font-medium text-black dark:text-white"
+                                >
+                                    Simpanan Wajib
+                                </label>
+                                <span className="bg-transparent capitalize dark:bg-transparent block text-start px-1">
+                                    {Intl.NumberFormat("in-ID", {
+                                        style: "currency",
+                                        currency: "IDR",
+                                        maximumFractionDigits: "0",
+                                    }).format(
+                                        (awalTahun ? awalTahun : 0) +
+                                            (data?.simpanan_wajib
+                                                ? data?.simpanan_wajib
+                                                : 0) -
+                                            (data?.anggota_keluar
+                                                ? data?.anggota_keluar
+                                                : 0)
+                                    )}
+                                </span>
+                            </div>
+                            <div className="w-full">
+                                <label
                                     htmlFor="anggota_keluar"
                                     className="mb-2.5 inline-block font-medium text-black dark:text-white"
                                 >
-                                    {data?.anggota_keluar
-                                        ? "Tambah Anggota Keluar"
-                                        : "Anggota Keluar"}
+                                    Nominal Pengambilan
                                 </label>
                                 <CurrencyInput
                                     autoComplete="off"
-                                    placeholder={`Masukkan nominal ${
-                                        data?.anggota_keluar
-                                            ? "tambahan"
-                                            : "transaksi"
-                                    }`}
+                                    placeholder={`Masukkan nominal pengambilan`}
                                     allowDecimals={true}
                                     name="anggota_keluar"
                                     id="anggota_keluar"
@@ -197,6 +213,24 @@ const NextSimpanan = ({
                                     }}
                                     className="w-full rounded-md border text-dark dark:text-white border-stroke bg-transparent py-2 pl-4 pr-6 transition-all duration-300 ease-in-out outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                                 />
+                            </div>
+                            <div className="w-full">
+                                <label
+                                    htmlFor="catatan"
+                                    className="mb-2.5 inline-block font-medium text-black dark:text-white"
+                                >
+                                    Catatan
+                                </label>
+                                <textarea
+                                    name="catatan"
+                                    id="catatan"
+                                    onChange={(e) => handleValue(e)}
+                                    rows="2"
+                                    required
+                                    value={data.catatan}
+                                    className="w-full resize-none rounded-md disabled:bg-whiten border text-dark dark:text-white border-stroke bg-transparent py-1 pl-2 pr-3 transition-all duration-300 ease-in-out outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
+                                    placeholder="Catatan"
+                                ></textarea>
                             </div>
                         </>
                     )}
