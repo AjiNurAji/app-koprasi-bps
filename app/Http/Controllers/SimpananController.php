@@ -331,4 +331,38 @@ class SimpananController extends Controller
 
         return response()->json(['message' => 'Hanya bisa di akses oleh admin!'], 401);
     }
+
+    public function getSimpananSukarela(Request $request) {
+        if (Auth::guard('admin')->check()) {
+            $member = Member::where('NIP', $request->input('nip'))->first();
+            
+            $get = SimpananSukarela::where([
+                ['id_member', $member->id_member],
+            ])
+            ->orderBy('created_at', 'desc')
+            ->get()
+            ->first();
+        }
+
+        if(!$piutangAnggota) {
+            return response()->json(['message' => 'Mohon isi data Anggota']);
+        }
+    }
+
+    public function getSimpananWajib(Request $request) {
+        if (Auth::guard('admin')->check()) {
+            $member = Member::where('NIP', $request->input('nip'))->first();
+
+            $get = simpananWajib::where([
+                ['id_member', $member->id_member],
+            ])
+            ->orderBy('created_at', 'desc')
+            ->get()
+            ->first();
+        }
+
+        if(!$piutangAnggota) {
+            return response()->json(['message' => 'Mohon isi data Anggota']);
+        }
+    }
 }
