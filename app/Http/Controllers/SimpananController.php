@@ -137,12 +137,12 @@ class SimpananController extends Controller
                 )->get()->sum('nominal');
 
             $anggotaKeluarSebelumnya = AmbilSimpanan::whereBetween('created_at', [Carbon::createFromDate(date('Y') - 1)->startOfYear(), Carbon::createFromDate(date('Y') - 1)->endOfYear()])
-            ->where(
-                [
-                    ['id_member', $member->id_member],
-                    ['simpanan', 'wajib']
-                ]
-            )->get()->sum('nominal');
+                ->where(
+                    [
+                        ['id_member', $member->id_member],
+                        ['simpanan', 'wajib']
+                    ]
+                )->get()->sum('nominal');
             // ============================================================
 
             // set sisa nominal simpanan ==================================== 
@@ -293,12 +293,18 @@ class SimpananController extends Controller
     public function getDataSimpananSukarela(Request $request)
     {
         if (Auth::guard('admin')->check()) {
-            $simpananSukarela = SimpananSukarela::where('id_member', $request->input('id_member'))->where('tahun', $request->input('tahun'))->first();
+
+            $member = Member::where('NIP', $request->input('nip'))->first();
+
+            if (!$member) return response()->json(['message' => 'Data tidak ditemukan!'], 404);
+
+            $simpananSukarela = SimpananSukarela::where([['tahun', $request->input('tahun')], ['id_member', $member->id_member]])->first();
+
             if ($simpananSukarela) {
-                return response()->json(['message' => 'Data berhasil didapatkan', 'simpanan' => $simpananSukarela], 200);
+                return response()->json(['message' => 'Data berhasil didapatkan', 'member' => $member, 'simpanan' => $simpananSukarela], 200);
             }
 
-            return response()->json(['message' => 'Data berhasil didapatkan'], 200);
+            return response()->json(['message' => 'Data berhasil didapatkan', 'member' => $member], 200);
         }
 
         return response()->json(['message' => 'Hanya bisa diakses oleh admin!'], 401);
@@ -313,16 +319,13 @@ class SimpananController extends Controller
                     'id_member' => 'required|string',
                     'tahun' => 'required|integer',
                     'bulan' => 'required|string',
-                    'sukarela' => 'integer|nullable',
-                    'shu' => 'integer|nullable',
                     'selama_tahun' => 'integer|nullable',
-                    'diambil' => 'integer|nullable',
                     'disimpan_kembali' => 'integer|nullable',
                 ]);
 
                 // simpanan wajib update
                 $simpananSukarela = SimpananSukarela::where('id_member', $request->input('id_member'))
-                    ->where('bulan', $request->input('bulan'))
+                    ->where('tahun', $request->input('tahun'))
                     ->first();
 
                 $awal_tahun = $request->input('sukarela') + $request->input('shu');
@@ -330,89 +333,103 @@ class SimpananController extends Controller
                 $nominal =  $awal_tahun +
                     $request->input('selama_tahun');
 
-                $keluar = $request->input('diambil');
-
-                $akhirTahun = $nominal - $keluar + $request->input('disimpan_kembali');
+                $akhirTahun = $nominal + $request->input('disimpan_kembali');
 
                 Transaksi::create([
                     'id_transaksi' => Str::uuid(),
                     'id_member' => $request->input('id_member'),
                     'nominal' => $nominal,
+                    'name' => $request->input('name'),
                     'type' => 'simpanan',
-                    'nominal_keluar' => $keluar,
                     'nama_transaksi' => 'simpanan_sukarela',
                     'tahun' => $request->input('tahun'),
                     'hari' => $request->input('hari'),
                     'bulan' => $request->input('bulan')
                 ]);
 
-                if (!$simpananSukarela) {
-                    SimpananSukarela::create([
-                        'id_simpanan_sukarela' => Str::uuid(),
-                        'id_member' => $request->input('id_member'),
-                        'tahun' => $request->input('tahun'),
-                        'hari' => $request->input('hari'),
-                        'bulan' => $request->input('bulan'),
-                        'sukarela' =>   $simpananSukarela
-                            ? $simpananSukarela->sukarela + $request->input('sukarela')
-                            : $request->input('sukarela'),
-                        'shu' =>    $simpananSukarela
-                            ? $simpananSukarela->shu + $request->input('shu')
-                            : $request->input('shu'),
-
-                        'awal_tahun' => $simpananSukarela
-                            ? $simpananSukarela->awal_tahun + $awal_tahun
-                            : $awal_tahun,
-
-                        'selama_tahun' => $simpananSukarela
-                            ? $simpananSukarela->selama_tahun + $request->input('selama_tahun')
-                            : $request->input('selama_tahun'),
-
-                        'diambil' => $simpananSukarela
-                            ? $simpananSukarela->diambil + $request->input('diambil')
-                            : $request->input('diambil'),
-
-                        'disimpan_kembali' => $simpananSukarela
-                            ? $simpananSukarela->disimpan_kembali + $request->input('disimpan_kembali')
-                            : $request->input('disimpan_kembali'),
-
-                        'akhir_taun' => $simpananSukarela
-                            ? $simpananSukarela->akhir_taun + $akhirTahun
-                            : $akhirTahun,
-                    ]);
-                    return response()->json(['message' => 'Berhasil melakukan transaksi'], 200);
-                }
-
-                $simpananSukarela->update([
-                    'sukarela' =>   $simpananSukarela->sukarela
-                        ? $simpananSukarela->sukarela + $request->input('sukarela')
-                        : $request->input('sukarela'),
-
+                SimpananSukarela::create([
+                    'id_simpanan_sukarela' => Str::uuid(),
+                    'id_member' => $request->input('id_member'),
+                    'tahun' => $request->input('tahun'),
+                    'name' => $request->input('name'),
                     'hari' => $request->input('hari'),
-                    'shu' =>    $simpananSukarela->shu
-                        ? $simpananSukarela->shu + $request->input('shu')
-                        : $request->input('shu'),
-
-                    'awal_tahun' => $simpananSukarela->awal_tahun
-                        ? $simpananSukarela->awal_tahun + $awal_tahun
-                        : $awal_tahun,
-
-                    'selama_tahun' => $simpananSukarela->selama_tahun
-                        ? $simpananSukarela->selama_tahun + $request->input('selama_tahun')
-                        : $request->input('selama_tahun'),
-
-                    'diambil' => $simpananSukarela->diambil
-                        ? $simpananSukarela->diambil + $request->input('diambil')
-                        : $request->input('diambil'),
-
-                    'disimpan_kembali' => $simpananSukarela->disimpan_kembali
-                        ? $simpananSukarela->disimpan_kembali + $request->input('disimpan_kembali')
-                        : $request->input('disimpan_kembali'),
-
-                    'akhir_taun' => $simpananSukarela->akhir_taun
-                        ? $simpananSukarela->akhir_taun + $akhirTahun
-                        : $akhirTahun,
+                    'bulan' => $request->input('bulan'),
+                    'sukarela' => $simpananSukarela ? $simpananSukarela->sukarela : $request->input('sukarela'),
+                    'shu' => $simpananSukarela ? $simpananSukarela->shu :  $request->input('shu'),
+                    'awal_tahun' => $simpananSukarela ? $simpananSukarela->awal_tahun : $awal_tahun,
+                    'selama_tahun' => $request->input('selama_tahun'),
+                    'akhir_taun' => $akhirTahun,
                 ]);
+
+                return response()->json(['message' => 'Berhasil melakukan transaksi'], 200);
+            } catch (\Throwable $th) {
+                return response()->json(['message' => 'Gagal melakukan transaksi, coba lagi nanti!'], 500);
+            }
+        }
+
+        return response()->json(['message' => 'Hanya bisa di akses oleh admin!'], 401);
+    }
+
+    public function ambilSimpananSukarela(Request $request)
+    {
+        if (Auth::guard('admin')->check()) {
+            try {
+                // validasi request
+                $request->validate([
+                    'id_member' => 'required|string',
+                    'tahun' => 'required|integer',
+                    'bulan' => 'required|string',
+                    'name' => 'required|string',
+                    'nominal' => 'required|integer',
+                    'note' => 'required|string',
+                    'date' => 'required|string',
+                ]);
+
+                // get total simpanan sukarela ===========================
+                $diambil = AmbilSimpanan::whereBetween('created_at', [Carbon::now()->startOfYear(), Carbon::now()->endOfYear()])
+                    ->where(
+                        [
+                            ['id_member', $request->input('id_member')],
+                            ['simpanan', 'sukarela']
+                        ]
+                    )->get()->sum('nominal');
+
+                $simpanan = SimpananSukarela::where([['id_member', $request->input('id_member')], ['tahun', date('Y')]])->get();
+                // $oneSimpanan = $simpanan->first();
+                dd($simpanan);
+
+                $nominal = $simpanan->sum('selama_tahun') - $diambil;
+                // =============================
+
+                // validasi ketika nominal ambil melebihi total simpanan ================
+                if ($request->input('nominal') > $nominal) {
+                    return response()->json(['message' => 'Nominal ambil melebih total simpanan!'], 500);
+                }
+                // ==============================================
+
+                // buatkan history transaksi dan ambilsimpanan ketika tidak ada kesalahan =============
+                Transaksi::create([
+                    'id_transaksi' => Str::uuid(),
+                    'id_member' => $request->input('id_member'),
+                    'name' => $request->input('name'),
+                    'nominal_keluar' => $request->input('nominal'),
+                    'type' => 'simpanan',
+                    'nama_transaksi' => 'ambil_simpanan_wajib',
+                    'tahun' => $request->input('tahun'),
+                    'hari' => $request->input('hari'),
+                    'bulan' => $request->input('bulan')
+                ]);
+
+                AmbilSimpanan::create([
+                    '_id' => Str::uuid(),
+                    'id_member' => $request->input('id_member'),
+                    'name' => $request->input('name'),
+                    'nominal' => $request->input('nominal'),
+                    'tanggal_ambil' => $request->input('date'),
+                    'simpanan' => 'wajib',
+                    'note' => $request->input('note'),
+                ]);
+                // =======================================================
 
                 return response()->json(['message' => 'Berhasil melakukan transaksi'], 200);
             } catch (\Throwable $th) {

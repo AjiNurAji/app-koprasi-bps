@@ -117,8 +117,6 @@ class HomepageController extends Controller
 
         $saldoRekening = TrRekening::orderBy('created_at', 'desc')->first();
 
-        // dd($kas, $saldoTunai);
-
         $totalKasTunai = ($saldoTunai ? $saldoTunai->saldo : $kasTunai) ? $kasTunai->saldo_awal : null;
         $totalKasRekening = ($saldoRekening ? $saldoRekening->saldo : $kasRekening) ? $kasRekening->saldo_awal : null;
 
@@ -142,28 +140,41 @@ class HomepageController extends Controller
     // halaman simpanan sukarela
     public function simpananSukarela()
     {
-        $simpananSukarela = SimpananSukarela::with(['member'])
-            ->where('tahun', date('Y'))
-            ->orderBy('updated_at', 'desc')
-            ->get()->toArray();
+        $members = Member::all();
 
-        $totalSukarelaPembulatan = simpananSukarela::where('tahun', date('Y'))->sum('sukarela');
-        $totalShu = simpananSukarela::where('tahun', date('Y'))->sum('shu');
-        $totalAwalTahun = simpananSukarela::where('tahun', date('Y'))->sum('awal_tahun');
-        $totalSelamaTahun = simpananSukarela::where('tahun', date('Y'))->sum('selama_tahun');
+        foreach ($members as $key => $value) {
+            $members[$key]['simpanan_sukarela'] = SimpananSukarela::where([
+                ['tahun', date('Y')],
+                ['id_member', $value['id_member']]
+            ])->get();
+
+            $simpanan = SimpananSukarela::where([
+                ['tahun', date('Y')],
+                ['id_member', $value['id_member']]
+            ])->orderBy('created_at', 'desc')->get()->first();
+
+            $members[$key]['shu'] = $simpanan->shu;
+
+            $members[$key]['sukarela'] = $simpanan->sukarela;
+
+            $members[$key]['awal_tahun'] = $simpanan->awal_tahun;
+
+            $members[$key]['diambil'] = AmbilSimpanan::whereBetween('created_at', [Carbon::now()->startOfYear(), Carbon::now()->endOfYear()])
+                ->where([
+                    ['simpanan', 'sukarela'],
+
+                    ['id_member', $value->id_member]
+                ])->get()->sum('nominal');
+        }
+
+        $totalSelamaTahun = SimpananSukarela::where('tahun', date('Y'))->sum('selama_tahun');
         $totalDiambil = AmbilSimpanan::whereBetween('created_at', [Carbon::now()->startOfYear(), Carbon::now()->endOfYear()])->where('simpanan', 'sukarela')->sum('nominal');
-        $totalDisimpanKembali = simpananSukarela::where('tahun', date('Y'))->sum('disimpan_kembali');
-        $totalAkhirTahun = simpananSukarela::where('tahun', date('Y'))->sum('akhir_taun');
-
-        $members = Member::orderBy('name', 'asc')->get();
+        $totalDisimpanKembali = SimpananSukarela::where('tahun', date('Y'))->sum('disimpan_kembali');
+        $totalAkhirTahun = SimpananSukarela::where('tahun', date('Y'))->sum('akhir_taun');
 
         return Inertia::render('Simpanan/Sukarela', [
-            'data' => $simpananSukarela,
-            'members' => $members,
+            'data' => $members,
             'total' => [
-                'total_sukarela' => $totalSukarelaPembulatan,
-                'total_shu' => $totalShu,
-                'total_awal_tahun' => $totalAwalTahun,
                 'total_selama_tahun' => $totalSelamaTahun,
                 'total_diambil' => $totalDiambil,
                 'total_disimpan_kembali' => $totalDisimpanKembali,
@@ -192,7 +203,11 @@ class HomepageController extends Controller
             ])->get();
         }
 
-        $awalTahunPokok = SimpananPokok::where('tahun', date('Y'))->sum('awal_tahun');
+        $awalTahunPokok = SimpananPokok::where([
+            ['tahun', date('Y') - 1],
+        ])->get()->sum('anggota_masuk') - SimpananPokok::where([
+            ['tahun', date('Y') - 1],
+        ])->get()->sum('anggota_keluar');
         $anggotaMasukPokok = SimpananPokok::where('tahun', date('Y'))->sum('anggota_masuk');
         $anggotaKeluarPokok = SimpananPokok::where('tahun', date('Y'))->sum('anggota_keluar');
         $totalPokok = $awalTahunPokok + $anggotaMasukPokok - $anggotaKeluarPokok;

@@ -19,6 +19,7 @@ class SimpananSukarela extends Model
         'id_simpanan_sukarela',
         'id_member',
         'sukarela',
+        'name',
         'shu',
         'awal_tahun',
         'selama_tahun',

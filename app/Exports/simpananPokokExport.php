@@ -32,8 +32,6 @@ class simpananPokokExport implements FromView, ShouldAutoSize
             $members[$key]->awal_tahun = SimpananPokok::where([['id_member', $value->id_member], ['tahun', $years - 1]])->get()->sum('anggota_masuk') - SimpananPokok::where([['id_member', $value->id_member], ['tahun', $years - 1]])->get()->sum('anggota_keluar');
         }
 
-        // dd($members, $this->start_date, $this->end_date);
-
         $awalTahunPokok = SimpananPokok::where('tahun', $years - 1)->get()->sum('anggota_masuk') - SimpananPokok::where('tahun', $years - 1)->get()->sum('anggota_keluar');
         $anggotaMasukPokok = SimpananPokok::whereBetween('tanggal_transaksi', [$this->start_date, $this->end_date])->get()->sum('anggota_masuk');
         $anggotaKeluarPokok = SimpananPokok::whereBetween('tanggal_transaksi', [$this->start_date, $this->end_date])->get()->sum('anggota_keluar');

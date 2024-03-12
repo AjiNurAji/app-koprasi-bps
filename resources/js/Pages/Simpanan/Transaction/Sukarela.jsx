@@ -16,6 +16,7 @@ const TransaksiSukarela = ({ auth }) => {
             <div className="rounded-md border mt-4 sm:mt-6 border-stroke bg-white px-5 py-6 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5">
                 <TransactionSimpanan
                     type="sukarela"
+                    ambilUrl={route("ambil_simpanan_sukarela")}
                     directUrl={route("simpanan_sukarela")}
                     postUrl={route("simpanan_sukarela_create")}
                 />

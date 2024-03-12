@@ -85,6 +85,7 @@ Route::middleware(['auth:admin'])->group(function () {
     // sukarela
     Route::get('/simpanan/sukarela', [HomepageController::class, 'simpananSukarela'])->name('simpanan_sukarela');
     Route::post('/simpanan/sukarela', [SimpananController::class, 'getDataSimpananSukarela'])->name('simpanan_sukarela');
+    Route::post('/simpanan/sukarela/ambil', [SimpananController::class, 'ambilSimpananSukarela'])->name('ambil_simpanan_sukarela');
     Route::get('/simpanan/sukarela/transaction', [HomepageController::class, 'sukarelaTransaksi'])->name('sukarela_transaction');
     Route::post('/simpanan/sukarela/create', [SimpananController::class, 'simpananSukarela'])->name('simpanan_sukarela_create');
     

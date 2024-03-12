@@ -16,6 +16,7 @@ return new class extends Migration
             $table->char('id_member')->nullable();
             $table->foreign('id_member')->references('id_member')->on('members')->onUpdate('cascade')->onDelete('cascade');
             $table->integer('sukarela', false)->nullable();
+            $table->date("tanggal_transaksi");
             $table->string('name', 40);
             $table->integer('shu', false)->nullable();
             $table->integer('awal_tahun', false)->nullable();

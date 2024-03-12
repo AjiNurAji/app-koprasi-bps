@@ -14,7 +14,6 @@ import SearchTable from "./SearchTable";
 const TableSimpananSukarela = ({ data, total }) => {
     const [datas] = useState([...data]);
     const [globalFilter, setGlobalFilter] = useState("");
-    console.log(data)
 
     const table = useReactTable({
         data: datas,
@@ -33,7 +32,7 @@ const TableSimpananSukarela = ({ data, total }) => {
             <div className="flex items-start md:items-center justify-between mb-3.5">
                 <a
                     className="p-3 hover:bg-opacity-95 transition-all duration-300 ease-in-out bg-primary text-white rounded-md text-xl"
-                    href={route('sukarela_transaction')}
+                    href={route("sukarela_transaction")}
                 >
                     <FaMoneyBillTransfer />
                 </a>
@@ -109,11 +108,11 @@ const TableSimpananSukarela = ({ data, total }) => {
                                                 <td
                                                     key={cell.id}
                                                     className={`${
-                                                        i === 0  ? "text-center"
+                                                        i === 0
+                                                            ? "text-center"
                                                             : i === 1
                                                             ? "text-left"
                                                             : "text-right"
-                                                          
                                                     } border py-5 px-4 border-stroke dark:border-opacity-20`}
                                                 >
                                                     {flexRender(
@@ -133,30 +132,57 @@ const TableSimpananSukarela = ({ data, total }) => {
                                         TOTAL
                                     </td>
                                     <td className="font-medium text-right border py-5 px-4 border-stroke dark:border-opacity-20 text-black dark:text-white">
-                                        {total.total_sukarela
+                                        {data
+                                            .map((r) => r.sukarela)
+                                            .reduce((p, c) => p + c, 0)
                                             ? Intl.NumberFormat("in-ID", {
                                                   style: "currency",
                                                   currency: "IDR",
-                                                  maximumFractionDigits:"0"
-                                              }).format(total.total_sukarela)
+                                                  maximumFractionDigits: "0",
+                                              }).format(
+                                                  data
+                                                      .map((r) => r.sukarela)
+                                                      .reduce(
+                                                          (p, c) => p + c,
+                                                          0
+                                                      )
+                                              )
                                             : "-"}
                                     </td>
                                     <td className="font-medium text-right border py-5 px-4 border-stroke dark:border-opacity-20 text-black dark:text-white">
-                                        {total.total_shu
+                                        {data
+                                            .map((r) => r.shu)
+                                            .reduce((p, c) => p + c, 0)
                                             ? Intl.NumberFormat("in-ID", {
                                                   style: "currency",
                                                   currency: "IDR",
-                                                  maximumFractionDigits:"0"
-                                              }).format(total.total_shu)
+                                                  maximumFractionDigits: "0",
+                                              }).format(
+                                                  data
+                                                      .map((r) => r.shu)
+                                                      .reduce(
+                                                          (p, c) => p + c,
+                                                          0
+                                                      )
+                                              )
                                             : "-"}
                                     </td>
                                     <td className="font-medium text-right border py-5 px-4 border-stroke dark:border-opacity-20 text-black dark:text-white">
-                                        {total.total_awal_tahun
+                                        {data
+                                            .map((r) => r.awal_tahun)
+                                            .reduce((p, c) => p + c, 0)
                                             ? Intl.NumberFormat("in-ID", {
                                                   style: "currency",
                                                   currency: "IDR",
-                                                  maximumFractionDigits:"0"
-                                              }).format(total.total_awal_tahun)
+                                                  maximumFractionDigits: "0",
+                                              }).format(
+                                                  data
+                                                      .map((r) => r.awal_tahun)
+                                                      .reduce(
+                                                          (p, c) => p + c,
+                                                          0
+                                                      )
+                                              )
                                             : "-"}
                                     </td>
                                     <td className="font-medium text-right border py-5 px-4 border-stroke dark:border-opacity-20 text-black dark:text-white">
@@ -164,7 +190,7 @@ const TableSimpananSukarela = ({ data, total }) => {
                                             ? Intl.NumberFormat("in-ID", {
                                                   style: "currency",
                                                   currency: "IDR",
-                                                  maximumFractionDigits:"0"
+                                                  maximumFractionDigits: "0",
                                               }).format(
                                                   total.total_selama_tahun
                                               )
@@ -175,7 +201,7 @@ const TableSimpananSukarela = ({ data, total }) => {
                                             ? Intl.NumberFormat("in-ID", {
                                                   style: "currency",
                                                   currency: "IDR",
-                                                  maximumFractionDigits:"0"
+                                                  maximumFractionDigits: "0",
                                               }).format(total.total_diambil)
                                             : "-"}
                                     </td>
@@ -184,7 +210,7 @@ const TableSimpananSukarela = ({ data, total }) => {
                                             ? Intl.NumberFormat("in-ID", {
                                                   style: "currency",
                                                   currency: "IDR",
-                                                  maximumFractionDigits:"0"
+                                                  maximumFractionDigits: "0",
                                               }).format(
                                                   total.total_disimpan_kembali
                                               )
@@ -195,7 +221,7 @@ const TableSimpananSukarela = ({ data, total }) => {
                                             ? Intl.NumberFormat("in-ID", {
                                                   style: "currency",
                                                   currency: "IDR",
-                                                  maximumFractionDigits:"0"
+                                                  maximumFractionDigits: "0",
                                               }).format(total.total_akhir_tahun)
                                             : "-"}
                                     </td>

@@ -143,6 +143,7 @@ const TransactionSimpanan = ({ type, directUrl, postUrl, ambilUrl }) => {
                 });
 
                 setMember(response.data.member);
+                console.log(response.data)
                 return setProcess(false);
             }
 
