@@ -332,37 +332,172 @@ class SimpananController extends Controller
         return response()->json(['message' => 'Hanya bisa di akses oleh admin!'], 401);
     }
 
-    public function getSimpananSukarela(Request $request) {
-        if (Auth::guard('admin')->check()) {
-            $member = Member::where('NIP', $request->input('nip'))->first();
+    // public function getSimpananSukarela(Request $request) {
+    //     if (Auth::guard('admin')->check()) {
+    //         $member = Member::where('NIP', $request->input('nip'))->first();
             
-            $get = SimpananSukarela::where([
-                ['id_member', $member->id_member],
-            ])
-            ->orderBy('created_at', 'desc')
-            ->get()
-            ->first();
-        }
+    //         $get = SimpananSukarela::where([
+    //             ['id_member', $member->id_member],
+    //         ])
+    //         ->orderBy('created_at', 'desc')
+    //         ->get()
+    //         ->first();
+    //     }
 
-        if(!$piutangAnggota) {
-            return response()->json(['message' => 'Mohon isi data Anggota']);
+    //     if(!$piutangAnggota) {
+    //         return response()->json(['message' => 'Mohon isi data Anggota']);
+    //     }
+    // }
+
+    // public function getSimpananWajib(Request $request) {
+    //     if (Auth::guard('admin')->check()) {
+    //         $member = Member::where('NIP', $request->input('nip'))->first();
+
+    //         $get = simpananWajib::where([
+    //             ['id_member', $member->id_member],
+    //         ])
+    //         ->orderBy('created_at', 'desc')
+    //         ->get()
+    //         ->first();
+    //     }
+
+    //     if(!$piutangAnggota) {
+    //         return response()->json(['message' => 'Mohon isi data Anggota']);
+    //     }
+    // }//
+
+public function ambilSimpananWajib(Request $request) {
+    if (Auth::guard('admin')->check()) {
+        try {
+            // validasi request
+            $request->validate([
+            'id_member' => 'required|string',
+            'tahun' => 'required|integer',
+            'bulan' => 'required|string',
+            'name' => 'required|string',
+            'nominal' => 'required|string',
+            'note' => 'required|string',
+            'date'=> 'required|string',
+            ]);
+
+            //get total simpanan wajib dehh ==========
+            $anggotaKeluar = ambilSimpananWajib::whereBetween('created_at', [Carbon::now()->startOfYear(), Carbon::now()->endOfYear()])
+            ->where(
+                [
+                    ['id_member', $request->input('id_member')],
+                    ['simpanan', 'wajib']
+                ]
+            )->get()->sum('nominal');
+
+            $simpanan = simpananWajib::where([['id_member', $request->input('id_member')], ['tahun', date('Y')]])->get();
+
+            $nominal = $simpanan->sum('kekayaan_awal_tahun') + $simpanan->sum('simpanan_wajib') - $anggotaKeluar;
+            // ======================
+
+            // validasi ketika nominal ambil melebihi total simpanan ===================
+                    if ($request->input('nominal') > $nominal) {
+                        return response()->json(['message' => 'Nomimal ambil melebihi total simpanan'], 500);
+                    }
+                    // ===============
+
+                    // buatkan history transaksi dan ambilsimpanan ketika tidak ada kesalahan ============
+                    Transaksi::create([
+                        'id_transaksi' => Str::uuid(),
+                        'id_member' => $request->input('id_member'),
+                        'name' => $request->input('name'),
+                        'nominal_keluar' =>  $request->input('nominal'),
+                        'type' => 'simpanan',
+                        'nama_transaksi' => 'ambil_simpanan_wajib',
+                        'tahun' => $request->input('tahun'),
+                        'hari' => $request->input('hari'),
+                        'bulan' => $request->input('bulan')
+                    ]);
+
+                    AmbilSimpanan::create([
+                        '_id' => Str::uuid(),
+                        'id_member' => $request->input('id_member'),
+                        'name' => $request->input('name'),
+                        'nominal' => $request->input('nominal'),
+                        'tanggal_ambil' => $request->input('date'),
+                        'simpanan' => 'wajib',
+                        'note' => $request->input('note'),
+                    ]);
+                    // =============================================
+
+                    return response()->json(['message' => 'Berhasil melakukan transaksi'], 200);
+        } catch (\Thowrable $th) {
+            return response()->json(['message' => 'Gagal melakukan transaksi, coba lagi nanti'], 500);
         }
     }
 
-    public function getSimpananWajib(Request $request) {
-        if (Auth::guard('admin')->check()) {
-            $member = Member::where('NIP', $request->input('nip'))->first();
+        return response()->json(['message' => 'Hanya bisa di akses oleh admin!'], 401);
+}
 
-            $get = simpananWajib::where([
-                ['id_member', $member->id_member],
-            ])
-            ->orderBy('created_at', 'desc')
-            ->get()
-            ->first();
-        }
+public function ambilSimpananSukarela(Request $request) {
+    if (Auth::guard('admin')->check()) {
+        try {
+            // validasi request
+            $request->validate([
+                'id_member' => 'required|string',
+                'tahun' => 'required|integer',
+                'bulan' => 'required|string',
+                'name' => 'required|string',
+                'nominal' => 'required|string',
+                'note' => 'required|string',
+                'date' => 'required|string',
+            ]);
 
-        if(!$piutangAnggota) {
-            return response()->json(['message' => 'Mohon isi data Anggota']);
+            // get total simpanan sukarela ====================
+            $anggotaKeluar = AmbilSimpanan::whereBetween('created_at', [Carbon::now()->startOfYear(), Carbon::now()->endOfYear()])
+            ->where(
+                [
+                    ['id_member', $request->input('id_member')],
+                    ['simpanan', 'sukarela']
+                ]
+            )->get()->sum('nominal');
+
+            $simpanan = simpananSukarela::where([['id_member', $request->input('id_member')], ['tahun', date('Y')]])->get();
+
+            $nominal = $simpanan->sum('awal_tahun') + $simpanan->sum('simpanan_sukarela') - $anggotaKeluar;
+            // =============================
+
+            // validasi ketika nominal ambil melebihi total simpanan ==============
+            if ($request->input('nominal') > $nominal) {
+                return response()->json(['message' => 'Nominal ambil melebihi total simpanan!'], 500);
+            }
+            // ===========================
+            
+            // buatkan history transaksi dan ambilsimpanan ketika tidak ada kesalahan ===========
+            Transaksi::create([
+                'id_transaksi' => Str::uuid(),
+                'id_member' => $request->input('id_member'),
+                'name' => $request->input('name'),
+                'nominal_keluar' => $request->input('nominal'),
+                'type' => 'simpanan',
+                'nama_transaksi' => 'ambil_simpanan_sukarela',
+                'tahun' => $request->input('tahun'),
+                'hari' => $request->input('hari'),
+                'bulan' => $request->input('bulan')
+            ]);
+
+            ambilSimpanan::create([
+                '_id' => Str::uuid(),
+                'id_member' => $request->input('id_member'),
+                'name' => $request->input('name'),
+                'nominal' => $request->input('nominal'),
+                'tanggal_ambil' => $request->input('date'),
+                'simpanan' => 'sukrela',
+                'note' => $request->input('note'),
+            ]);
+            // ===================================
+
+            return response()->json(['message' => 'Berhasil melakukan transaksi'], 200);
+        } catch (\Thowrable $th) {
+            return response()->json(['message' => 'Gagal melakukan transaksi, coba lagi nanti!'], 500);
         }
     }
+
+        return response()->json(['message' => 'Hanya bisa di akses oleh admin!'], 4016);
+    }
+
 }

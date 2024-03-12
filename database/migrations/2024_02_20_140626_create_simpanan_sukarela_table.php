@@ -21,7 +21,7 @@ return new class extends Migration
             $table->integer('selama_tahun', false)->nullable();
             $table->integer('diambil', false)->nullable();
             $table->integer('disimpan_kembali', false)->nullable();
-            $table->integer('akhir_taun', false)->nullable();
+            $table->integer('akhir_tahun', false)->nullable();
             $table->timestamps();
         });
     }
