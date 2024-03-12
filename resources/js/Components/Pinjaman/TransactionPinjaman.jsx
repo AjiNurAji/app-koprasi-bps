@@ -14,9 +14,8 @@ const TransactionPinjaman = ({ step, setStep }) => {
     const [waktu, setWaktu] = useState(null);
     const [disabled, setDisabled] = useState(true);
     const [type, setType] = useState("");
-    const form = useRef(null);
     const nipRef = useRef(null);
-    const { data, setData } = useForm({
+    const { data, setData, reset } = useForm({
         name: "",
         id_member: "",
         nip: "",
@@ -103,7 +102,7 @@ const TransactionPinjaman = ({ step, setStep }) => {
         );
 
         if (create) {
-            form.current.reset();
+            reset();
             setProcess(false);
             router.get(route("pinjaman_anggota"));
         }
@@ -254,14 +253,13 @@ const TransactionPinjaman = ({ step, setStep }) => {
                 <form
                     className="flex w-full flex-col relative gap-4"
                     onSubmit={submit}
-                    ref={form}
                     autoComplete="off"
                 >
                     <div
                         className="click_animation absolute top-2 right-2 w-max cursor-pointer rounded-md border border-warning bg-warning py-1 px-3 text-white transition hover:bg-opacity-90"
                         onClick={() => {
                             setStep(1);
-                            form.current.reset();
+                            reset();
                         }}
                     >
                         Batal

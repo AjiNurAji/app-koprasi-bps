@@ -18,6 +18,7 @@ class SimpananWajib extends Model
     protected $fillable = [
         'id_simpanan_wajib',
         'id_member',
+        'name',
         'tahun',
         'bulan',
         'hari',

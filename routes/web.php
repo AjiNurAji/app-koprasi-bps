@@ -78,7 +78,7 @@ Route::middleware(['auth:admin'])->group(function () {
     // wajib
     Route::get('/simpanan/wajib', [HomepageController::class, 'simpananWajib'])->name('simpanan_wajib');
     Route::post('/simpanan/wajib', [SimpananController::class, 'getDataSimpananWajib'])->name('simpanan_wajib');
-    Route::post('/simpanan/wajib/rekapitulasi', [RekapitulasiController::class, 'simpananWajib'])->name('rekap_simpanan_wajib');
+    Route::post('/simpanan/wajib/ambil', [SimpananController::class, 'ambilSimpananWajib'])->name('ambil_simpanan_wajib');
     Route::get('/simpanan/wajib/transaction', [HomepageController::class, 'wajibTransaksi'])->name('transaksi_wajib');
     Route::post('/simpanan/wajib/create', [SimpananController::class, 'simpananWajib'])->name('simpanan_wajib_create');
 
@@ -99,8 +99,6 @@ Route::middleware(['auth:admin'])->group(function () {
     Route::get('/member/change-password','MemberController@change-password')->name('change-password');
     Route::post('/member/update-password','MemberController@update-password')->name('update_password');
   
-    
-
     //upload file
     Route::post('/upload-file', [UploadController::class, 'index'])->name('post_file');
 

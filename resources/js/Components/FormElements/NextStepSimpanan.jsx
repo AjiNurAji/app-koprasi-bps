@@ -2,13 +2,16 @@ import CurrencyInput from "react-currency-input-field";
 
 const NextSimpanan = ({
     data,
+    ambil,
     valueData,
     awalTahun,
     jenis,
     type,
     handleNominal,
     getTahun,
-    step,
+    handleValue,
+    pokok,
+    setPokok
 }) => {
     return (
         <>
@@ -21,87 +24,100 @@ const NextSimpanan = ({
                         >
                             {`Awal Tahun ${getTahun.getFullYear()}`}
                         </label>
-                        <CurrencyInput
-                            autoComplete="off"
-                            allowDecimals={true}
-                            name="awal_tahun"
-                            id="awal_tahun"
-                            disabled={awalTahun}
-                            value={awalTahun ? awalTahun : valueData.awal_tahun}
-                            onValueChange={(value, name) =>
-                                handleNominal(value, name)
-                            }
-                            intlConfig={{
-                                locale: "in-ID",
-                                currency: "IDR",
-                            }}
-                            className="w-full disabled:bg-stroke dark:disabled:bg-strokedark rounded-md border text-dark dark:text-white border-stroke bg-transparent py-2 pl-4 pr-6 transition-all duration-300 ease-in-out outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
-                        />
+                        <span className="bg-transparent capitalize dark:bg-transparent block text-start px-1">
+                            {awalTahun ? awalTahun : "-"}
+                        </span>
                     </div>
-                    <div className="w-full">
-                        <label
-                            htmlFor="anggota_masuk"
-                            className="mb-2.5 inline-block font-medium text-black dark:text-white"
-                        >
-                            {data?.anggota_masuk
-                                ? "Tambah Anggota Masuk"
-                                : "Anggota Masuk"}
-                        </label>
-                        <div className="relative w-full">
-                            <CurrencyInput
-                                autoComplete="off"
-                                placeholder={`Masukkan nominal ${
-                                    data?.anggota_masuk
-                                        ? "tambahan"
-                                        : "transaksi"
-                                }`}
-                                allowDecimals={true}
-                                name="anggota_masuk"
-                                id="anggota_masuk"
-                                value={valueData.anggota_masuk}
-                                onValueChange={(value, name) =>
-                                    handleNominal(value, name)
-                                }
-                                intlConfig={{
-                                    locale: "in-ID",
-                                    currency: "IDR",
-                                }}
-                                className="w-full rounded-md border text-dark dark:text-white border-stroke bg-transparent py-2 pl-4 pr-6 transition-all duration-300 ease-in-out outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
-                            />
+                    {!pokok ? (
+                        <div className="w-full flex justify-between items-center gap-4 sm:gap-6">
+                            <button
+                                type="button"
+                                name="button-sumbit"
+                                onClick={() => setPokok("masuk")}
+                                className="w-full cursor-pointer rounded-md border border-primary bg-primary p-2 text-white transition hover:bg-opacity-90"
+                            >
+                                Anggota Masuk
+                            </button>
+                            <button
+                                type="button"
+                                name="button-sumbit"
+                                onClick={() => setPokok("keluar")}
+                                className="w-full cursor-pointer rounded-md border border-primary bg-primary p-2 text-white transition hover:bg-opacity-90"
+                            >
+                                Anggota Keluar
+                            </button>
                         </div>
-                    </div>
-                    <div className="w-full">
-                        <label
-                            htmlFor="anggota_keluuar"
-                            className="mb-2.5 inline-block font-medium text-black dark:text-white"
-                        >
-                            {data?.anggota_keluar
-                                ? "Tambah Anggota Keluar"
-                                : "Anggota Keluar"}
-                        </label>
-                        <div className="relative w-full">
-                            <CurrencyInput
-                                autoComplete="off"
-                                placeholder={`Masukkan nominal ${
-                                    data?.anggota_keluar
-                                        ? "tambahan"
-                                        : "transaksi"
-                                }`}
-                                allowDecimals={true}
-                                name="anggota_keluar"
-                                id="anggota_keluar"
-                                value={valueData.anggota_keluar}
-                                onValueChange={(value, name) =>
-                                    handleNominal(value, name)
-                                }
-                                intlConfig={{
-                                    locale: "in-ID",
-                                    currency: "IDR",
-                                }}
-                                className="w-full rounded-md border text-dark dark:text-white border-stroke bg-transparent py-2 pl-4 pr-6 transition-all duration-300 ease-in-out outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
-                            />
-                        </div>
-                    </div>
+                    ) : (
+                        <>
+                            {pokok === "masuk" ? (
+                                <div className="w-full">
+                                    <label
+                                        htmlFor="anggota_masuk"
+                                        className="mb-2.5 inline-block font-medium text-black dark:text-white"
+                                    >
+                                        {data?.anggota_masuk
+                                            ? "Tambah Anggota Masuk"
+                                            : "Anggota Masuk"}
+                                    </label>
+                                    <div className="relative w-full">
+                                        <CurrencyInput
+                                            autoComplete="off"
+                                            placeholder={`Masukkan nominal ${
+                                                data?.anggota_masuk
+                                                    ? "tambahan"
+                                                    : "transaksi"
+                                            }`}
+                                            allowDecimals={true}
+                                            name="anggota_masuk"
+                                            id="anggota_masuk"
+                                            value={valueData.anggota_masuk}
+                                            onValueChange={(value, name) =>
+                                                handleNominal(value, name)
+                                            }
+                                            intlConfig={{
+                                                locale: "in-ID",
+                                                currency: "IDR",
+                                            }}
+                                            className="w-full rounded-md border text-dark dark:text-white border-stroke bg-transparent py-2 pl-4 pr-6 transition-all duration-300 ease-in-out outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
+                                        />
+                                    </div>
+                                </div>
+                            ) : (
+                                <div className="w-full">
+                                    <label
+                                        htmlFor="anggota_keluuar"
+                                        className="mb-2.5 inline-block font-medium text-black dark:text-white"
+                                    >
+                                        {data?.anggota_keluar
+                                            ? "Tambah Anggota Keluar"
+                                            : "Anggota Keluar"}
+                                    </label>
+                                    <div className="relative w-full">
+                                        <CurrencyInput
+                                            autoComplete="off"
+                                            placeholder={`Masukkan nominal ${
+                                                data?.anggota_keluar
+                                                    ? "tambahan"
+                                                    : "transaksi"
+                                            }`}
+                                            allowDecimals={true}
+                                            name="anggota_keluar"
+                                            id="anggota_keluar"
+                                            value={valueData.anggota_keluar}
+                                            onValueChange={(value, name) =>
+                                                handleNominal(value, name)
+                                            }
+                                            intlConfig={{
+                                                locale: "in-ID",
+                                                currency: "IDR",
+                                            }}
+                                            className="w-full rounded-md border text-dark dark:text-white border-stroke bg-transparent py-2 pl-4 pr-6 transition-all duration-300 ease-in-out outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
+                                        />
+                                    </div>
+                                </div>
+                            )}
+                        </>
+                    )}
                 </>
             ) : type === "wajib" ? (
                 <>
@@ -114,27 +130,9 @@ const NextSimpanan = ({
                                 >
                                     {`Kekayaan Awal Tahun ${getTahun.getFullYear()}`}
                                 </label>
-                                <CurrencyInput
-                                    autoComplete="off"
-                                    required
-                                    allowDecimals={true}
-                                    name="kekayaan_awal_tahun"
-                                    id="kekayaan_awal_tahun"
-                                    value={
-                                        awalTahun
-                                            ? awalTahun
-                                            : valueData.kekayaan_awal_tahun
-                                    }
-                                    disabled={awalTahun}
-                                    onValueChange={(value, name) =>
-                                        handleNominal(value, name)
-                                    }
-                                    intlConfig={{
-                                        locale: "in-ID",
-                                        currency: "IDR",
-                                    }}
-                                    className="w-full disabled:bg-stroke dark:disabled:bg-strokedark rounded-md border text-dark dark:text-white border-stroke bg-transparent py-2 pl-4 pr-6 transition-all duration-300 ease-in-out outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
-                                />
+                                <span className="bg-transparent capitalize dark:bg-transparent block text-start px-1">
+                                    {awalTahun ? awalTahun : "-"}
+                                </span>
                             </div>
                             <div className="w-full">
                                 <label
@@ -145,11 +143,7 @@ const NextSimpanan = ({
                                 </label>
                                 <CurrencyInput
                                     autoComplete="off"
-                                    placeholder={`Masukkan nominal ${
-                                        data?.simpanan_wajib
-                                            ? "tambahan"
-                                            : "transaksi"
-                                    }`}
+                                    placeholder={`Masukkan nominal simpanan`}
                                     allowDecimals={true}
                                     name="simpanan_wajib"
                                     id="simpanan_wajib"
@@ -181,18 +175,16 @@ const NextSimpanan = ({
                                         maximumFractionDigits: "0",
                                     }).format(
                                         (awalTahun ? awalTahun : 0) +
-                                            (data?.simpanan_wajib
-                                                ? data?.simpanan_wajib
-                                                : 0) -
-                                            (data?.anggota_keluar
-                                                ? data?.anggota_keluar
-                                                : 0)
+                                            data
+                                                .map((r) => r.simpanan_wajib)
+                                                .reduce((p, c) => p + c, 0) -
+                                            ambil
                                     )}
                                 </span>
                             </div>
                             <div className="w-full">
                                 <label
-                                    htmlFor="anggota_keluar"
+                                    htmlFor="nominal"
                                     className="mb-2.5 inline-block font-medium text-black dark:text-white"
                                 >
                                     Nominal Pengambilan
@@ -201,9 +193,9 @@ const NextSimpanan = ({
                                     autoComplete="off"
                                     placeholder={`Masukkan nominal pengambilan`}
                                     allowDecimals={true}
-                                    name="anggota_keluar"
-                                    id="anggota_keluar"
-                                    value={valueData.anggota_keluar}
+                                    name="nominal"
+                                    id="nominal"
+                                    value={valueData.nominal}
                                     onValueChange={(value, name) =>
                                         handleNominal(value, name)
                                     }
@@ -216,18 +208,18 @@ const NextSimpanan = ({
                             </div>
                             <div className="w-full">
                                 <label
-                                    htmlFor="catatan"
+                                    htmlFor="note"
                                     className="mb-2.5 inline-block font-medium text-black dark:text-white"
                                 >
                                     Catatan
                                 </label>
                                 <textarea
-                                    name="catatan"
-                                    id="catatan"
+                                    name="note"
+                                    id="note"
                                     onChange={(e) => handleValue(e)}
                                     rows="2"
                                     required
-                                    value={data.catatan}
+                                    value={data.note}
                                     className="w-full resize-none rounded-md disabled:bg-whiten border text-dark dark:text-white border-stroke bg-transparent py-1 pl-2 pr-3 transition-all duration-300 ease-in-out outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                                     placeholder="Catatan"
                                 ></textarea>

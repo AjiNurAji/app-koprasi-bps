@@ -176,6 +176,7 @@ class PiutangController extends Controller
                     'id_transaksi' => Str::uuid(),
                     'id_member' => $request->input('id_member'),
                     'nominal_keluar' => $request->input('total_pinjaman'),
+                    'name' => $request->input('name'),
                     'type' => 'pinjaman',
                     'nama_transaksi' => 'pinjaman',
                     'tahun' => $request->input('tahun'),
@@ -187,6 +188,7 @@ class PiutangController extends Controller
                     'id_pinjaman' => Str::uuid(),
                     'id_member' => $request->input('id_member'),
                     'nominal' => $request->input('total_pinjaman'),
+                    'name' => $request->input('name'),
                     'bulan' => $request->input('bulan'),
                     'hari' => $request->input('hari'),
                     'tahun' => $request->input('tahun'),
@@ -243,6 +245,7 @@ class PiutangController extends Controller
                 Transaksi::create([
                     'id_transaksi' => Str::uuid(),
                     'id_member' => $request->input('id_member'),
+                    'name' => $request->input('name'),
                     'nominal' => $request->input('nominal'),
                     'type' => 'pinjaman',
                     'nama_transaksi' => 'bayar_pinjaman',
@@ -254,6 +257,7 @@ class PiutangController extends Controller
                 BayarPinjaman::create([
                     'id_bayar_pinjaman' => Str::uuid(),
                     'id_member' => $request->input('id_member'),
+                    'name' => $request->input('name'),
                     'nominal' => $request->input('nominal'),
                     'id_pinjaman' => $pinjaman->id_pinjaman,
                     'tanggal_bayar' => $request->input('date'),

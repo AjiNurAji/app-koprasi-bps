@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Member;
+use App\Models\AmbilSimpanan;
 use App\Models\Kas;
 use App\Models\Rekening;
 use App\Models\SimpananPokok;
@@ -14,27 +16,25 @@ use PDF;
 
 class PDFController extends Controller
 {
-    public function ExportSimpananPokokPDF()
+    public function ExportSimpananPokokPDF(Request $request)
     {
-        $simpananPokok = SimpananPokok::where('tahun', date('Y'))->get();
+        $members = Member::all();
+        $years = date('Y', strtotime($request->input('end_date')));
 
-        foreach ($simpananPokok as $data) {
-            $datas[] = [
-                'name' => $data->member->name,
-                'awal_tahun' => $data->awal_tahun === null ? null : $data->awal_tahun,
-                'anggota_masuk' => $data->anggota_masuk === null ? null : $data->anggota_masuk,
-                'anggota_keluar' => $data->anggota_keluar === null ? null : $data->anggota_keluar,
-                'kekayaan' => ($data->awal_tahun === null ? null : $data->awal_tahun) + ($data->anggota_masuk === null ? null : $data->anggota_masuk) - ($data->anggota_keluar === null ? null : $data->anggota_keluar),
-            ];
+        foreach ($members as $key => $value) {
+            $members[$key]->simpanan_pokok = SimpananPokok::whereBetween('tanggal_transaksi', [$request->input('start_date'), $request->input('end_date')])->where('id_member', $value->id_member)->get();
+            $members[$key]->awal_tahun = SimpananPokok::where([['id_member', $value->id_member], ['tahun', $years - 1]])->get()->sum('anggota_masuk') - SimpananPokok::where([['id_member', $value->id_member], ['tahun', $years - 1]])->get()->sum('anggota_keluar');
         }
 
-        $awalTahunPokok = SimpananPokok::where('tahun', date('Y'))->sum('awal_tahun');
-        $anggotaMasukPokok = SimpananPokok::where('tahun', date('Y'))->sum('anggota_masuk');
-        $anggotaKeluarPokok = SimpananPokok::where('tahun', date('Y'))->sum('anggota_keluar');
+        $awalTahunPokok = SimpananPokok::where('tahun', $years - 1)->get()->sum('anggota_masuk') - SimpananPokok::where('tahun', $years - 1)->get()->sum('anggota_keluar');
+        $anggotaMasukPokok = SimpananPokok::whereBetween('tanggal_transaksi', [$request->input('start_date'), $request->input('end_date')])->get()->sum('anggota_masuk');
+        $anggotaKeluarPokok = SimpananPokok::whereBetween('tanggal_transaksi', [$request->input('start_date'), $request->input('end_date')])->get()->sum('anggota_keluar');
         $totalPokok = $awalTahunPokok + $anggotaMasukPokok - $anggotaKeluarPokok;
 
         $pdf = PDF::loadView('Exports.PDF.Simpanan.simpananPokok', [
-            'data' => isset($datas) ? $datas : $simpananPokok, 'total' => [
+            'data' => $members, 
+            'years' => $years,
+            'total' => [
                 'awal_tahun' => $awalTahunPokok,
                 'anggota_masuk' => $anggotaMasukPokok,
                 'anggota_keluar' => $anggotaKeluarPokok,
@@ -49,32 +49,30 @@ class PDFController extends Controller
         return $pdf->download('simpananpokok.pdf');
     }
 
-    public function ExportSimpananWajibPDF()
+    public function ExportSimpananWajibPDF(Request $request)
     {
-        $simpananWajib = SimpananWajib::where('tahun', date('Y'))->get();
+        $request->validate([
+            'start_date' => 'required',
+            'end_date' => 'required',
+        ]);
 
-        foreach ($simpananWajib as $data) {
-            $datas[] = [
-                'name' => $data->member->name,
-                'kekayaan_awal_tahun' => $data->kekayaan_awal_tahun === null ? null : $data->kekayaan_awal_tahun,
-                'simpanan_wajib' => $data->simpanan_wajib === null ? null : $data->simpanan_wajib,
-                'anggota_keluar' => $data->anggota_keluar === null ? null : $data->anggota_keluar,
-                'kekayaan' => ($data->kekayaan_awal_tahun === null ? null : $data->kekayaan_awal_tahun) + ($data->simpanan_wajib === null ? null : $data->simpanan_wajib) - ($data->anggota_keluar === null ? null : $data->anggota_keluar),
-            ];
+        $members = Member::all();
+
+        foreach ($members as $key => $value) {
+            $members[$key]->simpanan_wajib = SimpananWajib::whereBetween('created_at', [$request->input('start_date'), $request->input('end_date')])->where('id_member', $value->id_member)->get();
+            $members[$key]->ambil_simpanan_wajib = AmbilSimpanan::whereBetween('tanggal_ambil', [$request->input('start_date'), $request->input('end_date')])->where([['simpanan', 'wajib'], ['id_member', $value->id_member]])->get();
         }
 
-        $kekayaanAwalTahun = SimpananWajib::where('tahun', date('Y'))->sum('kekayaan_awal_tahun');
-        $simpananWajibSum = SimpananWajib::where('tahun', date('Y'))->sum('simpanan_wajib');
-        $anggotaKeluar = SimpananWajib::where('tahun', date('Y'))->sum('anggota_keluar');
-        $totalWajib = $kekayaanAwalTahun + $simpananWajibSum - $anggotaKeluar;
+        $years = date('Y', strtotime($request->input('end_date')));
+
+        $totals = SimpananWajib::whereBetween('created_at', [$request->input('start_date'), $request->input('end_date')])->get();
+        $ambil = AmbilSimpanan::whereBetween('tanggal_ambil', [$request->input('start_date'), $request->input('end_date')])->where('simpanan', 'wajib')->get();
 
         $pdf = PDF::loadView('Exports.PDF.Simpanan.simpananWajib', [
-            'data' => isset($datas) ? $datas : $simpananWajib, 'total' => [
-                'kekayaan_awal_tahun' => $kekayaanAwalTahun,
-                'simpanan_wajib' => $simpananWajibSum,
-                'anggota_keluar' => $anggotaKeluar,
-                'jumlah' => $totalWajib,
-            ]
+            'data' => $members,
+            'years' => $years,
+            'totals' => $totals,
+            'totalsAmbil' => $ambil,
         ]);
 
         $pdf->setOption(['dpi' => 150]);

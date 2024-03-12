@@ -17,6 +17,7 @@ return new class extends Migration
             $table->foreign('id_pinjaman')->references('id_pinjaman')->on('pinjaman')->onDelete('cascade')->onUpdate('cascade');
             $table->char('id_member');
             $table->foreign('id_member')->references('id_member')->on('members')->onDelete('cascade')->onUpdate('cascade');
+            $table->string('name', 40);
             $table->integer('nominal', false);
             $table->enum('jenis', ['cicilan', 'langsung']);
             $table->integer('tahun', false);

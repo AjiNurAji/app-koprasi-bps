@@ -16,6 +16,7 @@ const TransaksiWajib = ({ auth }) => {
             <div className="rounded-md border mt-4 sm:mt-6 border-stroke bg-white px-5 py-6 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5">
                 <TransactionSimpanan
                     type="wajib"
+                    ambilUrl={route('ambil_simpanan_wajib')}
                     directUrl={route("simpanan_wajib")}
                     postUrl={route("simpanan_wajib_create")}
                 />

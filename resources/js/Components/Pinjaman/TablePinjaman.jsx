@@ -12,7 +12,7 @@ import DownloadDropdown from "../DownloadDrodown";
 import SearchTable from "../Table/SearchTable";
 import PaginationTable from "../Table/PaginationTable";
 
-const TablePinjaman = ({ data, members, total }) => {
+const TablePinjaman = ({ data, total }) => {
     const [datas] = useState([...data]);
     const [globalFilter, setGlobalFilter] = useState("");
 
@@ -183,7 +183,6 @@ const TablePinjaman = ({ data, members, total }) => {
                             </tr>
                         )}
                     </tbody>
-                    <tfoot></tfoot>
                 </table>
             </div>
             {/* pagination */}

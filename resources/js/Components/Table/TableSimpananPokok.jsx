@@ -10,12 +10,10 @@ import { useState } from "react";
 import PaginationTable from "./PaginationTable";
 import { FaMoneyBillTransfer } from "react-icons/fa6";
 import SearchTable from "./SearchTable";
-import DownloadDropdown from "../DownloadDrodown";
 
 const TableSimpananPokok = ({ data, total }) => {
     const [datas] = useState([...data]);
     const [globalFilter, setGlobalFilter] = useState("");
-    const [popup, setPopup] = useState(false);
 
     const table = useReactTable({
         data: datas,
@@ -39,14 +37,6 @@ const TableSimpananPokok = ({ data, total }) => {
                     <FaMoneyBillTransfer />
                 </a>
                 <div className="flex flex-col-reverse md:flex-row items-end md:items-center justify-end gap-3">
-                    <DownloadDropdown
-                        pdf="simpananpokok.pdf"
-                        csv="simpananpokok.csv"
-                        excel="simpananpokok.xlsx"
-                        routepdf={route("simpanan_pokok_pdf")}
-                        routecsv={route("simpanan_pokok_csv")}
-                        routeexcel={route("simpanan_pokok_excel")}
-                    />
                     <SearchTable
                         setGlobalFilter={setGlobalFilter}
                         globalFilter={globalFilter}

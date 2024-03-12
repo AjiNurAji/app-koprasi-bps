@@ -18,6 +18,7 @@ class AmbilSimpanan extends Model
     protected $fillable = [
         '_id',
         'id_member',
+        'name',
         'tanggal_ambil',
         'nominal',
         'note',

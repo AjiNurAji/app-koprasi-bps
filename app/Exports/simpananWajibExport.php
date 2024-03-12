@@ -2,6 +2,8 @@
 
 namespace App\Exports;
 
+use App\Models\AmbilSimpanan;
+use App\Models\Member;
 use App\Models\SimpananWajib;
 use Illuminate\Contracts\View\View;
 use Maatwebsite\Excel\Concerns\Exportable;
@@ -12,39 +14,34 @@ class simpananWajibExport implements FromView, ShouldAutoSize
 {
     use Exportable;
 
-    private $simpanan;
+    private $start_date;
+    private $end_date;
 
-    public function __construct($data)
+    public function __construct($startDate, $endDate)
     {
-        $this->simpanan = $data;
+        $this->start_date = $startDate;
+        $this->end_date = $endDate;
     }
 
     public function view(): View
     {
-        $simpananWajib = $this->simpanan;
+        $members = Member::all();
 
-        // foreach ($simpananWajib as $data) {
-        //     $datas[] = [
-        //         'name' => $data->member->name,
-        //         'kekayaan_awal_tahun' => $data->kekayaan_awal_tahun === null ? null : $data->kekayaan_awal_tahun,
-        //         'simpanan_wajib' => $data->simpanan_wajib === null ? null : $data->simpanan_wajib,
-        //         'anggota_keluar' => $data->anggota_keluar === null ? null : $data->anggota_keluar,
-        //         'kekayaan' => ($data->kekayaan_awal_tahun === null ? null : $data->kekayaan_awal_tahun) + ($data->simpanan_wajib === null ? null : $data->simpanan_wajib) - ($data->anggota_keluar === null ? null : $data->anggota_keluar),
-        //     ];
-        // }
+        foreach ($members as $key => $value) {
+            $members[$key]->simpanan_wajib = SimpananWajib::whereBetween('created_at', [$this->start_date, $this->end_date])->where('id_member', $value->id_member)->get();
+            $members[$key]->ambil_simpanan_wajib = AmbilSimpanan::whereBetween('tanggal_ambil', [$this->start_date, $this->end_date])->where([['simpanan', 'wajib'], ['id_member', $value->id_member]])->get();
+        }
 
-        $kekayaanAwalTahun = SimpananWajib::where('tahun', date('Y'))->sum('kekayaan_awal_tahun');
-        $simpananWajibSum = SimpananWajib::where('tahun', date('Y'))->sum('simpanan_wajib');
-        $anggotaKeluar = SimpananWajib::where('tahun', date('Y'))->sum('anggota_keluar');
-        $totalWajib = $kekayaanAwalTahun + $simpananWajibSum - $anggotaKeluar;
+        $years = date('Y', strtotime($this->end_date));
+
+        $totals = SimpananWajib::whereBetween('created_at', [$this->start_date, $this->end_date])->get();
+        $ambil = AmbilSimpanan::whereBetween('tanggal_ambil', [$this->start_date, $this->end_date])->where('simpanan', 'wajib')->get();
 
         return view('Exports.Excel.Simpanan.simpananWajib', [
-            'data' => isset($datas) ? $datas : $simpananWajib, 'total' => [
-                'kekayaan_awal_tahun' => $kekayaanAwalTahun,
-                'simpanan_wajib' => $simpananWajibSum,
-                'anggota_keluar' => $anggotaKeluar,
-                'jumlah' => $totalWajib,
-            ]
+            'data' => $members,
+            'years' => $years,
+            'totals' => $totals,
+            'totalsAmbil' => $ambil,
         ]);
     }
 }

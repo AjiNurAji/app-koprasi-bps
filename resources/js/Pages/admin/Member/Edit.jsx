@@ -14,7 +14,7 @@ const EditMember = ({ auth, member }) => {
     const [processing, setProcess] = useState(false);
     const [hide, setHide] = useState(true);
     const { data, setData } = useForm({
-        id_member: member.id_member,
+        id_member: "",
         nip: "",
         name: "",
         no_hp: "",
@@ -32,6 +32,7 @@ const EditMember = ({ auth, member }) => {
     useEffect(() => {
         setData({
             ...data,
+            id_member: member.id_member,
             name: member.name,
             nip: member.NIP,
             no_hp: member.no_hp,

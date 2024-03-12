@@ -15,6 +15,7 @@ return new class extends Migration
             $table->uuid('id_pinjaman')->primary();
             $table->char('id_member');
             $table->foreign('id_member')->references('id_member')->on('members')->onUpdate('cascade')->onDelete('cascade');
+            $table->string('name', 40);
             $table->integer('tahun', false);
             $table->string('bulan', 12);
             $table->string('hari', 7);

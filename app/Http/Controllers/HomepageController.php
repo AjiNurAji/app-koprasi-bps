@@ -175,21 +175,30 @@ class HomepageController extends Controller
     // halaman simpanan pokok
     public function simpananPokok()
     {
-        $simpananPokok = SimpananPokok::with(['member'])
-            ->where('tahun', date('Y'))
-            ->orderBy('updated_at', 'desc')
-            ->get()->toArray();
+        $simpananPokok = Member::all();
+
+        foreach ($simpananPokok as $i => $value) {
+            $simpananPokok[$i]['awal_tahun'] = SimpananPokok::where([
+                ['tahun', date('Y') - 1],
+                ['id_member', $value['id_member']]
+            ])->get()->sum('anggota_masuk') - SimpananPokok::where([
+                ['tahun', date('Y') - 1],
+                ['id_member', $value['id_member']]
+            ])->get()->sum('anggota_keluar');
+
+            $simpananPokok[$i]['simpanan_pokok'] = SimpananPokok::where([
+                ['tahun', date('Y')],
+                ['id_member', $value['id_member']]
+            ])->get();
+        }
 
         $awalTahunPokok = SimpananPokok::where('tahun', date('Y'))->sum('awal_tahun');
         $anggotaMasukPokok = SimpananPokok::where('tahun', date('Y'))->sum('anggota_masuk');
         $anggotaKeluarPokok = SimpananPokok::where('tahun', date('Y'))->sum('anggota_keluar');
         $totalPokok = $awalTahunPokok + $anggotaMasukPokok - $anggotaKeluarPokok;
 
-        $members = Member::orderBy('name', 'asc')->get();
-
         return Inertia::render('Simpanan/Pokok', [
             'data' => $simpananPokok,
-            'members' => $members,
             'total' => [
                 'awal_tahun' => $awalTahunPokok,
                 'anggota_masuk' => $anggotaMasukPokok,
@@ -202,29 +211,41 @@ class HomepageController extends Controller
     // halaman simpanan wajib
     public function simpananWajib()
     {
-        $simpananWajib = SimpananWajib::with(['member'])
-            ->where('tahun', date('Y'))
-            ->orderBy('updated_at', 'desc')
-            ->get()->toArray();
+        $simpananWajib = Member::all();
 
-        $taunKemarin = SimpananWajib::with(['member'])
-            ->where('tahun', (date('Y') - 1))
-            ->orderBy('updated_at', 'desc')
-            ->get()->toArray();
+        foreach ($simpananWajib as $i => $value) {
+            $simpananWajib[$i]['simpanan_wajib'] = SimpananWajib::where([
+                ['tahun', date('Y')],
+                ['id_member', $value['id_member']]
+            ])->get();
 
-        foreach ($taunKemarin as $i => $cols) {
-            $simpananWajib[$i]['totalTahun'] = $cols['kekayaan_awal_tahun'] + $cols['simpanan_wajib'] - $cols['anggota_keluar'];
+            $simpananWajib[$i]['ambil_simpanan'] = AmbilSimpanan::whereBetween('created_at', [Carbon::now()->startOfYear(), Carbon::now()->endOfYear()])->where([
+                ['id_member', $value['id_member']],
+                ['simpanan', 'wajib']
+            ])->get();
+
+            $simpananWajib[$i]['awal_tahun'] = SimpananWajib::where([
+                ['tahun', date('Y') - 1],
+                ['id_member', $value['id_member']]
+            ])->get()->sum('simpanan_wajib') - AmbilSimpanan::whereBetween('created_at', [Carbon::createFromDate(date('Y') - 1)->startOfYear(), Carbon::createFromDate(date('Y') - 1)->endOfYear()])
+                ->where([
+                    ['id_member', $value['id_member']],
+                    ['simpanan', 'wajib']
+                ])->get()->sum('nominal');
         }
 
-        $kekayaanAwalTahun = SimpananWajib::where('tahun', date('Y'))->sum('kekayaan_awal_tahun');
+        $kekayaanAwalTahun = SimpananWajib::where([
+            ['tahun', date('Y') - 1],
+        ])->get()->sum('simpanan_wajib') - AmbilSimpanan::whereBetween('created_at', [Carbon::createFromDate(date('Y') - 1)->startOfYear(), Carbon::createFromDate(date('Y') - 1)->endOfYear()])
+            ->where([
+                ['simpanan', 'wajib']
+            ])->get()->sum('nominal');
         $simpananWajibSum = SimpananWajib::where('tahun', date('Y'))->sum('simpanan_wajib');
         $anggotaKeluar = AmbilSimpanan::whereBetween('created_at', [Carbon::now()->startOfYear(), Carbon::now()->endOfYear()])->where('simpanan', 'wajib')->sum('nominal');
         $totalWajib = $kekayaanAwalTahun + $simpananWajibSum - $anggotaKeluar;
-        $members = Member::orderBy('name', 'asc')->get();
 
         return Inertia::render('Simpanan/Wajib', [
             'data' => $simpananWajib,
-            'members' => $members,
             'total' => [
                 'kekayaan_awal_tahun' => $kekayaanAwalTahun,
                 'simpanan_wajib' => $simpananWajibSum,
@@ -402,42 +423,48 @@ class HomepageController extends Controller
     // halaman pinjaman
     public function pinjamanAnggota()
     {
-        $data = Member::with(['pinjaman', 'pinjaman.bayar'])->get()->toArray();
+        $data = Member::all();
 
         foreach ($data as $i => $v) {
+            $data[$i]['pinjaman'] = Pinjaman::where('id_member', $v['id_member'])->get();
+
+            $data[$i]['pinjaman']['bayar'] = BayarPinjaman::where('id_member', $v['id_member'])->get();
+
             $pinjaman = Pinjaman::where('id_member', $v['id_member'])
                 ->where('tahun', (date('Y') - 1))
+                ->orderBy('created_at', 'desc')
+                ->get()
                 ->first();
 
             $pinjamanNow = Pinjaman::where([
                 ['id_member', $v['id_member']],
                 ['tahun', date('Y')]
-            ])
-                ->get();
+            ])->orderBy('created_at', 'desc')->get();
 
-            // dd($pinjamanNow->sum('nominal'));
+            // dd($pinjaman);
 
             $bayar = BayarPinjaman::where([
                 ['id_member', $v['id_member']],
-            ])
-                ->orderBy('created_at', 'desc')
-                ->get();
+                ['tahun', date('Y')]
+            ])->get();
 
-            $data[$i]['pinjaman']['tahun_lalu'] = $pinjaman ? $pinjaman->sisa : $pinjaman;
+            $bayarTahunLalu = BayarPinjaman::where([
+                ['id_member', $v['id_member']],
+                ['tahun', date('Y') - 1]
+            ])->orderBy('created_at', 'desc')->get()->first();
 
-            $data[$i]['pinjaman']['total_pinjaman'] = $pinjaman ? $pinjaman->sisa + $pinjamanNow->sum('nominal') : $pinjamanNow->sum('nominal');
-            $data[$i]['pinjaman']['sisa_pinjaman'] = $pinjamanNow ? $pinjamanNow->sum('nominal') - ($bayar ? $bayar->sum('nominal') : 0) : 0;
+            $data[$i]['pinjaman']['tahun_lalu'] = $bayarTahunLalu ? $bayarTahunLalu->sisa : ($pinjaman ? $pinjaman->sisa : 0);
+
+            $data[$i]['pinjaman']['total_pinjaman'] = $pinjamanNow ? $pinjamanNow->sum('nominal') : 0;
+            $data[$i]['pinjaman']['sisa_pinjaman'] = !$pinjamanNow ? ($bayarTahunLalu ? $bayarTahunLalu->sisa : ($pinjaman ? $pinjaman->sisa : 0)) : ($pinjamanNow ? ($bayarTahunLalu ? $bayarTahunLalu->sisa : ($pinjaman ? $pinjaman->sisa : 0)) + $pinjamanNow->sum('nominal') - ($bayar ? $bayar->sum('nominal') : 0) : 0);
             $data[$i]['pinjaman']['dibayar'] = $bayar ? $bayar->sum('nominal') : 0;
         }
 
         $pinjaman = Pinjaman::where('tahun', date('Y'))->get()->sum('nominal');
         $terbayar = BayarPinjaman::where('tahun', date('Y'))->get()->sum('nominal');
 
-        $member = Member::orderBy('name', 'asc')->get();
-
         return Inertia::render('admin/Pinjaman/Pinjaman', [
             'data' => $data,
-            'members' => $member,
             'cards' => [
                 'total_pinjaman' => $pinjaman,
                 'total_dibayar' => $terbayar,
@@ -459,17 +486,17 @@ class HomepageController extends Controller
             ->first();
 
         $terbayar = BayarPinjaman::where([
-                ['tahun', date('Y')],
-                ['id_member', $member->id_member]
-            ])->get();
+            ['tahun', date('Y')],
+            ['id_member', $member->id_member]
+        ])->get();
 
         $member->tahun_lalu = $tahunLalu ? $tahunLalu->sisa : 0;
         $member->bayar = $terbayar;
         $member->total_terbayar = $terbayar->sum('nominal');
         $member->total = Pinjaman::where([
-                ['tahun', date('Y')],
-                ['id_member', $member->id_member]
-            ])
+            ['tahun', date('Y')],
+            ['id_member', $member->id_member]
+        ])
             ->get()
             ->sum('nominal');
 
@@ -479,11 +506,11 @@ class HomepageController extends Controller
     }
 
     // transaction page
-    public function pinjamanTransaction() 
+    public function pinjamanTransaction()
     {
         return Inertia::render('Pinjaman/Transaction');
     }
-    public function pokokTransaksi() 
+    public function pokokTransaksi()
     {
         return Inertia::render('Simpanan/Transaction/Pokok');
     }
@@ -497,7 +524,7 @@ class HomepageController extends Controller
     {
         return Inertia::render('Simpanan/Transaction/Sukarela');
     }
-    
+
     // halaman ad-art
     public function adART()
     {

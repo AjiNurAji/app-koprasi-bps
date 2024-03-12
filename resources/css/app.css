@@ -27,8 +27,6 @@ button:active {
 /* Firefox */
 *, *::before, *::after {
     scroll-behavior: smooth;
-    scrollbar-width: thin;
-    scrollbar-color: #3c50e0 #dee4ee;
 }
 
 /* Chrome, Edge and Safari */

@@ -10,9 +10,11 @@ const Wajib = ({ auth, data, members, total }) => {
             <Head title="Simpanan Wajib" />
             <Breadcrumb pageName="Simpanan Wajib" />
             <Rekap
-                route={route("rekap_simpanan_wajib")}
-                redirect={route("simpanan_wajib")}
+                excel={route("simpanan_wajib_excel")}
+                csv={route("simpanan_wajib_csv")}
+                pdf={route("simpanan_wajib_pdf")}
                 title="Simpanan Wajib"
+                filename="Rekapitulasi Simpanan Wajib"
             />
             <TableSimpananWajib
                 data={data}

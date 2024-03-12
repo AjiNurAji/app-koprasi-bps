@@ -18,6 +18,7 @@ return new class extends Migration
             $table->integer('tahun', false);
             $table->string('name', 40);
             $table->string('bulan', 12);
+            $table->date('tanggal_transaksi');
             $table->string('hari', 7);
             $table->integer('awal_tahun', false)->nullable();
             $table->integer('anggota_masuk', false)->nullable();
@@ -26,7 +27,7 @@ return new class extends Migration
         });
     }
 
-    /**
+    /**p
      * Reverse the migrations.
      */
     public function down(): void

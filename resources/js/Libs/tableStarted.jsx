@@ -122,7 +122,7 @@ export const columnsSimpananPokok = [
         rowSpan: 2,
     }),
 
-    columnHelper.accessor("member.name", {
+    columnHelper.accessor("name", {
         id: "Nama",
         cell: (data) => (
             <span className="font-medium capitalize text-black dark:text-white">
@@ -153,16 +153,24 @@ export const columnsSimpananPokok = [
                 enableGlobalFilter: false,
             }),
 
-            columnHelper.accessor("anggota_masuk", {
+            columnHelper.accessor("simpanan_pokok", {
                 id: "AnggotaMasuk",
                 cell: (data) => (
                     <span className="font-medium text-black dark:text-white">
-                        {data.getValue()
+                        {data
+                            .getValue()
+                            .map((r) => r.anggota_masuk)
+                            .reduce((p, c) => p + c, 0)
                             ? Intl.NumberFormat("in-ID", {
                                   style: "currency",
                                   currency: "IDR",
                                   maximumFractionDigits: "0",
-                              }).format(data.getValue())
+                              }).format(
+                                  data
+                                      .getValue()
+                                      .map((r) => r.anggota_masuk)
+                                      .reduce((p, c) => p + c, 0)
+                              )
                             : "-"}
                     </span>
                 ),
@@ -170,16 +178,24 @@ export const columnsSimpananPokok = [
                 enableGlobalFilter: false,
             }),
 
-            columnHelper.accessor("anggota_keluar", {
+            columnHelper.accessor("simpanan_pokok", {
                 id: "AnggotaKeluar",
                 cell: (data) => (
                     <span className="font-medium text-black dark:text-white">
-                        {data.getValue()
+                        {data
+                            .getValue()
+                            .map((r) => r.anggota_keluar)
+                            .reduce((p, c) => p + c, 0)
                             ? Intl.NumberFormat("in-ID", {
                                   style: "currency",
                                   currency: "IDR",
                                   maximumFractionDigits: "0",
-                              }).format(data.getValue())
+                              }).format(
+                                  data
+                                      .getValue()
+                                      .map((r) => r.anggota_keluar)
+                                      .reduce((p, c) => p + c, 0)
+                              )
                             : "-"}
                     </span>
                 ),
@@ -191,21 +207,33 @@ export const columnsSimpananPokok = [
         enableGlobalFilter: false,
     }),
 
-    columnHelper.accessor("", {
+    columnHelper.accessor("simpanan_pokok", {
         id: "kekayaan",
         cell: (data) => (
             <span className="font-medium text-black dark:text-white">
-                {data.row.original.awal_tahun ||
-                data.row.original.anggota_masuk ||
-                data.row.original.anggota_keluar
+                {data.row.original.awal_tahun +
+                data
+                    .getValue()
+                    .map((r) => r.anggota_masuk)
+                    .reduce((p, c) => p + c, 0) -
+                data
+                    .getValue()
+                    .map((r) => r.anggota_keluar)
+                    .reduce((p, c) => p + c, 0)
                     ? Intl.NumberFormat("in-ID", {
                           style: "currency",
                           currency: "IDR",
                           maximumFractionDigits: "0",
                       }).format(
                           data.row.original.awal_tahun +
-                              data.row.original.anggota_masuk -
-                              data.row.original.anggota_keluar
+                              data
+                                  .getValue()
+                                  .map((r) => r.anggota_masuk)
+                                  .reduce((p, c) => p + c, 0) -
+                              data
+                                  .getValue()
+                                  .map((r) => r.anggota_keluar)
+                                  .reduce((p, c) => p + c, 0)
                       )
                     : "-"}
             </span>
@@ -227,7 +255,7 @@ export const columnSimpananWajib = [
         enableGlobalFilter: false,
     }),
 
-    columnHelper.accessor("member.name", {
+    columnHelper.accessor("name", {
         id: "name",
         cell: (data) => (
             <span className="font-medium capitalize text-black dark:text-white">
@@ -237,8 +265,8 @@ export const columnSimpananWajib = [
         header: "Nama",
     }),
 
-    columnHelper.accessor("kekayaan_awal_tahun", {
-        id: "kekayaan_awal_tahun",
+    columnHelper.accessor("awal_tahun", {
+        id: "awal_tahun",
         cell: (data) => (
             <span className="font-medium text-black dark:text-white">
                 {data.getValue()
@@ -258,12 +286,21 @@ export const columnSimpananWajib = [
         id: "simpanan_wajib",
         cell: (data) => (
             <span className="font-medium text-black dark:text-white">
-                {data.getValue()
+                {data.getValue().length
                     ? Intl.NumberFormat("in-ID", {
                           style: "currency",
                           currency: "IDR",
                           maximumFractionDigits: "0",
-                      }).format(data.getValue())
+                      }).format(
+                          data
+                              .getValue()
+                              .map((r) => r.simpanan_wajib)
+                              .reduce((p, c) => p + c, 0) +
+                              data
+                                  .getValue()
+                                  .map((r) => r.kekayaan_awal_tahun)
+                                  .reduce((p, c) => p + c, 0)
+                      )
                     : "-"}
             </span>
         ),
@@ -271,16 +308,21 @@ export const columnSimpananWajib = [
         enableGlobalFilter: false,
     }),
 
-    columnHelper.accessor("anggota_keluar", {
+    columnHelper.accessor("ambil_simpanan", {
         id: "anggota_keluar",
         cell: (data) => (
             <span className="font-medium text-black dark:text-white">
-                {data.getValue()
+                {data.getValue().length
                     ? Intl.NumberFormat("in-ID", {
                           style: "currency",
                           currency: "IDR",
                           maximumFractionDigits: "0",
-                      }).format(data.getValue())
+                      }).format(
+                          data
+                              .getValue()
+                              .map((r) => r.nominal)
+                              .reduce((p, c) => p + c, 0)
+                      )
                     : "-"}
             </span>
         ),
@@ -292,17 +334,23 @@ export const columnSimpananWajib = [
         id: "kekayaan",
         cell: (data) => (
             <span className="font-medium text-black dark:text-white">
-                {data.row.original.kekayaan_awal_tahun ||
-                data.row.original.simpanan_wajib ||
-                data.row.original.anggota_keluar
+                {data.row.original.simpanan_wajib
+                    .map((r) => r.simpanan_wajib)
+                    .reduce((p, c) => p + c, 0) -
+                data.row.original.ambil_simpanan
+                    .map((r) => r.nominal)
+                    .reduce((p, c) => p + c, 0)
                     ? Intl.NumberFormat("in-ID", {
                           style: "currency",
                           currency: "IDR",
                           maximumFractionDigits: "0",
                       }).format(
-                          data.row.original.kekayaan_awal_tahun +
-                              data.row.original.simpanan_wajib -
-                              data.row.original.anggota_keluar
+                          data.row.original.simpanan_wajib
+                              .map((r) => r.simpanan_wajib)
+                              .reduce((p, c) => p + c, 0) -
+                              data.row.original.ambil_simpanan
+                                  .map((r) => r.nominal)
+                                  .reduce((p, c) => p + c, 0)
                       )
                     : "-"}
             </span>
@@ -324,7 +372,7 @@ export const columnsSimpananSukarela = [
         rowSpan: 2,
     }),
 
-    columnHelper.accessor("member.name", {
+    columnHelper.accessor("name", {
         id: "Nama",
         cell: (data) => (
             <span className="font-medium capitalize text-black dark:text-white">
@@ -334,7 +382,7 @@ export const columnsSimpananSukarela = [
         header: "Nama",
     }),
 
-    columnHelper.accessor("sukarela", {
+    columnHelper.accessor("simpanan_sukarela.sukarela", {
         id: "sukarela",
         cell: (data) => (
             <span className="font-medium text-black dark:text-white">
@@ -693,29 +741,49 @@ export const columnsPinjaman = [
         header: "Nama",
     }),
 
-    columnHelper.accessor("pinjaman.total_pinjaman", {
-        id: "pinjaman",
+    columnHelper.accessor("pinjaman.tahun_lalu", {
+        id: "sisa_tahun_lalu",
         cell: (data) => (
             <span className="font-medium text-black dark:text-white">
-                {data.getValue() || data.row.original.pinjaman.tahun_lalu
+                {data.getValue()
                     ? Intl.NumberFormat("in-ID", {
                           style: "currency",
                           currency: "IDR",
                           maximumFractionDigits: "0",
                       }).format(
-                          data.getValue() +
-                              data.row.original.pinjaman.tahun_lalu
+                          data.getValue()
                       )
                     : "-"}
             </span>
         ),
-        header: `Total Pinjaman`,
+        header: `Sisa Pinjaman Tahun ${new Date().getFullYear() - 1}`,
     }),
+
+    columnHelper.accessor("pinjaman.total_pinjaman", {
+        id: "pinjaman",
+        cell: (data) => (
+            <span className="font-medium text-black dark:text-white">
+                {data.getValue()
+                    ? Intl.NumberFormat("in-ID", {
+                          style: "currency",
+                          currency: "IDR",
+                          maximumFractionDigits: "0",
+                      }).format(
+                          data.getValue()
+                      )
+                    : "-"}
+            </span>
+        ),
+        header: `Pinjaman Tahun ${new Date().getFullYear()}`,
+    }),
+
+    
 
     columnHelper.accessor("pinjaman.dibayar", {
         id: "dibayar",
         cell: (data) => (
             <span className="font-medium text-black dark:text-white">
+                {console.log(data)}
                 {data.getValue()
                     ? Intl.NumberFormat("in-ID", {
                           style: "currency",

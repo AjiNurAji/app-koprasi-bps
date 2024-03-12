@@ -6,13 +6,14 @@ import { toast } from "react-hot-toast";
 import ButtonLoading from "../ButtonLoading";
 import NextSimpanan from "./NextStepSimpanan";
 
-const TransactionSimpanan = ({ type, directUrl, postUrl }) => {
+const TransactionSimpanan = ({ type, directUrl, postUrl, ambilUrl }) => {
     const [processing, setProcess] = useState(false);
     const [simpanan, setSimpanan] = useState([]);
+    const [ambil, setAmbil] = useState([]);
     const [simpananPrev, setSimpananPrev] = useState(null);
     const [jenis, setType] = useState();
     const [member, setMember] = useState([]);
-    const form = useRef(null);
+    const [pokok, setPokok] = useState("");
     const nipRef = useRef(null);
     const [step, setStep] = useState(1);
     const { data, setData, reset } = useForm({
@@ -22,13 +23,14 @@ const TransactionSimpanan = ({ type, directUrl, postUrl }) => {
         date: "",
         tahun: null,
         bulan: "",
+        note: "",
         hari: "",
         awal_tahun: 0,
         tahun_sebelumnya: null,
         anggota_masuk: null,
+        nominal: null,
         anggota_keluar: null,
         simpanan_wajib: null,
-        kekayaan_awal_tahun: 0,
         sukarela: null,
         shu: null,
         selama_tahun: null,
@@ -50,7 +52,10 @@ const TransactionSimpanan = ({ type, directUrl, postUrl }) => {
         if (!data.date) return toast.error("Mohon set tanggal transaksi!");
         setProcess(true);
 
-        const create = await PostData(postUrl, data);
+        const create = await PostData(
+            jenis === "simpan" || !jenis ? postUrl : ambilUrl,
+            data
+        );
 
         if (create) {
             reset();
@@ -75,6 +80,17 @@ const TransactionSimpanan = ({ type, directUrl, postUrl }) => {
             });
 
             if (response.data) {
+                if (jenis === "ambil" && response.data.nominalSimpanan === 0) {
+                    toast.error("Tidak ada sisa simpanan!", {
+                        id: toastLoading,
+                        duration: 3000,
+                    });
+                    reset();
+                    setType("");
+                    setProcess(false);
+                    return setStep(1);
+                }
+
                 toast.success(response.data.message, {
                     id: toastLoading,
                     duration: 3000,
@@ -82,6 +98,12 @@ const TransactionSimpanan = ({ type, directUrl, postUrl }) => {
                 setSimpananPrev(response.data.sebelum);
                 if (response.data.simpanan) {
                     setSimpanan(response.data.simpanan);
+                }
+                if (response.data.anggota_keluar) {
+                    setAmbil(response.data.anggota_keluar);
+                }
+                if (response.data.member) {
+                    setMember(response.data.member);
                 }
                 setProcess(false);
                 return setStep(2);
@@ -119,8 +141,9 @@ const TransactionSimpanan = ({ type, directUrl, postUrl }) => {
                     id: toastLoading,
                     duration: 3000,
                 });
-                setProcess(false);
-                return setMember(response.data.member);
+
+                setMember(response.data.member);
+                return setProcess(false);
             }
 
             toast.error(response.message, {
@@ -165,8 +188,12 @@ const TransactionSimpanan = ({ type, directUrl, postUrl }) => {
         <>
             {step === 1 ? (
                 <form
-                    className="w-full flex flex-col gap-4"
-                    onSubmit={data.id_member ? handleStep : searchMember}
+                    className="w-full flex relative flex-col gap-4"
+                    onSubmit={
+                        data.id_member || type === "pokok"
+                            ? handleStep
+                            : searchMember
+                    }
                 >
                     {type !== "pokok" && (
                         <div className="w-full">
@@ -206,28 +233,45 @@ const TransactionSimpanan = ({ type, directUrl, postUrl }) => {
                             )}
                         </div>
                     )}
-                    {jenis && (
+                    {jenis || type === "pokok" ? (
                         <>
                             <div className="w-full">
                                 <label
                                     htmlFor="nip"
                                     className="mb-2.5 inline-block font-medium text-black dark:text-white"
                                 >
-                                    Masukkan NIP Anggota
+                                    {!data.id_member && "Masukkan "}NIP Anggota
                                 </label>
-                                <input
-                                    type="text"
-                                    id="nip"
-                                    name="nip"
-                                    ref={nipRef}
-                                    required
-                                    onChange={(e) => handleValue(e)}
-                                    placeholder="Masukkan NIP anggota"
-                                    className="w-full rounded-md border text-dark dark:text-white border-stroke bg-transparent py-2 pl-4 pr-6 transition-all duration-300 ease-in-out outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
-                                />
+                                {data.id_member ? (
+                                    <span className="bg-transparent capitalize dark:bg-transparent block text-start px-1">
+                                        {data.nip ? data.nip : "-"}
+                                    </span>
+                                ) : (
+                                    <input
+                                        type="text"
+                                        id="nip"
+                                        name="nip"
+                                        ref={nipRef}
+                                        required
+                                        onChange={(e) => handleValue(e)}
+                                        placeholder="Masukkan NIP anggota"
+                                        className="w-full rounded-md border text-dark dark:text-white border-stroke bg-transparent py-2 pl-4 pr-6 transition-all duration-300 ease-in-out outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
+                                    />
+                                )}
                             </div>
                             {data.id_member && (
                                 <>
+                                    <div
+                                        className="click_animation absolute top-2 right-2 w-max cursor-pointer rounded-md border border-warning bg-warning py-1 px-3 text-white transition hover:bg-opacity-90"
+                                        onClick={() => {
+                                            setStep(1);
+                                            setType("");
+                                            setPokok("");
+                                            reset();
+                                        }}
+                                    >
+                                        Batal
+                                    </div>
                                     <div className="w-full">
                                         <label
                                             htmlFor="name"
@@ -292,7 +336,7 @@ const TransactionSimpanan = ({ type, directUrl, postUrl }) => {
                                 )}
                             </div>
                         </>
-                    )}
+                    ) : null}
                 </form>
             ) : (
                 <form
@@ -304,6 +348,7 @@ const TransactionSimpanan = ({ type, directUrl, postUrl }) => {
                         onClick={() => {
                             setStep(1);
                             setType("");
+                            setPokok("");
                             reset();
                         }}
                     >
@@ -339,35 +384,73 @@ const TransactionSimpanan = ({ type, directUrl, postUrl }) => {
                             >
                                 Tanggal Transaksi
                             </label>
-                            <span className="bg-transparent capitalize dark:bg-transparent block text-start px-1">
-                                {data.date ? data.date : "-"}
-                            </span>
+                            {type !== "pokok" ? (
+                                <span className="bg-transparent capitalize dark:bg-transparent block text-start px-1">
+                                    {data.date ? data.date : "-"}
+                                </span>
+                            ) : (
+                                <input
+                                    type="date"
+                                    name="date"
+                                    id="date"
+                                    value={data.date}
+                                    onChange={(e) => {
+                                        const value = e.target.value;
+                                        const date = new Date(value);
+
+                                        setData({
+                                            ...data,
+                                            date: e.target.value,
+                                            hari: date.toLocaleDateString(
+                                                "in-ID",
+                                                {
+                                                    weekday: "long",
+                                                }
+                                            ),
+                                            tahun: date.getFullYear(),
+                                            bulan: date.toLocaleDateString(
+                                                "in-ID",
+                                                {
+                                                    month: "long",
+                                                }
+                                            ),
+                                        });
+                                    }}
+                                    className="w-full rounded-md border text-dark dark:text-white border-stroke bg-transparent py-2 pl-4 pr-6 transition-all duration-300 ease-in-out outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
+                                />
+                            )}
                         </div>
                         <NextSimpanan
                             data={simpanan}
                             awalTahun={simpananPrev}
                             getTahun={new Date()}
                             type={type}
+                            ambil={ambil}
                             jenis={jenis}
                             step={step}
                             valueData={data}
                             setData={setData}
+                            handleValue={handleValue}
                             handleNominal={handleNominal}
+                            pokok={pokok}
+                            setPokok={setPokok}
                         />
                     </div>
-                    <div className="w-full">
-                        {processing ? (
-                            <ButtonLoading color="primary" />
-                        ) : (
-                            <button
-                                type="submit"
-                                name="button-sumbit"
-                                className="w-full cursor-pointer rounded-md border border-primary bg-primary p-2 text-white transition hover:bg-opacity-90"
-                            >
-                                Kirim
-                            </button>
-                        )}
-                    </div>
+                    {!pokok && type === "pokok" ? null : (
+                        <div className="w-full">
+                            {processing ? (
+                                <ButtonLoading color="primary" />
+                            ) : (
+                                <button
+                                    type="submit"
+                                    name="button-sumbit"
+                                    className="w-full cursor-pointer rounded-md border border-primary bg-primary p-2 text-white transition hover:bg-opacity-90"
+                                >
+                                    Kirim
+                                </button>
+                            )}
+                        </div>
+                    )}
                 </form>
             )}
         </>

@@ -15,7 +15,7 @@
     </tr>
     <tr style="text-align: center; font-weight: 800; margin-bottom: 70px;">
         <td colspan="6" style="text-align: center; font-weight: 800; margin-bottom: 70px;">
-            Tahun Buku {{ date('Y') }}
+            Tahun Buku {{ $years }}
         </td>
     </tr>
     <tr style="text-align: center; font-weight: 800; margin-bottom: 70px;">
@@ -40,10 +40,10 @@
             <th style="border: 1px solid #000; vertical-align: middle; padding: 2px 10px; word-wrap: break-word; text-align: center;"
                 rowspan="2">
                 Kekayaan Per 31 Desember
-                {{ date('Y') }}</th>
+                {{ $years }}</th>
         </tr>
         <tr>
-            <th style="text-align: center; border: 1px solid #000; padding: 2px 10px;">Awal Tahun {{ date('Y') }}</th>
+            <th style="text-align: center; border: 1px solid #000; padding: 2px 10px;">Awal Tahun {{ $years }}</th>
             <th style="text-align: center; border: 1px solid #000; padding: 2px 10px;">Anggota Masuk</th>
             <th style="text-align: center; border: 1px solid #000; padding: 2px 10px;">Anggota Keluar</th>
         </tr>
@@ -52,28 +52,32 @@
             <tr>
                 <td style="border: 1px solid #000; padding: 2px 10px; text-align: center;">
                     {{ $d + 1 }}</td>
-                <td style="border: 1px solid #000; padding: 2px 10px; text-transform: capitalize;">{{ $col['name'] }}</td>
-                <td style="border: 1px solid #000; padding: 2px 10px; text-align: right;">
-                    {{ $col['awal_tahun'] ? number_format($col['awal_tahun'], 0, ',', '.') : '-' }}</td>
-                <td style="border: 1px solid #000; padding: 2px 10px; text-align: right;">
-                    {{ $col['anggota_masuk'] ? number_format($col['anggota_masuk'], 0, ',', '.') : '-' }}</td>
-                <td style="border: 1px solid #000; padding: 2px 10px; text-align: right;">
-                    {{ $col['anggota_keluar'] ? number_format($col['anggota_keluar'], 0, ',', '.') : '-' }}</td>
-                <td style="border: 1px solid #000; padding: 2px 10px; text-align: right;">
-                    {{ $col['kekayaan'] ? number_format($col['kekayaan'], 0, ',', '.') : '-' }}</td>
+                <td style="border: 1px solid #000; padding: 2px 10px; text-transform: capitalize;">
+                    {{ ucwords($col['name']) }}</td>
+                <td data-format="#,##0" style="border: 1px solid #000; padding: 2px 10px; text-align: right;">
+                    {{ $col['awal_tahun'] ? $col['awal_tahun'] : '-' }}</td>
+                <td data-format="#,##0" style="border: 1px solid #000; padding: 2px 10px; text-align: right;">
+                    {{ $col['simpanan_pokok']->sum('anggota_masuk') ? $col['simpanan_pokok']->sum('anggota_masuk') : '-' }}
+                </td>
+                <td data-format="#,##0" style="border: 1px solid #000; padding: 2px 10px; text-align: right;">
+                    {{ $col['simpanan_pokok']->sum('anggota_keluar') ? $col['simpanan_pokok']->sum('anggota_keluar') : '-' }}
+                </td>
+                <td data-format="#,##0" style="border: 1px solid #000; padding: 2px 10px; text-align: right;">
+                    {{ $col['awal_tahun'] + $col['simpanan_pokok']->sum('anggota_masuk') - $col['simpanan_pokok']->sum('anggota_keluar') ? $col['awal_tahun'] + $col['simpanan_pokok']->sum('anggota_masuk') - $col['simpanan_pokok']->sum('anggota_keluar') : '-' }}
+                </td>
             </tr>
         @endforeach
         <tr>
             <td style="border: 1px solid #000; text-align: center; padding: 2px 10px;" colspan="2">
                 Total</td>
-            <td style="border: 1px solid #000; padding: 2px 10px; text-align: right;">
-                {{ $total['awal_tahun'] ? number_format($total['awal_tahun'], 0, ',', '.') : '-' }}</td>
-            <td style="border: 1px solid #000; padding: 2px 10px; text-align: right;">
-                {{ $total['anggota_masuk'] ? number_format($total['anggota_masuk'], 0, ',', '.') : '-' }}</td>
-            <td style="border: 1px solid #000; padding: 2px 10px; text-align: right;">
-                {{ $total['anggota_keluar'] ? number_format($total['anggota_keluar'], 0, ',', '.') : '-' }}</td>
-            <td style="border: 1px solid #000; padding: 2px 10px; text-align: right;">
-                {{ $total['jumlah'] ? number_format($total['jumlah'], 0, ',', '.') : '-' }}</td>
+            <td data-format="#,##0" style="border: 1px solid #000; padding: 2px 10px; text-align: right;">
+                {{ $total['awal_tahun'] ? $total['awal_tahun'] : '-' }}</td>
+            <td data-format="#,##0" style="border: 1px solid #000; padding: 2px 10px; text-align: right;">
+                {{ $total['anggota_masuk'] ? $total['anggota_masuk'] : '-' }}</td>
+            <td data-format="#,##0" style="border: 1px solid #000; padding: 2px 10px; text-align: right;">
+                {{ $total['anggota_keluar'] ? $total['anggota_keluar'] : '-' }}</td>
+            <td data-format="#,##0" style="border: 1px solid #000; padding: 2px 10px; text-align: right;">
+                {{ $total['jumlah'] ? $total['jumlah'] : '-' }}</td>
         </tr>
     </table>
 @endsection

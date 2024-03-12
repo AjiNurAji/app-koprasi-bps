@@ -19,6 +19,7 @@ class BayarPinjaman extends Model
         'id_bayar_pinjaman',
         'id_member',
         'id_pinjaman',
+        'name',
         'bulan',
         'hari',
         'tahun',

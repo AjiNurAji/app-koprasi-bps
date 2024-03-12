@@ -17,7 +17,9 @@ class SimpananPokok extends Model
 
     protected $fillable = [
         'id_simpanan_pokok',
+        'name',
         'id_member',
+        'tanggal_transaksi',
         'tahun',
         'bulan',
         'hari',

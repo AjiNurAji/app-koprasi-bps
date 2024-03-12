@@ -56,6 +56,11 @@ class Member extends Authenticatable
         return $this->hasMany(SimpananWajib::class, 'id_member');
     }
 
+    public function ambilSimpananWajib()
+    {
+        return $this->hasMany(AmbilSimpanan::class, 'id_member');
+    }
+
     /**
      * The attributes that should be hidden for serialization.
      *

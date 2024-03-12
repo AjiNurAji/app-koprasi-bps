@@ -12,24 +12,44 @@ use Maatwebsite\Excel\Facades\Excel;
 
 class ExportController extends Controller
 {
-    public function ExportSimpananPokok()
+    public function ExportSimpananPokok(Request $request)
     {
-        return Excel::download(new simpananPokokExport, 'simpananpokok.xlsx', \Maatwebsite\Excel\Excel::XLSX);
+        $request->validate([
+            'start_date' => 'required',
+            'end_date' => 'required'
+        ]);
+
+        return Excel::download(new simpananPokokExport($request->input('start_date'), $request->input('end_date')), 'simpananpokok.xlsx', \Maatwebsite\Excel\Excel::XLSX);
     }
 
-    public function ExportSimpananPokokCSV()
+    public function ExportSimpananPokokCSV(Request $request)
     {
-        return Excel::download(new simpananPokokExport, 'simpananpokok.csv', \Maatwebsite\Excel\Excel::CSV);
+        $request->validate([
+            'start_date' => 'required',
+            'end_date' => 'required'
+        ]);
+
+        return Excel::download(new simpananPokokExport($request->input('start_date'), $request->input('end_date')), 'simpananpokok.csv', \Maatwebsite\Excel\Excel::CSV);
     }
 
-    public function ExportSimpananWajib()
+    public function ExportSimpananWajib(Request $request)
     {
-        return Excel::download(new simpananWajibExport, 'simpananwajib.xlsx', \Maatwebsite\Excel\Excel::XLSX);
+        $request->validate([
+            'start_date' => 'required',
+            'end_date' => 'required'
+        ]);
+
+        return Excel::download(new simpananWajibExport($request->input('start_date'), $request->input('end_date')), 'simpananwajib.xlsx', \Maatwebsite\Excel\Excel::XLSX);
     }
 
-    public function ExportSimpananWajibCSV()
+    public function ExportSimpananWajibCSV(Request $request)
     {
-        return Excel::download(new simpananWajibExport, 'simpananwajib.csv', \Maatwebsite\Excel\Excel::CSV);
+        $request->validate([
+            'start_date' => 'required',
+            'end_date' => 'required'
+        ]);
+
+        return Excel::download(new simpananWajibExport($request->input('start_date'), $request->input('end_date')), 'simpananwajib.csv', \Maatwebsite\Excel\Excel::CSV);
     }
 
     public function ExportSimpananSukarela()
