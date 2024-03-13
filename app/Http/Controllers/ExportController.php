@@ -52,14 +52,24 @@ class ExportController extends Controller
         return Excel::download(new simpananWajibExport($request->input('start_date'), $request->input('end_date')), 'simpananwajib.csv', \Maatwebsite\Excel\Excel::CSV);
     }
 
-    public function ExportSimpananSukarela()
+    public function ExportSimpananSukarela(Request $request)
     {
-        return Excel::download(new simpananSukarelaExport, 'simpananwajib.xlsx', \Maatwebsite\Excel\Excel::XLSX);
+        $request->validate([
+            'start_date' => 'required',
+            'end_date' => 'required'
+        ]);
+
+        return Excel::download(new simpananSukarelaExport($request->input('start_date'), $request->input('end_date')), 'simpananwajib.xlsx', \Maatwebsite\Excel\Excel::XLSX);
     }
 
-    public function ExportSimpananSukarelaCSV()
+    public function ExportSimpananSukarelaCSV(Request $request)
     {
-        return Excel::download(new simpananSukarelaExport, 'simpananwajib.csv', \Maatwebsite\Excel\Excel::CSV);
+        $request->validate([
+            'start_date' => 'required',
+            'end_date' => 'required'
+        ]);
+
+        return Excel::download(new simpananSukarelaExport($request->input('start_date'), $request->input('end_date')), 'simpananwajib.csv', \Maatwebsite\Excel\Excel::CSV);
     }
 
     public function ExportKasTunai()

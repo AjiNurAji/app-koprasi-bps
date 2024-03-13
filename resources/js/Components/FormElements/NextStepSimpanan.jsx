@@ -234,9 +234,9 @@ const NextSimpanan = ({
                     )}
                 </>
             ) : type === "sukarela" ? (
-                <div className="grid sm:grid-cols-2 grid-cols-1 gap-4">
+                <>
                     {jenis === "simpan" ? (
-                        <>
+                        <div className="grid sm:grid-cols-2 grid-cols-1 gap-4">
                             <div className="w-full">
                                 <label
                                     htmlFor="sukarela"
@@ -360,7 +360,6 @@ const NextSimpanan = ({
                                 <CurrencyInput
                                     autoComplete="off"
                                     placeholder="Masukkan nominal simpan"
-                                        
                                     allowDecimals={true}
                                     name="selama_tahun"
                                     id="selama_tahun"
@@ -375,70 +374,80 @@ const NextSimpanan = ({
                                     className="w-full rounded-md border text-dark dark:text-white border-stroke bg-transparent py-2 pl-4 pr-6 transition-all duration-300 ease-in-out outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                                 />
                             </div>
-                        </>
+                        </div>
                     ) : (
                         <>
-                            <div className="w-full">
-                                <label
-                                    htmlFor="diambil"
-                                    className="mb-2.5 inline-block font-medium text-black dark:text-white"
-                                >
-                                    {data?.diambil
-                                        ? "Tambah diambil"
-                                        : "Diambil"}
-                                </label>
-                                <CurrencyInput
-                                    autoComplete="off"
-                                    placeholder={`Masukkan nominal ${
-                                        data?.diambil ? "tambahan" : "transaksi"
-                                    }`}
-                                    allowDecimals={true}
-                                    name="diambil"
-                                    id="diambil"
-                                    value={valueData.diambil}
-                                    onValueChange={(value, name) =>
-                                        handleNominal(value, name)
-                                    }
-                                    intlConfig={{
-                                        locale: "in-ID",
-                                        currency: "IDR",
-                                    }}
-                                    className="w-full rounded-md border text-dark dark:text-white border-stroke bg-transparent py-2 pl-4 pr-6 transition-all duration-300 ease-in-out outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
-                                />
+                            <div className="grid sm:grid-cols-2 grid-cols-1 gap-4">
+                                <div className="w-full">
+                                    <label
+                                        htmlFor="nominal"
+                                        className="mb-2.5 inline-block font-medium text-black dark:text-white"
+                                    >
+                                        Nominal Pemngambilan
+                                    </label>
+                                    <CurrencyInput
+                                        autoComplete="off"
+                                        placeholder="Masukkan nominal pengambilan"
+                                        allowDecimals={true}
+                                        name="nominal"
+                                        id="nominal"
+                                        value={valueData.nominal}
+                                        onValueChange={(value, name) =>
+                                            handleNominal(value, name)
+                                        }
+                                        intlConfig={{
+                                            locale: "in-ID",
+                                            currency: "IDR",
+                                        }}
+                                        className="w-full rounded-md border text-dark dark:text-white border-stroke bg-transparent py-2 pl-4 pr-6 transition-all duration-300 ease-in-out outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
+                                    />
+                                </div>
+                                <div className="w-full">
+                                    <label
+                                        htmlFor="disimpan_kembali"
+                                        className="mb-2.5 inline-block font-medium text-black dark:text-white"
+                                    >
+                                        Disimpan Kembali
+                                    </label>
+                                    <CurrencyInput
+                                        autoComplete="off"
+                                        placeholder="Masukkan nominal disimpan kembali"
+                                        allowDecimals={true}
+                                        name="disimpan_kembali"
+                                        id="disimpan_kembali"
+                                        value={valueData.disimpan_kembali}
+                                        onValueChange={(value, name) =>
+                                            handleNominal(value, name)
+                                        }
+                                        intlConfig={{
+                                            locale: "in-ID",
+                                            currency: "IDR",
+                                        }}
+                                        className="w-full rounded-md border text-dark dark:text-white border-stroke bg-transparent py-2 pl-4 pr-6 transition-all duration-300 ease-in-out outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
+                                    />
+                                </div>
                             </div>
                             <div className="w-full">
                                 <label
-                                    htmlFor="disimpan_kembali"
+                                    htmlFor="note"
                                     className="mb-2.5 inline-block font-medium text-black dark:text-white"
                                 >
-                                    {data?.disimpan_kembali
-                                        ? "Tambah disimpan kembali"
-                                        : "Disimpan kembali"}
+                                    Catatan
                                 </label>
-                                <CurrencyInput
-                                    autoComplete="off"
-                                    placeholder={`Masukkan nominal ${
-                                        data?.disimpan_kembali
-                                            ? "tambahan"
-                                            : "transaksi"
-                                    }`}
-                                    allowDecimals={true}
-                                    name="disimpan_kembali"
-                                    id="disimpan_kembali"
-                                    value={valueData.disimpan_kembali}
-                                    onValueChange={(value, name) =>
-                                        handleNominal(value, name)
-                                    }
-                                    intlConfig={{
-                                        locale: "in-ID",
-                                        currency: "IDR",
-                                    }}
-                                    className="w-full rounded-md border text-dark dark:text-white border-stroke bg-transparent py-2 pl-4 pr-6 transition-all duration-300 ease-in-out outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
-                                />
+                                <textarea
+                                    name="note"
+                                    id="note"
+                                    onChange={(e) => handleValue(e)}
+                                    rows="2"
+                                    required
+                                    value={data.note}
+                                    className="w-full resize-none rounded-md disabled:bg-whiten border text-dark dark:text-white border-stroke bg-transparent py-1 pl-2 pr-3 transition-all duration-300 ease-in-out outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
+                                    placeholder="Catatan"
+                                ></textarea>
                             </div>
                         </>
                     )}
-                </div>
+                </>
             ) : null}
         </>
     );

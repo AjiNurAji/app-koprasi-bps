@@ -13,6 +13,7 @@ import SearchTable from "./SearchTable";
 
 const TableSimpananSukarela = ({ data, total }) => {
     const [datas] = useState([...data]);
+    console.log(datas);
     const [globalFilter, setGlobalFilter] = useState("");
 
     const table = useReactTable({
@@ -217,12 +218,21 @@ const TableSimpananSukarela = ({ data, total }) => {
                                             : "-"}
                                     </td>
                                     <td className="font-medium text-right border py-5 px-4 border-stroke dark:border-opacity-20 text-black dark:text-white">
-                                        {total.total_akhir_tahun
+                                        {data
+                                            .map((r) => r.akhir_tahun)
+                                            .reduce((p, c) => p + c, 0)
                                             ? Intl.NumberFormat("in-ID", {
                                                   style: "currency",
                                                   currency: "IDR",
                                                   maximumFractionDigits: "0",
-                                              }).format(total.total_akhir_tahun)
+                                              }).format(
+                                                  data
+                                                      .map((r) => r.akhir_tahun)
+                                                      .reduce(
+                                                          (p, c) => p + c,
+                                                          0
+                                                      )
+                                              )
                                             : "-"}
                                     </td>
                                 </tr>

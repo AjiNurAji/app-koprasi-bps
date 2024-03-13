@@ -153,11 +153,11 @@ class HomepageController extends Controller
                 ['id_member', $value['id_member']]
             ])->orderBy('created_at', 'desc')->get()->first();
 
-            $members[$key]['shu'] = $simpanan->shu;
+            $members[$key]['shu'] = $simpanan?->shu;
 
-            $members[$key]['sukarela'] = $simpanan->sukarela;
+            $members[$key]['sukarela'] = $simpanan?->sukarela;
 
-            $members[$key]['awal_tahun'] = $simpanan->awal_tahun;
+            $members[$key]['awal_tahun'] = $simpanan?->awal_tahun;
 
             $members[$key]['diambil'] = AmbilSimpanan::whereBetween('created_at', [Carbon::now()->startOfYear(), Carbon::now()->endOfYear()])
                 ->where([
@@ -165,20 +165,19 @@ class HomepageController extends Controller
 
                     ['id_member', $value->id_member]
                 ])->get()->sum('nominal');
+
+            $members[$key]['akhir_tahun'] = $simpanan?->akhir_taun;
         }
 
         $totalSelamaTahun = SimpananSukarela::where('tahun', date('Y'))->sum('selama_tahun');
-        $totalDiambil = AmbilSimpanan::whereBetween('created_at', [Carbon::now()->startOfYear(), Carbon::now()->endOfYear()])->where('simpanan', 'sukarela')->sum('nominal');
+        $totalDiambil = AmbilSimpanan::whereBetween('created_at', [Carbon::now()->startOfYear(), Carbon::now()->endOfYear()])->where('simpanan', 'sukarela')->get()->sum('nominal');
         $totalDisimpanKembali = SimpananSukarela::where('tahun', date('Y'))->sum('disimpan_kembali');
-        $totalAkhirTahun = SimpananSukarela::where('tahun', date('Y'))->sum('akhir_taun');
-
         return Inertia::render('Simpanan/Sukarela', [
             'data' => $members,
             'total' => [
                 'total_selama_tahun' => $totalSelamaTahun,
                 'total_diambil' => $totalDiambil,
                 'total_disimpan_kembali' => $totalDisimpanKembali,
-                'total_akhir_tahun' => $totalAkhirTahun
             ]
         ]);
     }
@@ -538,6 +537,11 @@ class HomepageController extends Controller
     public function sukarelaTransaksi()
     {
         return Inertia::render('Simpanan/Transaction/Sukarela');
+    }
+
+    public function createKasRekening()
+    {
+        return Inertia::render("admin/Kas/Create/Rekening");
     }
 
     // halaman ad-art

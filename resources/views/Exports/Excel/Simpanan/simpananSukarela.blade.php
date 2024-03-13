@@ -15,7 +15,7 @@
     </tr>
     <tr style="text-align: center; font-weight: 800; margin-bottom: 70px;">
         <td colspan="9" style="text-align: center; font-weight: 800; margin-bottom: 70px;">
-            Tahun Buku {{ date('Y') }}
+            Tahun Buku {{ $years }}
         </td>
     </tr>
     <tr style="text-align: center; font-weight: 800; margin-bottom: 70px;">
@@ -46,59 +46,76 @@
         </tr>
         <tr>
             <th style="text-align: center; border: 1px solid #000; padding: 2px 10px; border-collapse: collapse;">Awal
-                {{ date('Y') }}</th>
+                {{ $years }}</th>
             <th style="text-align: center; border: 1px solid #000; padding: 2px 10px; border-collapse: collapse;">Selama
-                {{ date('Y') }}
+                {{ $years }}
             </th>
             <th style="text-align: center; border: 1px solid #000; padding: 2px 10px; border-collapse: collapse;">Diambil
             </th>
             <th style="text-align: center; border: 1px solid #000; padding: 2px 10px; border-collapse: collapse;">Disimpan
                 Kembali</th>
             <th style="text-align: center; border: 1px solid #000; padding: 2px 10px; border-collapse: collapse;">Akhir
-                {{ date('Y') }}</th>
+                {{ $years }}</th>
         </tr>
 
         @foreach ($data as $d => $col)
             <tr>
                 <td style="border: 1px solid #000; padding: 2px 10px; border-collapse: collapse; text-align: center;">
                     {{ $d + 1 }}</td>
-                <td style="border: 1px solid #000; padding: 2px 10px; border-collapse: collapse; text-transform: capitalize;">{{ $col['name'] }}</td>
-                <td style="border: 1px solid #000; padding: 2px 10px; border-collapse: collapse; text-align: right;">
-                    {{ $col['sukarela'] ? number_format($col['sukarela'], 0, ',', '.') : '-' }}
+                <td
+                    style="border: 1px solid #000; padding: 2px 10px; border-collapse: collapse; text-transform: capitalize;">
+                    {{ ucwords($col['name']) }}</td>
+                <td data-format="#,##0"
+                    style="border: 1px solid #000; padding: 2px 10px; border-collapse: collapse; text-align: right;">
+                    {{ $col['sukarela'] ? $col['sukarela'] : '-' }}
                 </td>
-                <td style="border: 1px solid #000; padding: 2px 10px; border-collapse: collapse; text-align: right;">
-                    {{ $col['shu'] ? number_format($col['shu'], 0, ',', '.') : '-' }}</td>
-                <td style="border: 1px solid #000; padding: 2px 10px; border-collapse: collapse; text-align: right;">
-                    {{ $col['awal_tahun'] ? number_format($col['awal_tahun'], 0, ',', '.') : '-' }}</td>
-                <td style="border: 1px solid #000; padding: 2px 10px; border-collapse: collapse; text-align: right;">
-                    {{ $col['selama_tahun'] ? number_format($col['selama_tahun'], 0, ',', '.') : '-' }}</td>
-                <td style="border: 1px solid #000; padding: 2px 10px; border-collapse: collapse; text-align: right;">
-                    {{ $col['diambil'] ? number_format($col['diambil'], 0, ',', '.') : '-' }}</td>
-                <td style="border: 1px solid #000; padding: 2px 10px; border-collapse: collapse; text-align: right;">
-                    {{ $col['disimpan_kembali'] ? number_format($col['disimpan_kembali'], 0, ',', '.') : '-' }}</td>
-                <td style="border: 1px solid #000; padding: 2px 10px; border-collapse: collapse; text-align: right;">
-                    {{ $col['akhir_taun'] ? number_format($col['akhir_taun'], 0, ',', '.') : '-' }}</td>
+                <td data-format="#,##0"
+                    style="border: 1px solid #000; padding: 2px 10px; border-collapse: collapse; text-align: right;">
+                    {{ $col['shu'] ? $col['shu'] : '-' }}</td>
+                <td data-format="#,##0"
+                    style="border: 1px solid #000; padding: 2px 10px; border-collapse: collapse; text-align: right;">
+                    {{ $col['awal_tahun'] ? $col['awal_tahun'] : '-' }}</td>
+                <td data-format="#,##0"
+                    style="border: 1px solid #000; padding: 2px 10px; border-collapse: collapse; text-align: right;">
+                    {{ $col['simpanan_sukarela']->sum('selama_tahun') ? $col['simpanan_sukarela']->sum('selama_tahun') : '-' }}</td>
+                <td data-format="#,##0"
+                    style="border: 1px solid #000; padding: 2px 10px; border-collapse: collapse; text-align: right;">
+                    {{ $col['diambil'] ? $col['diambil'] : '-' }}</td>
+                <td data-format="#,##0"
+                    style="border: 1px solid #000; padding: 2px 10px; border-collapse: collapse; text-align: right;">
+                    {{ $col['simpanan_sukarela']->sum('disimpan_kembali') ? $col['simpanan_sukarela']->sum('disimpan_kembali') : '-' }}
+                </td>
+                <td data-format="#,##0"
+                    style="border: 1px solid #000; padding: 2px 10px; border-collapse: collapse; text-align: right;">
+                    {{ $col['akhir_tahun'] ? $col['akhir_tahun'] : '-' }}</td>
             </tr>
         @endforeach
         <tr>
             <td style="border: 1px solid #000; text-align: center; padding: 2px 10px; border-collapse: collapse;"
                 colspan="2">
                 Total</td>
-            <td style="border: 1px solid #000; padding: 2px 10px; border-collapse: collapse; text-align: right;">
-                {{ $total['total_sukarela'] ? number_format($total['total_sukarela'], 0, ',', '.') : '-' }}</td>
-            <td style="border: 1px solid #000; padding: 2px 10px; border-collapse: collapse; text-align: right;">
-                {{ $total['total_shu'] ? number_format($total['total_shu'], 0, ',', '.') : '-' }}</td>
-            <td style="border: 1px solid #000; padding: 2px 10px; border-collapse: collapse; text-align: right;">
-                {{ $total['total_awal_tahun'] ? number_format($total['total_awal_tahun'], 0, ',', '.') : '-' }}</td>
-            <td style="border: 1px solid #000; padding: 2px 10px; border-collapse: collapse; text-align: right;">
-                {{ $total['total_selama_tahun'] ? number_format($total['total_selama_tahun'], 0, ',', '.') : '-' }}</td>
-            <td style="border: 1px solid #000; padding: 2px 10px; border-collapse: collapse; text-align: right;">
-                {{ $total['total_diambil'] ? number_format($total['total_diambil'], 0, ',', '.') : '-' }}</td>
-            <td style="border: 1px solid #000; padding: 2px 10px; border-collapse: collapse; text-align: right;">
-                {{ $total['total_disimpan_kembali'] ? number_format($total['total_disimpan_kembali'], 0, ',', '.') : '-' }}
+            <td data-format="#,##0"
+                style="border: 1px solid #000; padding: 2px 10px; border-collapse: collapse; text-align: right;">
+                {{ $data->sum('sukarela') ? $data->sum('sukarela') : '-' }}</td>
+            <td data-format="#,##0"
+                style="border: 1px solid #000; padding: 2px 10px; border-collapse: collapse; text-align: right;">
+                {{ $data->sum('shu') ? $data->sum('shu') : '-' }}</td>
+            <td data-format="#,##0"
+                style="border: 1px solid #000; padding: 2px 10px; border-collapse: collapse; text-align: right;">
+                {{ $data->sum('awal_tahun') ? $data->sum('awal_tahun') : '-' }}</td>
+            <td data-format="#,##0"
+                style="border: 1px solid #000; padding: 2px 10px; border-collapse: collapse; text-align: right;">
+                {{ $total['total_selama_tahun'] ? $total['total_selama_tahun'] : '-' }}</td>
+            <td data-format="#,##0"
+                style="border: 1px solid #000; padding: 2px 10px; border-collapse: collapse; text-align: right;">
+                {{ $total['total_diambil'] ? $total['total_diambil'] : '-' }}</td>
+            <td data-format="#,##0"
+                style="border: 1px solid #000; padding: 2px 10px; border-collapse: collapse; text-align: right;">
+                {{ $total['total_disimpan_kembali'] ? $total['total_disimpan_kembali'] : '-' }}
             </td>
-            <td style="border: 1px solid #000; padding: 2px 10px; border-collapse: collapse; text-align: right;">
-                {{ $total['total_akhir_tahun'] ? number_format($total['total_akhir_tahun'], 0, ',', '.') : '-' }}</td>
+            <td data-format="#,##0"
+                style="border: 1px solid #000; padding: 2px 10px; border-collapse: collapse; text-align: right;">
+                {{ $data->sum('akhir_tahun') ? $data->sum('akhir_tahun') : '-' }}</td>
         </tr>
     </table>
 @endsection

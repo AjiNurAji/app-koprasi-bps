@@ -330,10 +330,9 @@ class SimpananController extends Controller
 
                 $awal_tahun = $request->input('sukarela') + $request->input('shu');
 
-                $nominal =  $awal_tahun +
-                    $request->input('selama_tahun');
+                $nominal = $request->input('selama_tahun');
 
-                $akhirTahun = $nominal + $request->input('disimpan_kembali');
+                $akhirTahun = ($simpananSukarela ? $simpananSukarela->akhir_tahun : 0) + $nominal + (!$simpananSukarela ? $awal_tahun : 0);
 
                 Transaksi::create([
                     'id_transaksi' => Str::uuid(),
@@ -385,6 +384,12 @@ class SimpananController extends Controller
                     'date' => 'required|string',
                 ]);
 
+                $simpanan = SimpananSukarela::where([['id_member', $request->input('id_member')]])
+                    ->orderBy('created_at', 'desc')
+                    ->get();
+                    
+                if (!$simpanan->count()) return response()->json(['message' => 'Tidak ada data simpanan sukarela atas nama '.ucwords($request->input('name')) ], 404);
+
                 // get total simpanan sukarela ===========================
                 $diambil = AmbilSimpanan::whereBetween('created_at', [Carbon::now()->startOfYear(), Carbon::now()->endOfYear()])
                     ->where(
@@ -394,11 +399,12 @@ class SimpananController extends Controller
                         ]
                     )->get()->sum('nominal');
 
-                $simpanan = SimpananSukarela::where([['id_member', $request->input('id_member')], ['tahun', date('Y')]])->get();
-                // $oneSimpanan = $simpanan->first();
-                dd($simpanan);
 
-                $nominal = $simpanan->sum('selama_tahun') - $diambil;
+                $oneSimpanan = $simpanan->first();
+
+                $nominal = $oneSimpanan->awal_tahun + $simpanan->sum('selama_tahun') - $diambil;
+
+                $akhir_tahun = $oneSimpanan->akhir_taun - $request->input('nominal') + $request->input('disimpan_kembali') ?? $request->input('disimpan_kembali');
                 // =============================
 
                 // validasi ketika nominal ambil melebihi total simpanan ================
@@ -414,7 +420,7 @@ class SimpananController extends Controller
                     'name' => $request->input('name'),
                     'nominal_keluar' => $request->input('nominal'),
                     'type' => 'simpanan',
-                    'nama_transaksi' => 'ambil_simpanan_wajib',
+                    'nama_transaksi' => 'ambil_simpanan_sukarela',
                     'tahun' => $request->input('tahun'),
                     'hari' => $request->input('hari'),
                     'bulan' => $request->input('bulan')
@@ -426,8 +432,22 @@ class SimpananController extends Controller
                     'name' => $request->input('name'),
                     'nominal' => $request->input('nominal'),
                     'tanggal_ambil' => $request->input('date'),
-                    'simpanan' => 'wajib',
+                    'simpanan' => 'sukarela',
                     'note' => $request->input('note'),
+                ]);
+
+                SimpananSukarela::create([
+                    'id_simpanan_sukarela' => Str::uuid(),
+                    'id_member' => $request->input('id_member'),
+                    'tahun' => $request->input('tahun'),
+                    'name' => $request->input('name'),
+                    'hari' => $request->input('hari'),
+                    'bulan' => $request->input('bulan'),
+                    'disimpan_kembali' => $request->input('disimpan_kembali'),
+                    'sukarela' => $oneSimpanan->sukarela,
+                    'shu' => $oneSimpanan->shu,
+                    'awal_tahun' => $oneSimpanan->awal_tahun,
+                    'akhir_taun' => $akhir_tahun,
                 ]);
                 // =======================================================
 

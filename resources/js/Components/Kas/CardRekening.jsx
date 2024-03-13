@@ -7,34 +7,19 @@ import FormKasRekening from "../FormElements/FormKasRekening";
 
 const CardRekening = ({ data, user, bulan, saldo }) => {
     const [popup, setPopup] = useState(false);
-    const tableRef = useRef(null);
 
     return (
         <>
             {/* head component */}
             <div className="flex items-center justify-between mb-3.5">
                 {user.role ? (
-                    <button
+                    <a
                         className="p-3 hover:bg-opacity-95 transition-all duration-300 ease-in-out bg-primary text-white rounded-md text-xl"
-                        onClick={() => setPopup(true)}
+                        href={route('kas_rekening_transaksi')}
                     >
                         <GiCardPlay />
-                    </button>
+                    </a>
                 ) : null}
-                <div className="flex flex-col-reverse w-full md:flex-row items-end md:items-center justify-end gap-3">
-                    {user.role ? (
-                        <>
-                            <DownloadDropdown
-                                pdf="kasrekening.pdf"
-                                csv="kasrekening.csv"
-                                excel="kasrekening.xlsx"
-                                routepdf={route("kas_rekening_pdf")}
-                                routecsv={route("kas_rekening_csv")}
-                                routeexcel={route("kas_rekening_excel")}
-                            />
-                        </>
-                    ) : null}
-                </div>
             </div>
             {/* popup create */}
             {popup ? (

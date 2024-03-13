@@ -506,14 +506,12 @@ export const columnsSimpananSukarela = [
                 enableSorting: false,
             }),
 
-            columnHelper.accessor("simpanan_sukarela", {
+            columnHelper.accessor("akhir_tahun", {
                 id: "akhir_taun",
                 cell: (data) => (
                     <span className="font-medium text-black dark:text-white">
                         {data
                             .getValue()
-                            .map((r) => r.akhir_taun)
-                            .reduce((p, c) => p + c, 0)
                             ? Intl.NumberFormat("in-ID", {
                                   style: "currency",
                                   currency: "IDR",
@@ -521,8 +519,6 @@ export const columnsSimpananSukarela = [
                               }).format(
                                   data
                                       .getValue()
-                                      .map((r) => r.akhir_taun)
-                                      .reduce((p, c) => p + c, 0)
                               )
                             : "-"}
                     </span>

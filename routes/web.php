@@ -46,6 +46,7 @@ Route::middleware(['auth:admin,member'])->group(function () {
 
     Route::get('/kas/rekening', [HomepageController::class, 'kasRekening'])->name('kas_rekening');
     Route::post('/kas/rekening', [KasController::class, 'kasRekening'])->name('kas_rekening');
+    Route::get('/kas/rekening/create', [HomepageController::class, 'createKasRekening'])->name('kas_rekening_transaksi');
 
     // ad-art
     Route::get('/ad-art', [HomepageController::class, 'adART'])->name('ad-art');
