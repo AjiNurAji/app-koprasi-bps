@@ -16,6 +16,7 @@ return new class extends Migration
             $table->char('id_rekening');
             $table->foreign('id_rekening')->references('id_rekening')->on('rekening')->onDelete('cascade')->onUpdate('cascade');
             $table->integer('nominal', false);
+            $table->date("tanggal_transaksi");
             $table->enum('rekening', ['debet', 'kredit']);
             $table->enum('type', ['setor', 'bunga_bank', 'pajak', 'adm', 'penarikan']);
             $table->integer('saldo', false)->nullable();

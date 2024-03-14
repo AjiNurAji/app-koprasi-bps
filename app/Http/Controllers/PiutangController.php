@@ -177,6 +177,7 @@ class PiutangController extends Controller
                     'id_member' => $request->input('id_member'),
                     'nominal_keluar' => $request->input('total_pinjaman'),
                     'name' => $request->input('name'),
+                    'tanggal_transaksi' => $request->input('date'),
                     'type' => 'pinjaman',
                     'nama_transaksi' => 'pinjaman',
                     'tahun' => $request->input('tahun'),
@@ -249,6 +250,7 @@ class PiutangController extends Controller
                     'nominal' => $request->input('nominal'),
                     'type' => 'pinjaman',
                     'nama_transaksi' => 'bayar_pinjaman',
+                    'tanggal_transaksi' => $request->input('date'),
                     'tahun' => $request->input('tahun'),
                     'hari' => $request->input('hari'),
                     'bulan' => $request->input('bulan')

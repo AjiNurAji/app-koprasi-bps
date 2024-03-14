@@ -20,7 +20,7 @@ class kasTunaiExport implements FromView, ShouldAutoSize
             ->first();
 
         $saldoTunai = Tunai::where('tahun', date('Y'))
-            ->orderBy('created_at', 'desc')
+            ->orderBy('tanggal_transaksi', 'desc')
             ->first();
 
         $tunai = Tunai::where('tahun', date('Y'))->get();

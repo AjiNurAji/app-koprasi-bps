@@ -40,7 +40,9 @@ Route::middleware(['auth:admin,member'])->group(function () {
     Route::post('/profile/update', [UserController::class, 'updateProfile'])->name('update_profile');
     
     // kas
+    Route::get('/kas/{param}/saldo_awal/', [HomepageController::class, 'setSaldoAwal'])->name('set_saldo_awal_page');
     Route::post('/kas/saldo_awal', [KasController::class, 'setSaldoAwal'])->name('set_saldo_awal');
+
     Route::get('/kas/tunai', [HomepageController::class, 'kasTunai'])->name('kas_tunai');
     Route::post('/kas/tunai', [KasController::class, 'kasTunai'])->name('kas_tunai');
 

@@ -107,21 +107,23 @@ class KasController extends Controller
                 if ($request->input('type') === 'setor' || $request->input('type') === 'bunga_bank') {
                     $totalSaldo = $saldo
                         ? $saldo->saldo + $request->input('nominal')
-                        : $request->saldo_awal + $request->input('nominal');
+                        : $id_kas->saldo_awal + $request->input('nominal');
                 } else {
                     $totalSaldo = $saldo
                         ? $saldo->saldo - $request->input('nominal')
-                        : $request->saldo_awal - $request->input('nominal');
+                        : $id_kas->saldo_awal - $request->input('nominal');
                 }
-
+                
                 // cek sudah set saldo awal atau belum
                 if ($id_kas) {
+                    if($request->input('type') === "penarikan" && $request->input('nominal') > $totalSaldo || $request->input('type') === "penarikan" && !$rekening) return response()->json(['message' => 'Saldo kurang dari nominal yang dimasukkan!'], 500);
+                    
                     if ($rekening) {
                         $tr_rekening = TrRekening::where('id_rekening', $rekening->id_rekening)
-                            ->where('type', $request->input('type'))
-                            ->first();
-
-
+                        ->where('type', $request->input('type'))
+                        ->first();
+                        
+                        
                         if (!$tr_rekening) {
                             TrRekening::create([
                                 'id_tr_rekening' => Str::uuid(),

@@ -75,6 +75,7 @@ class SimpananController extends Controller
                     'id_transaksi' => Str::uuid(),
                     'id_member' => $request->input('id_member'),
                     'name' => $request->input('name'),
+                    'tanggal_transaksi' => $request->input('date'),
                     'nominal' => $nominal,
                     'nominal_keluar' => $keluar,
                     'type' => 'simpanan',
@@ -192,6 +193,7 @@ class SimpananController extends Controller
                 Transaksi::create([
                     'id_transaksi' => Str::uuid(),
                     'id_member' => $request->input('id_member'),
+                    'tanggal_transaksi' => $request->input('date'),
                     'name' => $request->input('name'),
                     'nominal' => $nominal,
                     'type' => 'simpanan',
@@ -204,6 +206,7 @@ class SimpananController extends Controller
                 SimpananWajib::create([
                     'id_simpanan_wajib' => Str::uuid(),
                     'id_member' => $request->input('id_member'),
+                    'tanggal_transaksi' => $request->input('date'),
                     'name' => $request->input('name'),
                     'tahun' => $request->input('tahun'),
                     'hari' => $request->input('hari'),
@@ -265,6 +268,7 @@ class SimpananController extends Controller
                     'nominal_keluar' => $request->input('nominal'),
                     'type' => 'simpanan',
                     'nama_transaksi' => 'ambil_simpanan_wajib',
+                    'tanggal_transaksi' => $request->input('date'),
                     'tahun' => $request->input('tahun'),
                     'hari' => $request->input('hari'),
                     'bulan' => $request->input('bulan')
@@ -340,15 +344,17 @@ class SimpananController extends Controller
                     'nominal' => $nominal,
                     'name' => $request->input('name'),
                     'type' => 'simpanan',
+                    'tanggal_transaksi' => $request->input('date'),
                     'nama_transaksi' => 'simpanan_sukarela',
                     'tahun' => $request->input('tahun'),
                     'hari' => $request->input('hari'),
                     'bulan' => $request->input('bulan')
                 ]);
-
+                
                 SimpananSukarela::create([
                     'id_simpanan_sukarela' => Str::uuid(),
                     'id_member' => $request->input('id_member'),
+                    'tanggal_transaksi' => $request->input('date'),
                     'tahun' => $request->input('tahun'),
                     'name' => $request->input('name'),
                     'hari' => $request->input('hari'),
@@ -419,6 +425,7 @@ class SimpananController extends Controller
                     'id_member' => $request->input('id_member'),
                     'name' => $request->input('name'),
                     'nominal_keluar' => $request->input('nominal'),
+                    'tanggal_transaksi' => $request->input('date'),
                     'type' => 'simpanan',
                     'nama_transaksi' => 'ambil_simpanan_sukarela',
                     'tahun' => $request->input('tahun'),
@@ -440,6 +447,7 @@ class SimpananController extends Controller
                     'id_simpanan_sukarela' => Str::uuid(),
                     'id_member' => $request->input('id_member'),
                     'tahun' => $request->input('tahun'),
+                    'tanggal_transaksi' => $request->input('date'),
                     'name' => $request->input('name'),
                     'hari' => $request->input('hari'),
                     'bulan' => $request->input('bulan'),

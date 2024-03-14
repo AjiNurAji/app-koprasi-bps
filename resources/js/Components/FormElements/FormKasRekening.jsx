@@ -5,13 +5,12 @@ import { router } from "@inertiajs/react";
 import CurrencyInput from "react-currency-input-field";
 import PostData from "@/Libs/postData";
 
-const FormKasRekening = ({ setPopup, bulan, saldo }) => {
+const FormKasRekening = ({ bulan, saldo }) => {
     const [processing, setProcess] = useState(false);
-    const form = useRef(null);
     const jenis = useRef(null);
     const transaksi = useRef(null);
     const date = new Date();
-    const { data, setData } = useForm({
+    const { data, setData, reset } = useForm({
         bulan: date.toLocaleDateString("in-ID", { month: "long" }),
         type: 1,
         rekening: 1,
@@ -32,9 +31,8 @@ const FormKasRekening = ({ setPopup, bulan, saldo }) => {
             const create = await PostData(route("kas_rekening"), data);
 
             if (create) {
-                form.current.reset();
-                setPopup(false);
                 setProcess(false);
+                reset();
                 router.get(route("kas_rekening"));
             }
             setProcess(false);
@@ -48,8 +46,6 @@ const FormKasRekening = ({ setPopup, bulan, saldo }) => {
         });
     };
 
-    console.log(data);
-
     const handleNominal = (v, n) => {
         setData({
             ...data,
@@ -61,13 +57,12 @@ const FormKasRekening = ({ setPopup, bulan, saldo }) => {
         <form
             className="flex flex-col gap-4"
             onSubmit={submit}
-            ref={form}
             autoComplete="off"
         >
             <div className="w-full">
                 <label
                     htmlFor="bulan"
-                    className="mb-2.5 font-medium text-black dark:text-white"
+                    className="mb-2.5 font-medium inline-block text-black dark:text-white"
                 >
                     Bulan
                 </label>
@@ -88,7 +83,7 @@ const FormKasRekening = ({ setPopup, bulan, saldo }) => {
             <div className="w-full">
                 <label
                     htmlFor="nominal"
-                    className="mb-2.5 font-medium text-black dark:text-white"
+                    className="mb-2.5 font-medium inline-block text-black dark:text-white"
                 >
                     Nominal
                 </label>
@@ -98,7 +93,6 @@ const FormKasRekening = ({ setPopup, bulan, saldo }) => {
                     allowDecimals={true}
                     name="nominal"
                     id="nominal"
-                    // value={data.masuk}
                     onValueChange={(value, name) => handleNominal(value, name)}
                     intlConfig={{
                         locale: "in-ID",
@@ -111,7 +105,7 @@ const FormKasRekening = ({ setPopup, bulan, saldo }) => {
             <div className="w-full">
                 <label
                     htmlFor="transaksi"
-                    className="mb-2.5 font-medium text-black dark:text-white"
+                    className="mb-2.5 font-medium inline-block text-black dark:text-white"
                 >
                     Jenis Transaksi
                 </label>
@@ -146,7 +140,7 @@ const FormKasRekening = ({ setPopup, bulan, saldo }) => {
             <div className="w-full">
                 <label
                     htmlFor="jenis"
-                    className="mb-2.5 font-medium text-black dark:text-white"
+                    className="mb-2.5 font-medium inline-block text-black dark:text-white"
                 >
                     Jenis Rekening
                 </label>

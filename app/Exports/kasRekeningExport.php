@@ -20,10 +20,10 @@ class kasRekeningExport implements FromView, ShouldAutoSize
             ->where('name', 'rekening')
             ->first();
 
-        $saldoRekening = TrRekening::orderBy('created_at', 'desc')->first();
+        $saldoRekening = TrRekening::orderBy('tanggal_transaksi', 'desc')->first();
 
         $rekening = Rekening::where('tahun', date('Y'))
-            ->orderBy('created_at', 'asc')
+            ->orderBy('tanggal_transaksi', 'asc')
             ->get();
 
         $debet = TrRekening::where('rekening', 'debet')
@@ -43,56 +43,49 @@ class kasRekeningExport implements FromView, ShouldAutoSize
         if ($rekening) {
             foreach ($rekening as $i => $value) {
                 $setor = TrRekening::where('id_rekening', $value->id_rekening)
-                    ->where('type', 'setor')
-                    ->first();
+            ->where('type', 'setor')
+            ->first();
 
-                $bunga_bank = TrRekening::where('id_rekening', $value->id_rekening)
-                    ->where('type', 'bunga_bank')
-                    ->first();
+            $bungaBank = TrRekening::where('id_rekening', $value->id_rekening)
+            ->where('type', 'bunga_bank')
+            ->first();
 
-                $pajak = TrRekening::where('id_rekening', $value->id_rekening)
-                    ->where('type', 'pajak')
-                    ->first();
+            $pajak = TrRekening::where('id_rekening', $value->id_rekening)
+            ->where('type', 'pajak')
+            ->first();
 
-                $adm = TrRekening::where('id_rekening', $value->id_rekening)
-                    ->where('type', 'adm')
-                    ->first();
+            $adm = TrRekening::where('id_rekening', $value->id_rekening)
+            ->where('type', 'adm')
+            ->first();
 
-                $penarikan = TrRekening::where('id_rekening', $value->id_rekening)
-                    ->where('type', 'penarikan')
-                    ->first();
+            $penarikan = TrRekening::where('id_rekening', $value->id_rekening)
+            ->where('type', 'penarikan')
+            ->first();
 
-                $saldo = TrRekening::where('id_rekening', $value->id_rekening)
-                    ->orderBy('created_at', 'desc')
-                    ->first();
+            $rekening[$i]->setor = $setor?->nominal;
+            $rekening[$i]->setor_type = $setor?->rekening;
 
-                $datas[] = [
-                    'bulan' => $value->bulan,
-                    'setor' => $setor ? $setor->nominal : null,
-                    'setor_type' => $setor ? $setor->rekening : $saldo->saldo + $saldo->nominal,
-                    'saldo_setor' => $setor ? $setor->saldo : null,
-                    'bunga_bank' => $bunga_bank ? $bunga_bank->nominal : null,
-                    'bunga_bank_type' => $bunga_bank ? $bunga_bank->rekening : null,
-                    'saldo_bunga_bank' => $bunga_bank ? $bunga_bank->saldo : $saldo->saldo + $saldo->nominal,
-                    'pajak' => $pajak ? $pajak->nominal : null,
-                    'pajak_type' => $pajak ? $pajak->rekening : null,
-                    'saldo_pajak' => $pajak ? $pajak->saldo : $saldo->saldo + $saldo->nominal,
-                    'adm' => $adm ? $adm->nominal : null,
-                    'adm_type' => $adm ? $adm->rekening : null,
-                    'saldo_adm' => $adm ? $adm->saldo : $saldo->saldo + $saldo->nominal,
-                    'penarikan' => $penarikan ? $penarikan->nominal : null,
-                    'penarikan_type' => $penarikan ? $penarikan->rekening : null,
-                    'saldo_penarikan' => $penarikan ? $penarikan->saldo : $saldo->saldo + $saldo->nominal,
-                ];
+            $rekening[$i]->bunga_bank = $bungaBank?->nominal;
+            $rekening[$i]->bunga_bank_type = $bungaBank?->rekening;
+
+            $rekening[$i]->pajak = $pajak?->nominal;
+            $rekening[$i]->pajak_type = $pajak?->rekening;
+
+            $rekening[$i]->adm = $adm?->nominal;
+            $rekening[$i]->adm_type = $adm?->rekening;
+
+            $rekening[$i]->penarikan = $penarikan?->nominal;
+            $rekening[$i]->penarikan_type = $penarikan?->rekening;
+
+            $rekening[$i]->saldo = TrRekening::where('id_rekening', $value->id_rekening)
+                ->orderBy('tanggal_transaksi', 'desc')
+                ->first()->saldo;
             }
-        } else {
-            $datas = [];
         }
 
         return view('Exports.Excel.Kas.kasRekening',   [
             'data' => $kas,
-            'rekening' => $datas,
-            'datas' => $datas,
+            'datas' => $rekening,
         ]);
     }
 }

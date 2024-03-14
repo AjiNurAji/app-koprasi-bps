@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('bulan', 12);
             $table->integer('tahun', false);
             $table->integer('masuk', false)->nullable();
+            $table->date("tanggal_transaksi");
             $table->integer('keluar', false)->nullable();
             $table->integer('saldo', false)->nullable();
             $table->timestamps();

@@ -1,14 +1,13 @@
 import ButtonLoading from "@/Components/ButtonLoading";
 import PostData from "@/Libs/postData";
 import { router, useForm } from "@inertiajs/react";
-import { useRef, useState } from "react";
+import { useState } from "react";
 import CurrencyInput from "react-currency-input-field";
 
-const FormSetSaldoAwal = ({ name, setPopup, postUrl, directUrl }) => {
+const FormSetSaldoAwal = ({ name, postUrl, directUrl }) => {
     const [processing, setProcess] = useState(false);
     const date = new Date();
-    const form = useRef(null);
-    const { data, setData } = useForm({
+    const { data, setData, reset } = useForm({
         name,
         tahun: date.getFullYear(),
         saldo_awal: null,
@@ -21,8 +20,7 @@ const FormSetSaldoAwal = ({ name, setPopup, postUrl, directUrl }) => {
         const create = await PostData(postUrl, data);
 
         if (create) {
-            form.current.reset();
-            setPopup(false);
+            reset()
             setProcess(false);
             router.get(directUrl);
         }
@@ -37,17 +35,18 @@ const FormSetSaldoAwal = ({ name, setPopup, postUrl, directUrl }) => {
         });
     };
 
+    console.log(data);
+
     return (
         <form
             className="flex flex-col gap-4"
             onSubmit={submit}
-            ref={form}
             autoComplete="off"
         >
             <div className="w-full">
                 <label
                     htmlFor="saldo_awal"
-                    className="mb-2.5 font-medium text-black dark:text-white"
+                    className="mb-2.5 inline-block font-medium text-black dark:text-white"
                 >
                     Saldo Awal
                 </label>

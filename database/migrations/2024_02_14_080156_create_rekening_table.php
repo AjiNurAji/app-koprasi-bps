@@ -16,6 +16,7 @@ return new class extends Migration
             $table->char('id_kas');
             $table->foreign('id_kas')->references('id')->on('kas')->onDelete('cascade')->onUpdate('cascade');
             $table->string('bulan', 12);
+            $table->date("tanggal_transaksi");
             $table->integer('tahun', false);
             $table->timestamps();
         });

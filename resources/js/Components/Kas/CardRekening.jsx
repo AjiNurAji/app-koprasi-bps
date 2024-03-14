@@ -1,13 +1,7 @@
 import { GiCardPlay } from "react-icons/gi";
-import DownloadDropdown from "../DownloadDrodown";
-import { useRef, useState } from "react";
-import CreatePopup from "../Popup/CreatePopup";
 import { FaMoneyCheck } from "react-icons/fa";
-import FormKasRekening from "../FormElements/FormKasRekening";
 
-const CardRekening = ({ data, user, bulan, saldo }) => {
-    const [popup, setPopup] = useState(false);
-
+const CardRekening = ({ data, user }) => {
     return (
         <>
             {/* head component */}
@@ -15,26 +9,12 @@ const CardRekening = ({ data, user, bulan, saldo }) => {
                 {user.role ? (
                     <a
                         className="p-3 hover:bg-opacity-95 transition-all duration-300 ease-in-out bg-primary text-white rounded-md text-xl"
-                        href={route('kas_rekening_transaksi')}
+                        href={route("kas_rekening_transaksi")}
                     >
                         <GiCardPlay />
                     </a>
                 ) : null}
             </div>
-            {/* popup create */}
-            {popup ? (
-                <CreatePopup
-                    createName="Kas Rekening"
-                    setPopup={setPopup}
-                    form={
-                        <FormKasRekening
-                            bulan={bulan}
-                            saldo={saldo}
-                            setPopup={setPopup}
-                        />
-                    }
-                />
-            ) : null}
             <div className="flex  gap-4 flex-col md:flex-row md:gap-6 flex-wrap">
                 {data.length ? (
                     <>

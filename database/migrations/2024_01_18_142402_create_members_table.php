@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('name', 35);
             $table->string('password');
             $table->string('image')->nullable();
-            $table->timestamp('deleted_at')->nullable();
+            $table->boolean('is_deleted')->default(false);
             $table->timestamps();
         });
     }

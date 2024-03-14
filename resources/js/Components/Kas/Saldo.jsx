@@ -1,6 +1,6 @@
 import { BsCreditCard2Front, BsWallet } from "react-icons/bs";
 
-const Saldo = ({ saldoAwal, saldo, setPopup }) => {
+const Saldo = ({ saldoAwal, saldo, param }) => {
     return (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
             <div className="rounded-md w-full flex-auto relative border border-stroke bg-white py-6 px-7.5 shadow-default dark:border-strokedark dark:bg-boxdark">
@@ -12,9 +12,9 @@ const Saldo = ({ saldoAwal, saldo, setPopup }) => {
                 </div>
 
                 {saldoAwal ? null : (
-                    <button onClick={() => setPopup(true)} className="absolute bg-primary px-2 py-1 rounded-md text-white text-xs top-3 right-3">
+                    <a href={route("set_saldo_awal_page", param)} className="absolute bg-primary px-2 py-1 rounded-md text-white text-xs top-3 right-3">
                         Set Saldo Awal
-                    </button>
+                    </a>
                 )}
 
                 <div className="mt-4 flex items-end justify-between">
@@ -23,6 +23,7 @@ const Saldo = ({ saldoAwal, saldo, setPopup }) => {
                             {Intl.NumberFormat("in-ID", {
                                 style: "currency",
                                 currency: "IDR",
+                                maximumFractionDigits: "0"
                             }).format(saldoAwal ? saldoAwal : 0)}
                         </h4>
                     </div>
@@ -42,6 +43,7 @@ const Saldo = ({ saldoAwal, saldo, setPopup }) => {
                             {Intl.NumberFormat("in-ID", {
                                 style: "currency",
                                 currency: "IDR",
+                                maximumFractionDigits: "0"
                             }).format(saldo ? saldo : 0)}
                         </h4>
                     </div>
