@@ -66,7 +66,7 @@ const Login = () => {
                             <div className="w-full">
                                 <label
                                     htmlFor="username"
-                                    className="mb-2.5 font-medium text-black dark:text-white"
+                                    className="mb-2.5 inline-block font-medium text-black dark:text-white"
                                 >
                                     Username or NIP
                                 </label>
@@ -85,7 +85,7 @@ const Login = () => {
                             <div className="w-full">
                                 <label
                                     htmlFor="password"
-                                    className="mb-2.5 font-medium text-black dark:text-white"
+                                    className="mb-2.5 inline-block font-medium text-black dark:text-white"
                                 >
                                     Password
                                 </label>

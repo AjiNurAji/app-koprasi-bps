@@ -29,6 +29,7 @@ class AuthController extends Controller
             $request->validate([
                 'username' => 'required',
                 'password' => 'required',
+                'remember' => 'required'
             ]);
 
             // credentials
@@ -42,10 +43,10 @@ class AuthController extends Controller
                 'password' => $request->input('password')
             ];
 
-            if (Auth::guard('admin')->attempt($credentials)) {
+            if (Auth::guard('admin')->attempt($credentials, $request->input('remember'))) {
                 $request->session()->regenerate();
                 return response()->json(['message' => 'Berhasil Login'], 200);
-            } else if (Auth::guard('member')->attempt($credentialsMember)) {
+            } else if (Auth::guard('member')->attempt($credentialsMember, $request->input('remember'))) {
                 $request->session()->regenerate();
                 return response()->json(['message' => 'Berhasil Login.'], 200);
             }
