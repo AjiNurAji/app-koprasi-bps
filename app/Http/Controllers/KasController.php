@@ -64,6 +64,7 @@ class KasController extends Controller
                     'id_kas' => $id_kas->id,
                     'bulan' => $request->input('bulan'),
                     'tahun' => $request->input('tahun'),
+                    'tanggal_transaksi' => $request->input('date'),
                     'masuk' => $request->input('masuk'),
                     'keluar' => $request->input('keluar'),
                     'saldo' => $saldo
@@ -96,27 +97,28 @@ class KasController extends Controller
                 $id_kas = Kas::where('name', 'rekening')
                     ->where('tahun', date('Y'))
                     ->first();
-
-                $rekening = Rekening::where('bulan', $request->input('bulan'))
+                    
+                    $rekening = Rekening::where('bulan', $request->input('bulan'))
                     ->where('tahun', date('Y'))
                     ->first();
-
-                $saldo = TrRekening::orderBy('created_at', 'desc')
+                    
+                    $saldo = TrRekening::orderBy('created_at', 'desc')
                     ->first();
-
-                if ($request->input('type') === 'setor' || $request->input('type') === 'bunga_bank') {
-                    $totalSaldo = $saldo
+                    
+                    if ($request->input('type') === 'setor' || $request->input('type') === 'bunga_bank') {
+                        $totalSaldo = $saldo
                         ? $saldo->saldo + $request->input('nominal')
                         : $id_kas->saldo_awal + $request->input('nominal');
-                } else {
-                    $totalSaldo = $saldo
+                    } else {
+                        $totalSaldo = $saldo
                         ? $saldo->saldo - $request->input('nominal')
                         : $id_kas->saldo_awal - $request->input('nominal');
-                }
-                
+                    }
+
+                    if($request->input('type') === "penarikan" && $request->input('nominal') > $saldo->saldo || $request->input('type') === "penarikan" && !$rekening) return response()->json(['message' => 'Saldo kurang dari nominal yang dimasukkan!'], 500);
+                    
                 // cek sudah set saldo awal atau belum
                 if ($id_kas) {
-                    if($request->input('type') === "penarikan" && $request->input('nominal') > $totalSaldo || $request->input('type') === "penarikan" && !$rekening) return response()->json(['message' => 'Saldo kurang dari nominal yang dimasukkan!'], 500);
                     
                     if ($rekening) {
                         $tr_rekening = TrRekening::where('id_rekening', $rekening->id_rekening)
@@ -129,6 +131,7 @@ class KasController extends Controller
                                 'id_tr_rekening' => Str::uuid(),
                                 'id_rekening' => $rekening->id_rekening,
                                 'nominal' => $request->input('nominal'),
+                                'tanggal_transaksi' => $request->input('date'),
                                 'type' => $request->input('type'),
                                 'rekening' => $request->input('rekening'),
                                 'saldo' => $totalSaldo,
@@ -143,6 +146,7 @@ class KasController extends Controller
                     Rekening::create([
                         'id_rekening' => Str::uuid(),
                         'id_kas' => $id_kas->id,
+                        'tanggal_transaksi' => $request->input('date'),
                         'bulan' => $request->input('bulan'),
                         'tahun' => $request->input('tahun'),
                     ]);
@@ -162,6 +166,7 @@ class KasController extends Controller
                             'id_rekening' => $rekening_create->id_rekening,
                             'nominal' => $request->input('nominal'),
                             'type' => $request->input('type'),
+                            'tanggal_transaksi' => $request->input('date'),
                             'rekening' => $request->input('rekening'),
                             'saldo' => $totalSaldo
                         ]);

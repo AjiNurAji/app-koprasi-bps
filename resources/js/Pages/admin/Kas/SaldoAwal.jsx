@@ -1,9 +1,18 @@
 import FormSetSaldoAwal from "@/Components/Kas/FormEl/FormSetSaldoAwal";
 import Authenticated from "@/Layouts/AuthenticatedLayout";
 import { Head } from "@inertiajs/react";
+import { useEffect } from "react";
 import { LuArrowLeft } from "react-icons/lu";
+import { toast } from "react-hot-toast";
+import { router } from "@inertiajs/react";
 
-const SaldoAwal = ({ auth, name, postUrl, directUrl }) => {
+const SaldoAwal = ({ auth, name, postUrl, directUrl, message }) => {
+
+    if (message) {
+        toast.error(message, { duration: 3000 });
+        return router.get(directUrl)
+    }
+
     return (
         <Authenticated user={auth.user}>
             <Head title="Tambah Kas Rekning" />

@@ -18,6 +18,7 @@ class Rekening extends Model
     protected $fillable = [
         'id_rekening',
         'id_kas',
+        'tanggal_transaksi',
         'bulan',
         'tahun',
     ];

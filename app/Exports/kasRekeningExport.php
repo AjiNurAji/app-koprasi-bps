@@ -64,18 +64,23 @@ class kasRekeningExport implements FromView, ShouldAutoSize
 
             $rekening[$i]->setor = $setor?->nominal;
             $rekening[$i]->setor_type = $setor?->rekening;
+            $rekening[$i]->saldo_setor = $setor ? $setor->saldo : $kas->saldo_awal;
 
             $rekening[$i]->bunga_bank = $bungaBank?->nominal;
             $rekening[$i]->bunga_bank_type = $bungaBank?->rekening;
+            $rekening[$i]->saldo_bunga_bank = $bungaBank ? $bungaBank->saldo : ($setor ? $setor->saldo : $kas->saldo_awal);
 
             $rekening[$i]->pajak = $pajak?->nominal;
             $rekening[$i]->pajak_type = $pajak?->rekening;
-
+            $rekening[$i]->saldo_pajak = $pajak ? $pajak->saldo : ($bungaBank ? $bungaBank->saldo : ($setor ? $setor->saldo : $kas->saldo_awal));
+            
             $rekening[$i]->adm = $adm?->nominal;
             $rekening[$i]->adm_type = $adm?->rekening;
-
+            $rekening[$i]->saldo_adm = $adm ? $adm->saldo : ($pajak ? $pajak->saldo : ($setor ? $setor->saldo : $kas->saldo_awal));
+            
             $rekening[$i]->penarikan = $penarikan?->nominal;
             $rekening[$i]->penarikan_type = $penarikan?->rekening;
+            $rekening[$i]->saldo_penarikan = $penarikan ? $penarikan->saldo : ($adm ? $adm->saldo : ($setor ? $setor->saldo : $kas->saldo_awal));
 
             $rekening[$i]->saldo = TrRekening::where('id_rekening', $value->id_rekening)
                 ->orderBy('tanggal_transaksi', 'desc')

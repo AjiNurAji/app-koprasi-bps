@@ -82,6 +82,22 @@ const FormKasRekening = ({ bulan, saldo }) => {
             </div>
             <div className="w-full">
                 <label
+                    htmlFor="date"
+                    className="mb-2.5 inline-block font-medium text-black dark:text-white"
+                >
+                    Tanggal Transaksi
+                </label>
+                <input
+                    type="date"
+                    name="date"
+                    id="date"
+                    value={data.date}
+                    onChange={(e) => handleValue(e)}
+                    className="w-full rounded-md border text-dark dark:text-white border-stroke bg-transparent py-2 pl-4 pr-6 transition-all duration-300 ease-in-out outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
+                />
+            </div>
+            <div className="w-full">
+                <label
                     htmlFor="nominal"
                     className="mb-2.5 font-medium inline-block text-black dark:text-white"
                 >

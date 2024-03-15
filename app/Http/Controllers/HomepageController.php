@@ -28,47 +28,47 @@ class HomepageController extends Controller
     {
         $bulan = [
             [
-                'Januari',
-                'Februari',
-                'Maret',
-                'April',
-                'Mei',
-                'Juni',
-                'Juli',
-                'Agustus',
-                'September',
-                'Oktober',
-                'November',
-                'Desember',
+                "Januari",
+                "Februari",
+                "Maret",
+                "April",
+                "Mei",
+                "Juni",
+                "Juli",
+                "Agustus",
+                "September",
+                "Oktober",
+                "November",
+                "Desember",
             ]
         ];
 
         $hari = [
             [
-                'Senin',
-                'Selasa',
-                'Rabu',
-                'Kamis',
-                'Jumat',
-                'Sabtu',
-                'Minggu'
+                "Senin",
+                "Selasa",
+                "Rabu",
+                "Kamis",
+                "Jumat",
+                "Sabtu",
+                "Minggu"
             ]
         ];
 
         // simpanan chart
         foreach ($bulan as $item) {
             for ($i = 0; $i < 12; $i++) {
-                $simpananCount[] = Transaksi::whereBetween('created_at', [Carbon::now()->startOfMonth(), Carbon::now()->endOfMonth()])
-                    ->where('bulan', $item[$i])
-                    ->where('tahun', date('Y'))
-                    ->where('type', 'simpanan')
+                $simpananCount[] = Transaksi::whereBetween("created_at", [Carbon::now()->startOfMonth(), Carbon::now()->endOfMonth()])
+                    ->where("bulan", $item[$i])
+                    ->where("tahun", date("Y"))
+                    ->where("type", "simpanan")
                     ->get()
                     ->count();
 
-                $pinjamanCount[] = Transaksi::whereBetween('created_at', [Carbon::now()->startOfMonth(), Carbon::now()->endOfMonth()])
-                    ->where('bulan', $item[$i])
-                    ->where('tahun', date('Y'))
-                    ->where('type', 'pinjaman')
+                $pinjamanCount[] = Transaksi::whereBetween("created_at", [Carbon::now()->startOfMonth(), Carbon::now()->endOfMonth()])
+                    ->where("bulan", $item[$i])
+                    ->where("tahun", date("Y"))
+                    ->where("type", "pinjaman")
                     ->get()
                     ->count();
             }
@@ -76,63 +76,63 @@ class HomepageController extends Controller
 
         foreach ($hari as $item) {
             for ($i = 0; $i < 7; $i++) {
-                $totalSimpananPerhari[] = Transaksi::whereBetween('created_at', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])
-                    ->where('hari', $item[$i])
-                    ->where('tahun', date('Y'))
-                    ->where('type', 'simpanan')
-                    ->sum('nominal');
+                $totalSimpananPerhari[] = Transaksi::whereBetween("created_at", [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])
+                    ->where("hari", $item[$i])
+                    ->where("tahun", date("Y"))
+                    ->where("type", "simpanan")
+                    ->sum("nominal");
 
-                $totalPinjamanPerhari[] = Transaksi::whereBetween('created_at', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])
-                    ->where('hari', $item[$i])
-                    ->where('tahun', date('Y'))
-                    ->where('type', 'pinjaman')
-                    ->sum('nominal');
+                $totalPinjamanPerhari[] = Transaksi::whereBetween("created_at", [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])
+                    ->where("hari", $item[$i])
+                    ->where("tahun", date("Y"))
+                    ->where("type", "pinjaman")
+                    ->sum("nominal");
             }
         }
 
         // total card
-        $awalTahunPokok = SimpananPokok::where('tahun', date('Y'))->sum('awal_tahun');
-        $anggotaMasukPokok = SimpananPokok::where('tahun', date('Y'))->sum('anggota_masuk');
-        $anggotaKeluarPokok = SimpananPokok::where('tahun', date('Y'))->sum('anggota_keluar');
+        $awalTahunPokok = SimpananPokok::where("tahun", date("Y"))->sum("awal_tahun");
+        $anggotaMasukPokok = SimpananPokok::where("tahun", date("Y"))->sum("anggota_masuk");
+        $anggotaKeluarPokok = SimpananPokok::where("tahun", date("Y"))->sum("anggota_keluar");
         $totalPokok = $awalTahunPokok + $anggotaMasukPokok - $anggotaKeluarPokok;
 
-        $awalTahunWajib = SimpananWajib::where('tahun', date('Y'))->sum('kekayaan_awal_tahun');
-        $wajibSimpanan = SimpananWajib::where('tahun', date('Y'))->sum('simpanan_wajib');
-        $anggotaKeluarWajib = AmbilSimpanan::whereBetween('created_at', [Carbon::now()->startOfYear(), Carbon::now()->endOfYear()])->where('simpanan', 'wajib')->sum('nominal');
+        $awalTahunWajib = SimpananWajib::where("tahun", date("Y"))->sum("kekayaan_awal_tahun");
+        $wajibSimpanan = SimpananWajib::where("tahun", date("Y"))->sum("simpanan_wajib");
+        $anggotaKeluarWajib = AmbilSimpanan::whereBetween("created_at", [Carbon::now()->startOfYear(), Carbon::now()->endOfYear()])->where("simpanan", "wajib")->sum("nominal");
         $totalWajib = $awalTahunWajib + $wajibSimpanan - $anggotaKeluarWajib;
 
-        $totalSukarela = SimpananSukarela::where('tahun', date('Y'))->sum('akhir_taun');
+        $totalSukarela = SimpananSukarela::where("tahun", date("Y"))->sum("akhir_taun");
 
-        $kasTunai = Kas::where('tahun', date('Y'))
-            ->where('name', 'tunai')
+        $kasTunai = Kas::where("tahun", date("Y"))
+            ->where("name", "tunai")
             ->first();
 
-        $kasRekening = Kas::where('tahun', date('Y'))
-            ->where('name', 'rekening')
+        $kasRekening = Kas::where("tahun", date("Y"))
+            ->where("name", "rekening")
             ->first();
 
-        $saldoTunai = Tunai::where('tahun', date('Y'))
-            ->orderBy('created_at', 'desc')
+        $saldoTunai = Tunai::where("tahun", date("Y"))
+            ->orderBy("created_at", "desc")
             ->first();
 
-        $saldoRekening = TrRekening::orderBy('created_at', 'desc')->first();
+        $saldoRekening = TrRekening::orderBy("created_at", "desc")->first();
 
         $totalKasTunai = ($saldoTunai ? $saldoTunai->saldo : $kasTunai) ? $kasTunai->saldo_awal : null;
         $totalKasRekening = ($saldoRekening ? $saldoRekening->saldo : $kasRekening) ? $kasRekening->saldo_awal : null;
 
-        return Inertia::render('Dashboard', [
-            'chart' => [
-                'perbulan' => $simpananCount,
-                'perhari' => $totalSimpananPerhari,
-                'pinjaman_perbulan' => $pinjamanCount,
-                'pinjaman_perhari' => $totalPinjamanPerhari,
+        return Inertia::render("Dashboard", [
+            "chart" => [
+                "perbulan" => $simpananCount,
+                "perhari" => $totalSimpananPerhari,
+                "pinjaman_perbulan" => $pinjamanCount,
+                "pinjaman_perhari" => $totalPinjamanPerhari,
             ],
-            'cards' => [
-                'simpananPokok' => $totalPokok,
-                'simpananWajib' => $totalWajib,
-                'simpananSukarela' => $totalSukarela,
-                'kas_tunai' => $totalKasTunai,
-                'kas_rekening' => $totalKasRekening
+            "cards" => [
+                "simpananPokok" => $totalPokok,
+                "simpananWajib" => $totalWajib,
+                "simpananSukarela" => $totalSukarela,
+                "kas_tunai" => $totalKasTunai,
+                "kas_rekening" => $totalKasRekening
             ]
         ]);
     }
@@ -143,41 +143,41 @@ class HomepageController extends Controller
         $members = Member::all();
 
         foreach ($members as $key => $value) {
-            $members[$key]['simpanan_sukarela'] = SimpananSukarela::where([
-                ['tahun', date('Y')],
-                ['id_member', $value['id_member']]
+            $members[$key]["simpanan_sukarela"] = SimpananSukarela::where([
+                ["tahun", date("Y")],
+                ["id_member", $value["id_member"]]
             ])->get();
 
             $simpanan = SimpananSukarela::where([
-                ['tahun', date('Y')],
-                ['id_member', $value['id_member']]
-            ])->orderBy('created_at', 'desc')->get()->first();
+                ["tahun", date("Y")],
+                ["id_member", $value["id_member"]]
+            ])->orderBy("created_at", "desc")->get()->first();
 
-            $members[$key]['shu'] = $simpanan?->shu;
+            $members[$key]["shu"] = $simpanan?->shu;
 
-            $members[$key]['sukarela'] = $simpanan?->sukarela;
+            $members[$key]["sukarela"] = $simpanan?->sukarela;
 
-            $members[$key]['awal_tahun'] = $simpanan?->awal_tahun;
+            $members[$key]["awal_tahun"] = $simpanan?->awal_tahun;
 
-            $members[$key]['diambil'] = AmbilSimpanan::whereBetween('created_at', [Carbon::now()->startOfYear(), Carbon::now()->endOfYear()])
+            $members[$key]["diambil"] = AmbilSimpanan::whereBetween("created_at", [Carbon::now()->startOfYear(), Carbon::now()->endOfYear()])
                 ->where([
-                    ['simpanan', 'sukarela'],
+                    ["simpanan", "sukarela"],
 
-                    ['id_member', $value->id_member]
-                ])->get()->sum('nominal');
+                    ["id_member", $value->id_member]
+                ])->get()->sum("nominal");
 
-            $members[$key]['akhir_tahun'] = $simpanan?->akhir_taun;
+            $members[$key]["akhir_tahun"] = $simpanan?->akhir_taun;
         }
 
-        $totalSelamaTahun = SimpananSukarela::where('tahun', date('Y'))->sum('selama_tahun');
-        $totalDiambil = AmbilSimpanan::whereBetween('created_at', [Carbon::now()->startOfYear(), Carbon::now()->endOfYear()])->where('simpanan', 'sukarela')->get()->sum('nominal');
-        $totalDisimpanKembali = SimpananSukarela::where('tahun', date('Y'))->sum('disimpan_kembali');
-        return Inertia::render('Simpanan/Sukarela', [
-            'data' => $members,
-            'total' => [
-                'total_selama_tahun' => $totalSelamaTahun,
-                'total_diambil' => $totalDiambil,
-                'total_disimpan_kembali' => $totalDisimpanKembali,
+        $totalSelamaTahun = SimpananSukarela::where("tahun", date("Y"))->sum("selama_tahun");
+        $totalDiambil = AmbilSimpanan::whereBetween("created_at", [Carbon::now()->startOfYear(), Carbon::now()->endOfYear()])->where("simpanan", "sukarela")->get()->sum("nominal");
+        $totalDisimpanKembali = SimpananSukarela::where("tahun", date("Y"))->sum("disimpan_kembali");
+        return Inertia::render("Simpanan/Sukarela", [
+            "data" => $members,
+            "total" => [
+                "total_selama_tahun" => $totalSelamaTahun,
+                "total_diambil" => $totalDiambil,
+                "total_disimpan_kembali" => $totalDisimpanKembali,
             ]
         ]);
     }
@@ -188,36 +188,36 @@ class HomepageController extends Controller
         $simpananPokok = Member::all();
 
         foreach ($simpananPokok as $i => $value) {
-            $simpananPokok[$i]['awal_tahun'] = SimpananPokok::where([
-                ['tahun', date('Y') - 1],
-                ['id_member', $value['id_member']]
-            ])->get()->sum('anggota_masuk') - SimpananPokok::where([
-                ['tahun', date('Y') - 1],
-                ['id_member', $value['id_member']]
-            ])->get()->sum('anggota_keluar');
+            $simpananPokok[$i]["awal_tahun"] = SimpananPokok::where([
+                ["tahun", date("Y") - 1],
+                ["id_member", $value["id_member"]]
+            ])->get()->sum("anggota_masuk") - SimpananPokok::where([
+                ["tahun", date("Y") - 1],
+                ["id_member", $value["id_member"]]
+            ])->get()->sum("anggota_keluar");
 
-            $simpananPokok[$i]['simpanan_pokok'] = SimpananPokok::where([
-                ['tahun', date('Y')],
-                ['id_member', $value['id_member']]
+            $simpananPokok[$i]["simpanan_pokok"] = SimpananPokok::where([
+                ["tahun", date("Y")],
+                ["id_member", $value["id_member"]]
             ])->get();
         }
 
         $awalTahunPokok = SimpananPokok::where([
-            ['tahun', date('Y') - 1],
-        ])->get()->sum('anggota_masuk') - SimpananPokok::where([
-            ['tahun', date('Y') - 1],
-        ])->get()->sum('anggota_keluar');
-        $anggotaMasukPokok = SimpananPokok::where('tahun', date('Y'))->sum('anggota_masuk');
-        $anggotaKeluarPokok = SimpananPokok::where('tahun', date('Y'))->sum('anggota_keluar');
+            ["tahun", date("Y") - 1],
+        ])->get()->sum("anggota_masuk") - SimpananPokok::where([
+            ["tahun", date("Y") - 1],
+        ])->get()->sum("anggota_keluar");
+        $anggotaMasukPokok = SimpananPokok::where("tahun", date("Y"))->sum("anggota_masuk");
+        $anggotaKeluarPokok = SimpananPokok::where("tahun", date("Y"))->sum("anggota_keluar");
         $totalPokok = $awalTahunPokok + $anggotaMasukPokok - $anggotaKeluarPokok;
 
-        return Inertia::render('Simpanan/Pokok', [
-            'data' => $simpananPokok,
-            'total' => [
-                'awal_tahun' => $awalTahunPokok,
-                'anggota_masuk' => $anggotaMasukPokok,
-                'anggota_keluar' => $anggotaKeluarPokok,
-                'jumlah' => $totalPokok
+        return Inertia::render("Simpanan/Pokok", [
+            "data" => $simpananPokok,
+            "total" => [
+                "awal_tahun" => $awalTahunPokok,
+                "anggota_masuk" => $anggotaMasukPokok,
+                "anggota_keluar" => $anggotaKeluarPokok,
+                "jumlah" => $totalPokok
             ]
         ]);
     }
@@ -228,43 +228,43 @@ class HomepageController extends Controller
         $simpananWajib = Member::all();
 
         foreach ($simpananWajib as $i => $value) {
-            $simpananWajib[$i]['simpanan_wajib'] = SimpananWajib::where([
-                ['tahun', date('Y')],
-                ['id_member', $value['id_member']]
+            $simpananWajib[$i]["simpanan_wajib"] = SimpananWajib::where([
+                ["tahun", date("Y")],
+                ["id_member", $value["id_member"]]
             ])->get();
 
-            $simpananWajib[$i]['ambil_simpanan'] = AmbilSimpanan::whereBetween('created_at', [Carbon::now()->startOfYear(), Carbon::now()->endOfYear()])->where([
-                ['id_member', $value['id_member']],
-                ['simpanan', 'wajib']
+            $simpananWajib[$i]["ambil_simpanan"] = AmbilSimpanan::whereBetween("created_at", [Carbon::now()->startOfYear(), Carbon::now()->endOfYear()])->where([
+                ["id_member", $value["id_member"]],
+                ["simpanan", "wajib"]
             ])->get();
 
-            $simpananWajib[$i]['awal_tahun'] = SimpananWajib::where([
-                ['tahun', date('Y') - 1],
-                ['id_member', $value['id_member']]
-            ])->get()->sum('simpanan_wajib') - AmbilSimpanan::whereBetween('created_at', [Carbon::createFromDate(date('Y') - 1)->startOfYear(), Carbon::createFromDate(date('Y') - 1)->endOfYear()])
+            $simpananWajib[$i]["awal_tahun"] = SimpananWajib::where([
+                ["tahun", date("Y") - 1],
+                ["id_member", $value["id_member"]]
+            ])->get()->sum("simpanan_wajib") - AmbilSimpanan::whereBetween("created_at", [Carbon::createFromDate(date("Y") - 1)->startOfYear(), Carbon::createFromDate(date("Y") - 1)->endOfYear()])
                 ->where([
-                    ['id_member', $value['id_member']],
-                    ['simpanan', 'wajib']
-                ])->get()->sum('nominal');
+                    ["id_member", $value["id_member"]],
+                    ["simpanan", "wajib"]
+                ])->get()->sum("nominal");
         }
 
         $kekayaanAwalTahun = SimpananWajib::where([
-            ['tahun', date('Y') - 1],
-        ])->get()->sum('simpanan_wajib') - AmbilSimpanan::whereBetween('created_at', [Carbon::createFromDate(date('Y') - 1)->startOfYear(), Carbon::createFromDate(date('Y') - 1)->endOfYear()])
+            ["tahun", date("Y") - 1],
+        ])->get()->sum("simpanan_wajib") - AmbilSimpanan::whereBetween("created_at", [Carbon::createFromDate(date("Y") - 1)->startOfYear(), Carbon::createFromDate(date("Y") - 1)->endOfYear()])
             ->where([
-                ['simpanan', 'wajib']
-            ])->get()->sum('nominal');
-        $simpananWajibSum = SimpananWajib::where('tahun', date('Y'))->sum('simpanan_wajib');
-        $anggotaKeluar = AmbilSimpanan::whereBetween('created_at', [Carbon::now()->startOfYear(), Carbon::now()->endOfYear()])->where('simpanan', 'wajib')->sum('nominal');
+                ["simpanan", "wajib"]
+            ])->get()->sum("nominal");
+        $simpananWajibSum = SimpananWajib::where("tahun", date("Y"))->sum("simpanan_wajib");
+        $anggotaKeluar = AmbilSimpanan::whereBetween("created_at", [Carbon::now()->startOfYear(), Carbon::now()->endOfYear()])->where("simpanan", "wajib")->sum("nominal");
         $totalWajib = $kekayaanAwalTahun + $simpananWajibSum - $anggotaKeluar;
 
-        return Inertia::render('Simpanan/Wajib', [
-            'data' => $simpananWajib,
-            'total' => [
-                'kekayaan_awal_tahun' => $kekayaanAwalTahun,
-                'simpanan_wajib' => $simpananWajibSum,
-                'anggota_keluar' => $anggotaKeluar,
-                'jumlah' => $totalWajib,
+        return Inertia::render("Simpanan/Wajib", [
+            "data" => $simpananWajib,
+            "total" => [
+                "kekayaan_awal_tahun" => $kekayaanAwalTahun,
+                "simpanan_wajib" => $simpananWajibSum,
+                "anggota_keluar" => $anggotaKeluar,
+                "jumlah" => $totalWajib,
             ]
         ]);
     }
@@ -272,20 +272,20 @@ class HomepageController extends Controller
     // halaman history
     public function history()
     {
-        $history = Transaksi::where('tahun', date('Y'))->orderBy('updated_at', 'desc')->get();
+        $history = Transaksi::where("tahun", date("Y"))->orderBy("updated_at", "desc")->get();
 
         foreach ($history as $data) {
             $datas[] = [
-                'name' => $data->member->name,
-                'nominal' => $data->nominal === null ? null : $data->nominal,
-                'nominal_keluar' => $data->nominal_keluar === null ? null : $data->nominal_keluar,
-                'type' => $data->type === null ? null : $data->type,
-                'nama_transaksi' => $data->nama_transaksi === null ? null : $data->nama_transaksi,
-                'waktu' => $data->updated_at === null ? null : $data->updated_at,
+                "name" => $data->member->name,
+                "nominal" => $data->nominal === null ? null : $data->nominal,
+                "nominal_keluar" => $data->nominal_keluar === null ? null : $data->nominal_keluar,
+                "type" => $data->type === null ? null : $data->type,
+                "nama_transaksi" => $data->nama_transaksi === null ? null : $data->nama_transaksi,
+                "waktu" => $data->updated_at === null ? null : $data->updated_at,
             ];
         }
 
-        return Inertia::render('admin/History', ['data' => isset($datas) ? $datas : $history]);
+        return Inertia::render("admin/History", ["data" => isset($datas) ? $datas : $history]);
     }
 
     // halaman jumlah admin
@@ -293,60 +293,60 @@ class HomepageController extends Controller
     {
         $data = User::all();
 
-        return Inertia::render('admin/Admin', ['data' => $data]);
+        return Inertia::render("admin/Admin", ["data" => $data]);
     }
 
     // halaman jasa pituang
     public function jasaPiutang()
     {
-        $jasa = JasaAnggota::orderBy('created_at', 'desc')->get();
+        $jasa = JasaAnggota::orderBy("created_at", "desc")->get();
 
-        $jasaNow = JasaAnggota::orderBy('created_at', 'desc')->first();
+        $jasaNow = JasaAnggota::orderBy("created_at", "desc")->first();
 
-        return Inertia::render('admin/JasaPiutang', ['data' => $jasa, 'jasaNow' => $jasaNow]);
+        return Inertia::render("admin/JasaPiutang", ["data" => $jasa, "jasaNow" => $jasaNow]);
     }
 
     // halaman kas tunai
     public function kasTunai()
     {
         $bulan = [
-            'Januari',
-            'Februari',
-            'Maret',
-            'April',
-            'Mei',
-            'Juni',
-            'Juli',
-            'Agustus',
-            'September',
-            'Oktober',
-            'November',
-            'Desember',
+            "Januari",
+            "Februari",
+            "Maret",
+            "April",
+            "Mei",
+            "Juni",
+            "Juli",
+            "Agustus",
+            "September",
+            "Oktober",
+            "November",
+            "Desember",
         ];
 
-        $kas = Kas::where('tahun', date('Y'))
-            ->where('name', 'tunai')
+        $kas = Kas::where("tahun", date("Y"))
+            ->where("name", "tunai")
             ->first();
 
-        $saldoTunai = Tunai::where('tahun', date('Y'))
-            ->orderBy('created_at', 'desc')
+        $saldoTunai = Tunai::where("tahun", date("Y"))
+            ->orderBy("created_at", "desc")
             ->first();
 
-        $tunai = Tunai::where('tahun', date('Y'))->get();
+        $tunai = Tunai::where("tahun", date("Y"))->get();
 
         if ($kas) {
             $kas->saldo = $saldoTunai ? $saldoTunai->saldo : $kas->saldo_awal;
 
-            $kas->total_masuk = $tunai->sum('masuk');
-            $kas->total_keluar = $tunai->sum('keluar');
+            $kas->total_masuk = $tunai->sum("masuk");
+            $kas->total_keluar = $tunai->sum("keluar");
             $kas->jumlah = $saldoTunai ? $saldoTunai->saldo : null;
         }
 
 
-        return Inertia::render('admin/Kas/Tunai', [
-            'data' => $kas,
-            'tunai' => $tunai,
-            'bulan' => $bulan
+        return Inertia::render("admin/Kas/Tunai", [
+            "data" => $kas,
+            "tunai" => $tunai,
+            "bulan" => $bulan
         ]);
     }
 
@@ -354,29 +354,29 @@ class HomepageController extends Controller
     public function kasRekening()
     {
         $bulan = [
-            'Januari',
-            'Februari',
-            'Maret',
-            'April',
-            'Mei',
-            'Juni',
-            'Juli',
-            'Agustus',
-            'September',
-            'Oktober',
-            'November',
-            'Desember',
+            "Januari",
+            "Februari",
+            "Maret",
+            "April",
+            "Mei",
+            "Juni",
+            "Juli",
+            "Agustus",
+            "September",
+            "Oktober",
+            "November",
+            "Desember",
         ];
 
-        $kas = Kas::where('tahun', date('Y'))
-            ->where('name', 'rekening')
+        $kas = Kas::where("tahun", date("Y"))
+            ->where("name", "rekening")
             ->first();
 
-        $saldoRekening = TrRekening::orderBy('created_at', 'desc')->first();
+        $saldoRekening = TrRekening::orderBy("created_at", "desc")->first();
 
 
-        $rekening = Rekening::where('tahun', date('Y'))
-            ->orderBy('created_at', 'asc')
+        $rekening = Rekening::where("tahun", date("Y"))
+            ->orderBy("created_at", "asc")
             ->get();
 
         if ($kas) {
@@ -384,24 +384,24 @@ class HomepageController extends Controller
         }
 
         foreach ($rekening as $i => $value) {
-            $setor = TrRekening::where('id_rekening', $value->id_rekening)
-            ->where('type', 'setor')
+            $setor = TrRekening::where("id_rekening", $value->id_rekening)
+            ->where("type", "setor")
             ->first();
 
-            $bungaBank = TrRekening::where('id_rekening', $value->id_rekening)
-            ->where('type', 'bunga_bank')
+            $bungaBank = TrRekening::where("id_rekening", $value->id_rekening)
+            ->where("type", "bunga_bank")
             ->first();
 
-            $pajak = TrRekening::where('id_rekening', $value->id_rekening)
-            ->where('type', 'pajak')
+            $pajak = TrRekening::where("id_rekening", $value->id_rekening)
+            ->where("type", "pajak")
             ->first();
 
-            $adm = TrRekening::where('id_rekening', $value->id_rekening)
-            ->where('type', 'adm')
+            $adm = TrRekening::where("id_rekening", $value->id_rekening)
+            ->where("type", "adm")
             ->first();
 
-            $penarikan = TrRekening::where('id_rekening', $value->id_rekening)
-            ->where('type', 'penarikan')
+            $penarikan = TrRekening::where("id_rekening", $value->id_rekening)
+            ->where("type", "penarikan")
             ->first();
 
             $rekening[$i]->setor = $setor?->nominal;
@@ -419,16 +419,16 @@ class HomepageController extends Controller
             $rekening[$i]->penarikan = $penarikan?->nominal;
             $rekening[$i]->penarikan_type = $penarikan?->rekening;
 
-            $rekening[$i]->saldo = TrRekening::where('id_rekening', $value->id_rekening)
-                ->orderBy('created_at', 'desc')
+            $rekening[$i]->saldo = TrRekening::where("id_rekening", $value->id_rekening)
+                ->orderBy("created_at", "desc")
                 ->first()->saldo;
         }
 
 
-        return Inertia::render('admin/Kas/Rekening', [
-            'data' => $kas,
-            'rekening' => $rekening,
-            'bulan' => $bulan
+        return Inertia::render("admin/Kas/Rekening", [
+            "data" => $kas,
+            "rekening" => $rekening,
+            "bulan" => $bulan
         ]);
     }
 
@@ -438,48 +438,48 @@ class HomepageController extends Controller
         $data = Member::all();
 
         foreach ($data as $i => $v) {
-            $data[$i]['pinjaman'] = Pinjaman::where('id_member', $v['id_member'])->get();
+            $data[$i]["pinjaman"] = Pinjaman::where("id_member", $v["id_member"])->get();
 
-            $data[$i]['pinjaman']['bayar'] = BayarPinjaman::where('id_member', $v['id_member'])->get();
+            $data[$i]["pinjaman"]["bayar"] = BayarPinjaman::where("id_member", $v["id_member"])->get();
 
-            $pinjaman = Pinjaman::where('id_member', $v['id_member'])
-                ->where('tahun', (date('Y') - 1))
-                ->orderBy('created_at', 'desc')
+            $pinjaman = Pinjaman::where("id_member", $v["id_member"])
+                ->where("tahun", (date("Y") - 1))
+                ->orderBy("created_at", "desc")
                 ->get()
                 ->first();
 
             $pinjamanNow = Pinjaman::where([
-                ['id_member', $v['id_member']],
-                ['tahun', date('Y')]
-            ])->orderBy('created_at', 'desc')->get();
+                ["id_member", $v["id_member"]],
+                ["tahun", date("Y")]
+            ])->orderBy("created_at", "desc")->get();
 
             // dd($pinjaman);
 
             $bayar = BayarPinjaman::where([
-                ['id_member', $v['id_member']],
-                ['tahun', date('Y')]
+                ["id_member", $v["id_member"]],
+                ["tahun", date("Y")]
             ])->get();
 
             $bayarTahunLalu = BayarPinjaman::where([
-                ['id_member', $v['id_member']],
-                ['tahun', date('Y') - 1]
-            ])->orderBy('created_at', 'desc')->get()->first();
+                ["id_member", $v["id_member"]],
+                ["tahun", date("Y") - 1]
+            ])->orderBy("created_at", "desc")->get()->first();
 
-            $data[$i]['pinjaman']['tahun_lalu'] = $bayarTahunLalu ? $bayarTahunLalu->sisa : ($pinjaman ? $pinjaman->sisa : 0);
+            $data[$i]["pinjaman"]["tahun_lalu"] = $bayarTahunLalu ? $bayarTahunLalu->sisa : ($pinjaman ? $pinjaman->sisa : 0);
 
-            $data[$i]['pinjaman']['total_pinjaman'] = $pinjamanNow ? $pinjamanNow->sum('nominal') : 0;
-            $data[$i]['pinjaman']['sisa_pinjaman'] = !$pinjamanNow ? ($bayarTahunLalu ? $bayarTahunLalu->sisa : ($pinjaman ? $pinjaman->sisa : 0)) : ($pinjamanNow ? ($bayarTahunLalu ? $bayarTahunLalu->sisa : ($pinjaman ? $pinjaman->sisa : 0)) + $pinjamanNow->sum('nominal') - ($bayar ? $bayar->sum('nominal') : 0) : 0);
-            $data[$i]['pinjaman']['dibayar'] = $bayar ? $bayar->sum('nominal') : 0;
+            $data[$i]["pinjaman"]["total_pinjaman"] = $pinjamanNow ? $pinjamanNow->sum("nominal") : 0;
+            $data[$i]["pinjaman"]["sisa_pinjaman"] = !$pinjamanNow ? ($bayarTahunLalu ? $bayarTahunLalu->sisa : ($pinjaman ? $pinjaman->sisa : 0)) : ($pinjamanNow ? ($bayarTahunLalu ? $bayarTahunLalu->sisa : ($pinjaman ? $pinjaman->sisa : 0)) + $pinjamanNow->sum("nominal") - ($bayar ? $bayar->sum("nominal") : 0) : 0);
+            $data[$i]["pinjaman"]["dibayar"] = $bayar ? $bayar->sum("nominal") : 0;
         }
 
-        $pinjaman = Pinjaman::where('tahun', date('Y'))->get()->sum('nominal');
-        $terbayar = BayarPinjaman::where('tahun', date('Y'))->get()->sum('nominal');
+        $pinjaman = Pinjaman::where("tahun", date("Y"))->get()->sum("nominal");
+        $terbayar = BayarPinjaman::where("tahun", date("Y"))->get()->sum("nominal");
 
-        return Inertia::render('admin/Pinjaman/Pinjaman', [
-            'data' => $data,
-            'cards' => [
-                'total_pinjaman' => $pinjaman,
-                'total_dibayar' => $terbayar,
+        return Inertia::render("admin/Pinjaman/Pinjaman", [
+            "data" => $data,
+            "cards" => [
+                "total_pinjaman" => $pinjaman,
+                "total_dibayar" => $terbayar,
             ]
         ]);
     }
@@ -487,121 +487,121 @@ class HomepageController extends Controller
     // view pinjaman
     public function viewPinjaman(string $id)
     {
-        $member = Member::with(['pinjaman', 'pinjaman.bayar'])->findOrFail($id);
+        $member = Member::with(["pinjaman", "pinjaman.bayar"])->findOrFail($id);
 
         $tahunLalu = Pinjaman::where([
-            ['id_member', $member->id_member],
-            ['tahun', date('Y') - 1]
+            ["id_member", $member->id_member],
+            ["tahun", date("Y") - 1]
         ])
-            ->orderBy('created_at', 'desc')
+            ->orderBy("created_at", "desc")
             ->get()
             ->first();
 
         $terbayar = BayarPinjaman::where([
-            ['tahun', date('Y')],
-            ['id_member', $member->id_member]
+            ["tahun", date("Y")],
+            ["id_member", $member->id_member]
         ])->get();
 
         $member->tahun_lalu = $tahunLalu ? $tahunLalu->sisa : 0;
         $member->bayar = $terbayar;
-        $member->total_terbayar = $terbayar->sum('nominal');
+        $member->total_terbayar = $terbayar->sum("nominal");
         $member->total = Pinjaman::where([
-            ['tahun', date('Y')],
-            ['id_member', $member->id_member]
+            ["tahun", date("Y")],
+            ["id_member", $member->id_member]
         ])
             ->get()
-            ->sum('nominal');
+            ->sum("nominal");
 
         $member->sisa = $member->total - $member->total_terbayar;
 
-        return Inertia::render('admin/Pinjaman/PinjamanMember', ['pinjaman' => $member]);
+        return Inertia::render("admin/Pinjaman/PinjamanMember", ["pinjaman" => $member]);
     }
 
     // transaction page
     public function pinjamanTransaction()
     {
-        return Inertia::render('Pinjaman/Transaction');
+        return Inertia::render("Pinjaman/Transaction");
     }
     public function pokokTransaksi()
     {
-        return Inertia::render('Simpanan/Transaction/Pokok');
+        return Inertia::render("Simpanan/Transaction/Pokok");
     }
 
     public function wajibTransaksi()
     {
-        return Inertia::render('Simpanan/Transaction/Wajib');
+        return Inertia::render("Simpanan/Transaction/Wajib");
     }
 
     public function sukarelaTransaksi()
     {
-        return Inertia::render('Simpanan/Transaction/Sukarela');
+        return Inertia::render("Simpanan/Transaction/Sukarela");
     }
 
     public function createKasRekening()
     {
         $bulan = [
-            'Januari',
-            'Februari',
-            'Maret',
-            'April',
-            'Mei',
-            'Juni',
-            'Juli',
-            'Agustus',
-            'September',
-            'Oktober',
-            'November',
-            'Desember',
+            "Januari",
+            "Februari",
+            "Maret",
+            "April",
+            "Mei",
+            "Juni",
+            "Juli",
+            "Agustus",
+            "September",
+            "Oktober",
+            "November",
+            "Desember",
         ];
 
-        $rekening = Rekening::where('tahun', date('Y'))
-            ->orderBy('created_at', 'asc')
+        $rekening = Rekening::where("tahun", date("Y"))
+            ->orderBy("created_at", "asc")
             ->get();
 
             foreach ($rekening as $i => $value) {
-                $setor = TrRekening::where('id_rekening', $value->id_tr_rekening)
-                    ->where('type', 'setor')
+                $setor = TrRekening::where("id_rekening", $value->id_tr_rekening)
+                    ->where("type", "setor")
                     ->first();
     
-                $bunga_bank = TrRekening::where('id_rekening', $value->id_tr_rekening)
-                    ->where('type', 'bunga_bank')
+                $bunga_bank = TrRekening::where("id_rekening", $value->id_tr_rekening)
+                    ->where("type", "bunga_bank")
                     ->first();
     
-                $pajak = TrRekening::where('id_rekening', $value->id_tr_rekening)
-                    ->where('type', 'pajak')
+                $pajak = TrRekening::where("id_rekening", $value->id_tr_rekening)
+                    ->where("type", "pajak")
                     ->first();
     
-                $adm = TrRekening::where('id_rekening', $value->id_tr_rekening)
-                    ->where('type', 'adm')
+                $adm = TrRekening::where("id_rekening", $value->id_tr_rekening)
+                    ->where("type", "adm")
                     ->first();
     
-                $penarikan = TrRekening::where('id_rekening', $value->id_tr_rekening)
-                    ->where('type', 'penarikan')
+                $penarikan = TrRekening::where("id_rekening", $value->id_tr_rekening)
+                    ->where("type", "penarikan")
                     ->first();
     
-                $saldo = TrRekening::where('id_rekening', $value->id_tr_rekening)
-                    ->orderBy('created_at', 'desc')
+                $saldo = TrRekening::where("id_rekening", $value->id_tr_rekening)
+                    ->orderBy("created_at", "desc")
                     ->first();
     
                 $datas[] = [
-                    'bulan' => $value->bulan,
-                    'setor' => $setor?->nominal,
-                    'setor_type' => $setor ? $setor->rekening : null,
-                    'bunga_bank' => $bunga_bank ? $bunga_bank->nominal : null,
-                    'bunga_bank_type' => $bunga_bank ? $bunga_bank->rekening : null,
-                    'pajak' => $pajak ? $pajak->nominal : null,
-                    'pajak_type' => $pajak ? $pajak->rekening : null,
-                    'adm' => $adm ? $adm->nominal : null,
-                    'adm_type' => $adm ? $adm->rekening : null,
-                    'penarikan' => $penarikan ? $penarikan->nominal : null,
-                    'penarikan_type' => $penarikan ? $penarikan->rekening : null,
-                    'saldo' => $saldo ? $saldo->saldo : null
+                    "bulan" => $value->bulan,
+                    "setor" => $setor?->nominal,
+                    "setor_type" => $setor ? $setor->rekening : null,
+                    "bunga_bank" => $bunga_bank ? $bunga_bank->nominal : null,
+                    "bunga_bank_type" => $bunga_bank ? $bunga_bank->rekening : null,
+                    "pajak" => $pajak ? $pajak->nominal : null,
+                    "pajak_type" => $pajak ? $pajak->rekening : null,
+                    "adm" => $adm ? $adm->nominal : null,
+                    "adm_type" => $adm ? $adm->rekening : null,
+                    "penarikan" => $penarikan ? $penarikan->nominal : null,
+                    "penarikan_type" => $penarikan ? $penarikan->rekening : null,
+                    "saldo" => $saldo ? $saldo->saldo : null
                 ];
             }
 
         return Inertia::render("admin/Kas/Create/Rekening", [
-            'bulan' => $bulan,
-            'saldo' => isset($datas) ? $datas : $rekening,
+            "bulan" => $bulan,
+            "saldo" => isset($datas) ? $datas : $rekening,
         ]);
     }
 
@@ -610,16 +610,26 @@ class HomepageController extends Controller
         $postUrl = route("set_saldo_awal");
         $directUrl = $param === "rekening" ? route("kas_rekening") : route("kas_tunai");
 
+        $checking = Kas::where([
+            ["name", $param],
+            ["tahun", date("Y")]
+        ])->get()->first();
+
+        if ($checking) return Inertia::render("admin/Kas/SaldoAwal", [
+            "message" => "Saldo awal tahun ". date('Y') ." sudah di set!",
+            "directUrl" => $directUrl,
+        ]);
+
         return Inertia::render("admin/Kas/SaldoAwal", [
-            'name' => $param,
-            'postUrl' => $postUrl,
-            'directUrl' => $directUrl,
+            "name" => $param,
+            "postUrl" => $postUrl,
+            "directUrl" => $directUrl,
         ]);
     }
 
     // halaman ad-art
     public function adART()
     {
-        return Inertia::render('AdART');
+        return Inertia::render("AdART");
     }
 }

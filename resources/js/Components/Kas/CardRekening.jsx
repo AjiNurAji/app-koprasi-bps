@@ -49,6 +49,7 @@ const CardRekening = ({ data, user }) => {
                                                           {
                                                               style: "currency",
                                                               currency: "IDR",
+                                                              maximumFractionDigits: "0"
                                                           }
                                                       ).format(value.setor)
                                                     : "-"}{" "}
@@ -65,6 +66,7 @@ const CardRekening = ({ data, user }) => {
                                                           {
                                                               style: "currency",
                                                               currency: "IDR",
+                                                              maximumFractionDigits: "0"
                                                           }
                                                       ).format(value.bunga_bank)
                                                     : "-"}{" "}
@@ -82,6 +84,7 @@ const CardRekening = ({ data, user }) => {
                                                           {
                                                               style: "currency",
                                                               currency: "IDR",
+                                                              maximumFractionDigits: "0"
                                                           }
                                                       ).format(value.pajak)
                                                     : "-"}{" "}
@@ -98,6 +101,7 @@ const CardRekening = ({ data, user }) => {
                                                           {
                                                               style: "currency",
                                                               currency: "IDR",
+                                                              maximumFractionDigits: "0"
                                                           }
                                                       ).format(value.adm)
                                                     : "-"}{" "}
@@ -114,6 +118,7 @@ const CardRekening = ({ data, user }) => {
                                                           {
                                                               style: "currency",
                                                               currency: "IDR",
+                                                              maximumFractionDigits: "0"
                                                           }
                                                       ).format(value.penarikan)
                                                     : "-"}{" "}
@@ -130,6 +135,7 @@ const CardRekening = ({ data, user }) => {
                                                           {
                                                               style: "currency",
                                                               currency: "IDR",
+                                                              maximumFractionDigits: "0"
                                                           }
                                                       ).format(value.saldo)
                                                     : "-"}

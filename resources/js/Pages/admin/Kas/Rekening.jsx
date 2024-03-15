@@ -6,7 +6,6 @@ import Authenticated from "@/Layouts/AuthenticatedLayout";
 import { Head } from "@inertiajs/react";
 
 const Rekening = ({ auth, data, rekening, bulan }) => {
-    console.log(rekening)
     return (
         <Authenticated user={auth.user}>
             <Head title="Uang Kas Rekening" />

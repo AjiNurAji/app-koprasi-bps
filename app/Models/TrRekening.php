@@ -20,6 +20,7 @@ class TrRekening extends Model
         'id_rekening',
         'nominal',
         'rekening',
+        'tanggal_transaksi',
         'type',
         'saldo'
     ];

@@ -75,12 +75,12 @@
                 SALDO AWAL
             </td>
             <td data-format="#,##0" style="border: 1px solid #000; padding: 2px 10px; word-wrap: break-word; text-align: right;">
-                {{ $data ? $data->saldo_awal : '-' }}
+                {{ $data->saldo_awal ? $data->saldo_awal : '-' }}
             </td>
             <td style="border: 1px solid #000; padding: 2px 10px; word-wrap: break-word; text-align: right;">
             </td>
             <td data-format="#,##0" style="border: 1px solid #000; padding: 2px 10px; word-wrap: break-word; text-align: right;">
-                {{ $data ? $data->saldo_awal : '-' }}
+                {{ $data->saldo_awal ? $data->saldo_awal : '-' }}
             </td>
         </tr>
 

@@ -22,6 +22,7 @@ class Tunai extends Model
         'tahun',
         'masuk',
         'keluar',
+        'tanggal_transaksi',
         'saldo'
     ];
 
