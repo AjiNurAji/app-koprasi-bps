@@ -15,7 +15,7 @@ const FormKasRekening = ({ bulan, saldo }) => {
         type: 1,
         rekening: 1,
         nominal: null,
-        saldo_awal: saldo ? saldo.saldo_awal : null,
+        saldo_awal: saldo?.saldo_awal,
         tahun: date.getFullYear(),
     });
 

@@ -33,7 +33,7 @@ class PDFController extends Controller
         $totalPokok = $awalTahunPokok + $anggotaMasukPokok - $anggotaKeluarPokok;
 
         $pdf = PDF::loadView('Exports.PDF.Simpanan.simpananPokok', [
-            'data' => $members, 
+            'data' => $members,
             'years' => $years,
             'total' => [
                 'awal_tahun' => $awalTahunPokok,
@@ -138,17 +138,20 @@ class PDFController extends Controller
         return $pdf->download('simpanansukarela.pdf');
     }
 
-    public function ExportKasTunaiPDF()
+    public function ExportKasTunaiPDF(Request $request)
     {
-        $kas = Kas::where('tahun', date('Y'))
+        $years = date('Y', strtotime($request->input('end_date')));
+
+        $kas = Kas::where('tahun', $years)
             ->where('name', 'tunai')
             ->first();
 
-        $saldoTunai = Tunai::where('tahun', date('Y'))
+        $saldoTunai = Tunai::whereBetween('tanggal_transaksi', [$request->input('start_date'), $request->input('end_date')])
             ->orderBy('created_at', 'desc')
             ->first();
 
-        $tunai = Tunai::where('tahun', date('Y'))->get();
+        $tunai = Tunai::whereBetween('tanggal_transaksi', [$request->input('start_date'), $request->input('end_date')])
+            ->get();
 
         if ($kas) {
             $kas->saldo = $saldoTunai ? $saldoTunai->saldo : $kas->saldo_awal;
@@ -161,6 +164,7 @@ class PDFController extends Controller
         $pdf = PDF::loadView('Exports.PDF.Kas.kasTunai',  [
             'data' => $kas,
             'tunai' => $tunai,
+            'years' => $years
         ]);
 
         $pdf->setOption(['dpi' => 150]);
@@ -170,22 +174,24 @@ class PDFController extends Controller
         return $pdf->download('kastunai.pdf');
     }
 
-    public function ExportKasRekeningPDF()
+    public function ExportKasRekeningPDF(Request $request)
     {
-        $kas = Kas::where('tahun', date('Y'))
+        $years = date('Y', strtotime($request->input('end_date')));
+
+        $kas = Kas::where('tahun', $years)
             ->where('name', 'rekening')
             ->first();
 
-        $saldoRekening = TrRekening::orderBy('created_at', 'desc')->first();
+        $saldoRekening = TrRekening::whereBetween('tanggal_transaksi', [$request->input('start_date'), $request->input('end_date')])->orderBy('created_at', 'desc')->first();
 
-        $rekening = Rekening::where('tahun', date('Y'))
-            ->orderBy('created_at', 'asc')
+        $rekening = Rekening::whereBetween('tanggal_transaksi', [$request->input('start_date'), $request->input('end_date')])
+            ->orderBy('tanggal_transaksi', 'asc')
             ->get();
 
-        $debet = TrRekening::where('rekening', 'debet')
+        $debet = TrRekening::whereBetween('tanggal_transaksi', [$request->input('start_date'), $request->input('end_date')])->where('rekening', 'debet')
             ->get();
 
-        $kredit = TrRekening::where('rekening', 'kredit')
+        $kredit = TrRekening::whereBetween('tanggal_transaksi', [$request->input('start_date'), $request->input('end_date')])->where('rekening', 'kredit')
             ->get();
 
         if ($kas) {
@@ -196,55 +202,58 @@ class PDFController extends Controller
             $kas->jumlah = $saldoRekening ? $saldoRekening->saldo : null;
         }
 
-        foreach ($rekening as $i => $value) {
-            $setor = TrRekening::where('id_rekening', $value->id_rekening)
-                ->where('type', 'setor')
-                ->first();
+        if ($rekening) {
+            foreach ($rekening as $i => $value) {
+                $setor = TrRekening::whereBetween('tanggal_transaksi', [$request->input('start_date'), $request->input('end_date')])->where('id_rekening', $value->id_rekening)
+                    ->where('type', 'setor')
+                    ->first();
 
-            $bunga_bank = TrRekening::where('id_rekening', $value->id_rekening)
-                ->where('type', 'bunga_bank')
-                ->first();
+                $bungaBank = TrRekening::whereBetween('tanggal_transaksi', [$request->input('start_date'), $request->input('end_date')])->where('id_rekening', $value->id_rekening)
+                    ->where('type', 'bunga_bank')
+                    ->first();
 
-            $pajak = TrRekening::where('id_rekening', $value->id_rekening)
-                ->where('type', 'pajak')
-                ->first();
+                $pajak = TrRekening::whereBetween('tanggal_transaksi', [$request->input('start_date'), $request->input('end_date')])->where('id_rekening', $value->id_rekening)
+                    ->where('type', 'pajak')
+                    ->first();
 
-            $adm = TrRekening::where('id_rekening', $value->id_rekening)
-                ->where('type', 'adm')
-                ->first();
+                $adm = TrRekening::whereBetween('tanggal_transaksi', [$request->input('start_date'), $request->input('end_date')])->where('id_rekening', $value->id_rekening)
+                    ->where('type', 'adm')
+                    ->first();
 
-            $penarikan = TrRekening::where('id_rekening', $value->id_rekening)
-                ->where('type', 'penarikan')
-                ->first();
+                $penarikan = TrRekening::whereBetween('tanggal_transaksi', [$request->input('start_date'), $request->input('end_date')])->where('id_rekening', $value->id_rekening)
+                    ->where('type', 'penarikan')
+                    ->first();
 
-            $saldo = TrRekening::where('id_rekening', $value->id_rekening)
-                ->orderBy('created_at', 'desc')
-                ->first();
+                $rekening[$i]->setor = $setor?->nominal;
+                $rekening[$i]->setor_type = $setor?->rekening;
+                $rekening[$i]->saldo_setor = $setor ? $setor->saldo : $kas->saldo_awal;
 
-            $datas[] = [
-                'bulan' => $value->bulan,
-                'setor' => $setor ? $setor->nominal : null,
-                'setor_type' => $setor ? $setor->rekening : $saldo->saldo + $saldo->nominal,
-                'saldo_setor' => $setor ? $setor->saldo : null,
-                'bunga_bank' => $bunga_bank ? $bunga_bank->nominal : null,
-                'bunga_bank_type' => $bunga_bank ? $bunga_bank->rekening : null,
-                'saldo_bunga_bank' => $bunga_bank ? $bunga_bank->saldo : $saldo->saldo + $saldo->nominal,
-                'pajak' => $pajak ? $pajak->nominal : null,
-                'pajak_type' => $pajak ? $pajak->rekening : null,
-                'saldo_pajak' => $pajak ? $pajak->saldo : $saldo->saldo + $saldo->nominal,
-                'adm' => $adm ? $adm->nominal : null,
-                'adm_type' => $adm ? $adm->rekening : null,
-                'saldo_adm' => $adm ? $adm->saldo : $saldo->saldo + $saldo->nominal,
-                'penarikan' => $penarikan ? $penarikan->nominal : null,
-                'penarikan_type' => $penarikan ? $penarikan->rekening : null,
-                'saldo_penarikan' => $penarikan ? $penarikan->saldo : $saldo->saldo + $saldo->nominal,
-            ];
+                $rekening[$i]->bunga_bank = $bungaBank?->nominal;
+                $rekening[$i]->bunga_bank_type = $bungaBank?->rekening;
+                $rekening[$i]->saldo_bunga_bank = $bungaBank ? $bungaBank->saldo : ($setor ? $setor->saldo : $kas->saldo_awal);
+
+                $rekening[$i]->pajak = $pajak?->nominal;
+                $rekening[$i]->pajak_type = $pajak?->rekening;
+                $rekening[$i]->saldo_pajak = $pajak ? $pajak->saldo : ($bungaBank ? $bungaBank->saldo : ($setor ? $setor->saldo : $kas->saldo_awal));
+
+                $rekening[$i]->adm = $adm?->nominal;
+                $rekening[$i]->adm_type = $adm?->rekening;
+                $rekening[$i]->saldo_adm = $adm ? $adm->saldo : ($pajak ? $pajak->saldo : ($setor ? $setor->saldo : $kas->saldo_awal));
+
+                $rekening[$i]->penarikan = $penarikan?->nominal;
+                $rekening[$i]->penarikan_type = $penarikan?->rekening;
+                $rekening[$i]->saldo_penarikan = $penarikan ? $penarikan->saldo : ($adm ? $adm->saldo : ($setor ? $setor->saldo : $kas->saldo_awal));
+
+                $rekening[$i]->saldo = TrRekening::whereBetween('tanggal_transaksi', [$request->input('start_date'), $request->input('end_date')])->where('id_rekening', $value->id_rekening)
+                    ->orderBy('tanggal_transaksi', 'desc')
+                    ->first()->saldo;
+            }
         }
 
         $pdf = PDF::loadView('Exports.PDF.Kas.kasRekening',   [
             'data' => $kas,
-            'rekening' => $datas,
-            'datas' => $datas,
+            'datas' => $rekening,
+            'years' => $years
         ]);
 
         $pdf->setOption(['dpi' => 150]);

@@ -24,6 +24,8 @@ class AuthController extends Controller
      */
     public function processLogin(Request $request)
     {
+        
+        // dd(Auth::guard('admin')->attempt($credentials, $remember));
         try {
             // validate request
             $request->validate([
@@ -31,22 +33,24 @@ class AuthController extends Controller
                 'password' => 'required',
                 'remember' => 'required'
             ]);
-
+    
             // credentials
             $credentials = [
                 'username' => $request->input('username'),
                 'password' => $request->input('password')
             ];
-
+    
             $credentialsMember = [
                 'NIP' => $request->input('username'),
                 'password' => $request->input('password')
             ];
+    
+            $remember = $request->input('remember');
 
-            if (Auth::guard('admin')->attempt($credentials, $request->input('remember'))) {
+            if (Auth::guard('admin')->attempt($credentials, $remember)) {
                 $request->session()->regenerate();
                 return response()->json(['message' => 'Berhasil Login'], 200);
-            } else if (Auth::guard('member')->attempt($credentialsMember, $request->input('remember'))) {
+            } else if (Auth::guard('member')->attempt($credentialsMember, $remember)) {
                 $request->session()->regenerate();
                 return response()->json(['message' => 'Berhasil Login.'], 200);
             }

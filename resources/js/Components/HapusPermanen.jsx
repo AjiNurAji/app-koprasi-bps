@@ -1,22 +1,21 @@
-import { BiEdit } from "react-icons/bi";
-import { BsTrash3 } from "react-icons/bs";
-import axios from "axios";
-import { toast } from "react-hot-toast";
-import { router } from "@inertiajs/react";
 import { useState } from "react";
+import { BiTrash } from "react-icons/bi";
+import { toast } from "react-hot-toast";
 import { useEffect } from "react";
+import { router } from "@inertiajs/react";
 
-const ActionTable = ({ id }) => {
+const HapusPermanen = ({ id }) => {
     const [yesOrNo, setYesOrNo] = useState(false);
 
     const deleteMember = async (e) => {
         e.preventDefault();
         toast.loading(
             (t) => (
-                <div className="flex flex-col items-center justify-start gap-2">
+                <div className="flex flex-col items-start justify-center gap-2">
                     <span className="text-lg">
-                        Yakin ingin menghapus anggota ini?
+                        Yakin ingin menghapus permanen anggota ini?
                     </span>
+                    <small className="text-danger text-xs">* seluruh data atas nama anggota akan ikut terhapus!</small>
                     <div className="flex w-full items-center justify-center gap-2">
                         <button
                             className="bg-success w-full rounded-md px-3 py-1 text-white text-sm"
@@ -46,7 +45,7 @@ const ActionTable = ({ id }) => {
         if (!yesOrNo) return;
 
         const loading = toast.loading("Loading...");
-        const response = await axios.delete(route("delete_member", id));
+        const response = await axios.delete(route("delete_permanen_member", id));
 
         if (response.data) {
             toast.success(response.data.message, {
@@ -64,21 +63,15 @@ const ActionTable = ({ id }) => {
     }, [yesOrNo])
 
     return (
-        <div className="flex justify-center items-center space-x-3.5">
-            <a
-                href={`${route("edit_member", id)}`}
-                className="hover:text-primary click_animation text-lg"
-            >
-                <BiEdit />
-            </a>
+        <div className="flex w-full justify-center items-center">
             <button
-                className="hover:text-danger click_animation text-lg"
                 onClick={deleteMember}
+                className="flex w-max rounded-md text-white gap-1.5 py-1 px-2 justify-start items-center bg-danger text-sm"
             >
-                <BsTrash3 />
+                <BiTrash /> <span>Permanen</span>
             </button>
         </div>
     );
 };
 
-export default ActionTable;
+export default HapusPermanen;

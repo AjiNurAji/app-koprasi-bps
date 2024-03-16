@@ -1,19 +1,15 @@
-import { GiCardPlay } from "react-icons/gi";
+import { BsPlusLg } from "react-icons/bs";
 import { FaMoneyCheck } from "react-icons/fa";
+import ButtonTambahData from "../ButtonTambahData";
 
 const CardRekening = ({ data, user }) => {
     return (
         <>
             {/* head component */}
             <div className="flex items-center justify-between mb-3.5">
-                {user.role ? (
-                    <a
-                        className="p-3 hover:bg-opacity-95 transition-all duration-300 ease-in-out bg-primary text-white rounded-md text-xl"
-                        href={route("kas_rekening_transaksi")}
-                    >
-                        <GiCardPlay />
-                    </a>
-                ) : null}
+                {user.role && (
+                    <ButtonTambahData url={route('kas_rekening_transaksi')} />
+                )}
             </div>
             <div className="flex  gap-4 flex-col md:flex-row md:gap-6 flex-wrap">
                 {data.length ? (

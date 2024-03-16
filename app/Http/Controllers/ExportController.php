@@ -72,23 +72,43 @@ class ExportController extends Controller
         return Excel::download(new simpananSukarelaExport($request->input('start_date'), $request->input('end_date')), 'simpananwajib.csv', \Maatwebsite\Excel\Excel::CSV);
     }
 
-    public function ExportKasTunai()
+    public function ExportKasTunai(Request $request)
     {
-        return Excel::download(new kasTunaiExport, 'kastunai.xlsx', \Maatwebsite\Excel\Excel::XLSX);
+        $request->validate([
+            'start_date' => 'required',
+            'end_date' => 'required'
+        ]);
+
+        return Excel::download(new kasTunaiExport($request->input('start_date'), $request->input('end_date')), 'kastunai.xlsx', \Maatwebsite\Excel\Excel::XLSX);
     }
 
-    public function ExportKasTunaiCSV()
+    public function ExportKasTunaiCSV(Request $request)
     {
-        return Excel::download(new kasTunaiExport, 'kastunai.csv', \Maatwebsite\Excel\Excel::CSV);
+        $request->validate([
+            'start_date' => 'required',
+            'end_date' => 'required'
+        ]);
+
+        return Excel::download(new kasTunaiExport($request->input('start_date'), $request->input('end_date')), 'kastunai.csv', \Maatwebsite\Excel\Excel::CSV);
     }
 
-    public function ExportKasRekening()
+    public function ExportKasRekening(Request $request)
     {
-        return Excel::download(new kasRekeningExport, 'kasrekening.xlsx', \Maatwebsite\Excel\Excel::XLSX);
+        $request->validate([
+            'start_date' => 'required',
+            'end_date' => 'required'
+        ]);
+
+        return Excel::download(new kasRekeningExport($request->input('start_date'), $request->input('end_date')), 'kasrekening.xlsx', \Maatwebsite\Excel\Excel::XLSX);
     }
 
-    public function ExportKasRekeningCSV()
+    public function ExportKasRekeningCSV(Request $request)
     {
-        return Excel::download(new kasRekeningExport, 'kasrekening.csv', \Maatwebsite\Excel\Excel::CSV);
+        $request->validate([
+            'start_date' => 'required',
+            'end_date' => 'required'
+        ]);
+
+        return Excel::download(new kasRekeningExport($request->input('start_date'), $request->input('end_date')), 'kasrekening.csv', \Maatwebsite\Excel\Excel::CSV);
     }
 }

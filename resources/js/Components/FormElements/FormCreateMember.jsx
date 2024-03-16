@@ -5,12 +5,11 @@ import { useForm } from "@inertiajs/react";
 import { router } from "@inertiajs/react";
 import PostData from "@/Libs/postData";
 
-const FormCreateMember = ({ setPopup }) => {
+const FormCreateMember = () => {
     const [hide, setHide] = useState(true);
     const [processing, setProcess] = useState(false);
     const inputNip = useRef(null);
-    const form = useRef(null);
-    const { data, setData } = useForm({
+    const { data, setData, reset } = useForm({
         nip: "",
         name: "",
         no_hp: "",
@@ -24,8 +23,7 @@ const FormCreateMember = ({ setPopup }) => {
         const create = await PostData(route('create_member'), data);
 
         if (create) {
-            form.current.reset();
-            setPopup(false);
+            reset();
             setProcess(false);
             router.get(route("members"));
         }
@@ -49,11 +47,11 @@ const FormCreateMember = ({ setPopup }) => {
     }, [data.name])
 
     return (
-        <form className="flex flex-col gap-4" onSubmit={submit} ref={form} autoComplete="off">
+        <form className="flex flex-col gap-4" onSubmit={submit} autoComplete="off">
             <div className="w-full">
                 <label
                     htmlFor="nip"
-                    className="mb-2.5 font-medium text-black dark:text-white"
+                    className="mb-2.5 inline-block font-medium text-black dark:text-white"
                 >
                     NIP
                 </label>
@@ -71,7 +69,7 @@ const FormCreateMember = ({ setPopup }) => {
             <div className="w-full">
                 <label
                     htmlFor="namaLengkap"
-                    className="mb-2.5 font-medium text-black dark:text-white"
+                    className="mb-2.5 inline-block font-medium text-black dark:text-white"
                 >
                     Nama Lengkap
                 </label>
@@ -89,7 +87,7 @@ const FormCreateMember = ({ setPopup }) => {
             <div className="w-full">
                 <label
                     htmlFor="no_hp"
-                    className="mb-2.5 font-medium text-black dark:text-white"
+                    className="mb-2.5 inline-block font-medium text-black dark:text-white"
                 >
                     Nomor Handphone
                 </label>
@@ -108,7 +106,7 @@ const FormCreateMember = ({ setPopup }) => {
             <div className="w-full">
                 <label
                     htmlFor="password"
-                    className="mb-2.5 font-medium text-black dark:text-white"
+                    className="mb-2.5 inline-block font-medium text-black dark:text-white"
                 >
                     Buat Password
                 </label>

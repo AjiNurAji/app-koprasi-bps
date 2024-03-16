@@ -2,6 +2,7 @@ import ActionButton from "@/Components/Pinjaman/ActionButton";
 import ActionTable from "@/Components/Table/ActionTable";
 import { createColumnHelper } from "@tanstack/react-table";
 import profile from "@/assets/images/user.png";
+import HapusPermanen from "@/Components/HapusPermanen";
 
 const columnHelper = createColumnHelper();
 
@@ -63,7 +64,15 @@ export const columnsMember = [
 
     columnHelper.accessor("id_member", {
         id: "Action",
-        cell: (data) => <ActionTable id={data.getValue()} />,
+        cell: (data) => (
+            <>
+                {data.row.original.is_deleted ? (
+                    <HapusPermanen id={data.getValue()} />
+                ) : (
+                    <ActionTable id={data.getValue()} />
+                )}
+            </>
+        ),
         header: "Aksi",
         enableSorting: false,
         enableGlobalFilter: false,
@@ -510,16 +519,12 @@ export const columnsSimpananSukarela = [
                 id: "akhir_taun",
                 cell: (data) => (
                     <span className="font-medium text-black dark:text-white">
-                        {data
-                            .getValue()
+                        {data.getValue()
                             ? Intl.NumberFormat("in-ID", {
                                   style: "currency",
                                   currency: "IDR",
                                   maximumFractionDigits: "0",
-                              }).format(
-                                  data
-                                      .getValue()
-                              )
+                              }).format(data.getValue())
                             : "-"}
                     </span>
                 ),
@@ -797,7 +802,6 @@ export const columnsPinjaman = [
         id: "dibayar",
         cell: (data) => (
             <span className="font-medium text-black dark:text-white">
-                {console.log(data)}
                 {data.getValue()
                     ? Intl.NumberFormat("in-ID", {
                           style: "currency",

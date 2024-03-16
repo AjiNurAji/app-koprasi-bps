@@ -15,11 +15,11 @@ import SearchTable from "./SearchTable";
 import CreatePopup from "@/Components/Popup/CreatePopup";
 import FormCreateMember from "@/Components/FormElements/FormCreateMember";
 import { useEffect } from "react";
+import ButtonTambahData from "../ButtonTambahData";
 
 const TableMember = ({ data }) => {
     const [datas, setDatas] = useState([...data]);
     const [globalFilter, setGlobalFilter] = useState("");
-    const [popup, setPopup] = useState(false);
 
     const table = useReactTable({
         data: datas,
@@ -41,26 +41,21 @@ const TableMember = ({ data }) => {
         <div className="rounded-md border border-stroke bg-white px-5 pt-6 pb-2.5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
             {/* head component */}
             <div className="flex items-center justify-between mb-3.5">
-                <button
-                    className="p-3 hover:bg-opacity-95 transition-all duration-300 ease-in-out bg-primary text-white rounded-md text-xl"
-                    onClick={() => setPopup(true)}
-                >
-                    <FiUserPlus />
-                </button>
+                <ButtonTambahData url={route("create_member_page")} />
                 <SearchTable
                     setGlobalFilter={setGlobalFilter}
                     globalFilter={globalFilter}
                 />
             </div>
             {/* popup create */}
-            {popup ? (
+            {/* {popup ? (
                 <CreatePopup
                     createName="Tambah Anggota"
                     setPopup={setPopup}
                     popup={popup}
                     form={<FormCreateMember setPopup={setPopup} />}
                 />
-            ) : null}
+            ) : null} */}
             {/* table */}
             <div className="max-w-full overflow-x-auto">
                 <table className="w-full table-auto rounded-md">

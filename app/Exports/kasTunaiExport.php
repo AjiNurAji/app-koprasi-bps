@@ -13,21 +13,33 @@ class kasTunaiExport implements FromView, ShouldAutoSize
 {
     use Exportable;
 
+    private $start_date;
+    private $end_date;
+
+    public function __construct($startDate, $endDate)
+    {
+        $this->start_date = $startDate;
+        $this->end_date = $endDate;
+    }
+
     public function view(): View
     {
-        $kas = Kas::where('tahun', date('Y'))
+        $years = date('Y', strtotime($this->end_date));
+
+        $kas = Kas::where('tahun', $years)
             ->where('name', 'tunai')
             ->first();
 
-        $saldoTunai = Tunai::where('tahun', date('Y'))
-            ->orderBy('tanggal_transaksi', 'desc')
+        $saldoTunai = Tunai::whereBetween('tanggal_transaksi', [$this->start_date, $this->end_date])
+            ->orderBy('created_at', 'desc')
             ->first();
 
-        $tunai = Tunai::where('tahun', date('Y'))->get();
+        $tunai = Tunai::whereBetween('tanggal_transaksi', [$this->start_date, $this->end_date])
+            ->get();
 
         if ($kas) {
             $kas->saldo = $saldoTunai ? $saldoTunai->saldo : $kas->saldo_awal;
-    
+
             $kas->total_masuk = $tunai->sum('masuk');
             $kas->total_keluar = $tunai->sum('keluar');
             $kas->jumlah = $saldoTunai ? $saldoTunai->saldo : null;
@@ -36,6 +48,7 @@ class kasTunaiExport implements FromView, ShouldAutoSize
         return view('Exports.Excel.Kas.kasTunai',  [
             'data' => $kas,
             'tunai' => $tunai,
+            'years' => $years
         ]);
     }
 }

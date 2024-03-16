@@ -29,4 +29,8 @@ Route::middleware(['auth:admin', 'file'])->group(function () {
     Route::post('/history/pdf', [PDFController::class, 'HistoryPDF'])->name('history_pdf');
     Route::post('/history/excel', [ExportController::class, 'History'])->name('history_excel');
     Route::post('/history/csv', [ExportController::class, 'HistoryCSV'])->name('history_csv');
+
+    Route::post('/pinjaman-anggota/pdf', [PDFController::class, 'PinjamanPDF'])->name('pinjaman_pdf');
+    Route::post('/pinjaman-anggota/excel', [ExportController::class, 'Pinjaman'])->name('pinjaman_excel');
+    Route::post('/pinjaman-anggota/csv', [ExportController::class, 'PinjamanCSV'])->name('pinjaman_csv');
 });

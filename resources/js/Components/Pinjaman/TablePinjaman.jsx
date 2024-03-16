@@ -7,10 +7,9 @@ import {
     getFilteredRowModel,
 } from "@tanstack/react-table";
 import { useState } from "react";
-import { FaMoneyBillTransfer } from "react-icons/fa6";
-import DownloadDropdown from "../DownloadDrodown";
 import SearchTable from "../Table/SearchTable";
 import PaginationTable from "../Table/PaginationTable";
+import ButtonTambahData from "../ButtonTambahData";
 
 const TablePinjaman = ({ data, total }) => {
     const [datas] = useState([...data]);
@@ -31,22 +30,16 @@ const TablePinjaman = ({ data, total }) => {
         <div className="rounded-md border mt-4 sm:mt-6 border-stroke bg-white px-5 pt-6 pb-2.5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
             {/* head component */}
             <div className="flex items-start md:items-center justify-between mb-3.5">
-                <a
-                    href={route('pinjaman_transaksi')}
-                    className="p-3 hover:bg-opacity-95 transition-all duration-300 ease-in-out bg-primary text-white rounded-md text-xl"
-                    // onClick={() => setPopup(true)}
-                >
-                    <FaMoneyBillTransfer />
-                </a>
+                <ButtonTambahData url={route('pinjaman_transaksi')} />
                 <div className="flex flex-col-reverse md:flex-row items-end md:items-center justify-end gap-3">
-                    <DownloadDropdown
+                    {/* <DownloadDropdown
                         pdf="simpananpokok.pdf"
                         csv="simpananpokok.csv"
                         excel="simpananpokok.xlsx"
                         routepdf={route("simpanan_pokok_pdf")}
                         routecsv={route("simpanan_pokok_csv")}
                         routeexcel={route("simpanan_pokok_excel")}
-                    />
+                    /> */}
                     <SearchTable
                         setGlobalFilter={setGlobalFilter}
                         globalFilter={globalFilter}

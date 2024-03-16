@@ -81,7 +81,7 @@ const Sidebar = ({ pathname, sidebarOpen, setSidebarOpen, user }) => {
                         e.stopPropagation();
                         setSidebarOpen(!sidebarOpen);
                     }}
-                    className="z-99999 block rounded-md border border-stroke bg-transparent p-1.5 shadow-sm dark:border-strokedark dark:bg-boxdark lg:hidden"
+                    className="z-99999 block rounded-md border border-strokedark bg-transparent p-1.5 shadow-sm dark:border-strokedark dark:bg-boxdark lg:hidden"
                 >
                     <span className="relative block h-5.5 w-5.5 cursor-pointer">
                         <span className="du-block absolute right-0 h-full w-full">

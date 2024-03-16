@@ -5,7 +5,6 @@ use App\Http\Controllers\HomepageController;
 use App\Http\Controllers\KasController;
 use App\Http\Controllers\MemberController;
 use App\Http\Controllers\PiutangController;
-use App\Http\Controllers\RekapitulasiController;
 use App\Http\Controllers\SimpananController;
 use App\Http\Controllers\UploadController;
 use App\Http\Controllers\UserController;
@@ -40,11 +39,12 @@ Route::middleware(['auth:admin,member'])->group(function () {
     Route::post('/profile/update', [UserController::class, 'updateProfile'])->name('update_profile');
     
     // kas
-    Route::get('/kas/{param}/saldo_awal/', [HomepageController::class, 'setSaldoAwal'])->name('set_saldo_awal_page');
+    Route::get('/kas/{param}/saldo_awal', [HomepageController::class, 'setSaldoAwal'])->name('set_saldo_awal_page');
     Route::post('/kas/saldo_awal', [KasController::class, 'setSaldoAwal'])->name('set_saldo_awal');
 
     Route::get('/kas/tunai', [HomepageController::class, 'kasTunai'])->name('kas_tunai');
     Route::post('/kas/tunai', [KasController::class, 'kasTunai'])->name('kas_tunai');
+    Route::get('/kas/tunai/create', [HomepageController::class, 'createKasTunai'])->name('kas_tunai_transaksi');
 
     Route::get('/kas/rekening', [HomepageController::class, 'kasRekening'])->name('kas_rekening');
     Route::post('/kas/rekening', [KasController::class, 'kasRekening'])->name('kas_rekening');
@@ -63,10 +63,21 @@ Route::middleware(['auth:admin,member'])->group(function () {
 Route::middleware(['auth:admin'])->group(function () {
     // admin
     Route::get('/admin', [HomepageController::class, 'admin'])->name('admin');
+    Route::get('/admin/create', [HomepageController::class, 'adminCreate'])->name('create_admin');
+    Route::post('/admin/create', [UserController::class, 'createUser'])->name('create_admin');
 
     // member
     Route::get('/members', [MemberController::class, 'index'])->name('members');
+    Route::get('/members/create', [MemberController::class, 'create'])->name('create_member_page');
     Route::post('/members/create', [MemberController::class, 'store'])->name('create_member');
+    
+    // delete anggota
+    Route::delete('/members/{id}', [MemberController::class, 'softDeletes'])->name('delete_member');
+    Route::delete('/members/deleted/{id}', [MemberController::class, 'permanentDeletes'])->name('delete_permanen_member');
+    
+    //edit anggota
+    Route::get('/members/{id}', [MemberController::class, 'editData'])->name('edit_member');
+    Route::post('/members', [MemberController::class, 'updatedata'])->name('update_member');
     
     // history
     Route::get('/history', [HomepageController::class, 'history'])->name('history');
@@ -92,12 +103,6 @@ Route::middleware(['auth:admin'])->group(function () {
     Route::get('/simpanan/sukarela/transaction', [HomepageController::class, 'sukarelaTransaksi'])->name('sukarela_transaction');
     Route::post('/simpanan/sukarela/create', [SimpananController::class, 'simpananSukarela'])->name('simpanan_sukarela_create');
     
-    // delete anggota
-    Route::delete('/members/{id}', [MemberController::class, 'softDeletes'])->name('delete_member');
-    
-    //edit anggota
-    Route::get('/members/{id}', [MemberController::class, 'editData'])->name('edit_member');
-    Route::post('/members', [MemberController::class, 'updatedata'])->name('update_member');
 
     // edit dan update password
     Route::get('/member/change-password','MemberController@change-password')->name('change-password');
@@ -109,6 +114,7 @@ Route::middleware(['auth:admin'])->group(function () {
     // piutang 
     // set jasa anggota
     Route::post('/jasa-anggota/set', [PiutangController::class, 'setJasaAnggota'])->name('jasa_anggota_set');
+    Route::get('/jasa-anggota/create', [HomepageController::class, 'jasaPiutangCreate'])->name('jasa_piutang_create');
 
     // halaman pinjaman
     Route::get('/pinjaman-anggota', [HomepageController::class, 'pinjamanAnggota'])->name('pinjaman_anggota');

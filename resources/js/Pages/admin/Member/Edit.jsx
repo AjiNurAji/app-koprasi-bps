@@ -1,7 +1,7 @@
 import Breadcrumb from "@/Components/Dashboard/El/Breadcrumb";
 import Authenticated from "@/Layouts/AuthenticatedLayout";
 import { Head } from "@inertiajs/react";
-import { IoMdArrowRoundBack } from "react-icons/io";
+import { LuArrowLeft } from "react-icons/lu";
 import { useForm } from "@inertiajs/react";
 import { useEffect } from "react";
 import { PiEyeLight, PiEyeSlash } from "react-icons/pi";
@@ -53,8 +53,6 @@ const EditMember = ({ auth, member }) => {
         setProcess(false);
     };
 
-    console.log(data);
-
     return (
         <Authenticated user={auth.user}>
             <Head title={`Edit Member`} />
@@ -62,14 +60,12 @@ const EditMember = ({ auth, member }) => {
             <div className="flex justify-start items-center">
                 <a
                     href={route("members")}
-                    className="click_animation bg-danger text-white py-2 px-3 rounded-md mb-3 inline-block"
+                    className="click_animation bg-danger text-white py-2 px-3 rounded-md inline-block"
                 >
-                    <span className="flex justify-center items-center text-xl">
-                        <IoMdArrowRoundBack />
-                    </span>
+                    <LuArrowLeft />
                 </a>
             </div>
-            <div className="rounded-md mb-4 md:mb-6 w-full flex-auto relative border border-stroke bg-white py-6 px-7.5 shadow-default dark:border-strokedark dark:bg-boxdark">
+            <div className="rounded-md my-4 md:my-6 w-full flex-auto relative border border-stroke bg-white py-6 px-7.5 shadow-default dark:border-strokedark dark:bg-boxdark">
                 <form
                     className="grid grid-cols-1 gap-4 md:gap-6"
                     onSubmit={submit}

@@ -296,6 +296,11 @@ class HomepageController extends Controller
         return Inertia::render("admin/Admin", ["data" => $data]);
     }
 
+    public function adminCreate()
+    {
+        return Inertia::render("admin/CreateAdmin");
+    }
+
     // halaman jasa pituang
     public function jasaPiutang()
     {
@@ -304,6 +309,11 @@ class HomepageController extends Controller
         $jasaNow = JasaAnggota::orderBy("created_at", "desc")->first();
 
         return Inertia::render("admin/JasaPiutang", ["data" => $jasa, "jasaNow" => $jasaNow]);
+    }
+
+    public function jasaPiutangCreate()
+    {
+        return Inertia::render("admin/CreateJasaPiutang");
     }
 
     // halaman kas tunai
@@ -329,7 +339,7 @@ class HomepageController extends Controller
             ->first();
 
         $saldoTunai = Tunai::where("tahun", date("Y"))
-            ->orderBy("created_at", "desc")
+            ->orderBy("tanggal_transaksi", "desc")
             ->first();
 
         $tunai = Tunai::where("tahun", date("Y"))->get();
@@ -554,55 +564,38 @@ class HomepageController extends Controller
             "Desember",
         ];
 
-        $rekening = Rekening::where("tahun", date("Y"))
-            ->orderBy("created_at", "asc")
-            ->get();
-
-            foreach ($rekening as $i => $value) {
-                $setor = TrRekening::where("id_rekening", $value->id_tr_rekening)
-                    ->where("type", "setor")
-                    ->first();
-    
-                $bunga_bank = TrRekening::where("id_rekening", $value->id_tr_rekening)
-                    ->where("type", "bunga_bank")
-                    ->first();
-    
-                $pajak = TrRekening::where("id_rekening", $value->id_tr_rekening)
-                    ->where("type", "pajak")
-                    ->first();
-    
-                $adm = TrRekening::where("id_rekening", $value->id_tr_rekening)
-                    ->where("type", "adm")
-                    ->first();
-    
-                $penarikan = TrRekening::where("id_rekening", $value->id_tr_rekening)
-                    ->where("type", "penarikan")
-                    ->first();
-    
-                $saldo = TrRekening::where("id_rekening", $value->id_tr_rekening)
-                    ->orderBy("created_at", "desc")
-                    ->first();
-    
-                $datas[] = [
-                    "bulan" => $value->bulan,
-                    "setor" => $setor?->nominal,
-                    "setor_type" => $setor ? $setor->rekening : null,
-                    "bunga_bank" => $bunga_bank ? $bunga_bank->nominal : null,
-                    "bunga_bank_type" => $bunga_bank ? $bunga_bank->rekening : null,
-                    "pajak" => $pajak ? $pajak->nominal : null,
-                    "pajak_type" => $pajak ? $pajak->rekening : null,
-                    "adm" => $adm ? $adm->nominal : null,
-                    "adm_type" => $adm ? $adm->rekening : null,
-                    "penarikan" => $penarikan ? $penarikan->nominal : null,
-                    "penarikan_type" => $penarikan ? $penarikan->rekening : null,
-                    "saldo" => $saldo ? $saldo->saldo : null
-                ];
-            }
+        $kas = Kas::where('tahun', date('Y'))
+            ->where('name', 'rekening')
+            ->first();
 
         return Inertia::render("admin/Kas/Create/Rekening", [
             "bulan" => $bulan,
-            "saldo" => isset($datas) ? $datas : $rekening,
+            "saldo" => $kas,
         ]);
+    }
+
+    public function createKasTunai()
+    {
+        $bulan = [
+            "Januari",
+            "Februari",
+            "Maret",
+            "April",
+            "Mei",
+            "Juni",
+            "Juli",
+            "Agustus",
+            "September",
+            "Oktober",
+            "November",
+            "Desember",
+        ];
+
+        $kas = Kas::where("tahun", date("Y"))
+            ->where("name", "tunai")
+            ->first();
+
+        return Inertia::render("admin/Kas/Create/Tunai", [ 'bulan' => $bulan, 'saldo' => $kas ]);
     }
 
     public function setSaldoAwal(string $param)

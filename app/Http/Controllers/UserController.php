@@ -29,40 +29,36 @@ class UserController extends Controller
 
     public function createUser(Request $request)
     {
-        $validate = $request->validate([
-            'username' => 'required|string|unique:users,username',
+        $request->validate([
+            'username' => 'required|string',
             'name' => 'required|string',
-            'image' => 'image|file|max:2048',
             'password' => 'required|string'
         ]);
 
-        if ($validate) {
-            try {
-                if ($request->file('image')) {
-                    $path = $request->file('image')->store('user_profile');
-                    User::create([
-                        'username' => $request->input('username'),
-                        'name' => $request->input('name'),
-                        'image' => $path,
-                        'role' => 'admin',
-                        'passsword' => Hash::make($request->input('password')),
-                    ]);
-                    return response()->json(['message' => 'Berhasil menambahkan admin'], 200);
-                }
-                return response()->json(['message' => 'Terjadi kesalahan, silahkan coba lagi!'], 409);
-            } catch (\Throwable $th) {
-                return response()->json(['message' => 'Gagal menambahkan, silahkan coba lagi!'], 500);
-            }
-        }
+        $user = User::where('username', $request->input('username'))->get()->first();
 
-        return response()->json(['message' => 'Terjadi kesalahan, silahkan coba lagi!'], 500);
+        if ($user) return response()->json(['message' => 'Admin dengan username telah tersedia!'], 500);
+        
+        try {
+            
+            User::create([
+                'username' => $request->input('username'),
+                'name' => $request->input('name'),
+                'role' => 'admin',
+                'password' => Hash::make($request->input('password')),
+            ]);
+
+            return response()->json(['message' => 'Berhasil menambahkan admin'], 200);
+        } catch (\Throwable $th) {
+            return response()->json(['message' => 'Gagal menambahkan, silahkan coba lagi!'], 500);
+        }
     }
 
     public function updateProfile(Request $request)
     {
         $user = $this->getUserLogin();
         $path = $request->file('image')->store('user_profile');
-        
+
         if ($user->role) {
             $getUser = User::where('id', $user->id)->first();
             // dd($getUser->id);

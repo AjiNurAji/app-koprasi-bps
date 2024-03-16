@@ -15,7 +15,7 @@
     </tr>
     <tr style="text-align: center; font-weight: 800; margin-bottom: 70px;">
         <td colspan="5" style="text-align: center; font-weight: 800; margin-bottom: 70px;">
-            Tahun Buku {{ date('Y') }}
+            Tahun Buku {{ $years }}
         </td>
     </tr>
     <tr style="text-align: center; font-weight: 800; margin-bottom: 70px;">
@@ -30,20 +30,20 @@
         <tr>
             <th
                 style="border: 1px solid #000; vertical-align: middle; padding: 2px 10px; word-wrap: break-word; text-align: center;">
-                No
+                NO
             </th>
             <th
                 style="border: 1px solid #000; vertical-align: middle; padding: 2px 10px; word-wrap: break-word; text-align: center;">
-                Bulan</th>
+                BULAN</th>
             <th
                 style="border: 1px solid #000; vertical-align: middle; padding: 2px 10px; word-wrap: break-word; text-align: center;">
-                Masuk</th>
+                MASUK</th>
             <th
                 style="border: 1px solid #000; vertical-align: middle; padding: 2px 10px; word-wrap: break-word; text-align: center;">
-                Keluar</th>
+                KELUAR</th>
             <th
                 style="border: 1px solid #000; vertical-align: middle; padding: 2px 10px; word-wrap: break-word; text-align: center;">
-                Saldo</th>
+                SALDO</th>
         </tr>
         <tr>
             <td
@@ -71,14 +71,14 @@
             <td style="border: 1px solid #000; padding: 2px 10px; word-wrap: break-word; text-align: left;">
             </td>
             <td style="border: 1px solid #000; padding: 2px 10px; word-wrap: break-word; text-align: left;">
-                Saldo Awal
+                SALDO AWAL
             </td>
             <td style="border: 1px solid #000; padding: 2px 10px; word-wrap: break-word; text-align: left;">
             </td>
             <td style="border: 1px solid #000; padding: 2px 10px; word-wrap: break-word; text-align: left;">
             </td>
-            <td style="border: 1px solid #000; padding: 2px 10px; word-wrap: break-word; text-align: right;">
-                {{ $data ? number_format($data->saldo_awal, 0, ',', '.') : '-' }}
+            <td data-format="#,##0" style="border: 1px solid #000; padding: 2px 10px; word-wrap: break-word; text-align: right;">
+                {{ $data->saldo_awal ? $data->saldo_awal : '-' }}
             </td>
         </tr>
 
@@ -86,26 +86,26 @@
             <tr>
                 <td style="border: 1px solid #000; padding: 2px 10px; text-align: center;">
                     {{ $d + 1 }}</td>
-                <td style="border: 1px solid #000; padding: 2px 10px;">{{ $col['bulan'] }}</td>
-                <td style="border: 1px solid #000; padding: 2px 10px; text-align: right;">
-                    {{ $col['masuk'] ?  number_format($col['masuk'], 0, ',', '.') : '-' }}</td>
-                <td style="border: 1px solid #000; padding: 2px 10px; text-align: right;">
-                    {{ $col['keluar'] ?  number_format($col['keluar'], 0, ',', '.') : '-' }}</td>
-                <td style="border: 1px solid #000; padding: 2px 10px; text-align: right;">
-                    {{ $col['saldo'] ? number_format($col['saldo'], 0, ',', '.') : '-' }}</td>
+                <td style="border: 1px solid #000; padding: 2px 10px;">{{ strtoupper($col['bulan']) }}</td>
+                <td data-format="#,##0" style="border: 1px solid #000; padding: 2px 10px; text-align: right;">
+                    {{ $col['masuk'] ?  $col['masuk'] : '-' }}</td>
+                <td data-format="#,##0" style="border: 1px solid #000; padding: 2px 10px; text-align: right;">
+                    {{ $col['keluar'] ?  $col['keluar'] : '-' }}</td>
+                <td data-format="#,##0" style="border: 1px solid #000; padding: 2px 10px; text-align: right;">
+                    {{ $col['saldo'] ? $col['saldo'] : '-' }}</td>
             </tr>
         @endforeach
         <tr>
-            <td style="border: 1px solid #000; text-align: center; padding: 2px 10px;">
+            <td style="border: 1px solid #000;  text-align: center; padding: 2px 10px;">
             </td>
-            <td style="border: 1px solid #000; text-align: center; padding: 2px 10px;">
+            <td style="border: 1px solid #000; font-weight: bold; text-align: center; padding: 2px 10px;">
                 Jumlah</td>
-            <td style="border: 1px solid #000; padding: 2px 10px; text-align: right;">
-                {{ $data ? number_format($data->total_masuk, 0, ',', '.') : '-' }}</td>
-            <td style="border: 1px solid #000; padding: 2px 10px; text-align: right;">
-                {{ $data ? number_format($data->total_keluar, 0, ',', '.') : '-' }}</td>
-            <td style="border: 1px solid #000; padding: 2px 10px; text-align: right;">
-                {{ $data ? number_format($data->jumlah, 0, ',', '.') : '-' }}</td>
+            <td data-format="#,##0" style="border: 1px solid #000; font-weight: bold; padding: 2px 10px; text-align: right;">
+                {{ $data->total_masuk? $data->total_masuk : '-' }}</td>
+            <td data-format="#,##0" style="border: 1px solid #000; font-weight: bold; padding: 2px 10px; text-align: right;">
+                {{ $data->total_keluar ? $data->total_keluar : '-' }}</td>
+            <td data-format="#,##0" style="border: 1px solid #000; font-weight: bold; padding: 2px 10px; text-align: right;">
+                {{ $data->jumlah ? $data->jumlah : '-' }}</td>
         </tr>
     </table>
 @endsection

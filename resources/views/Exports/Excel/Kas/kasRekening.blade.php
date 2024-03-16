@@ -15,7 +15,7 @@
     </tr>
     <tr style="text-align: center; font-weight: 800; margin-bottom: 70px;">
         <td colspan="5" style="text-align: center; font-weight: 800; margin-bottom: 70px;">
-            Tahun Buku {{ date('Y') }}
+            Tahun Buku {{ $years }}
         </td>
     </tr>
     <tr style="text-align: center; font-weight: 800; margin-bottom: 70px;">

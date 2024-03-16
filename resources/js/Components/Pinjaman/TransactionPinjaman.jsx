@@ -35,7 +35,7 @@ const TransactionPinjaman = ({ step, setStep }) => {
         bank_tujuan: "",
         catatan: "",
         method: "",
-        no_rek: null,
+        no_rek: "",
     });
 
     useEffect(() => {
@@ -82,10 +82,11 @@ const TransactionPinjaman = ({ step, setStep }) => {
     useEffect(() => {
         setData({
             ...data,
-            total_pinjaman:
+            total_pinjaman: Math.round(
                 (pinjaman.jasa_anggota / 100) *
                     (data.nominal ? data.nominal : 0) +
-                (data.nominal ? data.nominal : 0),
+                    (data.nominal ? data.nominal : 0)
+            ),
         });
     }, [data.nominal]);
 
@@ -649,16 +650,11 @@ const TransactionPinjaman = ({ step, setStep }) => {
                                     No Rekening
                                 </label>
                                 <input
-                                    type="number"
+                                    type="text"
                                     id="no_rek"
                                     name="no_rek"
                                     required
-                                    onChange={(e) =>
-                                        handleNominal(
-                                            e.target.value,
-                                            e.target.name
-                                        )
-                                    }
+                                    onChange={(e) => handleValue(e)}
                                     placeholder="Masukkan Nomor Rekening"
                                     className="w-full rounded-md border text-dark dark:text-white border-stroke bg-transparent py-2 pl-4 pr-6 transition-all duration-300 ease-in-out outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                                 />

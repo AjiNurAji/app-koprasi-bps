@@ -6,7 +6,7 @@
 <div style="text-align: center; width: 100%; font-weight: 800; margin-bottom: 70px;">
     Mutasi KAS REKENING <br />
     Koperasi Kesejahteraan Pegawai BPS Kab. Kuningan <br />
-    Tahun Buku {{ date('Y') }} <br />
+    Tahun Buku {{ $years }} <br />
     (Dalam Rupiah)
 </div>
 

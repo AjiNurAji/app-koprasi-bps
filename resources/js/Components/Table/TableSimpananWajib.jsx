@@ -38,14 +38,6 @@ const TableSimpananWajib = ({ data, total }) => {
                     <FaMoneyBillTransfer />
                 </a>
                 <div className="flex flex-col-reverse md:flex-row items-end md:items-center justify-end gap-3">
-                    {/* <DownloadDropdown
-                        pdf="simpananwajib.pdf"
-                        csv="simpananwajib.csv"
-                        excel="simpananwajib.xlsx"
-                        routepdf={route("simpanan_wajib_pdf")}
-                        routecsv={route("simpanan_wajib_csv")}
-                        routeexcel={route("simpanan_wajib_excel")}
-                    /> */}
                     <SearchTable
                         setGlobalFilter={setGlobalFilter}
                         globalFilter={globalFilter}

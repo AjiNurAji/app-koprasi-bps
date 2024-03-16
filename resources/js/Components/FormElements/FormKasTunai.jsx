@@ -1,18 +1,17 @@
-import { useRef, useState } from "react";
+import {  useState } from "react";
 import ButtonLoading from "../ButtonLoading";
 import { useForm } from "@inertiajs/react";
 import { router } from "@inertiajs/react";
 import CurrencyInput from "react-currency-input-field";
 import PostData from "@/Libs/postData";
 
-const FormKasTunai = ({ setPopup, bulan, saldo }) => {
+const FormKasTunai = ({ bulan, saldo }) => {
     const [processing, setProcess] = useState(false);
-    const form = useRef(null);
     const date = new Date();
-    const { data, setData } = useForm({
+    const { data, setData, reset } = useForm({
         bulan: date.toLocaleDateString("in-ID", { month: "long" }),
         masuk: null,
-        saldo_awal: saldo ? saldo.saldo_awal : null,
+        saldo_awal: saldo?.saldo_awal,
         tahun: date.getFullYear(),
         keluar: null,
     });
@@ -24,8 +23,7 @@ const FormKasTunai = ({ setPopup, bulan, saldo }) => {
         const create = await PostData(route("kas_tunai"), data);
 
         if (create) {
-            form.current.reset();
-            setPopup(false);
+            reset();
             setProcess(false);
             router.get(route("kas_tunai"));
         }
@@ -50,7 +48,6 @@ const FormKasTunai = ({ setPopup, bulan, saldo }) => {
         <form
             className="flex flex-col gap-4"
             onSubmit={submit}
-            ref={form}
             autoComplete="off"
         >
             <div className="w-full">

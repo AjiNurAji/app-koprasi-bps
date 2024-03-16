@@ -35,7 +35,7 @@ class simpananSukarelaExport implements FromView, ShouldAutoSize
         foreach ($members as $key => $value) {
             $members[$key]->simpanan_sukarela = SimpananSukarela::whereBetween('tanggal_transakssi', [$start, $end])->where('id_member', $value->id_member)->get();
 
-            $simpanan = SimpananSukarela::whereBetween('tanggal_transakssi', [$start, $end])->where('id_member', $value->id_member)->orderBy('tanggal_transakssi', 'desc')->get()->first();
+            $simpanan = SimpananSukarela::whereBetween('tanggal_transakssi', [$start, $end])->where('id_member', $value->id_member)->orderBy('created_at', 'desc')->get()->first();
 
             $members[$key]->shu = $simpanan?->shu;
 

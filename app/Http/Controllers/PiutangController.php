@@ -149,26 +149,26 @@ class PiutangController extends Controller
                     'bulan' => 'required|string',
                     'hari' => 'required|string',
                     'total_pinjaman' => 'integer|nullable',
-                    'date' => 'required|date',
+                    'date' => 'required',
                     'keperluan' => 'required|string',
                     'bank_tujuan' => 'required|string',
                     'jangka_waktu' => 'required|string',
                 ]);
 
+                if (date("Y", strtotime($request->input("date"))) > date("Y")) return response()->json(['message' => 'Tahun yang dimasukkan tidak valid!'], 500); 
+                
                 $pinjaman = Pinjaman::where('id_member', $request->input('id_member'))
-                    ->orderBy('created_at', 'desc')
+                    ->orderBy('tanggal_pinjam', 'desc')
                     ->get()->first();
 
                 $terbayar = BayarPinjaman::where([
                     ['id_member', $request->input('id_member')],
                 ])
-                    ->orderBy('created_at', 'desc')
+                    ->orderBy('tanggal_bayar', 'desc')
                     ->get()
                     ->first();
 
-                $nominal = ($terbayar ? $terbayar->sisa + $request->input('total_pinjaman') : $pinjaman)
-                    ? $pinjaman->sisa + $request->input('total_pinjaman')
-                    : $request->input('total_pinjaman');
+                $nominal = $terbayar ? $terbayar->sisa + $request->input('total_pinjaman') : ($pinjaman ? $pinjaman->sisa + $request->input('total_pinjaman') : $request->input('total_pinjaman'));
 
                 // dd($nominal);
 

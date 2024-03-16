@@ -22,6 +22,14 @@ class MemberController extends Controller
     }
 
     /**
+     * Display a create page for add the members
+     */
+    public function create()
+    {
+        return Inertia::render("admin/Member/Create");
+    }
+
+    /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
@@ -74,6 +82,20 @@ class MemberController extends Controller
         $member = Member::findOrFail($id);
 
         if ($member) {
+            $member->update([
+                'is_deleted' => 1,
+            ]);
+            return response()->json(['message' => 'Anggota akan otomatis terhapus pada tahun berikutnya!'], 200);
+        } else {
+            return response()->json(['message' => 'Data member tidak ditemukan!'], 401);
+        }
+    }
+
+    public function permanentDeletes(string $id)
+    {
+        $member = Member::findOrFail($id);
+
+        if ($member) {
             $member->delete();
             return response()->json(['message' => 'Berhasil menghapus anggota'], 200);
         } else {
@@ -105,9 +127,9 @@ class MemberController extends Controller
                     'password' => Hash::make($request->input('new_password')),
                 ]);
 
-            return response()->json(['message' => 'Update berhasil diperbaharui'], 200);
+            return response()->json(['message' => 'Data berhasil diperbaharui'], 200);
         } catch (\Exception $e) {
-            return response()->json(['message' => 'Update gagal, cek kembali data yang anda masukan'], 500);
+            return response()->json(['message' => 'Data gagal diperbaharui, cek kembali data yang anda masukan'], 500);
         }
     }
 

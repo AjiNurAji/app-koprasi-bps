@@ -6,7 +6,7 @@
     <div style="text-align: center; width: 100%; font-weight: 800; margin-bottom: 70px;">
         Mutasi KAS TUNAI <br />
         Koperasi Kesejahteraan Pegawai BPS Kab. Kuningan <br />
-        Tahun Buku {{ date('Y') }} <br />
+        Tahun Buku {{ $years }} <br />
         (Dalam Rupiah)
     </div>
 
@@ -15,20 +15,20 @@
         <tr>
             <th
                 style="border: 1px solid #000; vertical-align: middle; padding: 2px 10px; word-wrap: break-word; text-align: center;">
-                No
+                NO
             </th>
             <th
                 style="border: 1px solid #000; vertical-align: middle; padding: 2px 10px; word-wrap: break-word; text-align: center;">
-                Bulan</th>
+                BULAN</th>
             <th
                 style="border: 1px solid #000; vertical-align: middle; padding: 2px 10px; word-wrap: break-word; text-align: center;">
-                Masuk</th>
+                MASUK</th>
             <th
                 style="border: 1px solid #000; vertical-align: middle; padding: 2px 10px; word-wrap: break-word; text-align: center;">
-                Keluar</th>
+                KELUAR</th>
             <th
                 style="border: 1px solid #000; vertical-align: middle; padding: 2px 10px; word-wrap: break-word; text-align: center;">
-                Saldo</th>
+                SALDO</th>
         </tr>
         <tr>
             <td
@@ -56,7 +56,7 @@
             <td style="border: 1px solid #000; padding: 2px 10px; word-wrap: break-word; text-align: left;">
             </td>
             <td style="border: 1px solid #000; padding: 2px 10px; word-wrap: break-word; text-align: left;">
-                Saldo Awal
+                SALDO AWAL
             </td>
             <td style="border: 1px solid #000; padding: 2px 10px; word-wrap: break-word; text-align: left;">
             </td>
@@ -83,13 +83,13 @@
         <tr>
             <td style="border: 1px solid #000; text-align: center; padding: 2px 10px;">
             </td>
-            <td style="border: 1px solid #000; text-align: center; padding: 2px 10px;">
+            <td style="border: 1px solid #000; font-weight: bold; text-align: center; padding: 2px 10px;">
                 Jumlah</td>
-            <td style="border: 1px solid #000; padding: 2px 10px; text-align: right;">
+            <td style="border: 1px solid #000; font-weight: bold; padding: 2px 10px; text-align: right;">
                 {{ $data ? number_format($data->total_masuk, 0, ',', '.') : '-' }}</td>
-            <td style="border: 1px solid #000; padding: 2px 10px; text-align: right;">
+            <td style="border: 1px solid #000; font-weight: bold; padding: 2px 10px; text-align: right;">
                 {{ $data ? number_format($data->total_keluar, 0, ',', '.') : '-' }}</td>
-            <td style="border: 1px solid #000; padding: 2px 10px; text-align: right;">
+            <td style="border: 1px solid #000; font-weight: bold; padding: 2px 10px; text-align: right;">
                 {{ $data ? number_format($data->jumlah, 0, ',', '.') : '-' }}</td>
         </tr>
     </table>

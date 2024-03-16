@@ -1,15 +1,14 @@
 import PostData from "@/Libs/postData";
 import { useForm } from "@inertiajs/react";
-import { useRef, useState } from "react";
+import { useState } from "react";
 import ButtonLoading from "../ButtonLoading";
 import { router } from "@inertiajs/react";
 
-const FormJasaAnggota = ({ setPopup }) => {
+const FormJasaAnggota = () => {
     const [processing, setProcess] = useState(false);
-    const { data, setData } = useForm({
+    const { data, setData, reset } = useForm({
         persentase: null,
     });
-    const form = useRef(null);
 
     const submit = async (e) => {
         e.preventDefault();
@@ -18,8 +17,7 @@ const FormJasaAnggota = ({ setPopup }) => {
         const create = await PostData(route("jasa_anggota_set"), data);
 
         if (create) {
-            form.current.reset();
-            setPopup(false);
+            reset();
             setProcess(false);
             router.get(route("jasa_piutang"));
         }
@@ -35,7 +33,7 @@ const FormJasaAnggota = ({ setPopup }) => {
     };
 
     return (
-        <form onSubmit={submit} className="flex flex-col gap-4" ref={form}>
+        <form onSubmit={submit} className="flex flex-col gap-4">
             <div className="w-full">
                 <label
                     htmlFor="persentase"

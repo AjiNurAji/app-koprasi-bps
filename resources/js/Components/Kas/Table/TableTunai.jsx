@@ -9,12 +9,9 @@ import {
 } from "@tanstack/react-table";
 import { useState } from "react";
 import PaginationTable from "@/Components/Table/PaginationTable";
-import { GiCardPlay } from "react-icons/gi";
 import { HiArrowsUpDown } from "react-icons/hi2";
 import SearchTable from "@/Components/Table/SearchTable";
-import CreatePopup from "@/Components/Popup/CreatePopup";
-import FormKasTunai from "@/Components/FormElements/FormKasTunai";
-import DownloadDropdown from "@/Components/DownloadDrodown";
+import ButtonTambahData from "@/Components/ButtonTambahData";
 
 const TableTunai = ({ data, bulan, saldo, user }) => {
     const [datas] = useState([...data]);
@@ -37,44 +34,15 @@ const TableTunai = ({ data, bulan, saldo, user }) => {
             {/* head component */}
             <div className="flex items-center justify-between mb-3.5">
                 {user.role ? (
-                    <button
-                        className="p-3 hover:bg-opacity-95 transition-all duration-300 ease-in-out bg-primary text-white rounded-md text-xl"
-                        onClick={() => setPopup(true)}
-                    >
-                        <GiCardPlay />
-                    </button>
+                    <ButtonTambahData url={route('kas_tunai_transaksi')} />
                 ) : null}
-                <div className="flex flex-col-reverse w-full md:flex-row items-end md:items-center justify-end gap-3">
-                    {user.role ? (
-                        <DownloadDropdown
-                            pdf="kastunai.pdf"
-                            csv="kastunai.csv"
-                            excel="kastunai.xlsx"
-                            routepdf={route("kas_tunai_pdf")}
-                            routecsv={route("kas_tunai_csv")}
-                            routeexcel={route("kas_tunai_excel")}
-                        />
-                    ) : null}
+                <div className="flex flex-col-reverse md:flex-row items-end md:items-center justify-end gap-3">
                     <SearchTable
                         setGlobalFilter={setGlobalFilter}
                         globalFilter={globalFilter}
                     />
                 </div>
             </div>
-            {/* popup create */}
-            {popup ? (
-                <CreatePopup
-                    createName="Kas Tunai"
-                    setPopup={setPopup}
-                    form={
-                        <FormKasTunai
-                            bulan={bulan}
-                            saldo={saldo}
-                            setPopup={setPopup}
-                        />
-                    }
-                />
-            ) : null}
             {/* table */}
             <div className="max-w-full overflow-x-auto">
                 <table className="w-full table-auto rounded-md">
@@ -150,6 +118,7 @@ const TableTunai = ({ data, bulan, saldo, user }) => {
                                             ? Intl.NumberFormat("in-ID", {
                                                   style: "currency",
                                                   currency: "IDR",
+                                                  maximumFractionDigits: "0"
                                               }).format(saldo.total_masuk)
                                             : "-"}
                                     </td>
@@ -158,6 +127,7 @@ const TableTunai = ({ data, bulan, saldo, user }) => {
                                             ? Intl.NumberFormat("in-ID", {
                                                   style: "currency",
                                                   currency: "IDR",
+                                                  maximumFractionDigits: "0"
                                               }).format(saldo.total_keluar)
                                             : "-"}
                                     </td>
