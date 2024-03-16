@@ -20,8 +20,9 @@ const Pinjaman = ({ auth, data, cards }) => {
             <CardPinjaman
                 jumlah={cards.total_pinjaman}
                 dibayar={cards.total_dibayar}
+                sisa={cards.sisa_pinjaman_tahun_lalu}
             />
-            <TablePinjaman data={data} />
+            <TablePinjaman data={data} total={cards} />
         </Authenticated>
     );
 };

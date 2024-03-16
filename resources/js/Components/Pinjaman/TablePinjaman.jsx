@@ -31,20 +31,10 @@ const TablePinjaman = ({ data, total }) => {
             {/* head component */}
             <div className="flex items-start md:items-center justify-between mb-3.5">
                 <ButtonTambahData url={route('pinjaman_transaksi')} />
-                <div className="flex flex-col-reverse md:flex-row items-end md:items-center justify-end gap-3">
-                    {/* <DownloadDropdown
-                        pdf="simpananpokok.pdf"
-                        csv="simpananpokok.csv"
-                        excel="simpananpokok.xlsx"
-                        routepdf={route("simpanan_pokok_pdf")}
-                        routecsv={route("simpanan_pokok_csv")}
-                        routeexcel={route("simpanan_pokok_excel")}
-                    /> */}
                     <SearchTable
                         setGlobalFilter={setGlobalFilter}
                         globalFilter={globalFilter}
                     />
-                </div>
             </div>
             {/* table */}
             <div className="max-w-full overflow-x-auto">
@@ -124,7 +114,7 @@ const TablePinjaman = ({ data, total }) => {
                                             ))}
                                     </tr>
                                 ))}
-                                {/* <tr>
+                                <tr>
                                     <td
                                         className="font-medium text-center border py-5 px-4 border-stroke dark:border-opacity-20 text-black dark:text-white"
                                         colSpan={2}
@@ -132,38 +122,44 @@ const TablePinjaman = ({ data, total }) => {
                                         TOTAL
                                     </td>
                                     <td className="font-medium text-right border py-5 px-4 border-stroke dark:border-opacity-20 text-black dark:text-white">
-                                        {total.awal_tahun
+                                        {total.sisa_pinjaman_tahun_lalu
                                             ? Intl.NumberFormat("in-ID", {
                                                   style: "currency",
                                                   currency: "IDR",
-                                              }).format(total.awal_tahun)
+                                                  maximumFractionDigits: "0"
+                                              }).format(total.sisa_pinjaman_tahun_lalu)
                                             : "-"}
                                     </td>
                                     <td className="font-medium text-right border py-5 px-4 border-stroke dark:border-opacity-20 text-black dark:text-white">
-                                        {total.anggota_masuk
+                                        {total.total_pinjaman
                                             ? Intl.NumberFormat("in-ID", {
                                                   style: "currency",
                                                   currency: "IDR",
-                                              }).format(total.anggota_masuk)
+                                                  maximumFractionDigits: "0"
+                                              }).format(total.total_pinjaman)
                                             : "-"}
                                     </td>
                                     <td className="font-medium text-right border py-5 px-4 border-stroke dark:border-opacity-20 text-black dark:text-white">
-                                        {total.anggota_keluar
+                                        {total.total_dibayar
                                             ? Intl.NumberFormat("in-ID", {
                                                   style: "currency",
                                                   currency: "IDR",
-                                              }).format(total.anggota_keluar)
+                                                  maximumFractionDigits: "0"
+                                              }).format(total.total_dibayar)
                                             : "-"}
                                     </td>
                                     <td className="font-medium text-right border py-5 px-4 border-stroke dark:border-opacity-20 text-black dark:text-white">
-                                        {total.jumlah
+                                        {total.sisa
                                             ? Intl.NumberFormat("in-ID", {
                                                   style: "currency",
                                                   currency: "IDR",
-                                              }).format(total.jumlah)
+                                                  maximumFractionDigits: "0"
+                                              }).format(total.sisa)
                                             : "-"}
                                     </td>
-                                </tr> */}
+                                    <td className="font-medium text-right border py-5 px-4 border-stroke dark:border-opacity-20 text-black dark:text-white"></td>
+                                    <td className="font-medium text-right border py-5 px-4 border-stroke dark:border-opacity-20 text-black dark:text-white"></td>
+                                </tr>
                             </>
                         ) : (
                             <tr>

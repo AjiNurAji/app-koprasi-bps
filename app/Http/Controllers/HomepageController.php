@@ -475,8 +475,6 @@ class HomepageController extends Controller
                 ["tahun", date("Y")]
             ])->orderBy("created_at", "desc")->get();
 
-            // dd($pinjaman);
-
             $bayar = BayarPinjaman::where([
                 ["id_member", $v["id_member"]],
                 ["tahun", date("Y")]
@@ -494,14 +492,21 @@ class HomepageController extends Controller
             $data[$i]["pinjaman"]["dibayar"] = $bayar ? $bayar->sum("nominal") : 0;
         }
 
+        $bayarTahunLalu = BayarPinjaman::whereBetween("tanggal_bayar", [Carbon::createFromDate(date('Y') -1)->startOfYear()->rawFormat("Y-m-d"), Carbon::createFromDate(date('Y') -1)->endOfYear()->rawFormat("Y-m-d")])->orderBy("created_at", "desc")->get()->first();
+        $pinjamanTahunLalu = Pinjaman::whereBetween("tanggal_pinjam", [Carbon::createFromDate(date('Y') -1)->startOfYear()->rawFormat("Y-m-d"), Carbon::createFromDate(date('Y') -1)->endOfYear()->rawFormat("Y-m-d")])->orderBy("created_at", "desc")->get()->first();
+
+        $tahunLalu = $bayarTahunLalu ? $bayarTahunLalu->sisa : ($pinjamanTahunLalu ? $pinjamanTahunLalu->sisa : 0);
         $pinjaman = Pinjaman::where("tahun", date("Y"))->get()->sum("nominal");
         $terbayar = BayarPinjaman::where("tahun", date("Y"))->get()->sum("nominal");
+        $sisa = $tahunLalu + $pinjaman - $terbayar;
 
         return Inertia::render("admin/Pinjaman/Pinjaman", [
             "data" => $data,
             "cards" => [
                 "total_pinjaman" => $pinjaman,
                 "total_dibayar" => $terbayar,
+                "sisa_pinjaman_tahun_lalu" => $tahunLalu,
+                "sisa" => $sisa
             ]
         ]);
     }

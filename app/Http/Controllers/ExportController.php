@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Exports\kasRekeningExport;
 use App\Exports\kasTunaiExport;
+use App\Exports\pinjamanExport;
 use App\Exports\simpananPokokExport;
 use App\Exports\simpananSukarelaExport;
 use App\Exports\simpananWajibExport;
@@ -110,5 +111,15 @@ class ExportController extends Controller
         ]);
 
         return Excel::download(new kasRekeningExport($request->input('start_date'), $request->input('end_date')), 'kasrekening.csv', \Maatwebsite\Excel\Excel::CSV);
+    }
+
+    public function Pinjaman(Request $request)
+    {
+        $request->validate([
+            'start_date' => 'required',
+            'end_date' => 'required'
+        ]);
+
+        return Excel::download(new pinjamanExport($request->input('start_date'), $request->input('end_date')), 'pinjamananggota.xlsx', \Maatwebsite\Excel\Excel::XLSX);
     }
 }
