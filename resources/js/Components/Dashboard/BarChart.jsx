@@ -14,6 +14,10 @@ const BarChart = ({ data }) => {
                 name: "Pinjaman",
                 data: data.pinjaman_perhari,
             },
+            {
+                name: "Bayar Pinjaman",
+                data: data.bayar_pinjaman_perhari,
+            }
         ],
     });
 

@@ -15,6 +15,10 @@ const LineChart = ({ data }) => {
                 name: "Pinjaman",
                 data: data.pinjaman_perbulan,
             },
+            {
+                name: "Bayar Pinjaman",
+                data: data.bayar_pinjaman_perbulan
+            }
         ],
     });
     return (
@@ -42,6 +46,20 @@ const LineChart = ({ data }) => {
                         <div className="w-full">
                             <p className="font-semibold text-secondary">
                                 Transaksi Pinjaman
+                            </p>
+                            <p className="text-sm font-medium">
+                                01.01.{date.getFullYear()} - 31.12.
+                                {date.getFullYear()}
+                            </p>
+                        </div>
+                    </div>
+                    <div className="flex min-w-47.5">
+                        <span className="mt-1 mr-2 flex h-4 w-full max-w-4 items-center justify-center rounded-full border border-warning">
+                            <span className="block h-2.5 w-full max-w-2.5 rounded-full bg-warning"></span>
+                        </span>
+                        <div className="w-full">
+                            <p className="font-semibold text-warning">
+                                Bayar Pinjaman
                             </p>
                             <p className="text-sm font-medium">
                                 01.01.{date.getFullYear()} - 31.12.

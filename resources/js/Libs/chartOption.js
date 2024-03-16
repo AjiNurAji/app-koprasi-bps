@@ -5,7 +5,7 @@ export const lineChartOption = {
             position: "top",
             horizontalAlign: "left",
         },
-        colors: ["#3C50E0", "#80CAEE"],
+        colors: ["#3C50E0", "#80CAEE", "#FFA70B"],
         chart: {
             fontFamily: "Satoshi, sans-serif",
             height: 335,
@@ -68,7 +68,7 @@ export const lineChartOption = {
         markers: {
             size: 4,
             colors: "#fff",
-            strokeColors: ["#3056D3", "#80CAEE"],
+            strokeColors: ["#3056D3", "#80CAEE", "#FFA70B"],
             strokeWidth: 3,
             strokeOpacity: 0.9,
             strokeDashArray: 0,
@@ -129,7 +129,7 @@ export const lineChartOption = {
 };
 
 export const barChartOption = {
-    colors: ["#3C50E0", "#80CAEE"],
+    colors: ["#3C50E0", "#80CAEE", "#FFA70B"],
     chart: {
         fontFamily: "Satoshi, sans-serif",
         type: "bar",

@@ -58,35 +58,45 @@ class HomepageController extends Controller
         // simpanan chart
         foreach ($bulan as $item) {
             for ($i = 0; $i < 12; $i++) {
-                $simpananCount[] = Transaksi::whereBetween("created_at", [Carbon::now()->startOfMonth(), Carbon::now()->endOfMonth()])
+                $simpananCount[] = Transaksi::whereBetween("tanggal_transaksi", [Carbon::now()->startOfYear()->rawFormat("Y-m-d"), Carbon::now()->endOfYear()->rawFormat("Y-m-d")])
                     ->where("bulan", $item[$i])
-                    ->where("tahun", date("Y"))
                     ->where("type", "simpanan")
                     ->get()
                     ->count();
 
-                $pinjamanCount[] = Transaksi::whereBetween("created_at", [Carbon::now()->startOfMonth(), Carbon::now()->endOfMonth()])
+                $pinjamanCount[] = Transaksi::whereBetween("tanggal_transaksi", [Carbon::now()->startOfYear()->rawFormat("Y-m-d"), Carbon::now()->endOfYear()->rawFormat("Y-m-d")])
                     ->where("bulan", $item[$i])
-                    ->where("tahun", date("Y"))
-                    ->where("type", "pinjaman")
+                    ->where([["type", "pinjaman"], ['nama_transaksi', 'pinjaman']])
                     ->get()
                     ->count();
-            }
+
+                $bayarPinjamanCount[] = Transaksi::whereBetween("tanggal_transaksi", [Carbon::now()->startOfYear()->rawFormat("Y-m-d"), Carbon::now()->endOfYear()->rawFormat("Y-m-d")])
+                    ->where("bulan", $item[$i])
+                    ->where("type", "pinjaman")
+                    ->where('nama_transaksi', 'bayar_pinjaman')
+                    ->get()
+                    ->count();
+                }
         }
 
         foreach ($hari as $item) {
             for ($i = 0; $i < 7; $i++) {
-                $totalSimpananPerhari[] = Transaksi::whereBetween("created_at", [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])
+                $totalSimpananPerhari[] = Transaksi::whereBetween("tanggal_transaksi", [Carbon::now()->startOfWeek()->rawFormat("Y-m-d"), Carbon::now()->endOfWeek()->rawFormat("Y-m-d")])
                     ->where("hari", $item[$i])
-                    ->where("tahun", date("Y"))
                     ->where("type", "simpanan")
                     ->sum("nominal");
 
-                $totalPinjamanPerhari[] = Transaksi::whereBetween("created_at", [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])
+                $totalBayarPinjamanPerhari[] = Transaksi::whereBetween("tanggal_transaksi", [Carbon::now()->startOfWeek()->rawFormat("Y-m-d"), Carbon::now()->endOfWeek()->rawFormat("Y-m-d")])
                     ->where("hari", $item[$i])
                     ->where("tahun", date("Y"))
-                    ->where("type", "pinjaman")
+                    ->where([["type", "pinjaman"], ['nama_transaksi', 'bayar_pinjaman']])
                     ->sum("nominal");
+
+                $totalPinjamanPerhari[] = Transaksi::whereBetween("tanggal_transaksi", [Carbon::now()->startOfWeek()->rawFormat("Y-m-d"), Carbon::now()->endOfWeek()->rawFormat("Y-m-d")])
+                    ->where("hari", $item[$i])
+                    ->where("tahun", date("Y"))
+                    ->where([["type", "pinjaman"], ['nama_transaksi', 'pinjaman']])
+                    ->sum("nominal_keluar");
             }
         }
 
@@ -98,7 +108,7 @@ class HomepageController extends Controller
 
         $awalTahunWajib = SimpananWajib::where("tahun", date("Y"))->sum("kekayaan_awal_tahun");
         $wajibSimpanan = SimpananWajib::where("tahun", date("Y"))->sum("simpanan_wajib");
-        $anggotaKeluarWajib = AmbilSimpanan::whereBetween("created_at", [Carbon::now()->startOfYear(), Carbon::now()->endOfYear()])->where("simpanan", "wajib")->sum("nominal");
+        $anggotaKeluarWajib = AmbilSimpanan::whereBetween("tanggal_ambil", [Carbon::now()->startOfYear()->rawFormat("Y-m-d"), Carbon::now()->endOfYear()->rawFormat("Y-m-d")])->where("simpanan", "wajib")->sum("nominal");
         $totalWajib = $awalTahunWajib + $wajibSimpanan - $anggotaKeluarWajib;
 
         $totalSukarela = SimpananSukarela::where("tahun", date("Y"))->sum("akhir_taun");
@@ -126,6 +136,8 @@ class HomepageController extends Controller
                 "perhari" => $totalSimpananPerhari,
                 "pinjaman_perbulan" => $pinjamanCount,
                 "pinjaman_perhari" => $totalPinjamanPerhari,
+                "bayar_pinjaman_perbulan" => $bayarPinjamanCount,
+                "bayar_pinjaman_perhari" => $totalBayarPinjamanPerhari,
             ],
             "cards" => [
                 "simpananPokok" => $totalPokok,
@@ -395,24 +407,24 @@ class HomepageController extends Controller
 
         foreach ($rekening as $i => $value) {
             $setor = TrRekening::where("id_rekening", $value->id_rekening)
-            ->where("type", "setor")
-            ->first();
+                ->where("type", "setor")
+                ->first();
 
             $bungaBank = TrRekening::where("id_rekening", $value->id_rekening)
-            ->where("type", "bunga_bank")
-            ->first();
+                ->where("type", "bunga_bank")
+                ->first();
 
             $pajak = TrRekening::where("id_rekening", $value->id_rekening)
-            ->where("type", "pajak")
-            ->first();
+                ->where("type", "pajak")
+                ->first();
 
             $adm = TrRekening::where("id_rekening", $value->id_rekening)
-            ->where("type", "adm")
-            ->first();
+                ->where("type", "adm")
+                ->first();
 
             $penarikan = TrRekening::where("id_rekening", $value->id_rekening)
-            ->where("type", "penarikan")
-            ->first();
+                ->where("type", "penarikan")
+                ->first();
 
             $rekening[$i]->setor = $setor?->nominal;
             $rekening[$i]->setor_type = $setor?->rekening;
@@ -595,7 +607,7 @@ class HomepageController extends Controller
             ->where("name", "tunai")
             ->first();
 
-        return Inertia::render("admin/Kas/Create/Tunai", [ 'bulan' => $bulan, 'saldo' => $kas ]);
+        return Inertia::render("admin/Kas/Create/Tunai", ['bulan' => $bulan, 'saldo' => $kas]);
     }
 
     public function setSaldoAwal(string $param)
@@ -609,7 +621,7 @@ class HomepageController extends Controller
         ])->get()->first();
 
         if ($checking) return Inertia::render("admin/Kas/SaldoAwal", [
-            "message" => "Saldo awal tahun ". date('Y') ." sudah di set!",
+            "message" => "Saldo awal tahun " . date('Y') . " sudah di set!",
             "directUrl" => $directUrl,
         ]);
 
