@@ -118,6 +118,7 @@ Route::middleware(['auth:admin'])->group(function () {
 
     // halaman pinjaman
     Route::get('/pinjaman-anggota', [HomepageController::class, 'pinjamanAnggota'])->name('pinjaman_anggota');
+    Route::get('/pinjaman', [HomepageController::class, 'pinjaman'])->name('pinjaman_anggota__');
 
     // buat pinjaman
     Route::post('/pinjaman-anggota', [PiutangController::class, 'getPinjamanAnggota'])->name('pinjaman_anggota');

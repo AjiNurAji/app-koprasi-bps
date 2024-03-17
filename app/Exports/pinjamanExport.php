@@ -31,13 +31,30 @@ class pinjamanExport implements FromView, ShouldAutoSize
         $start = $this->start_date;
         $end = $this->end_date;
 
-        $start_tahun_lalu = Carbon::createFromDate(date('Y', strtotime($start)))->startOfYear()->rawFormat("Y-m-d");
-        $end_tahun_lalu = Carbon::createFromDate(date('Y', strtotime($end)))->endOfYear()->rawFormat("Y-m-d");
+        $years = date('Y', strtotime($this->end_date));
+
+        $start_tahun_lalu = Carbon::createFromDate(date('Y', strtotime($start)) - 1)->startOfYear()->rawFormat("Y-m-d");
+        $end_tahun_lalu = Carbon::createFromDate(date('Y', strtotime($end)) - 1)->endOfYear()->rawFormat("Y-m-d");
 
         foreach ($member as $key => $value) {
             // pinjaman baru
             $pinjaman = Pinjaman::whereBetween('tanggal_pinjam', [$start, $end])
                 ->where("id_member", $value->id_member)->get();
+
+            // bayar pinjaman
+            $bayarCicilan = BayarPinjaman::whereBetween('tanggal_bayar', [$start, $end])
+                ->where([
+                    ["id_member", $value->id_member],
+                    ["jenis", "cicilan"]
+                ])
+                ->get();
+
+            $bayarLangsung = BayarPinjaman::whereBetween('tanggal_bayar', [$start, $end])
+                ->where([
+                    ["id_member", $value->id_member],
+                    ["jenis", "langsung"]
+                ])
+                ->get();
 
             // pinjaman tahun lalu
             $pinjamanTahunLalu = Pinjaman::whereBetween('tanggal_pinjam', [
@@ -55,11 +72,30 @@ class pinjamanExport implements FromView, ShouldAutoSize
                 ->get()->first();
 
             $member[$key]->pinjaman = $pinjaman?->sum('nominal');
-            $member[$key]->bayar = BayarPinjaman::whereBetween('tanggal_bayar', [$start, $end])
-                ->where("id_member", $value->id_member)->get();
-
-            $member[$key]->pinjaman_tahun_lalu = $pinjamanTahunLalu?->sum('nominal');
-            $member[$key]->sisa = $bayarTahunLalu ? $bayarTahunLalu->sisa : ($pinjamanTahunLalu ? $pinjamanTahunLalu->sisa : $pinjaman->sum('nominal') - ($member[$key]->bayar ? $member[$key]->bayar->sum('nominal') : 0));
+            $member[$key]->bayar['cicilan'] = $bayarCicilan;
+            $member[$key]->bayar['langsung'] = $bayarLangsung;
+            $member[$key]->pinjaman_tahun_lalu = $pinjamanTahunLalu?->nominal;
+            $member[$key]->sisa = $bayarTahunLalu ? $bayarTahunLalu->sisa - (($bayarCicilan ? $bayarCicilan->sum('nominal') : 0) + ($bayarLangsung ? $bayarLangsung->sum('nominal') : 0)) : (
+                $pinjamanTahunLalu
+                ?
+                $pinjamanTahunLalu->sisa - (($bayarCicilan ? $bayarCicilan->sum('nominal') : 0) + ($bayarLangsung ? $bayarLangsung->sum('nominal') : 0))
+                :
+                $pinjaman->sum('nominal') - (($bayarCicilan ? $bayarCicilan->sum('nominal') : 0) + ($bayarLangsung ? $bayarLangsung->sum('nominal') : 0))
+            );
         }
+
+        return view("Exports.Excel.Pinjaman.pinjamanAnggota", [
+            "years" => $years,
+            "data" => $member,
+            "total" => [
+                "cicilan" => BayarPinjaman::whereBetween('tanggal_bayar', [$start, $end])
+                    ->where("jenis", "cicilan")
+                    ->get(),
+
+                "langsung" => BayarPinjaman::whereBetween('tanggal_bayar', [$start, $end])
+                    ->where("jenis", "langsung")
+                    ->get(),
+            ]
+        ]);
     }
 }

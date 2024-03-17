@@ -76,7 +76,7 @@ class HomepageController extends Controller
                     ->where('nama_transaksi', 'bayar_pinjaman')
                     ->get()
                     ->count();
-                }
+            }
         }
 
         foreach ($hari as $item) {
@@ -492,8 +492,8 @@ class HomepageController extends Controller
             $data[$i]["pinjaman"]["dibayar"] = $bayar ? $bayar->sum("nominal") : 0;
         }
 
-        $bayarTahunLalu = BayarPinjaman::whereBetween("tanggal_bayar", [Carbon::createFromDate(date('Y') -1)->startOfYear()->rawFormat("Y-m-d"), Carbon::createFromDate(date('Y') -1)->endOfYear()->rawFormat("Y-m-d")])->orderBy("created_at", "desc")->get()->first();
-        $pinjamanTahunLalu = Pinjaman::whereBetween("tanggal_pinjam", [Carbon::createFromDate(date('Y') -1)->startOfYear()->rawFormat("Y-m-d"), Carbon::createFromDate(date('Y') -1)->endOfYear()->rawFormat("Y-m-d")])->orderBy("created_at", "desc")->get()->first();
+        $bayarTahunLalu = BayarPinjaman::whereBetween("tanggal_bayar", [Carbon::createFromDate(date('Y') - 1)->startOfYear()->rawFormat("Y-m-d"), Carbon::createFromDate(date('Y') - 1)->endOfYear()->rawFormat("Y-m-d")])->orderBy("created_at", "desc")->get()->first();
+        $pinjamanTahunLalu = Pinjaman::whereBetween("tanggal_pinjam", [Carbon::createFromDate(date('Y') - 1)->startOfYear()->rawFormat("Y-m-d"), Carbon::createFromDate(date('Y') - 1)->endOfYear()->rawFormat("Y-m-d")])->orderBy("created_at", "desc")->get()->first();
 
         $tahunLalu = $bayarTahunLalu ? $bayarTahunLalu->sisa : ($pinjamanTahunLalu ? $pinjamanTahunLalu->sisa : 0);
         $pinjaman = Pinjaman::where("tahun", date("Y"))->get()->sum("nominal");
@@ -507,6 +507,83 @@ class HomepageController extends Controller
                 "total_dibayar" => $terbayar,
                 "sisa_pinjaman_tahun_lalu" => $tahunLalu,
                 "sisa" => $sisa
+            ]
+        ]);
+    }
+
+    public function pinjaman()
+    {
+        $member = Member::all();
+
+        $start = Carbon::now()->startOfYear()->rawFormat("Y-m-d");
+        $end = Carbon::now()->endOfYear()->rawFormat("Y-m-d");
+
+        $years = date('Y', strtotime($end));
+
+        $start_tahun_lalu = Carbon::createFromDate(date('Y', strtotime($start)) - 1)->startOfYear()->rawFormat("Y-m-d");
+        $end_tahun_lalu = Carbon::createFromDate(date('Y', strtotime($end)) - 1)->endOfYear()->rawFormat("Y-m-d");
+
+        foreach ($member as $key => $value) {
+            // pinjaman baru
+            $pinjaman = Pinjaman::whereBetween('tanggal_pinjam', [$start, $end])
+                ->where("id_member", $value->id_member)->get();
+
+            // bayar pinjaman
+            $bayarCicilan = BayarPinjaman::whereBetween('tanggal_bayar', [$start, $end])
+                ->where([
+                    ["id_member", $value->id_member],
+                    ["jenis", "cicilan"]
+                ])
+                ->orderBy("created_at", "desc")
+                ->get();
+
+            $bayarLangsung = BayarPinjaman::whereBetween('tanggal_bayar', [$start, $end])
+                ->where([
+                    ["id_member", $value->id_member],
+                    ["jenis", "langsung"]
+                ])
+                ->orderBy("created_at", "desc")
+                ->get();
+
+            // pinjaman tahun lalu
+            $pinjamanTahunLalu = Pinjaman::whereBetween('tanggal_pinjam', [
+                $start_tahun_lalu,
+                $end_tahun_lalu
+            ])->where("id_member", $value->id_member)->orderBy("created_at", "desc")
+                ->get()->first();
+
+            // bayar pinjaman tahun lalu
+            $bayarTahunLalu = BayarPinjaman::whereBetween('tanggal_bayar', [
+                $start_tahun_lalu,
+                $end_tahun_lalu
+            ])->where("id_member", $value->id_member)
+                ->orderBy("created_at", "desc")
+                ->get()->first();
+
+            $member[$key]->pinjaman = $pinjaman?->sum('nominal');
+            $member[$key]['bayar']['cicilan'] = $bayarCicilan;
+            $member[$key]['bayar']['langsung'] = $bayarLangsung;
+            $member[$key]->pinjaman_tahun_lalu = $pinjamanTahunLalu?->nominal;
+            $member[$key]->sisa = $bayarTahunLalu ? $bayarTahunLalu->sisa - (($bayarCicilan ? $bayarCicilan->sum('nominal') : 0) + ($bayarLangsung ? $bayarLangsung->sum('nominal') : 0)) : (
+                $pinjamanTahunLalu
+                ?
+                $pinjamanTahunLalu->sisa - (($bayarCicilan ? $bayarCicilan->sum('nominal') : 0) + ($bayarLangsung ? $bayarLangsung->sum('nominal') : 0))
+                :
+                $pinjaman->sum('nominal') - (($bayarCicilan ? $bayarCicilan->sum('nominal') : 0) + ($bayarLangsung ? $bayarLangsung->sum('nominal') : 0))
+            );
+        }
+
+        return view("Exports.Excel.Pinjaman.pinjamanAnggota", [
+            "years" => $years,
+            "data" => $member,
+            "total" => [
+                "cicilan" => BayarPinjaman::whereBetween('tanggal_bayar', [$start, $end])
+                    ->where("jenis", "cicilan")
+                    ->get(),
+
+                "langsung" => BayarPinjaman::whereBetween('tanggal_bayar', [$start, $end])
+                    ->where("jenis", "langsung")
+                    ->get(),
             ]
         ]);
     }
@@ -549,6 +626,7 @@ class HomepageController extends Controller
     {
         return Inertia::render("Pinjaman/Transaction");
     }
+
     public function pokokTransaksi()
     {
         return Inertia::render("Simpanan/Transaction/Pokok");

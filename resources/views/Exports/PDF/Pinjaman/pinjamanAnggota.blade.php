@@ -3,28 +3,12 @@
 @section('title', 'Pinjaman Anggota')
 
 @section('content')
-    <tr style="text-align: center; font-weight: 800; margin-bottom: 70px;">
-        <td colspan="7" style="text-align: center; font-weight: 800; margin-bottom: 70px;">
-            Rekapitulasi Piutang Anggota
-        </td>
-    </tr>
-    <tr style="text-align: center; font-weight: 800; margin-bottom: 70px;">
-        <td colspan="7" style="text-align: center; font-weight: 800; margin-bottom: 70px;">
-            Koperasi Kesejahteraan Pegawai BPS Kab. Kuningan
-        </td>
-    </tr>
-    <tr style="text-align: center; font-weight: 800; margin-bottom: 70px;">
-        <td colspan="7" style="text-align: center; font-weight: 800; margin-bottom: 70px;">
-            Tahun Buku {{ $years }}
-        </td>
-    </tr>
-    <tr style="text-align: center; font-weight: 800; margin-bottom: 70px;">
-        <td colspan="7" style="text-align: center; font-weight: 800; margin-bottom: 70px;">
-            (Dalam Rupiah)
-        </td>
-    </tr>
-    <br>
-    <br>
+    <div style="text-align: center; width: 100%; font-weight: 800; margin-bottom: 70px;">
+        Rekapitulasi Piutang Anggota <br />
+        Koperasi Kesejahteraan Pegawai BPS Kab. Kuningan <br />
+        Tahun Buku {{ $years }} <br />
+        (Dalam Rupiah)
+    </div>
 
     <table style="width: 100%">
         <tr>
