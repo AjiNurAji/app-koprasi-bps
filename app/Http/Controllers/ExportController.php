@@ -122,4 +122,14 @@ class ExportController extends Controller
 
         return Excel::download(new pinjamanExport($request->input('start_date'), $request->input('end_date')), 'pinjamananggota.xlsx', \Maatwebsite\Excel\Excel::XLSX);
     }
+
+    public function PinjamanCSV(Request $request)
+    {
+        $request->validate([
+            'start_date' => 'required',
+            'end_date' => 'required'
+        ]);
+
+        return Excel::download(new pinjamanExport($request->input('start_date'), $request->input('end_date')), 'pinjamananggota.xlsx', \Maatwebsite\Excel\Excel::CSV);
+    }
 }

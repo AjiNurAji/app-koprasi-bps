@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Member;
 use App\Models\AmbilSimpanan;
+use App\Models\BayarPinjaman;
 use App\Models\Kas;
+use App\Models\Pinjaman;
 use App\Models\Rekening;
 use App\Models\SimpananPokok;
 use App\Models\SimpananSukarela;
@@ -261,5 +263,86 @@ class PDFController extends Controller
         $pdf->setPaper('f4', 'potrait');
 
         return $pdf->download('kasrekening.pdf');
+    }
+
+    public function PinjamanPDF(Request $request)
+    {
+        $member = Member::all();
+
+        $start = $request->input("start_date");
+        $end = $request->input("end_date");
+
+        $years = date('Y', strtotime($request->input("end_date")));
+
+        $start_tahun_lalu = Carbon::createFromDate(date('Y', strtotime($start)) - 1)->startOfYear()->rawFormat("Y-m-d");
+        $end_tahun_lalu = Carbon::createFromDate(date('Y', strtotime($end)) - 1)->endOfYear()->rawFormat("Y-m-d");
+
+        foreach ($member as $key => $value) {
+            // pinjaman baru
+            $pinjaman = Pinjaman::whereBetween('tanggal_pinjam', [$start, $end])
+                ->where("id_member", $value->id_member)->get();
+
+            // bayar pinjaman
+            $bayarCicilan = BayarPinjaman::whereBetween('tanggal_bayar', [$start, $end])
+                ->where([
+                    ["id_member", $value->id_member],
+                    ["jenis", "cicilan"]
+                ])
+                ->get();
+
+            $bayarLangsung = BayarPinjaman::whereBetween('tanggal_bayar', [$start, $end])
+                ->where([
+                    ["id_member", $value->id_member],
+                    ["jenis", "langsung"]
+                ])
+                ->get();
+
+            // pinjaman tahun lalu
+            $pinjamanTahunLalu = Pinjaman::whereBetween('tanggal_pinjam', [
+                $start_tahun_lalu,
+                $end_tahun_lalu
+            ])->where("id_member", $value->id_member)->orderBy("created_at", "desc")
+                ->get()->first();
+
+            // bayar pinjaman tahun lalu
+            $bayarTahunLalu = BayarPinjaman::whereBetween('tanggal_bayar', [
+                $start_tahun_lalu,
+                $end_tahun_lalu
+            ])->where("id_member", $value->id_member)
+                ->orderBy("created_at", "desc")
+                ->get()->first();
+
+            $member[$key]->pinjaman = $pinjaman?->sum('nominal');
+            $member[$key]->bayar['cicilan'] = $bayarCicilan;
+            $member[$key]->bayar['langsung'] = $bayarLangsung;
+            $member[$key]->pinjaman_tahun_lalu = $pinjamanTahunLalu?->nominal;
+            $member[$key]->sisa = $bayarTahunLalu ? $bayarTahunLalu->sisa - (($bayarCicilan ? $bayarCicilan->sum('nominal') : 0) + ($bayarLangsung ? $bayarLangsung->sum('nominal') : 0)) : (
+                $pinjamanTahunLalu
+                ?
+                $pinjamanTahunLalu->sisa - (($bayarCicilan ? $bayarCicilan->sum('nominal') : 0) + ($bayarLangsung ? $bayarLangsung->sum('nominal') : 0))
+                :
+                $pinjaman->sum('nominal') - (($bayarCicilan ? $bayarCicilan->sum('nominal') : 0) + ($bayarLangsung ? $bayarLangsung->sum('nominal') : 0))
+            );
+        }
+
+        $pdf = PDF::loadView('Exports.PDF.Pinjaman.pinjamanAnggota',   [
+            "years" => $years,
+            "data" => $member,
+            "total" => [
+                "cicilan" => BayarPinjaman::whereBetween('tanggal_bayar', [$start, $end])
+                    ->where("jenis", "cicilan")
+                    ->get(),
+
+                "langsung" => BayarPinjaman::whereBetween('tanggal_bayar', [$start, $end])
+                    ->where("jenis", "langsung")
+                    ->get(),
+            ]
+        ]);
+
+        $pdf->setOption(['dpi' => 150]);
+
+        $pdf->setPaper('f4', 'potrait');
+
+        return $pdf->download('pinjamananggota.pdf');
     }
 }
