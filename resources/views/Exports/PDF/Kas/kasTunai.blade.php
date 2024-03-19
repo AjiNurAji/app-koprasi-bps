@@ -63,7 +63,7 @@
             <td style="border: 1px solid #000; padding: 2px 10px; word-wrap: break-word; text-align: left;">
             </td>
             <td style="border: 1px solid #000; padding: 2px 10px; word-wrap: break-word; text-align: right;">
-                {{ $data ? number_format($data->saldo_awal, 0, ',', '.') : '-' }}
+                {{ $data->saldo_awal ? number_format($data->saldo_awal, 0, ',', '.') : '-' }}
             </td>
         </tr>
 
@@ -86,11 +86,11 @@
             <td style="border: 1px solid #000; font-weight: bold; text-align: center; padding: 2px 10px;">
                 Jumlah</td>
             <td style="border: 1px solid #000; font-weight: bold; padding: 2px 10px; text-align: right;">
-                {{ $data ? number_format($data->total_masuk, 0, ',', '.') : '-' }}</td>
+                {{ $data->total_masuk ? number_format($data->total_masuk, 0, ',', '.') : '-' }}</td>
             <td style="border: 1px solid #000; font-weight: bold; padding: 2px 10px; text-align: right;">
-                {{ $data ? number_format($data->total_keluar, 0, ',', '.') : '-' }}</td>
+                {{ $data->total_keluar ? number_format($data->total_keluar, 0, ',', '.') : '-' }}</td>
             <td style="border: 1px solid #000; font-weight: bold; padding: 2px 10px; text-align: right;">
-                {{ $data ? number_format($data->jumlah, 0, ',', '.') : '-' }}</td>
+                {{ $data->jumlah ? number_format($data->jumlah, 0, ',', '.') : '-' }}</td>
         </tr>
     </table>
 @endsection
