@@ -8,7 +8,7 @@ const CreateTunai = ({ auth, bulan, saldo }) => {
         <Authenticated user={auth.user}>
             <Head title="Tambah Kas Rekning" />
             <a
-                href={route("kas_rekening")}
+                href={route("kas_tunai")}
                 className="bg-danger click_animation text-white py-2 px-3 rounded-md inline-block"
             >
                 <LuArrowLeft />

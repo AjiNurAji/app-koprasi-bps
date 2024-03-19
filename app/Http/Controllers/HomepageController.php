@@ -17,6 +17,7 @@ use App\Models\Rekening;
 use App\Models\SimpananSukarela;
 use App\Models\Transaksi;
 use App\Models\TrRekening;
+use App\Models\TrTunai;
 use App\Models\Tunai;
 use App\Models\User;
 use Carbon\Carbon;
@@ -346,22 +347,51 @@ class HomepageController extends Controller
             "Desember",
         ];
 
+        $start = Carbon::now()->startOfYear()->rawFormat("Y-m-d");
+        $end = Carbon::now()->endOfYear()->rawFormat("Y-m-d");
+
         $kas = Kas::where("tahun", date("Y"))
             ->where("name", "tunai")
             ->first();
 
-        $saldoTunai = Tunai::where("tahun", date("Y"))
+        $tunai = Tunai::where("tahun", date("Y"))
             ->orderBy("tanggal_transaksi", "desc")
-            ->first();
+            ->get();
 
-        $tunai = Tunai::where("tahun", date("Y"))->get();
+        foreach ($tunai as $key => $value) {
+            $tunai[$key]->masuk = TrTunai::whereBetWeen("tanggal_transaksi", [$start, $end])
+            ->where([
+                ["id_tunai", $value->id],
+                ["type", "masuk"]
+            ])->get()->sum("nominal");
+            
+            $tunai[$key]->keluar = TrTunai::whereBetWeen("tanggal_transaksi", [$start, $end])
+            ->where([
+                ["id_tunai", $value->id],
+                ["type", "keluar"]
+            ])->get()->sum("nominal");
+        }
+
+        $trTunai = TrTunai::whereBetWeen("tanggal_transaksi", [$start, $end])
+        ->orderBy("tanggal_transaksi", "desc")
+        ->first();
+
+        $tunaiMasuk = TrTunai::whereBetWeen("tanggal_transaksi", [$start, $end])
+            ->where([
+                ["type", "masuk"]
+            ])->get();
+
+        $tunaiKeluar = TrTunai::whereBetWeen("tanggal_transaksi", [$start, $end])
+            ->where([
+                ["type", "keluar"]
+            ])->get();
 
         if ($kas) {
-            $kas->saldo = $saldoTunai ? $saldoTunai->saldo : $kas->saldo_awal;
+            $kas->saldo = $trTunai ? $trTunai->saldo : $kas->saldo_awal;
 
-            $kas->total_masuk = $tunai->sum("masuk");
-            $kas->total_keluar = $tunai->sum("keluar");
-            $kas->jumlah = $saldoTunai ? $saldoTunai->saldo : null;
+            $kas->total_masuk = $tunaiMasuk->sum("nominal");
+            $kas->total_keluar = $tunaiKeluar->sum("nominal");
+            $kas->jumlah = $trTunai ? $trTunai->saldo : null;
         }
 
 

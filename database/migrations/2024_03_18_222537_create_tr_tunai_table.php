@@ -11,8 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('tr_tunai', function (Blueprint $table) {
-            $table->id();
+        Schema::create("tr_tunai", function (Blueprint $table) {
+            $table->uuid("id_tr_tunai")->primary();
+            $table->char("id_tunai");
+            $table->foreign("id_tunai")->references("id")->on("tunai")->onDelete("cascade")->onUpdate("cascade");
+            $table->date("tanggal_transaksi");
+            $table->integer("nominal", false);
+            $table->enum("type", ["masuk", "keluar"]);
+            $table->integer("saldo", false)->nullable();
             $table->timestamps();
         });
     }
@@ -22,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('tr_tunai');
+        Schema::dropIfExists("tr_tunai");
     }
 };

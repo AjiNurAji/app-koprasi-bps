@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import ButtonLoading from "../ButtonLoading";
 import { useForm } from "@inertiajs/react";
 import { router } from "@inertiajs/react";
@@ -15,6 +15,7 @@ const FormKasTunai = ({ bulan, saldo }) => {
         saldo_awal: saldo?.saldo_awal,
         tahun: date.getFullYear(),
         keluar: null,
+        type: "",
     });
 
     const submit = async (e) => {
@@ -44,6 +45,13 @@ const FormKasTunai = ({ bulan, saldo }) => {
             [n]: v === undefined ? v : Number(v),
         });
     };
+
+    useEffect(() => {
+        setData({
+            ...data,
+            type: type,
+        });
+    }, [type]);
 
     return (
         <form

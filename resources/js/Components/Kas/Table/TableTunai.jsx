@@ -14,9 +14,9 @@ import SearchTable from "@/Components/Table/SearchTable";
 import ButtonTambahData from "@/Components/ButtonTambahData";
 
 const TableTunai = ({ data, bulan, saldo, user }) => {
+    console.table(data)
     const [datas] = useState([...data]);
     const [globalFilter, setGlobalFilter] = useState("");
-    const [popup, setPopup] = useState(false);
 
     const table = useReactTable({
         data: datas,

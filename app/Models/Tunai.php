@@ -20,10 +20,7 @@ class Tunai extends Model
         'id_kas',
         'bulan',
         'tahun',
-        'masuk',
-        'keluar',
         'tanggal_transaksi',
-        'saldo'
     ];
 
     public function kas()
