@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\historyExport;
 use App\Exports\kasRekeningExport;
 use App\Exports\kasTunaiExport;
 use App\Exports\pinjamanExport;
@@ -131,5 +132,25 @@ class ExportController extends Controller
         ]);
 
         return Excel::download(new pinjamanExport($request->input('start_date'), $request->input('end_date')), 'pinjamananggota.xlsx', \Maatwebsite\Excel\Excel::CSV);
+    }
+
+    public function History(Request $request)
+    {
+        $request->validate([
+            'start_date' => 'required',
+            'end_date' => 'required'
+        ]);
+
+        return Excel::download(new historyExport($request->input('start_date'), $request->input('end_date')), 'Historyanggota.xlsx', \Maatwebsite\Excel\Excel::XLSX);
+    }
+
+    public function HistoryCSV(Request $request)
+    {
+        $request->validate([
+            'start_date' => 'required',
+            'end_date' => 'required'
+        ]);
+
+        return Excel::download(new historyExport($request->input('start_date'), $request->input('end_date')), 'pinjamananggota.xlsx', \Maatwebsite\Excel\Excel::CSV);
     }
 }

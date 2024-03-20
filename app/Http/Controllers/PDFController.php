@@ -11,6 +11,7 @@ use App\Models\Rekening;
 use App\Models\SimpananPokok;
 use App\Models\SimpananSukarela;
 use App\Models\SimpananWajib;
+use App\Models\Transaksi;
 use App\Models\TrRekening;
 use App\Models\TrTunai;
 use App\Models\Tunai;
@@ -368,6 +369,30 @@ class PDFController extends Controller
                     ->where("jenis", "langsung")
                     ->get(),
             ]
+        ]);
+
+        $pdf->setOption(['dpi' => 150]);
+
+        $pdf->setPaper('f4', 'potrait');
+
+        return $pdf->download('pinjamananggota.pdf');
+    }
+    public function HistoryPDF(Request $request)
+    {
+        $start = $request->input("start_date");
+        $end = $request->input("end_date");
+
+        $years = date("Y", strtotime($end));
+
+        $history = Transaksi::whereBetween("tanggal_transaksi", [$start, $end])->orderBy("updated_at", "desc")->get();
+
+        foreach ($history as $key => $data) {
+            $history[$key]->tanggal = Carbon::createFromTimestamp(strtotime($data->tanggal_transaksi))->locale('in_ID')->isoFormat("LL");
+        }
+
+        $pdf = PDF::loadView('Exports.PDF.History.history',   [
+            "years" => $years,
+            "data" => $history,
         ]);
 
         $pdf->setOption(['dpi' => 150]);

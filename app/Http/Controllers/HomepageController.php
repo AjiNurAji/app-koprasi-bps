@@ -287,20 +287,9 @@ class HomepageController extends Controller
     // halaman history
     public function history()
     {
-        $history = Transaksi::where("tahun", date("Y"))->orderBy("updated_at", "desc")->get();
+        $history = Transaksi::whereBetween("tanggal_transaksi", [Carbon::now()->startOfYear()->rawFormat("Y-m-d"), Carbon::now()->endOfYear()->rawFormat("Y-m-d")])->orderBy("updated_at", "desc")->get();
 
-        foreach ($history as $data) {
-            $datas[] = [
-                "name" => $data->member->name,
-                "nominal" => $data->nominal === null ? null : $data->nominal,
-                "nominal_keluar" => $data->nominal_keluar === null ? null : $data->nominal_keluar,
-                "type" => $data->type === null ? null : $data->type,
-                "nama_transaksi" => $data->nama_transaksi === null ? null : $data->nama_transaksi,
-                "waktu" => $data->updated_at === null ? null : $data->updated_at,
-            ];
-        }
-
-        return Inertia::render("admin/History", ["data" => isset($datas) ? $datas : $history]);
+        return Inertia::render("admin/History", ["data" => $history]);
     }
 
     // halaman jumlah admin

@@ -455,7 +455,7 @@ const Sidebar = ({ pathname, sidebarOpen, setSidebarOpen, user }) => {
                                             width={18}
                                             height={18}
                                         />
-                                        History
+                                        Riwayat Transaksi
                                     </a>
                                 </li>
                             </ul>

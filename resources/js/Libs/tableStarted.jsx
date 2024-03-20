@@ -616,7 +616,7 @@ export const HistoryOptionTable = [
         header: "Jenis Transaksi",
     }),
 
-    columnHelper.accessor("waktu", {
+    columnHelper.accessor("tanggal_transaksi", {
         id: "tanggal",
         cell: (data) => (
             <span className="font-medium text-black dark:text-white">
@@ -626,23 +626,6 @@ export const HistoryOptionTable = [
             </span>
         ),
         header: "Tanggal Transaksi",
-        enableSorting: false,
-        enableGlobalFilter: false,
-    }),
-
-    columnHelper.accessor("waktu", {
-        id: "waktu",
-        cell: (data) => (
-            <span className="font-medium text-black dark:text-white">
-                {new Date(data.getValue()).toLocaleTimeString("en-ID", {
-                    hour: "2-digit",
-                    minute: "2-digit",
-                    second: "2-digit",
-                    hourCycle: "h24",
-                })}
-            </span>
-        ),
-        header: "Waktu Transaksi",
         enableSorting: false,
         enableGlobalFilter: false,
     }),

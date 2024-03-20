@@ -8,6 +8,7 @@ use App\Http\Controllers\PiutangController;
 use App\Http\Controllers\SimpananController;
 use App\Http\Controllers\UploadController;
 use App\Http\Controllers\UserController;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -58,6 +59,10 @@ Route::middleware(['auth:admin,member'])->group(function () {
 
     // jasa piutang
     Route::get('/jasa-anggota', [HomepageController::class, 'jasaPiutang'])->name('jasa_piutang');
+});
+
+Route::get("/time", function () {
+    return Carbon::createFromTimestamp(strtotime("2022-03-09"))->locale('in_ID')->isoFormat("LL");
 });
 
 Route::middleware(['auth:admin'])->group(function () {
