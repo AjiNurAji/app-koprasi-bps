@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('bulan', 12);
             $table->integer('tahun', false);
             $table->date("tanggal_transaksi");
+            $table->timestamps();
         });
     }
 

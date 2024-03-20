@@ -55,14 +55,30 @@ const FormKasTunai = ({ bulan, saldo }) => {
 
     return (
         <form
-            className="flex flex-col gap-4"
+            className="flex  flex-col gap-4"
             onSubmit={submit}
             autoComplete="off"
         >
+            {type !== "" && (
+                <div className="flex w-full justify-end items-center">
+                    <div
+                        className="click_animation w-max cursor-pointer rounded-md border border-warning bg-warning py-1 px-3 text-white transition hover:bg-opacity-90"
+                        onClick={() => {
+                            setType("");
+                            setData({
+                                masuk: null,
+                                keluar: null,
+                            });
+                        }}
+                    >
+                        Batal
+                    </div>
+                </div>
+            )}
             <div className="w-full">
                 <label
                     htmlFor="bulan"
-                    className="mb-2.5 font-medium text-black dark:text-white"
+                    className="mb-2.5 inline-block font-medium text-black dark:text-white"
                 >
                     Bulan
                 </label>
@@ -120,7 +136,7 @@ const FormKasTunai = ({ bulan, saldo }) => {
                 <div className="w-full">
                     <label
                         htmlFor="masuk"
-                        className="mb-2.5 font-medium text-black dark:text-white"
+                        className="mb-2.5 inline-block font-medium text-black dark:text-white"
                     >
                         Masuk
                     </label>
@@ -147,7 +163,7 @@ const FormKasTunai = ({ bulan, saldo }) => {
                 <div className="w-full">
                     <label
                         htmlFor="keluar"
-                        className="mb-2.5 font-medium text-black dark:text-white"
+                        className="mb-2.5 inline-block font-medium text-black dark:text-white"
                     >
                         Keluar
                     </label>

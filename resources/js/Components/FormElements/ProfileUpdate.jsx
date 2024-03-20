@@ -1,8 +1,8 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import ButtonLoading from "../ButtonLoading";
 import { PiEyeLight, PiEyeSlash } from "react-icons/pi";
-import { GrClearOption } from "react-icons/gr";
-import { useForm } from "@inertiajs/react";
+import { useForm, router } from "@inertiajs/react";
+import { toast } from "react-hot-toast";
 import FileInput from "./FileInput";
 import PostData from "@/Libs/postData";
 
@@ -34,20 +34,27 @@ const ProfileUpdate = ({ user }) => {
             name: user.name,
             nip: user.NIP,
             no_hp: user.no_hp,
-            username: user.usermame,
+            username: user.username,
         });
     }, [user]);
 
-    console.log(data);
-
     const submit = async (e) => {
         e.preventDefault();
+        setProcess(true);
         const response = await PostData(
-            route("post_file"),
+            route("update_profile"),
             data,
             "multipart/form-data"
         );
+
+        if (response) {
+            setProcess(false);
+            router.get("profile");
+        }
+        setProcess(false);
     };
+
+    console.table(user)
 
     return (
         <form
@@ -85,15 +92,9 @@ const ProfileUpdate = ({ user }) => {
                     >
                         NIP
                     </label>
-                    <input
-                        type="text"
-                        name="nip"
-                        id="nip"
-                        value={data.nip}
-                        onChange={(e) => setValue(e)}
-                        placeholder="Masukkan NIP anggota"
-                        className="w-full rounded-md border text-dark dark:text-white border-stroke bg-transparent py-2 pl-4 pr-6 transition-all duration-300 ease-in-out outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
-                    />
+                    <span className="bg-transparent capitalize dark:bg-transparent block text-start px-1">
+                        {data.nip ? data.nip : "-"}
+                    </span>
                 </div>
             )}
             <div className="w-full">
@@ -146,8 +147,8 @@ const ProfileUpdate = ({ user }) => {
 
             <div className="w-full">
                 <h5 className="capitalize text-danger text-xs">
-                    * kosongkan old password, new password & confirm password jika tidak ingin
-                    diganti!
+                    * kosongkan old password, new password & confirm password
+                    jika tidak ingin diganti!
                 </h5>
                 <label
                     htmlFor="old_password"
@@ -235,6 +236,14 @@ const ProfileUpdate = ({ user }) => {
                             Confirm password tidak sama!
                         </span>
                     )}
+                <div className="w-full mt-3 text-end">
+                    <a
+                        href="/forgot_password"
+                        className="underline text-black text-sm dark:text-white"
+                    >
+                        Forgot Password?
+                    </a>
+                </div>
             </div>
             <div className="w-full flex justify-end items-center">
                 {processing ? (

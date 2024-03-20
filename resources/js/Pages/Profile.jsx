@@ -13,11 +13,15 @@ const Profile = ({ auth, data }) => {
                 <div className="overflow-hidden rounded-md border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
                     <div className="relative z-20 h-25 md:h-45 bg-primary dark:bg-black rounded-md"></div>
                     <div className="px-4 text-center">
-                        <div className="relative z-30 mx-auto -mt-22 h-20 w-full max-w-20 rounded-full bg-white dark:bg-boxdark p-1 sm:h-44 sm:max-w-44 sm:p-3">
-                            <div className="relative drop-shadow-2">
+                        <div className="relative z-30 overflow-hidden mx-auto -mt-22 h-20 w-full max-w-20 rounded-full bg-white dark:bg-boxdark p-1 sm:h-44 sm:max-w-44 sm:p-3">
+                            <div className="relative drop-shadow-2 rounded-full w-full h-full overflow-hidden">
                                 <img
-                                    src={data.image ? data.image : UserOne}
-                                    className="w-full h-full"
+                                    src={
+                                        data.image
+                                            ? "storage/" + data.image
+                                            : UserOne
+                                    }
+                                    className="object-cover"
                                     alt={data.name}
                                 />
                             </div>

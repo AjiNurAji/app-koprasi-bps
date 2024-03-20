@@ -122,14 +122,16 @@ class HomepageController extends Controller
             ->where("name", "rekening")
             ->first();
 
-        $saldoTunai = Tunai::where("tahun", date("Y"))
-            ->orderBy("created_at", "desc")
+        $saldoTunai = TrTunai::whereBetween("tanggal_transaksi", [Carbon::now()->startOfYear()->rawFormat("Y-m-d"), Carbon::now()->endOfYear()->rawFormat("Y-m-d")])
+            ->orderBy("tanggal_transaksi", "desc")
             ->first();
+        
+        // dd($saldoTunai);
 
         $saldoRekening = TrRekening::orderBy("created_at", "desc")->first();
 
-        $totalKasTunai = ($saldoTunai ? $saldoTunai->saldo : $kasTunai) ? $kasTunai->saldo_awal : null;
-        $totalKasRekening = ($saldoRekening ? $saldoRekening->saldo : $kasRekening) ? $kasRekening->saldo_awal : null;
+        $totalKasTunai = $saldoTunai ? $saldoTunai->saldo : ($kasTunai ? $kasTunai->saldo_awal : null);
+        $totalKasRekening = $saldoRekening ? $saldoRekening->saldo : ($kasRekening ? $kasRekening->saldo_awal : null);
 
         return Inertia::render("Dashboard", [
             "chart" => [
@@ -354,8 +356,8 @@ class HomepageController extends Controller
             ->where("name", "tunai")
             ->first();
 
-        $tunai = Tunai::where("tahun", date("Y"))
-            ->orderBy("tanggal_transaksi", "desc")
+        $tunai = Tunai::whereBetWeen("tanggal_transaksi", [$start, $end])
+            ->orderBy("tanggal_transaksi", "asc")
             ->get();
 
         foreach ($tunai as $key => $value) {

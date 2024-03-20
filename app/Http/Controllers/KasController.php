@@ -68,6 +68,29 @@ class KasController extends Controller
                 $saldo = TrTunai::whereBetWeen("tanggal_transaksi", [$start, $end])
                     ->orderBy("tanggal_transaksi", "desc")->get()->first();
 
+                if (($saldo->saldo + $request->input("masuk")) < $request->input("keluar")) return response()->json(["message" => "Mohon maaf saldo kurang!"], 500);
+
+                if (!$tunaiCheck) {
+                    $newId = Tunai::create([
+                        "id" => Str::uuid(),
+                        "id_kas" => $id_kas->id,
+                        "bulan" => $request->input("bulan"),
+                        "tahun" => $request->input("tahun"),
+                        "tanggal_transaksi" => $request->input("date"),
+                    ]);
+
+                    TrTunai::create([
+                        "id_tr_tunai" => Str::uuid(),
+                        "id_tunai" => $newId->id,
+                        "nominal" => $request->input("masuk") ? $request->input("masuk") : $request->input("keluar"),
+                        "tanggal_transaksi" => $request->input("date"),
+                        "saldo" => $saldo ? ($saldo->saldo + $request->input("masuk")) - $request->input("keluar") : ($request->input("saldo_awal") + $request->input("masuk")) - $request->input("keluar"),
+                        "type" => $request->input("type"),
+                    ]);
+
+                    return response()->json(["message" => "Berhasil menambahkan data bulan " . $request->input("bulan")], 200);
+                }
+
                 $trMasuk = TrTunai::where([
                     ["id_tunai", $tunaiCheck->id],
                     ["type", "masuk"]
@@ -78,17 +101,7 @@ class KasController extends Controller
                     ["type", "keluar"]
                 ])->get()->first();
 
-                if ($tunaiCheck && $trMasuk && $trKeluar) return response()->json(["message" => "Data bulan " . $request->input("bulan") . " sudah terisi!"]);
-
-                if (!$tunaiCheck) {
-                    Tunai::create([
-                        "id" => Str::uuid(),
-                        "id_kas" => $id_kas->id,
-                        "bulan" => $request->input("bulan"),
-                        "tahun" => $request->input("tahun"),
-                        "tanggal_transaksi" => $request->input("date"),
-                    ]);
-                }
+                if ($tunaiCheck && $trMasuk && $trKeluar) return response()->json(["message" => "Data bulan " . $request->input("bulan") . " sudah terisi!"], 500);
 
                 TrTunai::create([
                     "id_tr_tunai" => Str::uuid(),

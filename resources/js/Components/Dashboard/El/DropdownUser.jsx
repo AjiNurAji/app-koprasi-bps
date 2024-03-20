@@ -74,8 +74,13 @@ const DropdownUser = ({ user }) => {
                     </span>
                 </span>
 
-                <span className="h-12 w-12 rounded-full">
-                    <img src={user.image ? user.image : UserOne} alt={user.username} />
+                <span className="h-12 w-12 rounded-full overflow-hidden">
+                    <img
+                        src={user.image ? "storage/" + user.image : UserOne}
+                        alt={user.username}
+                        className="object-cover"
+                        loading="lazy"
+                    />
                 </span>
 
                 <svg
@@ -109,7 +114,7 @@ const DropdownUser = ({ user }) => {
                 <ul className="flex flex-col gap-5 border-b border-stroke px-6 py-7.5 dark:border-strokedark">
                     <li>
                         <a
-                            href={route('profile')}
+                            href={route("profile")}
                             className="flex items-center gap-3.5 text-sm font-medium duration-300 ease-in-out hover:text-primary dark:hover:text-white lg:text-base"
                         >
                             <CgProfile className="w-6 h-6" />
