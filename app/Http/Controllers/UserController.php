@@ -83,13 +83,13 @@ class UserController extends Controller
                 $file = $request->file("image");
                 $fileName = time() . "-" . $user->username . "." . $file->getClientOriginalExtension();
 
-                $request->file("image")->storeAs("public/user_profile", $fileName);
+                $path = $request->file("image")->storeAs("/user_profile", $fileName);
                 
-                $pathDb = "user_profile/" . $fileName;
+                // $pathDb = "user_profile/" . $fileName;
                 if ($getUser->image) Storage::delete($getUser->image);
 
                 $getUser->update([
-                    "image" => $pathDb,
+                    "image" => $path,
                 ]);
             };
 

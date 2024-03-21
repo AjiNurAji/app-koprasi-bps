@@ -78,7 +78,7 @@ const DropdownUser = ({ user }) => {
                     <img
                         src={user.image ? "storage/" + user.image : UserOne}
                         alt={user.username}
-                        className="object-cover"
+                        className="w-full h-full object-cover"
                         loading="lazy"
                     />
                 </span>

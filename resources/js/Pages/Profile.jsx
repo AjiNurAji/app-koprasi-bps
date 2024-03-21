@@ -21,8 +21,9 @@ const Profile = ({ auth, data }) => {
                                             ? "storage/" + data.image
                                             : UserOne
                                     }
-                                    className="object-cover"
+                                    className="object-cover w-full h-full"
                                     alt={data.name}
+                                    loading="lazy"
                                 />
                             </div>
                         </div>
