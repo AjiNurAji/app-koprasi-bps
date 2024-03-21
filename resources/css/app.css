@@ -80,6 +80,9 @@ button:active {
     overflow-y: hidden;
 }
 
+img {
+    height: 100%;
+}
 
 img[alt="Muhamad Yusuf Aradabila"],
 img[alt="Aji Nur Aji"] {

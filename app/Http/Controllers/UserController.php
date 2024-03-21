@@ -67,7 +67,10 @@ class UserController extends Controller
 
         $user = $this->getUserLogin();
 
-        // dd($request->file("image")->storeAs("/user_profile", $fileName));
+        // $file = $request->file("image");
+        // $fileName = time() . "-" . $user->username . "." . $file->getClientOriginalExtension();
+
+        // dd($request->file("image")->storeAs("public/user_profile", $fileName));
         if ($user->role) {
             $getUser = User::where('id', $user->id)->first();
             $getUser->update([
@@ -80,11 +83,13 @@ class UserController extends Controller
                 $file = $request->file("image");
                 $fileName = time() . "-" . $user->username . "." . $file->getClientOriginalExtension();
 
-                $path = $request->file("image")->storeAs("/user_profile", $fileName);
+                $request->file("image")->storeAs("public/user_profile", $fileName);
+                
+                $pathDb = "user_profile/" . $fileName;
                 if ($getUser->image) Storage::delete($getUser->image);
 
                 $getUser->update([
-                    "image" => $path,
+                    "image" => $pathDb,
                 ]);
             };
 
