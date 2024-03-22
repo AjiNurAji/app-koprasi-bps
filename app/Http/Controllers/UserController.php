@@ -84,8 +84,6 @@ class UserController extends Controller
                 $fileName = time() . "-" . $user->username . "." . $file->getClientOriginalExtension();
 
                 $path = $request->file("image")->storeAs("/user_profile", $fileName);
-                
-                // $pathDb = "user_profile/" . $fileName;
                 if ($getUser->image) Storage::delete($getUser->image);
 
                 $getUser->update([
