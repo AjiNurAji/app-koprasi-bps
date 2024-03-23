@@ -54,8 +54,6 @@ const ProfileUpdate = ({ user }) => {
         setProcess(false);
     };
 
-    console.table(user)
-
     return (
         <form
             className="flex flex-col gap-4 w-full mt-4 px-5 pb-5"

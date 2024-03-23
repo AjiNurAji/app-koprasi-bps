@@ -2,62 +2,36 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\AdArt;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
-use App\Upload;
+use Illuminate\Support\Str;
 
 class UploadController extends Controller
 {
-
-    public function index(Request $request)
+    public function adArt(Request $request)
     {
-        dd($request->file('image'));
-    }
+        $request->validate([
+            "file" => "file|required"
+        ]);
 
-    public function upload(Request $request)
-    {
+        // dd($request->file("file"));
+        $file = $request->file("file");
+        $originalFilename = $file->getClientOriginalName();
+        $filename = time() . "-" . date("Y") . "." . $file->getClientOriginalExtension();
+
+        // upload
         try {
-        // $path = $request->file('image')->store('photo');
-        // $path = Storage::putFile('public', $request->file('image'));
-        // $path = $request->file('image')->storeAs('public', 'gambar');
-        $file = $request->file('image');
-        $name = time();
-        $extension = $file->getClientOriginalExtension();
-        $newName = $name . '.' . $extension;
-    
-        // $path = $request->file('image')->storeAs('public', #newName);
-        $size = $file->getClientSize();
-        Storage::putFileAs('storage/file', $request->file('image'), $newName);
+            $path = $request->file("file")->storeAs("/ad_art", $filename);
 
-        $data = [
-            'path' => 'storage/' . $newName,
-            'size' => $size
-        ];
+            AdArt::create([
+                "id_ad_art" => Str::uuid(),
+                "path" => $path,
+                "filename" => $originalFilename,
+            ]);
 
-        Upload::create($data);
-        
-            return Upload::create($data);
-        } catch (\Exception $e) {
-            return $e->getMessage();
+            return response()->json(["message" => "Berhasil menambahkan file"], 200);
+        } catch (\Throwable $th) {
+            return response()->json(["message" => "Gagal menambahkan file!"], 500);
         }
-    
-        //dd($path);
     }
-
-
-    public function list()
-    {
-        // $files = Storage::allFiles('public');
-        // $directories = $Storage::allDirectories('');
-        // $directory = Storage::makeDirectory('image/gif');
-        $directory = Storage::deleteDirectory('image/gif');
-        dd($directory);
-    }
-    
-    public function show()
-    {
-        // $path = Storage::url('');
-        // return '<img src=>' . asset('/storage/jijij.jpg')  '" alt="">';
-    }
-    
 }

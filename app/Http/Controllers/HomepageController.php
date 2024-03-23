@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\AdArt;
 use App\Models\AmbilSimpanan;
 use App\Models\BayarPinjaman;
 use App\Models\Kas;
@@ -125,7 +126,7 @@ class HomepageController extends Controller
         $saldoTunai = TrTunai::whereBetween("tanggal_transaksi", [Carbon::now()->startOfYear()->rawFormat("Y-m-d"), Carbon::now()->endOfYear()->rawFormat("Y-m-d")])
             ->orderBy("tanggal_transaksi", "desc")
             ->first();
-        
+
         // dd($saldoTunai);
 
         $saldoRekening = TrRekening::orderBy("created_at", "desc")->first();
@@ -351,21 +352,21 @@ class HomepageController extends Controller
 
         foreach ($tunai as $key => $value) {
             $tunai[$key]->masuk = TrTunai::whereBetWeen("tanggal_transaksi", [$start, $end])
-            ->where([
-                ["id_tunai", $value->id],
-                ["type", "masuk"]
-            ])->get()->sum("nominal");
-            
+                ->where([
+                    ["id_tunai", $value->id],
+                    ["type", "masuk"]
+                ])->get()->sum("nominal");
+
             $tunai[$key]->keluar = TrTunai::whereBetWeen("tanggal_transaksi", [$start, $end])
-            ->where([
-                ["id_tunai", $value->id],
-                ["type", "keluar"]
-            ])->get()->sum("nominal");
+                ->where([
+                    ["id_tunai", $value->id],
+                    ["type", "keluar"]
+                ])->get()->sum("nominal");
         }
 
         $trTunai = TrTunai::whereBetWeen("tanggal_transaksi", [$start, $end])
-        ->orderBy("tanggal_transaksi", "desc")
-        ->first();
+            ->orderBy("tanggal_transaksi", "desc")
+            ->first();
 
         $tunaiMasuk = TrTunai::whereBetWeen("tanggal_transaksi", [$start, $end])
             ->where([
@@ -739,6 +740,8 @@ class HomepageController extends Controller
     // halaman ad-art
     public function adART()
     {
-        return Inertia::render("AdART");
+        $file = AdArt::orderBy("created_at", "desc")->get()->first();
+
+        return Inertia::render("AdART", ["file" => $file]);
     }
 }

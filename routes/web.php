@@ -8,8 +8,8 @@ use App\Http\Controllers\PiutangController;
 use App\Http\Controllers\SimpananController;
 use App\Http\Controllers\UploadController;
 use App\Http\Controllers\UserController;
-use Carbon\Carbon;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 
 /*
@@ -38,7 +38,7 @@ Route::middleware(['auth:admin,member'])->group(function () {
     // update
     Route::get('/profile', [UserController::class, 'index'])->name('profile');
     Route::post('/profile/update', [UserController::class, 'updateProfile'])->name('update_profile');
-    
+
     // kas
     Route::get('/kas/{param}/saldo_awal', [HomepageController::class, 'setSaldoAwal'])->name('set_saldo_awal_page');
     Route::post('/kas/saldo_awal', [KasController::class, 'setSaldoAwal'])->name('set_saldo_awal');
@@ -53,16 +53,15 @@ Route::middleware(['auth:admin,member'])->group(function () {
 
     // ad-art
     Route::get('/ad-art', [HomepageController::class, 'adART'])->name('ad-art');
+    Route::get('/pdfjs/web/storage/ad_art/{filename}', function (string $filename) {
+        return Storage::disk("public")->get("ad_art/" . $filename);
+    });
 
     // transaksi
     Route::get('/pinjaman-anggota/transaction', [HomepageController::class, 'pinjamanTransaction'])->name('pinjaman_transaksi');
 
     // jasa piutang
     Route::get('/jasa-anggota', [HomepageController::class, 'jasaPiutang'])->name('jasa_piutang');
-});
-
-Route::get("/time", function () {
-    return Carbon::createFromTimestamp(strtotime("2022-03-09"))->locale('in_ID')->isoFormat("LL");
 });
 
 Route::middleware(['auth:admin'])->group(function () {
@@ -75,15 +74,15 @@ Route::middleware(['auth:admin'])->group(function () {
     Route::get('/members', [MemberController::class, 'index'])->name('members');
     Route::get('/members/create', [MemberController::class, 'create'])->name('create_member_page');
     Route::post('/members/create', [MemberController::class, 'store'])->name('create_member');
-    
+
     // delete anggota
     Route::delete('/members/{id}', [MemberController::class, 'softDeletes'])->name('delete_member');
     Route::delete('/members/deleted/{id}', [MemberController::class, 'permanentDeletes'])->name('delete_permanen_member');
-    
+
     //edit anggota
     Route::get('/members/{id}', [MemberController::class, 'editData'])->name('edit_member');
     Route::post('/members', [MemberController::class, 'updatedata'])->name('update_member');
-    
+
     // history
     Route::get('/history', [HomepageController::class, 'history'])->name('history');
 
@@ -93,7 +92,7 @@ Route::middleware(['auth:admin'])->group(function () {
     Route::post('/simpanan/pokok', [SimpananController::class, 'getDataSimpananPokok'])->name('simpanan_pokok');
     Route::get('/simpanan/pokok/transaction', [HomepageController::class, 'pokokTransaksi'])->name('transaksi_pokok');
     Route::post('/simpanan/pokok/create', [SimpananController::class, 'simpananPokok'])->name('simpanan_pokok_create');
-    
+
     // wajib
     Route::get('/simpanan/wajib', [HomepageController::class, 'simpananWajib'])->name('simpanan_wajib');
     Route::post('/simpanan/wajib', [SimpananController::class, 'getDataSimpananWajib'])->name('simpanan_wajib');
@@ -107,12 +106,12 @@ Route::middleware(['auth:admin'])->group(function () {
     Route::post('/simpanan/sukarela/ambil', [SimpananController::class, 'ambilSimpananSukarela'])->name('ambil_simpanan_sukarela');
     Route::get('/simpanan/sukarela/transaction', [HomepageController::class, 'sukarelaTransaksi'])->name('sukarela_transaction');
     Route::post('/simpanan/sukarela/create', [SimpananController::class, 'simpananSukarela'])->name('simpanan_sukarela_create');
-    
+
 
     // edit dan update password
-    Route::get('/member/change-password','MemberController@change-password')->name('change-password');
-    Route::post('/member/update-password','MemberController@update-password')->name('update_password');
-  
+    Route::get('/member/change-password', 'MemberController@change-password')->name('change-password');
+    Route::post('/member/update-password', 'MemberController@update-password')->name('update_password');
+
     //upload file
     Route::post('/upload-file', [UploadController::class, 'index'])->name('post_file');
 
@@ -135,7 +134,10 @@ Route::middleware(['auth:admin'])->group(function () {
 
     // view pinjaman
     Route::get('/pinjaman-anggota/{id}', [HomepageController::class, 'viewPinjaman'])->name('view_pinjaman_anggota');
+
+    // post ad-art
+    Route::post('/ad-art/set', [UploadController::class, 'adART'])->name('ad_art_set');
 });
 
 require __DIR__ . '/auth.php';
-require __DIR__.'/file.php';
+require __DIR__ . '/file.php';
