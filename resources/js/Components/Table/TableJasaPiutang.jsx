@@ -7,12 +7,9 @@ import {
     getFilteredRowModel,
     flexRender,
 } from "@tanstack/react-table";
-import CreatePopup from "../Popup/CreatePopup";
-import { FiUserPlus } from "react-icons/fi";
 import PaginationTable from "./PaginationTable";
 import { columnJasaPiutang } from "@/Libs/tableStarted";
 import { HiArrowsUpDown } from "react-icons/hi2";
-import FormJasaAnggota from "../FormElements/FromJasaAnggota";
 import ButtonTambahData from "../ButtonTambahData";
 
 const TableJasaPiutang = ({ data }) => {

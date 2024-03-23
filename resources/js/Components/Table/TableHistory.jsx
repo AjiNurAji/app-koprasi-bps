@@ -33,14 +33,6 @@ const TableHistory = ({ data }) => {
         <div className="rounded-md border border-stroke bg-white px-5 pt-6 pb-2.5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
             {/* head component */}
             <div className="flex items-start flex-row-reverse md:items-center justify-between mb-3.5">
-                {/* <DownloadDropdown
-                    pdf="History Transaksi.pdf"
-                    csv="History Transaksi.csv"
-                    excel="History Transaksi.xlsx"
-                    routepdf={route("history_pdf")}
-                    routecsv={route("history_csv")}
-                    routeexcel={route("history_excel")}
-                /> */}
                 <div className="flex flex-col-reverse md:flex-row items-end md:items-center justify-end gap-3">
                     <SearchTable
                         setGlobalFilter={setGlobalFilter}

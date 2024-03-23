@@ -13,7 +13,6 @@ import SearchTable from "./SearchTable";
 
 const TableSimpananSukarela = ({ data, total }) => {
     const [datas] = useState([...data]);
-    console.log(datas);
     const [globalFilter, setGlobalFilter] = useState("");
 
     const table = useReactTable({

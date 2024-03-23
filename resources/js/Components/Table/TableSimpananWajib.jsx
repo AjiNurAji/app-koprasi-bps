@@ -10,7 +10,6 @@ import { useState } from "react";
 import PaginationTable from "./PaginationTable";
 import { FaMoneyBillTransfer } from "react-icons/fa6";
 import SearchTable from "./SearchTable";
-import DownloadDropdown from "../DownloadDrodown";
 
 const TableSimpananWajib = ({ data, total }) => {
     const [datas] = useState([...data]);

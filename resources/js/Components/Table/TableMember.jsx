@@ -9,12 +9,8 @@ import {
 } from "@tanstack/react-table";
 import { useState } from "react";
 import PaginationTable from "./PaginationTable";
-import { FiUserPlus } from "react-icons/fi";
 import { HiArrowsUpDown } from "react-icons/hi2";
 import SearchTable from "./SearchTable";
-import CreatePopup from "@/Components/Popup/CreatePopup";
-import FormCreateMember from "@/Components/FormElements/FormCreateMember";
-import { useEffect } from "react";
 import ButtonTambahData from "../ButtonTambahData";
 
 const TableMember = ({ data }) => {
@@ -47,15 +43,6 @@ const TableMember = ({ data }) => {
                     globalFilter={globalFilter}
                 />
             </div>
-            {/* popup create */}
-            {/* {popup ? (
-                <CreatePopup
-                    createName="Tambah Anggota"
-                    setPopup={setPopup}
-                    popup={popup}
-                    form={<FormCreateMember setPopup={setPopup} />}
-                />
-            ) : null} */}
             {/* table */}
             <div className="max-w-full overflow-x-auto">
                 <table className="w-full table-auto rounded-md">
