@@ -136,7 +136,7 @@ const TableSimpananSukarela = ({ data, total }) => {
                                         {data
                                             .map((r) => r.sukarela)
                                             .reduce((p, c) => p + c, 0)
-                                            ? Intl.NumberFormat("in-ID", {
+                                            ? Intl.NumberFormat("en-ID", {
                                                   style: "currency",
                                                   currency: "IDR",
                                                   maximumFractionDigits: "0",
@@ -154,7 +154,7 @@ const TableSimpananSukarela = ({ data, total }) => {
                                         {data
                                             .map((r) => r.shu)
                                             .reduce((p, c) => p + c, 0)
-                                            ? Intl.NumberFormat("in-ID", {
+                                            ? Intl.NumberFormat("en-ID", {
                                                   style: "currency",
                                                   currency: "IDR",
                                                   maximumFractionDigits: "0",
@@ -172,7 +172,7 @@ const TableSimpananSukarela = ({ data, total }) => {
                                         {data
                                             .map((r) => r.awal_tahun)
                                             .reduce((p, c) => p + c, 0)
-                                            ? Intl.NumberFormat("in-ID", {
+                                            ? Intl.NumberFormat("en-ID", {
                                                   style: "currency",
                                                   currency: "IDR",
                                                   maximumFractionDigits: "0",
@@ -188,7 +188,7 @@ const TableSimpananSukarela = ({ data, total }) => {
                                     </td>
                                     <td className="font-medium text-right border py-5 px-4 border-stroke dark:border-opacity-20 text-black dark:text-white">
                                         {total.total_selama_tahun
-                                            ? Intl.NumberFormat("in-ID", {
+                                            ? Intl.NumberFormat("en-ID", {
                                                   style: "currency",
                                                   currency: "IDR",
                                                   maximumFractionDigits: "0",
@@ -199,7 +199,7 @@ const TableSimpananSukarela = ({ data, total }) => {
                                     </td>
                                     <td className="font-medium text-right border py-5 px-4 border-stroke dark:border-opacity-20 text-black dark:text-white">
                                         {total.total_diambil
-                                            ? Intl.NumberFormat("in-ID", {
+                                            ? Intl.NumberFormat("en-ID", {
                                                   style: "currency",
                                                   currency: "IDR",
                                                   maximumFractionDigits: "0",
@@ -208,7 +208,7 @@ const TableSimpananSukarela = ({ data, total }) => {
                                     </td>
                                     <td className="font-medium text-right border py-5 px-4 border-stroke dark:border-opacity-20 text-black dark:text-white">
                                         {total.total_disimpan_kembali
-                                            ? Intl.NumberFormat("in-ID", {
+                                            ? Intl.NumberFormat("en-ID", {
                                                   style: "currency",
                                                   currency: "IDR",
                                                   maximumFractionDigits: "0",
@@ -221,7 +221,7 @@ const TableSimpananSukarela = ({ data, total }) => {
                                         {data
                                             .map((r) => r.akhir_tahun)
                                             .reduce((p, c) => p + c, 0)
-                                            ? Intl.NumberFormat("in-ID", {
+                                            ? Intl.NumberFormat("en-ID", {
                                                   style: "currency",
                                                   currency: "IDR",
                                                   maximumFractionDigits: "0",

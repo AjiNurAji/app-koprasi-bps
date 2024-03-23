@@ -122,7 +122,7 @@ export const lineChartOption = {
                     cssClass: "fill-black dark:fill-white",
                 },
                 formatter: (val, index) =>
-                    Intl.NumberFormat("in-ID", { style: "decimal" }).format(val),
+                    Intl.NumberFormat("en-ID", { style: "decimal" }).format(val),
             },
         },
     },
@@ -194,7 +194,7 @@ export const barChartOption = {
                 cssClass: "fill-black dark:fill-white",
             },
             formatter: (val, index) =>
-                Intl.NumberFormat("in-ID", {
+                Intl.NumberFormat("en-ID", {
                     style: "currency",
                     currency: "IDR",
                     maximumFractionDigits: "0"

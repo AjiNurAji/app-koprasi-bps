@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\AdArt;
 use App\Models\AmbilSimpanan;
 use App\Models\BayarPinjaman;
+use App\Models\Folders;
 use App\Models\Kas;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -743,5 +744,13 @@ class HomepageController extends Controller
         $file = AdArt::orderBy("created_at", "desc")->get()->first();
 
         return Inertia::render("AdART", ["file" => $file]);
+    }
+
+    // halaman laporan rat
+    public function laporanRat()
+    {
+        $folder = Folders::all();
+
+        return Inertia::render("LaporanRat", ['data' => $folder]);
     }
 }

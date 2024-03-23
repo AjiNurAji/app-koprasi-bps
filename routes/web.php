@@ -57,6 +57,8 @@ Route::middleware(['auth:admin,member'])->group(function () {
         return Storage::disk("public")->get("ad_art/" . $filename);
     });
 
+    Route::get('/laporan-rat', [HomepageController::class, 'laporanRat'])->name('laporan_rat');
+
     // transaksi
     Route::get('/pinjaman-anggota/transaction', [HomepageController::class, 'pinjamanTransaction'])->name('pinjaman_transaksi');
 

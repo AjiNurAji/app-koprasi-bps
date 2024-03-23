@@ -110,7 +110,7 @@ const TableSimpananWajib = ({ data, total }) => {
                                     </td>
                                     <td className="font-medium text-right border py-5 px-4 border-stroke dark:border-opacity-20 text-black dark:text-white">
                                         {total.kekayaan_awal_tahun
-                                            ? Intl.NumberFormat("in-ID", {
+                                            ? Intl.NumberFormat("en-ID", {
                                                   style: "currency",
                                                   currency: "IDR",
                                                   maximumFractionDigits:"0"
@@ -121,7 +121,7 @@ const TableSimpananWajib = ({ data, total }) => {
                                     </td>
                                     <td className="font-medium text-right border py-5 px-4 border-stroke dark:border-opacity-20 text-black dark:text-white">
                                         {total.simpanan_wajib
-                                            ? Intl.NumberFormat("in-ID", {
+                                            ? Intl.NumberFormat("en-ID", {
                                                   style: "currency",
                                                   currency: "IDR",
                                                   maximumFractionDigits:"0"
@@ -130,7 +130,7 @@ const TableSimpananWajib = ({ data, total }) => {
                                     </td>
                                     <td className="font-medium text-right border py-5 px-4 border-stroke dark:border-opacity-20 text-black dark:text-white">
                                         {total.anggota_keluar
-                                            ? Intl.NumberFormat("in-ID", {
+                                            ? Intl.NumberFormat("en-ID", {
                                                   style: "currency",
                                                   currency: "IDR",
                                                   maximumFractionDigits:"0"
@@ -139,7 +139,7 @@ const TableSimpananWajib = ({ data, total }) => {
                                     </td>
                                     <td className="font-medium text-right border py-5 px-4 border-stroke dark:border-opacity-20 text-black dark:text-white">
                                         {total.jumlah
-                                            ? Intl.NumberFormat("in-ID", {
+                                            ? Intl.NumberFormat("en-ID", {
                                                   style: "currency",
                                                   currency: "IDR",
                                                   maximumFractionDigits:"0"

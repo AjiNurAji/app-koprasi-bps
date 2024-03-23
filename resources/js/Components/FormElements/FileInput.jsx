@@ -62,8 +62,6 @@ const FileInput = ({
         });
     }, []);
 
-    // console.log(file[0].size)
-
     return (
         <div className="w-full relative">
             <label
@@ -166,7 +164,7 @@ const FileInput = ({
                                                         <path
                                                             opacity="0.5"
                                                             fill="#FFFFFF"
-                                                            enable-background="new "
+                                                            enableBackground="new "
                                                             d="M37.1,0v14.6c0,1.7,1.1,5.8,6.1,5.8H56L37.1,0z"
                                                         ></path>{" "}
                                                     </g>{" "}
@@ -214,6 +212,10 @@ const FileInput = ({
                         setFile(undefined);
                         setPreview(undefined);
                         setSize(undefined);
+                        setData({
+                            ...data,
+                            file: null,
+                        });
                     }}
                 >
                     <GrClearOption />

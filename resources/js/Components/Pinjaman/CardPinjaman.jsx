@@ -13,7 +13,7 @@ const CardPinjaman = ({ jumlah, dibayar, sisa }) => {
                 <div className="mt-4 flex items-end justify-between">
                     <div>
                         <h4 className="text-title-md font-bold text-black dark:text-white">
-                            {sisa ? Intl.NumberFormat("in-ID", {
+                            {sisa ? Intl.NumberFormat("en-ID", {
                                 style: "currency",
                                 currency: "IDR",
                                 maximumFractionDigits: "0"
@@ -32,7 +32,7 @@ const CardPinjaman = ({ jumlah, dibayar, sisa }) => {
                 <div className="mt-4 flex items-end justify-between">
                     <div>
                         <h4 className="text-title-md font-bold text-black dark:text-white">
-                            {jumlah ? Intl.NumberFormat("in-ID", {
+                            {jumlah ? Intl.NumberFormat("en-ID", {
                                 style: "currency",
                                 currency: "IDR",
                                 maximumFractionDigits: "0"
@@ -52,7 +52,7 @@ const CardPinjaman = ({ jumlah, dibayar, sisa }) => {
                 <div className="mt-4 flex items-end justify-between">
                     <div>
                         <h4 className="text-title-md font-bold text-black dark:text-white">
-                            {dibayar ? Intl.NumberFormat("in-ID", {
+                            {dibayar ? Intl.NumberFormat("en-ID", {
                                 style: "currency",
                                 currency: "IDR",
                                 maximumFractionDigits: "0"

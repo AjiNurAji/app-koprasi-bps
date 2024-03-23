@@ -1,45 +1,44 @@
-import { useState } from "react";
 import {
     useReactTable,
+    flexRender,
     getCoreRowModel,
-    getSortedRowModel,
     getPaginationRowModel,
     getFilteredRowModel,
-    flexRender,
+    getSortedRowModel
 } from "@tanstack/react-table";
-import CreatePopup from "../Popup/CreatePopup";
-import { FiUserPlus } from "react-icons/fi";
-import PaginationTable from "./PaginationTable";
-import { columnJasaPiutang } from "@/Libs/tableStarted";
+import { useState } from "react";
+import { columnFileList } from "@/Libs/tableStarted";
+import SearchTable from "./Table/SearchTable";
+import PaginationTable from "./Table/PaginationTable";
+import ButtonFileList from "./ButtonFileList";
 import { HiArrowsUpDown } from "react-icons/hi2";
-import FormJasaAnggota from "../FormElements/FromJasaAnggota";
-import ButtonTambahData from "../ButtonTambahData";
 
-const TableJasaPiutang = ({ data }) => {
+const FileList = ({ data }) => {
     const [datas] = useState([...data]);
     const [globalFilter, setGlobalFilter] = useState("");
 
     const table = useReactTable({
         data: datas,
-        columns: columnJasaPiutang,
+        columns: columnFileList,
         state: {
             globalFilter,
         },
         getCoreRowModel: getCoreRowModel(),
-        getSortedRowModel: getSortedRowModel(),
         getPaginationRowModel: getPaginationRowModel(),
         getFilteredRowModel: getFilteredRowModel(),
+        getSortedRowModel: getSortedRowModel(),
     });
 
     return (
-        <div className="rounded-md border border-stroke bg-white px-5 pt-6 pb-2.5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
+        <div className="rounded-md border mt-4 sm:mt-6 border-stroke bg-white px-5 py-6 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5">
             {/* head component */}
             <div className="flex items-center justify-between mb-3.5">
-                <ButtonTambahData url={route("jasa_piutang_create")} />
                 <SearchTable
+                    placeholder="Cari file"
                     setGlobalFilter={setGlobalFilter}
                     globalFilter={globalFilter}
                 />
+                 <ButtonFileList />
             </div>
             {/* table */}
             <div className="max-w-full overflow-x-auto">
@@ -48,12 +47,12 @@ const TableJasaPiutang = ({ data }) => {
                         {table.getHeaderGroups().map((headerGroup) => (
                             <tr
                                 key={headerGroup.id}
-                                className="bg-gray-2 text-left dark:bg-meta-4"
+                                className="text-left"
                             >
                                 {headerGroup.headers.map((item) => (
                                     <th
                                         key={item.id}
-                                        className="relative py-4 px-4 font-medium text-black border dark:text-white border-stroke dark:border-opacity-20"
+                                        className="py-2 px-4 font-medium text-black border-b dark:text-white border-stroke dark:border-opacity-20"
                                     >
                                         {flexRender(
                                             item.column.columnDef.header,
@@ -61,7 +60,7 @@ const TableJasaPiutang = ({ data }) => {
                                         )}
                                         {item.column.getCanSort() && (
                                             <button
-                                                className="absolute top-5.5 text-md bottom-5 text-black dark:text-white dark:text-opacity-40 hover:text-primary dark:hover:text-opacity-100 text-opacity-40 right-3"
+                                                className="ml-2 text-md text-black dark:text-white dark:text-opacity-40 hover:text-primary dark:hover:text-opacity-100 text-opacity-40 right-3"
                                                 onClick={item.column.getToggleSortingHandler()}
                                             >
                                                 <HiArrowsUpDown />
@@ -77,20 +76,12 @@ const TableJasaPiutang = ({ data }) => {
                             table.getRowModel().rows.map((row, i) => (
                                 <tr
                                     key={row.id}
-                                    className={`${
-                                        i % 2 === 0
-                                            ? "bg-white dark:bg-meta-4 dark:bg-opacity-15"
-                                            : "bg-gray dark:bg-meta-4 bg-opacity-30 dark:bg-opacity-30"
-                                    }`}
+                                    className="bg-gray dark:bg-meta-4 bg-opacity-30 dark:bg-opacity-30"
                                 >
-                                    {row.getVisibleCells().map((cell, i) => (
+                                    {row.getVisibleCells().map((cell) => (
                                         <td
                                             key={cell.id}
-                                            className={`${
-                                                i === 0
-                                                    ? "text-center"
-                                                    : "text-right"
-                                            } border py-5 px-4 border-stroke dark:border-opacity-20`}
+                                            className="border-b py-2 px-4 border-stroke dark:bg-meta-4 dark:border-opacity-20"
                                         >
                                             {flexRender(
                                                 cell.column.columnDef.cell,
@@ -103,10 +94,10 @@ const TableJasaPiutang = ({ data }) => {
                         ) : (
                             <tr>
                                 <td
-                                    colSpan={3}
-                                    className="text-center py-5 px-4"
+                                    colSpan={4}
+                                    className="border-b py-2 px-4 border-stroke dark:bg-meta-4 dark:border-opacity-20 text-center text-sm"
                                 >
-                                    Belum ada data nihh!
+                                    Empety!
                                 </td>
                             </tr>
                         )}
@@ -119,4 +110,4 @@ const TableJasaPiutang = ({ data }) => {
     );
 };
 
-export default TableJasaPiutang;
+export default FileList;

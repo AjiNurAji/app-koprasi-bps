@@ -1,11 +1,13 @@
 import PostData from "@/Libs/postData";
 import FileInput from "./FileInput";
 import { useForm, router } from "@inertiajs/react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import ButtonLoading from "../ButtonLoading";
+import { toast } from "react-hot-toast";
 
 const SetAdArt = () => {
     const [processing, setProcess] = useState(false);
+    const [error, setError] = useState(null);
 
     const { data, setData, reset } = useForm({
         file: null,
@@ -15,7 +17,7 @@ const SetAdArt = () => {
         e.preventDefault();
         setProcess(true);
 
-        const response = PostData(
+        const response = await PostData(
             route("ad_art_set"),
             data,
             "multipart/form-data"
@@ -29,6 +31,16 @@ const SetAdArt = () => {
 
         setProcess(false);
     };
+
+    useEffect(() => {
+        if (!data.file) return setError(null);
+
+        if (!data.file?.type.includes("pdf")) {
+            toast.error("File harus berbentuk PDF!")
+            return setError("File harus berbentuk PDF!")
+        };
+        setError(null);
+    }, [data.file])
 
     return (
         <form
@@ -46,6 +58,9 @@ const SetAdArt = () => {
                 setData={setData}
                 max_size={209715200}
             />
+            {!data.file?.type.includes("pdf") && (
+                <small className="text-danger text-sm">{error}</small>
+            )}
             <div className="w-full">
                 {processing ? (
                     <ButtonLoading color="primary" />
@@ -53,7 +68,8 @@ const SetAdArt = () => {
                     <button
                         type="submit"
                         name="button-sumbit"
-                        className="w-full cursor-pointer rounded-md border border-primary bg-primary p-2 text-white transition hover:bg-opacity-90"
+                        disabled={!data.file?.type.includes("pdf")}
+                        className="w-full cursor-pointer rounded-md border border-primary bg-primary p-2 text-white transition hover:bg-opacity-90 disabled:bg-opacity-90"
                     >
                         Kirim
                     </button>

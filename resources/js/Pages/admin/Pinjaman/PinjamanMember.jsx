@@ -49,7 +49,7 @@ const PinjamanMember = ({ auth, pinjaman }) => {
                                     {value.tanggal_pinjam}
                                 </td>
                                 <td className="px-4 py-2 border border-stroke dark:border-strokedark font-normal  text-start">
-                                    {Intl.NumberFormat("in-ID", {
+                                    {Intl.NumberFormat("en-ID", {
                                         style: "currency",
                                         currency: "IDR",
                                         maximumFractionDigits: "0",
@@ -68,7 +68,7 @@ const PinjamanMember = ({ auth, pinjaman }) => {
                                 Total Pinjaman
                             </td>
                             <td className="px-4 py-2 border border-stroke dark:border-strokedark font-medium text-center">
-                                {Intl.NumberFormat("in-ID", {
+                                {Intl.NumberFormat("en-ID", {
                                     style: "currency",
                                     currency: "IDR",
                                     maximumFractionDigits: "0",
@@ -107,7 +107,7 @@ const PinjamanMember = ({ auth, pinjaman }) => {
                                     {value.tanggal_bayar}
                                 </td>
                                 <td className="px-4 py-2 border border-stroke dark:border-strokedark font-normal  text-start">
-                                    {Intl.NumberFormat("in-ID", {
+                                    {Intl.NumberFormat("en-ID", {
                                         style: "currency",
                                         currency: "IDR",
                                         maximumFractionDigits: "0",
@@ -126,7 +126,7 @@ const PinjamanMember = ({ auth, pinjaman }) => {
                                 Total Terbayar
                             </td>
                             <td className="px-4 py-2 border border-stroke dark:border-strokedark font-medium text-center">
-                                {Intl.NumberFormat("in-ID", {
+                                {Intl.NumberFormat("en-ID", {
                                     style: "currency",
                                     currency: "IDR",
                                     maximumFractionDigits: "0",
@@ -138,7 +138,7 @@ const PinjamanMember = ({ auth, pinjaman }) => {
                                 Sisa Pinjaman
                             </td>
                             <td className="px-4 py-2 border border-stroke dark:border-strokedark font-medium text-center">
-                                {Intl.NumberFormat("in-ID", {
+                                {Intl.NumberFormat("en-ID", {
                                     style: "currency",
                                     currency: "IDR",
                                     maximumFractionDigits: "0",

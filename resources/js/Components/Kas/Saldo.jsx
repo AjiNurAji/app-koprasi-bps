@@ -20,7 +20,7 @@ const Saldo = ({ saldoAwal, saldo, param }) => {
                 <div className="mt-4 flex items-end justify-between">
                     <div>
                         <h4 className="text-title-md font-bold text-black dark:text-white">
-                            {Intl.NumberFormat("in-ID", {
+                            {Intl.NumberFormat("en-ID", {
                                 style: "currency",
                                 currency: "IDR",
                                 maximumFractionDigits: "0"
@@ -40,7 +40,7 @@ const Saldo = ({ saldoAwal, saldo, param }) => {
                 <div className="mt-4 flex items-end justify-between">
                     <div>
                         <h4 className="text-title-md font-bold text-black dark:text-white">
-                            {Intl.NumberFormat("in-ID", {
+                            {Intl.NumberFormat("en-ID", {
                                 style: "currency",
                                 currency: "IDR",
                                 maximumFractionDigits: "0"

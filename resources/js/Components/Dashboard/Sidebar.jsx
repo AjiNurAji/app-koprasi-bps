@@ -488,7 +488,7 @@ const Sidebar = ({ pathname, sidebarOpen, setSidebarOpen, user }) => {
                             </li>
                             <li>
                                 <a
-                                    href="/laporan-rat"
+                                    href={route("laporan_rat")}
                                     className={`group relative flex items-center gap-2.5 rounded-md py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${
                                         pathname.includes("chart") &&
                                         "bg-graydark dark:bg-meta-4"

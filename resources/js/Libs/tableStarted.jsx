@@ -3,6 +3,7 @@ import ActionTable from "@/Components/Table/ActionTable";
 import { createColumnHelper } from "@tanstack/react-table";
 import profile from "@/assets/images/user.png";
 import HapusPermanen from "@/Components/HapusPermanen";
+import FileListAction from "@/Components/FileListAction";
 
 const columnHelper = createColumnHelper();
 
@@ -150,7 +151,7 @@ export const columnsSimpananPokok = [
                 cell: (data) => (
                     <span className="font-medium text-black dark:text-white">
                         {data.getValue()
-                            ? Intl.NumberFormat("in-ID", {
+                            ? Intl.NumberFormat("en-ID", {
                                   style: "currency",
                                   currency: "IDR",
                                   maximumFractionDigits: "0",
@@ -170,7 +171,7 @@ export const columnsSimpananPokok = [
                             .getValue()
                             .map((r) => r.anggota_masuk)
                             .reduce((p, c) => p + c, 0)
-                            ? Intl.NumberFormat("in-ID", {
+                            ? Intl.NumberFormat("en-ID", {
                                   style: "currency",
                                   currency: "IDR",
                                   maximumFractionDigits: "0",
@@ -195,7 +196,7 @@ export const columnsSimpananPokok = [
                             .getValue()
                             .map((r) => r.anggota_keluar)
                             .reduce((p, c) => p + c, 0)
-                            ? Intl.NumberFormat("in-ID", {
+                            ? Intl.NumberFormat("en-ID", {
                                   style: "currency",
                                   currency: "IDR",
                                   maximumFractionDigits: "0",
@@ -229,7 +230,7 @@ export const columnsSimpananPokok = [
                     .getValue()
                     .map((r) => r.anggota_keluar)
                     .reduce((p, c) => p + c, 0)
-                    ? Intl.NumberFormat("in-ID", {
+                    ? Intl.NumberFormat("en-ID", {
                           style: "currency",
                           currency: "IDR",
                           maximumFractionDigits: "0",
@@ -279,7 +280,7 @@ export const columnSimpananWajib = [
         cell: (data) => (
             <span className="font-medium text-black dark:text-white">
                 {data.getValue()
-                    ? Intl.NumberFormat("in-ID", {
+                    ? Intl.NumberFormat("en-ID", {
                           style: "currency",
                           currency: "IDR",
                           maximumFractionDigits: "0",
@@ -296,7 +297,7 @@ export const columnSimpananWajib = [
         cell: (data) => (
             <span className="font-medium text-black dark:text-white">
                 {data.getValue().length
-                    ? Intl.NumberFormat("in-ID", {
+                    ? Intl.NumberFormat("en-ID", {
                           style: "currency",
                           currency: "IDR",
                           maximumFractionDigits: "0",
@@ -322,7 +323,7 @@ export const columnSimpananWajib = [
         cell: (data) => (
             <span className="font-medium text-black dark:text-white">
                 {data.getValue().length
-                    ? Intl.NumberFormat("in-ID", {
+                    ? Intl.NumberFormat("en-ID", {
                           style: "currency",
                           currency: "IDR",
                           maximumFractionDigits: "0",
@@ -349,7 +350,7 @@ export const columnSimpananWajib = [
                 data.row.original.ambil_simpanan
                     .map((r) => r.nominal)
                     .reduce((p, c) => p + c, 0)
-                    ? Intl.NumberFormat("in-ID", {
+                    ? Intl.NumberFormat("en-ID", {
                           style: "currency",
                           currency: "IDR",
                           maximumFractionDigits: "0",
@@ -396,7 +397,7 @@ export const columnsSimpananSukarela = [
         cell: (data) => (
             <span className="font-medium text-black dark:text-white">
                 {data.getValue()
-                    ? Intl.NumberFormat("in-ID", {
+                    ? Intl.NumberFormat("en-ID", {
                           style: "currency",
                           currency: "IDR",
                           maximumFractionDigits: "0",
@@ -412,7 +413,7 @@ export const columnsSimpananSukarela = [
         cell: (data) => (
             <span className="font-medium text-black dark:text-white">
                 {data.getValue()
-                    ? Intl.NumberFormat("in-ID", {
+                    ? Intl.NumberFormat("en-ID", {
                           style: "currency",
                           currency: "IDR",
                           maximumFractionDigits: "0",
@@ -432,7 +433,7 @@ export const columnsSimpananSukarela = [
                 cell: (data) => (
                     <span className="font-medium text-black dark:text-white">
                         {data.getValue()
-                            ? Intl.NumberFormat("in-ID", {
+                            ? Intl.NumberFormat("en-ID", {
                                   style: "currency",
                                   currency: "IDR",
                                   maximumFractionDigits: "0",
@@ -453,7 +454,7 @@ export const columnsSimpananSukarela = [
                             .getValue()
                             .map((r) => r.selama_tahun)
                             .reduce((p, c) => p + c, 0)
-                            ? Intl.NumberFormat("in-ID", {
+                            ? Intl.NumberFormat("en-ID", {
                                   style: "currency",
                                   currency: "IDR",
                                   maximumFractionDigits: "0",
@@ -476,7 +477,7 @@ export const columnsSimpananSukarela = [
                 cell: (data) => (
                     <span className="font-medium text-black dark:text-white">
                         {data.getValue()
-                            ? Intl.NumberFormat("in-ID", {
+                            ? Intl.NumberFormat("en-ID", {
                                   style: "currency",
                                   currency: "IDR",
                                   maximumFractionDigits: "0",
@@ -497,7 +498,7 @@ export const columnsSimpananSukarela = [
                             .getValue()
                             .map((r) => r.disimpan_kembali)
                             .reduce((p, c) => p + c, 0)
-                            ? Intl.NumberFormat("in-ID", {
+                            ? Intl.NumberFormat("en-ID", {
                                   style: "currency",
                                   currency: "IDR",
                                   maximumFractionDigits: "0",
@@ -520,7 +521,7 @@ export const columnsSimpananSukarela = [
                 cell: (data) => (
                     <span className="font-medium text-black dark:text-white">
                         {data.getValue()
-                            ? Intl.NumberFormat("in-ID", {
+                            ? Intl.NumberFormat("en-ID", {
                                   style: "currency",
                                   currency: "IDR",
                                   maximumFractionDigits: "0",
@@ -565,7 +566,7 @@ export const HistoryOptionTable = [
         cell: (data) => (
             <span className="font-medium text-black dark:text-white">
                 {data.getValue()
-                    ? Intl.NumberFormat("in-ID", {
+                    ? Intl.NumberFormat("en-ID", {
                           style: "currency",
                           currency: "IDR",
                           maximumFractionDigits: "0",
@@ -583,7 +584,7 @@ export const HistoryOptionTable = [
         cell: (data) => (
             <span className="font-medium text-black dark:text-white">
                 {data.getValue()
-                    ? Intl.NumberFormat("in-ID", {
+                    ? Intl.NumberFormat("en-ID", {
                           style: "currency",
                           currency: "IDR",
                           maximumFractionDigits: "0",
@@ -659,7 +660,7 @@ export const columnKasTunai = [
         cell: (data) => (
             <span className="text-black dark:text-white">
                 {data.getValue()
-                    ? Intl.NumberFormat("in-ID", {
+                    ? Intl.NumberFormat("en-ID", {
                           style: "currency",
                           currency: "IDR",
                           maximumFractionDigits: "0",
@@ -677,7 +678,7 @@ export const columnKasTunai = [
         cell: (data) => (
             <span className="text-black dark:text-white">
                 {data.getValue()
-                    ? Intl.NumberFormat("in-ID", {
+                    ? Intl.NumberFormat("en-ID", {
                           style: "currency",
                           currency: "IDR",
                           maximumFractionDigits: "0",
@@ -717,7 +718,7 @@ export const columnJasaPiutang = [
         id: "created_at",
         cell: (data) => (
             <span className="text-black dark:text-white">
-                {new Date(data.getValue()).toLocaleDateString("in-ID", {
+                {new Date(data.getValue()).toLocaleDateString("en-ID", {
                     dateStyle: "long",
                 })}
             </span>
@@ -754,7 +755,7 @@ export const columnsPinjaman = [
         cell: (data) => (
             <span className="font-medium text-black dark:text-white">
                 {data.getValue()
-                    ? Intl.NumberFormat("in-ID", {
+                    ? Intl.NumberFormat("en-ID", {
                           style: "currency",
                           currency: "IDR",
                           maximumFractionDigits: "0",
@@ -770,7 +771,7 @@ export const columnsPinjaman = [
         cell: (data) => (
             <span className="font-medium text-black dark:text-white">
                 {data.getValue()
-                    ? Intl.NumberFormat("in-ID", {
+                    ? Intl.NumberFormat("en-ID", {
                           style: "currency",
                           currency: "IDR",
                           maximumFractionDigits: "0",
@@ -786,7 +787,7 @@ export const columnsPinjaman = [
         cell: (data) => (
             <span className="font-medium text-black dark:text-white">
                 {data.getValue()
-                    ? Intl.NumberFormat("in-ID", {
+                    ? Intl.NumberFormat("en-ID", {
                           style: "currency",
                           currency: "IDR",
                           maximumFractionDigits: "0",
@@ -803,7 +804,7 @@ export const columnsPinjaman = [
             <span className="font-medium text-black dark:text-white">
                 <span className="font-medium text-black dark:text-white">
                     {data.getValue()
-                        ? Intl.NumberFormat("in-ID", {
+                        ? Intl.NumberFormat("en-ID", {
                               style: "currency",
                               currency: "IDR",
                               maximumFractionDigits: "0",
@@ -845,5 +846,51 @@ export const columnsPinjaman = [
         id: "aksi",
         cell: (data) => <ActionButton id={data.getValue()} />,
         header: "Aksi",
+    }),
+];
+
+export const columnFileList = [
+    columnHelper.accessor("name", {
+        id: "name",
+        cell: (data) => (
+            <span className="font-medium text-black dark:text-white">
+                {data.getValue()}
+            </span>
+        ),
+        header: "Nama",
+    }),
+
+    columnHelper.accessor("author", {
+        id: "author",
+        cell: (data) => (
+            <span className="font-medium text-black dark:text-white">
+                {data.getValue()}
+            </span>
+        ),
+        header: "Author",
+        enableSorting: false
+    }),
+
+    columnHelper.accessor("created_at", {
+        id: "created_at",
+        cell: (data) => (
+            <span className="font-medium text-black dark:text-white">
+                {new Date(data.getValue()).toLocaleDateString("in-ID", {
+                    dateStyle: "short",
+                })}{" "}
+                {new Date(data.getValue()).toLocaleTimeString("in-ID", {
+                    timeStyle: "medium",
+                    hourCycle: "h24",
+                })}
+            </span>
+        ),
+        header: "Diupload Pada",
+    }),
+
+    columnHelper.accessor("_id", {
+        id: "_id",
+        cell: (data) => <FileListAction />,
+        header: "Action",
+        enableSorting: false
     }),
 ];

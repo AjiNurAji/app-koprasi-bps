@@ -60,7 +60,7 @@ const FormSetSaldoAwal = ({ name, postUrl, directUrl }) => {
                     value={data.saldo_awal}
                     onValueChange={(value, name) => handleNominal(value, name)}
                     intlConfig={{
-                        locale: "in-ID",
+                        locale: "en-ID",
                         currency: "IDR",
                     }}
                     className="w-full rounded-md border text-dark dark:text-white border-stroke bg-transparent py-2 pl-4 pr-6 transition-all duration-300 ease-in-out outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"

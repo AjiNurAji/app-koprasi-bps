@@ -75,7 +75,7 @@ const NextSimpanan = ({
                                                 handleNominal(value, name)
                                             }
                                             intlConfig={{
-                                                locale: "in-ID",
+                                                locale: "en-ID",
                                                 currency: "IDR",
                                             }}
                                             className="w-full rounded-md border text-dark dark:text-white border-stroke bg-transparent py-2 pl-4 pr-6 transition-all duration-300 ease-in-out outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
@@ -108,7 +108,7 @@ const NextSimpanan = ({
                                                 handleNominal(value, name)
                                             }
                                             intlConfig={{
-                                                locale: "in-ID",
+                                                locale: "en-ID",
                                                 currency: "IDR",
                                             }}
                                             className="w-full rounded-md border text-dark dark:text-white border-stroke bg-transparent py-2 pl-4 pr-6 transition-all duration-300 ease-in-out outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
@@ -132,7 +132,7 @@ const NextSimpanan = ({
                                 </label>
                                 <span className="bg-transparent capitalize dark:bg-transparent block text-start px-1">
                                     {awalTahun
-                                        ? Intl.NumberFormat("in-ID", {
+                                        ? Intl.NumberFormat("en-ID", {
                                               style: "currency",
                                               currency: "IDR",
                                               maximumFractionDigits: "0",
@@ -158,7 +158,7 @@ const NextSimpanan = ({
                                         handleNominal(value, name)
                                     }
                                     intlConfig={{
-                                        locale: "in-ID",
+                                        locale: "en-ID",
                                         currency: "IDR",
                                     }}
                                     className="w-full rounded-md border text-dark dark:text-white border-stroke bg-transparent py-2 pl-4 pr-6 transition-all duration-300 ease-in-out outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
@@ -175,7 +175,7 @@ const NextSimpanan = ({
                                     Simpanan Wajib
                                 </label>
                                 <span className="bg-transparent capitalize dark:bg-transparent block text-start px-1">
-                                    {Intl.NumberFormat("in-ID", {
+                                    {Intl.NumberFormat("en-ID", {
                                         style: "currency",
                                         currency: "IDR",
                                         maximumFractionDigits: "0",
@@ -206,7 +206,7 @@ const NextSimpanan = ({
                                         handleNominal(value, name)
                                     }
                                     intlConfig={{
-                                        locale: "in-ID",
+                                        locale: "en-ID",
                                         currency: "IDR",
                                     }}
                                     className="w-full rounded-md border text-dark dark:text-white border-stroke bg-transparent py-2 pl-4 pr-6 transition-all duration-300 ease-in-out outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
@@ -248,7 +248,7 @@ const NextSimpanan = ({
                                 {data.sukarela ? (
                                     <span className="bg-transparent capitalize dark:bg-transparent block text-start px-1">
                                         {data.sukarela
-                                            ? Intl.NumberFormat("in-ID", {
+                                            ? Intl.NumberFormat("en-ID", {
                                                   style: "currency",
                                                   currency: "IDR",
                                                   maximumFractionDigits: "0",
@@ -267,7 +267,7 @@ const NextSimpanan = ({
                                             handleNominal(value, name)
                                         }
                                         intlConfig={{
-                                            locale: "in-ID",
+                                            locale: "en-ID",
                                             currency: "IDR",
                                         }}
                                         className="w-full rounded-md border text-dark dark:text-white border-stroke bg-transparent py-2 pl-4 pr-6 transition-all duration-300 ease-in-out outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
@@ -284,7 +284,7 @@ const NextSimpanan = ({
                                 {data.shu ? (
                                     <span className="bg-transparent capitalize dark:bg-transparent block text-start px-1">
                                         {data.shu
-                                            ? Intl.NumberFormat("in-ID", {
+                                            ? Intl.NumberFormat("en-ID", {
                                                   style: "currency",
                                                   currency: "IDR",
                                                   maximumFractionDigits: "0",
@@ -303,7 +303,7 @@ const NextSimpanan = ({
                                             handleNominal(value, name)
                                         }
                                         intlConfig={{
-                                            locale: "in-ID",
+                                            locale: "en-ID",
                                             currency: "IDR",
                                         }}
                                         className="w-full rounded-md border text-dark dark:text-white border-stroke bg-transparent py-2 pl-4 pr-6 transition-all duration-300 ease-in-out outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
@@ -321,7 +321,7 @@ const NextSimpanan = ({
                                 {data.awal_tahun ? (
                                     <span className="bg-transparent capitalize dark:bg-transparent block text-start px-1">
                                         {data.awal_tahun
-                                            ? Intl.NumberFormat("in-ID", {
+                                            ? Intl.NumberFormat("en-ID", {
                                                   style: "currency",
                                                   currency: "IDR",
                                                   maximumFractionDigits: "0",
@@ -334,7 +334,7 @@ const NextSimpanan = ({
                                             ? valueData.sukarela
                                             : 0) +
                                         (valueData.shu ? valueData.shu : 0)
-                                            ? Intl.NumberFormat("in-ID", {
+                                            ? Intl.NumberFormat("en-ID", {
                                                   style: "currency",
                                                   currency: "IDR",
                                                   maximumFractionDigits: "0",
@@ -368,7 +368,7 @@ const NextSimpanan = ({
                                         handleNominal(value, name)
                                     }
                                     intlConfig={{
-                                        locale: "in-ID",
+                                        locale: "en-ID",
                                         currency: "IDR",
                                     }}
                                     className="w-full rounded-md border text-dark dark:text-white border-stroke bg-transparent py-2 pl-4 pr-6 transition-all duration-300 ease-in-out outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
@@ -396,7 +396,7 @@ const NextSimpanan = ({
                                             handleNominal(value, name)
                                         }
                                         intlConfig={{
-                                            locale: "in-ID",
+                                            locale: "en-ID",
                                             currency: "IDR",
                                         }}
                                         className="w-full rounded-md border text-dark dark:text-white border-stroke bg-transparent py-2 pl-4 pr-6 transition-all duration-300 ease-in-out outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
@@ -420,7 +420,7 @@ const NextSimpanan = ({
                                             handleNominal(value, name)
                                         }
                                         intlConfig={{
-                                            locale: "in-ID",
+                                            locale: "en-ID",
                                             currency: "IDR",
                                         }}
                                         className="w-full rounded-md border text-dark dark:text-white border-stroke bg-transparent py-2 pl-4 pr-6 transition-all duration-300 ease-in-out outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"

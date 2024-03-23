@@ -41,7 +41,7 @@ const CardRekening = ({ data, user }) => {
                                             <p>
                                                 {value.setor
                                                     ? Intl.NumberFormat(
-                                                          "in-ID",
+                                                          "en-ID",
                                                           {
                                                               style: "currency",
                                                               currency: "IDR",
@@ -58,7 +58,7 @@ const CardRekening = ({ data, user }) => {
                                             <p>
                                                 {value.bunga_bank
                                                     ? Intl.NumberFormat(
-                                                          "in-ID",
+                                                          "en-ID",
                                                           {
                                                               style: "currency",
                                                               currency: "IDR",
@@ -76,7 +76,7 @@ const CardRekening = ({ data, user }) => {
                                             <p>
                                                 {value.pajak
                                                     ? Intl.NumberFormat(
-                                                          "in-ID",
+                                                          "en-ID",
                                                           {
                                                               style: "currency",
                                                               currency: "IDR",
@@ -93,7 +93,7 @@ const CardRekening = ({ data, user }) => {
                                             <p>
                                                 {value.adm
                                                     ? Intl.NumberFormat(
-                                                          "in-ID",
+                                                          "en-ID",
                                                           {
                                                               style: "currency",
                                                               currency: "IDR",
@@ -110,7 +110,7 @@ const CardRekening = ({ data, user }) => {
                                             <p>
                                                 {value.penarikan
                                                     ? Intl.NumberFormat(
-                                                          "in-ID",
+                                                          "en-ID",
                                                           {
                                                               style: "currency",
                                                               currency: "IDR",
@@ -127,7 +127,7 @@ const CardRekening = ({ data, user }) => {
                                             <p className="text-black dark:text-white">
                                                 {value.saldo
                                                     ? Intl.NumberFormat(
-                                                          "in-ID",
+                                                          "en-ID",
                                                           {
                                                               style: "currency",
                                                               currency: "IDR",

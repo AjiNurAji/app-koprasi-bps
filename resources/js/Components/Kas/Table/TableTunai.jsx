@@ -114,7 +114,7 @@ const TableTunai = ({ data, bulan, saldo, user }) => {
                                     </td>
                                     <td className="border py-5 px-4 font-semibold text-right border-stroke dark:border-opacity-20">
                                         {saldo.total_masuk
-                                            ? Intl.NumberFormat("in-ID", {
+                                            ? Intl.NumberFormat("en-ID", {
                                                   style: "currency",
                                                   currency: "IDR",
                                                   maximumFractionDigits: "0"
@@ -123,7 +123,7 @@ const TableTunai = ({ data, bulan, saldo, user }) => {
                                     </td>
                                     <td className="border py-5 px-4 font-semibold text-right border-stroke dark:border-opacity-20">
                                         {saldo.total_keluar
-                                            ? Intl.NumberFormat("in-ID", {
+                                            ? Intl.NumberFormat("en-ID", {
                                                   style: "currency",
                                                   currency: "IDR",
                                                   maximumFractionDigits: "0"

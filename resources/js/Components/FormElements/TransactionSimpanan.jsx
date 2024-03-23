@@ -304,14 +304,14 @@ const TransactionSimpanan = ({ type, directUrl, postUrl, ambilUrl }) => {
                                                     ...data,
                                                     date: e.target.value,
                                                     hari: date.toLocaleDateString(
-                                                        "in-ID",
+                                                        "en-ID",
                                                         {
                                                             weekday: "long",
                                                         }
                                                     ),
                                                     tahun: date.getFullYear(),
                                                     bulan: date.toLocaleDateString(
-                                                        "in-ID",
+                                                        "en-ID",
                                                         {
                                                             month: "long",
                                                         }
@@ -403,14 +403,14 @@ const TransactionSimpanan = ({ type, directUrl, postUrl, ambilUrl }) => {
                                             ...data,
                                             date: e.target.value,
                                             hari: date.toLocaleDateString(
-                                                "in-ID",
+                                                "en-ID",
                                                 {
                                                     weekday: "long",
                                                 }
                                             ),
                                             tahun: date.getFullYear(),
                                             bulan: date.toLocaleDateString(
-                                                "in-ID",
+                                                "en-ID",
                                                 {
                                                     month: "long",
                                                 }

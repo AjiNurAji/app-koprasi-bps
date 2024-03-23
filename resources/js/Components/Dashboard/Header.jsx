@@ -76,7 +76,7 @@ const Header = (props) => {
 
                 <div className="hidden sm:block">
                     <h3 className="font-bold text-center lg:text-start text-black dark:text-white w-full sm:inline-block">
-                        {date.toLocaleDateString("in-ID", {
+                        {date.toLocaleDateString("en-ID", {
                             day: "2-digit",
                             weekday: "long",
                             month: "long",

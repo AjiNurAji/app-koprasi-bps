@@ -335,7 +335,7 @@ const TransactionPinjaman = ({ step, setStep }) => {
                                                 {value.tanggal_pinjam}
                                             </td>
                                             <td className="px-2 py-1 border border-stroke dark:border-strokedark font-normal text-sm text-start">
-                                                {Intl.NumberFormat("in-ID", {
+                                                {Intl.NumberFormat("en-ID", {
                                                     style: "currency",
                                                     currency: "IDR",
                                                     maximumFractionDigits: "0",
@@ -348,7 +348,7 @@ const TransactionPinjaman = ({ step, setStep }) => {
                                             Total
                                         </td>
                                         <td className="px-2 py-1 border border-stroke dark:border-strokedark font-medium text-sm text-start">
-                                            {Intl.NumberFormat("in-ID", {
+                                            {Intl.NumberFormat("en-ID", {
                                                 style: "currency",
                                                 currency: "IDR",
                                                 maximumFractionDigits: "0",
@@ -372,7 +372,7 @@ const TransactionPinjaman = ({ step, setStep }) => {
                                                     </td>
                                                     <td className="px-2 py-1 border border-stroke dark:border-strokedark font-normal text-sm text-start">
                                                         {Intl.NumberFormat(
-                                                            "in-ID",
+                                                            "en-ID",
                                                             {
                                                                 style: "currency",
                                                                 currency: "IDR",
@@ -400,7 +400,7 @@ const TransactionPinjaman = ({ step, setStep }) => {
                                             Sisa
                                         </td>
                                         <td className="px-2 py-1 border border-stroke dark:border-strokedark font-medium text-sm text-start">
-                                            {Intl.NumberFormat("in-ID", {
+                                            {Intl.NumberFormat("en-ID", {
                                                 style: "currency",
                                                 currency: "IDR",
                                                 maximumFractionDigits: "0",
@@ -430,11 +430,11 @@ const TransactionPinjaman = ({ step, setStep }) => {
                                 setData({
                                     ...data,
                                     date: e.target.value,
-                                    hari: date.toLocaleDateString("in-ID", {
+                                    hari: date.toLocaleDateString("en-ID", {
                                         weekday: "long",
                                     }),
                                     tahun: date.getFullYear(),
-                                    bulan: date.toLocaleDateString("in-ID", {
+                                    bulan: date.toLocaleDateString("en-ID", {
                                         month: "long",
                                     }),
                                 });
@@ -463,7 +463,7 @@ const TransactionPinjaman = ({ step, setStep }) => {
                                         handleNominal(value, name)
                                     }
                                     intlConfig={{
-                                        locale: "in-ID",
+                                        locale: "en-ID",
                                         currency: "IDR",
                                     }}
                                     className="w-full rounded-md border text-dark dark:text-white border-stroke bg-transparent py-2 pl-4 pr-6 transition-all duration-300 ease-in-out outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
@@ -485,7 +485,7 @@ const TransactionPinjaman = ({ step, setStep }) => {
                                         </small>
                                         <small>
                                             {data.nominal
-                                                ? Intl.NumberFormat("in-ID", {
+                                                ? Intl.NumberFormat("en-ID", {
                                                       style: "currency",
                                                       currency: "IDR",
                                                       maximumFractionDigits:
@@ -506,7 +506,7 @@ const TransactionPinjaman = ({ step, setStep }) => {
                                         </small>
                                         <small>
                                             {data.nominal
-                                                ? Intl.NumberFormat("in-ID", {
+                                                ? Intl.NumberFormat("en-ID", {
                                                       style: "currency",
                                                       currency: "IDR",
                                                       maximumFractionDigits:
@@ -681,7 +681,7 @@ const TransactionPinjaman = ({ step, setStep }) => {
                                         handleNominal(value, name)
                                     }
                                     intlConfig={{
-                                        locale: "in-ID",
+                                        locale: "en-ID",
                                         currency: "IDR",
                                     }}
                                     className="w-full rounded-md border text-dark dark:text-white border-stroke bg-transparent py-2 pl-4 pr-6 transition-all duration-300 ease-in-out outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"

@@ -123,7 +123,7 @@ const TablePinjaman = ({ data, total }) => {
                                     </td>
                                     <td className="font-medium text-right border py-5 px-4 border-stroke dark:border-opacity-20 text-black dark:text-white">
                                         {total.sisa_pinjaman_tahun_lalu
-                                            ? Intl.NumberFormat("in-ID", {
+                                            ? Intl.NumberFormat("en-ID", {
                                                   style: "currency",
                                                   currency: "IDR",
                                                   maximumFractionDigits: "0"
@@ -132,7 +132,7 @@ const TablePinjaman = ({ data, total }) => {
                                     </td>
                                     <td className="font-medium text-right border py-5 px-4 border-stroke dark:border-opacity-20 text-black dark:text-white">
                                         {total.total_pinjaman
-                                            ? Intl.NumberFormat("in-ID", {
+                                            ? Intl.NumberFormat("en-ID", {
                                                   style: "currency",
                                                   currency: "IDR",
                                                   maximumFractionDigits: "0"
@@ -141,7 +141,7 @@ const TablePinjaman = ({ data, total }) => {
                                     </td>
                                     <td className="font-medium text-right border py-5 px-4 border-stroke dark:border-opacity-20 text-black dark:text-white">
                                         {total.total_dibayar
-                                            ? Intl.NumberFormat("in-ID", {
+                                            ? Intl.NumberFormat("en-ID", {
                                                   style: "currency",
                                                   currency: "IDR",
                                                   maximumFractionDigits: "0"
@@ -150,7 +150,7 @@ const TablePinjaman = ({ data, total }) => {
                                     </td>
                                     <td className="font-medium text-right border py-5 px-4 border-stroke dark:border-opacity-20 text-black dark:text-white">
                                         {total.sisa
-                                            ? Intl.NumberFormat("in-ID", {
+                                            ? Intl.NumberFormat("en-ID", {
                                                   style: "currency",
                                                   currency: "IDR",
                                                   maximumFractionDigits: "0"
