@@ -4,6 +4,7 @@ import { createColumnHelper } from "@tanstack/react-table";
 import profile from "@/assets/images/user.png";
 import HapusPermanen from "@/Components/HapusPermanen";
 import FileListAction from "@/Components/FileListAction";
+import { BsFillFileEarmarkImageFill } from "react-icons/bs";
 
 const columnHelper = createColumnHelper();
 
@@ -850,11 +851,22 @@ export const columnsPinjaman = [
 ];
 
 export const columnFileList = [
-    columnHelper.accessor("name", {
-        id: "name",
+    columnHelper.accessor("filename", {
+        id: "filename",
         cell: (data) => (
-            <span className="font-medium text-black dark:text-white">
-                {data.getValue()}
+            <span className="block w-max py-2 px-4 text-sm font-medium text-start text-black dark:text-white">
+                <div className="flex items-center">
+                    <span className="w-10 inline-block h-auto">
+                        {data.row.original.type.includes("image") ? (
+                            <span className="w-full inline-block text-primary text-xl">
+                                <BsFillFileEarmarkImageFill />
+                            </span>
+                        ) : null}
+                    </span>
+                    <p className="overflow-hidden whitespace-nowrap text-ellipsis w-50 md:w-60 xl:w-90 2xl:w-100 3xl:w-full">
+                        {data.getValue()}
+                    </p>
+                </div>
             </span>
         ),
         header: "Nama",
@@ -863,18 +875,34 @@ export const columnFileList = [
     columnHelper.accessor("author", {
         id: "author",
         cell: (data) => (
-            <span className="font-medium text-black dark:text-white">
+            <span className="block py-2 px-4 font-medium text-sm text-black dark:text-white">
                 {data.getValue()}
             </span>
         ),
-        header: "Author",
-        enableSorting: false
+        header: "Diupload Oleh",
+        enableSorting: false,
+    }),
+
+    columnHelper.accessor("type", {
+        id: "Type",
+        cell: (data) => (
+            <span className="block py-2 px-4 font-medium text-sm text-black dark:text-white">
+                File{" "}
+                {data.getValue() === "folder" ? (
+                    <span className="capitalize">{data.getValue()}</span>
+                ) : (
+                    <span className="uppercase">{data.getValue()}</span>
+                )}
+            </span>
+        ),
+        header: "Tipe",
+        enableSorting: false,
     }),
 
     columnHelper.accessor("created_at", {
         id: "created_at",
         cell: (data) => (
-            <span className="font-medium text-black dark:text-white">
+            <span className="block py-2 px-4 font-medium text-sm text-black dark:text-white">
                 {new Date(data.getValue()).toLocaleDateString("in-ID", {
                     dateStyle: "short",
                 })}{" "}
@@ -884,13 +912,18 @@ export const columnFileList = [
                 })}
             </span>
         ),
-        header: "Diupload Pada",
+        header: "Tanggal Upload",
     }),
 
     columnHelper.accessor("_id", {
         id: "_id",
-        cell: (data) => <FileListAction />,
+        cell: (data) => (
+            <FileListAction
+                id={data.getValue()}
+                type={data.row.original.type}
+            />
+        ),
         header: "Action",
-        enableSorting: false
+        enableSorting: false,
     }),
 ];

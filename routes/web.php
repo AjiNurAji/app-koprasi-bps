@@ -58,6 +58,7 @@ Route::middleware(['auth:admin,member'])->group(function () {
     });
 
     Route::get('/laporan-rat', [HomepageController::class, 'laporanRat'])->name('laporan_rat');
+    Route::get('/laporan-rat/folder/{id}', [HomepageController::class, 'laporanRatFolder'])->name('laporan_rat_folder');
 
     // transaksi
     Route::get('/pinjaman-anggota/transaction', [HomepageController::class, 'pinjamanTransaction'])->name('pinjaman_transaksi');
@@ -114,9 +115,6 @@ Route::middleware(['auth:admin'])->group(function () {
     Route::get('/member/change-password', 'MemberController@change-password')->name('change-password');
     Route::post('/member/update-password', 'MemberController@update-password')->name('update_password');
 
-    //upload file
-    Route::post('/upload-file', [UploadController::class, 'index'])->name('post_file');
-
     // piutang 
     // set jasa anggota
     Route::post('/jasa-anggota/set', [PiutangController::class, 'setJasaAnggota'])->name('jasa_anggota_set');
@@ -139,6 +137,9 @@ Route::middleware(['auth:admin'])->group(function () {
 
     // post ad-art
     Route::post('/ad-art/set', [UploadController::class, 'adART'])->name('ad_art_set');
+
+    // upload file
+    Route::post('/laporan-rat/uploadFile', [UploadController::class, 'uploadFile'])->name('upload_file');
 });
 
 require __DIR__ . '/auth.php';

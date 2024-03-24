@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\AdArt;
 use App\Models\AmbilSimpanan;
 use App\Models\BayarPinjaman;
-use App\Models\Folders;
+use App\Models\Files;
 use App\Models\Kas;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -23,6 +23,7 @@ use App\Models\TrTunai;
 use App\Models\Tunai;
 use App\Models\User;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Storage;
 
 class HomepageController extends Controller
 {
@@ -749,8 +750,8 @@ class HomepageController extends Controller
     // halaman laporan rat
     public function laporanRat()
     {
-        $folder = Folders::all();
+        $files = Files::orderBy("created_at", "desc")->get();
 
-        return Inertia::render("LaporanRat", ['data' => $folder]);
+        return Inertia::render("LaporanRat", ['data' => $files]);
     }
 }

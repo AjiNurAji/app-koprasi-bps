@@ -29,6 +29,8 @@ class UserController extends Controller
 
     public function createUser(Request $request)
     {
+        if (!Auth::guard("admin")->check()) return response()->json(["message" => "Hanya bisa diakses oleh admin!"], 401);
+
         $request->validate([
             'username' => 'required|string',
             'name' => 'required|string',
@@ -67,10 +69,6 @@ class UserController extends Controller
 
         $user = $this->getUserLogin();
 
-        // $file = $request->file("image");
-        // $fileName = time() . "-" . $user->username . "." . $file->getClientOriginalExtension();
-
-        // dd($request->file("image")->storeAs("public/user_profile", $fileName));
         if ($user->role) {
             $getUser = User::where('id', $user->id)->first();
             $getUser->update([

@@ -18,7 +18,6 @@ class Files extends Model
         "id_file",
         "filename",
         "author",
-        "id_folder",
         "path",
         "type"
     ];
