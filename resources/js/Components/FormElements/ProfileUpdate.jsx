@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import ButtonLoading from "../ButtonLoading";
 import { PiEyeLight, PiEyeSlash } from "react-icons/pi";
 import { useForm, router } from "@inertiajs/react";
-import { toast } from "react-hot-toast";
 import FileInput from "./FileInput";
 import PostData from "@/Libs/postData";
 
