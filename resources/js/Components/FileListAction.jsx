@@ -2,22 +2,57 @@ import { BsTrash3 } from "react-icons/bs";
 import { BiRename, BiDotsVerticalRounded } from "react-icons/bi";
 import { MdDownload } from "react-icons/md";
 import { useState, useEffect, useRef } from "react";
+import RenameFile from "./RenameFile";
 
-const FileListAction = () => {
+const FileListAction = ({ id, path, filename }) => {
     const [button, setbutton] = useState(false);
     const buttonRef = useRef(null);
+    const bDownload = useRef(null);
+    const bDelete = useRef(null);
+    const bRename = useRef(null);
+    const [rename, setRename] = useState(false);
 
     useEffect(() => {
-        document.addEventListener("click", (e) => {
-            e.preventDefault();
-            if (!buttonRef.current.contains(e.target)) {
-                setbutton(false);
+        window.addEventListener("resize", () => {
+            if (document.body.clientWidth < 640) {
+                document.addEventListener("click", (e) => {
+                    if (
+                        !buttonRef.current?.contains(e.target) &&
+                        !bDownload.current?.contains(e.target) &&
+                        !bDelete.current?.contains(e.target) &&
+                        !bRename.current?.contains(e.target)
+                    ) {
+                        setbutton(false);
+                    }
+                });
             }
         });
     }, []);
 
+    useEffect(() => {
+        const widthDefault = document.body.clientWidth;
+
+        if (widthDefault < 640) {
+            document.addEventListener("click", (e) => {
+                if (
+                    !buttonRef.current?.contains(e.target) &&
+                    !bDownload.current?.contains(e.target) &&
+                    !bDelete.current?.contains(e.target) &&
+                    !bRename.current?.contains(e.target)
+                ) {
+                    setbutton(false);
+                }
+            });
+        }
+    }, []);
+
+    const fileDelete = (e) => {
+        e.preventDefault();
+    };
+
     return (
         <div className="flex w-full py-2 px-0 sm:px-4 justify-start items-center gap-0 sm:gap-4">
+            {rename && <RenameFile id={id} setPopup={setRename} filename={filename} />}
             <div className="sm:hidden relative">
                 <button
                     className="hover:text-primary click_animation text-lg"
@@ -29,27 +64,50 @@ const FileListAction = () => {
 
                 {button && (
                     <div className="flex absolute right-5 top-0 gap-3 w-max shadow-md rounded-md border border-stroke dark:border-strokedark bg-white dark:bg-boxdark px-2 py-1">
-                        <button className="hover:text-primary click_animation text-xs">
+                        <button
+                            className="hover:text-primary click_animation text-sm"
+                            ref={bRename}
+                            onClick={() => setRename(true)}
+                        >
                             <BiRename />
                         </button>
-                        <button className="hover:text-danger click_animation text-xs">
+                        <button
+                            className="hover:text-danger click_animation text-sm"
+                            ref={bDelete}
+                            onClick={fileDelete}
+                        >
                             <BsTrash3 />
                         </button>
-                        <button className="hover:text-danger click_animation text-xs">
+                        <a
+                            href={path}
+                            download={filename}
+                            ref={bDownload}
+                            className="hover:text-danger click_animation text-sm"
+                        >
                             <MdDownload />
-                        </button>
+                        </a>
                     </div>
                 )}
             </div>
-            <button className="hover:text-primary click_animation text-lg max-sm:hidden">
+            <button
+                className="hover:text-primary click_animation text-lg max-sm:hidden"
+                onClick={() => setRename(true)}
+            >
                 <BiRename />
             </button>
-            <button className="hover:text-danger click_animation text-lg max-sm:hidden">
+            <button
+                className="hover:text-danger click_animation text-lg max-sm:hidden"
+                onClick={fileDelete}
+            >
                 <BsTrash3 />
             </button>
-            <button className="hover:text-danger click_animation text-lg max-sm:hidden">
+            <a
+                href={path}
+                download={filename}
+                className="hover:text-danger click_animation text-lg max-sm:hidden"
+            >
                 <MdDownload />
-            </button>
+            </a>
         </div>
     );
 };

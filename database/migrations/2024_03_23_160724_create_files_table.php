@@ -16,7 +16,8 @@ return new class extends Migration
             $table->string('filename', 100);
             $table->string('path', 255);
             $table->string('author', 30);
-            $table->string('type', 255);
+            $table->string('type', 25);
+            $table->string('mimeType', 255);
             $table->timestamps();
         });
     }

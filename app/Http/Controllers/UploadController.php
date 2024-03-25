@@ -53,7 +53,6 @@ class UploadController extends Controller
         try {
             $author = Auth::guard("admin")->user();
 
-            // dd(sizeof($request->file("files")));
             foreach ($request->file("files") as $i => $file) {
                 $fileName = $file->getClientOriginalName();
                 $path = $file->storeAs("/laporan-rat", $fileName);
@@ -62,7 +61,8 @@ class UploadController extends Controller
                     "id_file" => Str::uuid(),
                     "author" => $author->name,
                     "filename" => $fileName,
-                    "type" => $file->getClientMimeType(),
+                    "type" => $file->getClientOriginalExtension(),
+                    "mimeType" => $file->getClientMimeType(),
                     "path" => $path,
                 ]);
             }

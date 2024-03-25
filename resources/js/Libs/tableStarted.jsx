@@ -4,7 +4,17 @@ import { createColumnHelper } from "@tanstack/react-table";
 import profile from "@/assets/images/user.png";
 import HapusPermanen from "@/Components/HapusPermanen";
 import FileListAction from "@/Components/FileListAction";
-import { BsFillFileEarmarkImageFill } from "react-icons/bs";
+import {
+    BsFillFileEarmarkExcelFill,
+    BsFillFileEarmarkFill,
+    BsFillFileEarmarkImageFill,
+    BsFillFileEarmarkMusicFill,
+    BsFillFileEarmarkPdfFill,
+    BsFillFileEarmarkPlayFill,
+    BsFillFileEarmarkSlidesFill,
+    BsFillFileEarmarkTextFill,
+    BsFillFileEarmarkWordFill,
+} from "react-icons/bs";
 
 const columnHelper = createColumnHelper();
 
@@ -857,11 +867,49 @@ export const columnFileList = [
             <span className="block w-max py-2 px-4 text-sm font-medium text-start text-black dark:text-white">
                 <div className="flex items-center">
                     <span className="w-10 inline-block h-auto">
-                        {data.row.original.type.includes("image") ? (
+                        {data.row.original.mimeType.includes("image") ? (
                             <span className="w-full inline-block text-primary text-xl">
                                 <BsFillFileEarmarkImageFill />
                             </span>
-                        ) : null}
+                        ) : data.row.original.mimeType.includes("sheet") ||
+                          data.row.original.mimeType.includes("excel") ? (
+                            <span className="w-full inline-block text-success text-xl">
+                                <BsFillFileEarmarkExcelFill />
+                            </span>
+                        ) : data.row.original.mimeType.includes("word") ? (
+                            <span className="w-full inline-block text-meta-5 text-xl">
+                                <BsFillFileEarmarkWordFill />
+                            </span>
+                        ) : data.row.original.mimeType.includes(
+                              "text/plain"
+                          ) ? (
+                            <span className="w-full inline-block text-primary text-xl">
+                                <BsFillFileEarmarkTextFill />
+                            </span>
+                        ) : data.row.original.mimeType.includes("pdf") ? (
+                            <span className="w-full inline-block text-danger text-xl">
+                                <BsFillFileEarmarkPdfFill />
+                            </span>
+                        ) : data.row.original.mimeType.includes("audio") ? (
+                            <span className="w-full inline-block text-primary text-xl">
+                                <BsFillFileEarmarkMusicFill />
+                            </span>
+                        ) : data.row.original.mimeType.includes("video") ? (
+                            <span className="w-full inline-block text-primary text-xl">
+                                <BsFillFileEarmarkPlayFill />
+                            </span>
+                        ) : data.row.original.mimeType.includes(
+                              "presentation"
+                          ) ||
+                          data.row.original.mimeType.includes("powerpoint") ? (
+                            <span className="w-full inline-block text-warning text-xl">
+                                <BsFillFileEarmarkSlidesFill />
+                            </span>
+                        ) : (
+                            <span className="w-full inline-block text-primary text-xl">
+                                <BsFillFileEarmarkFill />
+                            </span>
+                        )}
                     </span>
                     <p className="overflow-hidden whitespace-nowrap text-ellipsis w-50 md:w-60 xl:w-90 2xl:w-100 3xl:w-full">
                         {data.getValue()}
@@ -884,15 +932,10 @@ export const columnFileList = [
     }),
 
     columnHelper.accessor("type", {
-        id: "Type",
+        id: "type",
         cell: (data) => (
             <span className="block py-2 px-4 font-medium text-sm text-black dark:text-white">
-                File{" "}
-                {data.getValue() === "folder" ? (
-                    <span className="capitalize">{data.getValue()}</span>
-                ) : (
-                    <span className="uppercase">{data.getValue()}</span>
-                )}
+                File <span className="uppercase">{data.getValue()}</span>
             </span>
         ),
         header: "Tipe",
@@ -915,12 +958,13 @@ export const columnFileList = [
         header: "Tanggal Upload",
     }),
 
-    columnHelper.accessor("_id", {
+    columnHelper.accessor("id_file", {
         id: "_id",
         cell: (data) => (
             <FileListAction
                 id={data.getValue()}
-                type={data.row.original.type}
+                path={"storage/" + data.row.original.path}
+                filename={data.row.original.filename}
             />
         ),
         header: "Action",

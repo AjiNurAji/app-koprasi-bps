@@ -19,6 +19,7 @@ class Files extends Model
         "filename",
         "author",
         "path",
-        "type"
+        "type",
+        "mimeType"
     ];
 }
