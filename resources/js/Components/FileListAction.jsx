@@ -3,6 +3,8 @@ import { BiRename, BiDotsVerticalRounded } from "react-icons/bi";
 import { MdDownload } from "react-icons/md";
 import { useState, useEffect, useRef } from "react";
 import RenameFile from "./RenameFile";
+import { router } from "@inertiajs/react";
+import { toast } from "react-hot-toast";
 
 const FileListAction = ({ id, path, filename }) => {
     const [button, setbutton] = useState(false);
@@ -11,6 +13,7 @@ const FileListAction = ({ id, path, filename }) => {
     const bDelete = useRef(null);
     const bRename = useRef(null);
     const [rename, setRename] = useState(false);
+    const [yesOrNo, setYesOrNo] = useState(false);
 
     useEffect(() => {
         window.addEventListener("resize", () => {
@@ -46,13 +49,65 @@ const FileListAction = ({ id, path, filename }) => {
         }
     }, []);
 
-    const fileDelete = (e) => {
+    const fileDelete = async (e) => {
         e.preventDefault();
+        toast.loading(
+            (t) => (
+                <div className="flex flex-col items-center justify-start gap-2">
+                    <span className="text-lg">Apakah anda yakin?</span>
+                    <div className="flex w-full items-center justify-center gap-2">
+                        <button
+                            className="bg-success w-full rounded-md px-3 py-1 text-white text-sm"
+                            onClick={() => {
+                                setYesOrNo(true);
+                                toast.dismiss(t.id);
+                            }}
+                        >
+                            Yakin
+                        </button>
+                        <button
+                            className="bg-danger w-full rounded-md px-3 py-1 text-white text-sm"
+                            onClick={() => toast.dismiss(t.id)}
+                        >
+                            Batal
+                        </button>
+                    </div>
+                </div>
+            ),
+            {
+                icon: null,
+            }
+        );
     };
+
+    const process = async () => {
+        if (!yesOrNo) return;
+
+        const loading = toast.loading("Loading...");
+        const response = await axios.delete(route("file_delete", id));
+
+        if (response.data) {
+            toast.success(response.data.message, {
+                id: loading,
+                duration: 3000,
+            });
+            setYesOrNo(false);
+            router.get("laporan-rat");
+        } else {
+            setYesOrNo(false);
+            toast.error(response.message, { id: loading, duration: 3000 });
+        }
+    };
+
+    useEffect(() => {
+        process();
+    }, [yesOrNo]);
 
     return (
         <div className="flex w-full py-2 px-0 sm:px-4 justify-start items-center gap-0 sm:gap-4">
-            {rename && <RenameFile id={id} setPopup={setRename} filename={filename} />}
+            {rename && (
+                <RenameFile id={id} setPopup={setRename} filename={filename} />
+            )}
             <div className="sm:hidden relative">
                 <button
                     className="hover:text-primary click_animation text-lg"

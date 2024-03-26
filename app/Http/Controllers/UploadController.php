@@ -72,4 +72,49 @@ class UploadController extends Controller
             return response()->json(["message" => "Gagal mengupload file!"], 500);
         }
     }
+
+    public function deleteFile(string $id)
+    {
+        $file = Files::findOrFail($id);
+
+        if (!$file) return response()->json(["message" => "File tidak di temukan!"], 404);
+
+        try {
+
+            // delete from storage
+            Storage::delete($file->path);
+
+            // delete from db
+            $file->delete();
+
+            return response()->json(["message" => "File berhasil dihapus"], 200);
+        } catch (\Throwable $th) {
+            return response()->json(["message" => "Gagal menghapus file!"], 500);
+        }
+    }
+
+    public function renameFile(Request $request, string $id)
+    {
+        $request->validate([
+            "new_file" => "required|string",
+            "extension" => "required",
+        ]);
+
+        $file = Files::findOrFail($id);
+
+        if (!$file) return response()->json(["message" => "File tidak di temukan!"], 404);
+
+        try {
+            Storage::move($file->path, "laporan-rat/" . $request->input("new_file") . "." . $request->input("extension"));
+
+            $file->update([
+                "filename" => $request->input("new_file") . "." . $request->input("extension"),
+                "path" => "laporan-rat/" . $request->input("new_file") . "." . $request->input("extension"),
+            ]);
+
+            return response()->json(["message" => "Ganti nama berhasil!"], 200);
+        } catch (\Throwable $th) {
+            return response()->json(["message" => "Gagal ganti nama!"], 500);
+        }
+    }
 }

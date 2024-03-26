@@ -3,8 +3,7 @@ import { BsTrash3 } from "react-icons/bs";
 import axios from "axios";
 import { toast } from "react-hot-toast";
 import { router } from "@inertiajs/react";
-import { useState } from "react";
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 
 const ActionTable = ({ id }) => {
     const [yesOrNo, setYesOrNo] = useState(false);
@@ -53,8 +52,10 @@ const ActionTable = ({ id }) => {
                 id: loading,
                 duration: 3000,
             });
+            setYesOrNo(false);
             router.get("members");
         } else {
+            setYesOrNo(false);
             toast.error(response.message, { id: loading, duration: 3000 });
         }
     }

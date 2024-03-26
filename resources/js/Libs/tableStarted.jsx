@@ -15,6 +15,7 @@ import {
     BsFillFileEarmarkTextFill,
     BsFillFileEarmarkWordFill,
 } from "react-icons/bs";
+import { ImSvg } from "react-icons/im";
 
 const columnHelper = createColumnHelper();
 
@@ -867,7 +868,13 @@ export const columnFileList = [
             <span className="block w-max py-2 px-4 text-sm font-medium text-start text-black dark:text-white">
                 <div className="flex items-center">
                     <span className="w-10 inline-block h-auto">
-                        {data.row.original.mimeType.includes("image") ? (
+                        {data.row.original.mimeType.includes(
+                              "svg"
+                          ) ? (
+                            <span className="w-full inline-block text-warning text-xl">
+                                <ImSvg />
+                            </span>
+                        ) : data.row.original.mimeType.includes("image") ? (
                             <span className="w-full inline-block text-primary text-xl">
                                 <BsFillFileEarmarkImageFill />
                             </span>
