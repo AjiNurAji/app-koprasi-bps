@@ -235,10 +235,10 @@ const ProfileUpdate = ({ user }) => {
                     )}
                 <div className="w-full mt-3 text-end">
                     <a
-                        href="/forgot_password"
+                        href={route("forgot_password")}
                         className="underline text-black text-sm dark:text-white"
                     >
-                        Forgot Password?
+                        Lupa Password?
                     </a>
                 </div>
             </div>

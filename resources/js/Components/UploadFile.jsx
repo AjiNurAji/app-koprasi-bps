@@ -42,7 +42,7 @@ const UploadFile = ({ setPopup }) => {
     }, [files]);
 
     return (
-        <div className="fixed z-9999 h-screen w-full top-0 left-0 right-0 overflow-hidden bg-black bg-opacity-20 flex justify-center items-center">
+        <div className="fixed z-9999 h-screen w-full top-0 left-0 right-0 overflow-hidden bg-black bg-opacity-20 dark:bg-opacity-60 flex justify-center items-center">
             <div className="rounded-md border mb-4 sm:mb-6 border-stroke bg-white p-5 shadow-default dark:border-strokedark dark:bg-boxdark w-11/12 lg:w-1/2">
                 <div className="flex jutify-between w-full gap-5 mb-3 items-center">
                     <h1 className="font-bold w-full text-xl">Upload File</h1>

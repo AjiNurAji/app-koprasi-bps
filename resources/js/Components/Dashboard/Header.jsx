@@ -98,10 +98,6 @@ const Header = (props) => {
                         {/* <!-- Dark Mode Toggler --> */}
                         <DarkModeSwitcher />
                         {/* <!-- Dark Mode Toggler --> */}
-
-                        {/* <!-- Notification Menu Area --> */}
-                        {/* <DropdownNotification /> */}
-                        {/* <!-- Notification Menu Area --> */}
                     </ul>
 
                     {/* <!-- User Area --> */}

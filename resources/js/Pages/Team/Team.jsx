@@ -2,7 +2,9 @@ import Breadcrumb from "@/Components/Dashboard/El/Breadcrumb";
 import Authenticated from "@/Layouts/AuthenticatedLayout";
 import { FaGithub, FaInstagram, FaLinkedin } from "react-icons/fa6";
 import aji from "@/assets/images/team/aji.jpg";
+import tiaa from "@/assets/images/team/tiaa.jpg";
 import yusuf from "@/assets/images/team/yusuf.jpg";
+import gina from "@/assets/images/team/gina.jpg";
 import { Head } from "@inertiajs/react";
 
 const author = [
@@ -17,7 +19,7 @@ const author = [
     },
     {
         nama: "Tia Niandari",
-        image: null,
+        image: tiaa,
         social: {
             ig: "https://instagram.com/tynndr_",
             linkedin: "https://id.linkedin.com/in/tianiandari",
@@ -34,7 +36,7 @@ const author = [
     },
     {
         nama: "Gina Rahma Juliana",
-        image: null,
+        image: gina,
         social: {
             ig: "https://instagram.com/xxgnrhm_",
         },
@@ -55,11 +57,7 @@ const Team = ({ auth }) => {
                         Murid SMK Negeri 4 Kuningan
                     </h1>
                     <p className="text-body dark:text-bodydarke text-center text-wrap w-full sm:w-3/4">
-                        Kami menjalankan praktik kerja lapangan (PKL) di Kantor
-                        BPS Kabupaten Kuningan, dan kami membuat applikasi ini
-                        untuk laporan akhir praktik (sidang). Terima kasih telah
-                        menerima kami untuk melaksanakan praktik kerja lapangan
-                        di kantor BPS Kabupaten Kuningan.
+                        Hii, izinkan kami mempernalkan diri.
                     </p>
                 </div>
                 <div className="my-5 grid grid-cols-2 gap-3 md:gap-5  md:grid-cols-3 lg:gap-7 lg:grid-cols-4">

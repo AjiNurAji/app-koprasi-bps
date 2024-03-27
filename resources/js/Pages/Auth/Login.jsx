@@ -110,7 +110,7 @@ const Login = () => {
                             </div>
                             <div className="flex justify-between items-center w-full">
                                 <Checkbox data={data} setData={setData} />
-                                <a href="" className="text-black hover:text-primary dark:hover:text-primary dark:text-bodydark">Forgot Password?</a>
+                                <a href={route("forgot_password")} className="text-black hover:text-primary dark:hover:text-primary dark:text-bodydark">Lupa Password?</a>
                             </div>
                             <div className="w-full">
                                 {processing ? (

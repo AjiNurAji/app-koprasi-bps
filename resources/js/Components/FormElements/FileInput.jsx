@@ -258,10 +258,9 @@ const FileInput = ({
                                 key={i}
                                 className="flex xsm:flex-row flex-col w-full gap-2 h-auto justify-center xsm:justify-start items-center px-2 py-1 shadow-md rounded-md bg-stroke dark:bg-strokedark"
                             >
-                                {console.log(item)}
                                 <div className="w-10 h-10">
                                     {item[1].type.includes("svg") ? (
-                                        <span className="w-full h-full inline-block text-primary text-xl">
+                                        <span className="w-full h-full inline-block text-warning text-xl">
                                             <ImSvg className="w-full h-full" />
                                         </span>
                                     ) : item[1].type.includes("image") ? (

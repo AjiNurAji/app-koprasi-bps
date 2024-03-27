@@ -5,6 +5,7 @@ import { useState, useEffect, useRef } from "react";
 import RenameFile from "./RenameFile";
 import { router } from "@inertiajs/react";
 import { toast } from "react-hot-toast";
+import PostData from "@/Libs/postData";
 
 const FileListAction = ({ id, path, filename }) => {
     const [button, setbutton] = useState(false);
