@@ -58,7 +58,7 @@ const UploadFile = ({ setPopup }) => {
                         data={files}
                         setData={setFiles}
                         multiple={true}
-                        max_size={99999999999}
+                        max_size={9999999999999}
                     />
                     <div className="w-full">
                         {processing ? (

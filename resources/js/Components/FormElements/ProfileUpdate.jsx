@@ -82,36 +82,38 @@ const ProfileUpdate = ({ user }) => {
                     />
                 </div>
             ) : (
-                <div className="w-full">
-                    <label
-                        htmlFor="nip"
-                        className="mb-2.5 inline-block font-medium text-black dark:text-white"
-                    >
-                        NIP
-                    </label>
-                    <span className="bg-transparent capitalize dark:bg-transparent block text-start px-1">
-                        {data.nip ? data.nip : "-"}
-                    </span>
-                </div>
+                <>
+                    <div className="w-full">
+                        <label
+                            htmlFor="nip"
+                            className="mb-2.5 inline-block font-medium text-black dark:text-white"
+                        >
+                            NIP
+                        </label>
+                        <span className="bg-transparent capitalize dark:bg-transparent block text-start px-1">
+                            {data.nip ? data.nip : "-"}
+                        </span>
+                    </div>
+                    <div className="w-full">
+                        <label
+                            htmlFor="no_hp"
+                            className="mb-2.5 inline-block font-medium text-black dark:text-white"
+                        >
+                            No HP
+                        </label>
+                        <input
+                            type="text"
+                            name="no_hp"
+                            id="no_hp"
+                            maxLength={13}
+                            value={data.no_hp}
+                            onChange={(e) => setValue(e)}
+                            placeholder="Masukkan no hp"
+                            className="w-full rounded-md border capitalize text-dark dark:text-white border-stroke bg-transparent py-2 pl-4 pr-6 transition-all duration-300 ease-in-out outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
+                        />
+                    </div>
+                </>
             )}
-            <div className="w-full">
-                <label
-                    htmlFor="no_hp"
-                    className="mb-2.5 inline-block font-medium text-black dark:text-white"
-                >
-                    No HP
-                </label>
-                <input
-                    type="text"
-                    name="no_hp"
-                    id="no_hp"
-                    maxLength={13}
-                    value={data.no_hp}
-                    onChange={(e) => setValue(e)}
-                    placeholder="Masukkan no hp"
-                    className="w-full rounded-md border capitalize text-dark dark:text-white border-stroke bg-transparent py-2 pl-4 pr-6 transition-all duration-300 ease-in-out outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
-                />
-            </div>
             <div className="w-full">
                 <label
                     htmlFor="namaLengkap"
