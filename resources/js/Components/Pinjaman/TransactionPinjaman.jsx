@@ -92,7 +92,7 @@ const TransactionPinjaman = ({ step, setStep }) => {
 
     const submit = async (e) => {
         e.preventDefault();
-        if (!data.nominal) return toast.error("Nominal Wajib Diisi!");
+        if (!data.nominal) return toast.error("Nominal Wajib Diisi!", { className: "dark:bg-boxdark dark:text-white" });
         setProcess(true);
 
         const create = await PostData(
@@ -117,10 +117,11 @@ const TransactionPinjaman = ({ step, setStep }) => {
             nipRef.current.focus();
             return toast.error("NIP wajib diisi!", {
                 duration: 3000,
+                className: "dark:bg-boxdark dark:text-white"
             });
         }
         setProcess(true);
-        const toastLoading = toast.loading("Loading...");
+        const toastLoading = toast.loading("Loading...", { className: "dark:bg-boxdark dark:text-white" });
 
         try {
             const response = await axios.post(
@@ -140,6 +141,7 @@ const TransactionPinjaman = ({ step, setStep }) => {
                 toast.success(response.data.message, {
                     id: toastLoading,
                     duration: 3000,
+                    className: "dark:bg-boxdark dark:text-white"
                 });
                 setMember(response.data.member);
                 setPinjamanPrev(response.data.sebelum);
@@ -153,6 +155,7 @@ const TransactionPinjaman = ({ step, setStep }) => {
             toast.error(response.message, {
                 id: toastLoading,
                 duration: 3000,
+                className: "dark:bg-boxdark dark:text-white"
             });
             setProcess(false);
             return setStep(1);
@@ -161,11 +164,12 @@ const TransactionPinjaman = ({ step, setStep }) => {
             toast.error(error.response.data.message, {
                 id: toastLoading,
                 duration: 3000,
+                className: "dark:bg-boxdark dark:text-white"
             });
             if (error.response.data.redirect) {
                 setTimeout(() => {
                     router.get(route("jasa_piutang"));
-                    toast.success("Silahkan isi jasa anggota!");
+                    toast.success("Silahkan isi jasa anggota!", { className: "dark:bg-boxdark dark:text-white" });
                 }, 1000);
             }
         }

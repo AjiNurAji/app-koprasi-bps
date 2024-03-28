@@ -21,9 +21,9 @@ const Rekap = ({ excel, pdf, csv, title, filename }) => {
     const rekap = async (e, route, exc) => {
         e.preventDefault();
         if (!data.start_date || !data.end_date)
-            return toast.error("Harap pilih tanggal!");
+            return toast.error("Harap pilih tanggal!", { className: "dark:bg-boxdark dark:text-white" });
 
-        const loading = toast.loading("Loading...");
+        const loading = toast.loading("Loading...", { className: "dark:bg-boxdark dark:text-white" });
 
         if (exc === ".xlsx") {
             setProcessExcel(true);
@@ -47,6 +47,7 @@ const Rekap = ({ excel, pdf, csv, title, filename }) => {
                 toast.success("File berhasil didownload", {
                     id: loading,
                     duration: 3000,
+                    className: "dark:bg-boxdark dark:text-white"
                 });
                 setProcessCSV(false);
                 setProcessExcel(false);
@@ -56,6 +57,7 @@ const Rekap = ({ excel, pdf, csv, title, filename }) => {
                 toast.error("Terjadi kesalahan saat mendownload file!", {
                     id: loading,
                     duration: 3000,
+                    className: "dark:bg-boxdark dark:text-white"
                 });
                 setProcessCSV(false);
                 setProcessExcel(false);

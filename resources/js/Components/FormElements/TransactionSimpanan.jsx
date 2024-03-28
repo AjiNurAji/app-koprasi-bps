@@ -69,7 +69,7 @@ const TransactionSimpanan = ({ type, directUrl, postUrl, ambilUrl }) => {
     const handleStep = async (e) => {
         e.preventDefault();
         setProcess(true);
-        const toastLoading = toast.loading("Loading...");
+        const toastLoading = toast.loading("Loading...", { className: "dark:bg-boxdark dark:text-white" });
 
         try {
             const response = await axios.post(directUrl, data, {
@@ -84,6 +84,7 @@ const TransactionSimpanan = ({ type, directUrl, postUrl, ambilUrl }) => {
                     toast.error("Tidak ada sisa simpanan!", {
                         id: toastLoading,
                         duration: 3000,
+                        className: "dark:bg-boxdark dark:text-white"
                     });
                     reset();
                     setType("");
@@ -94,6 +95,7 @@ const TransactionSimpanan = ({ type, directUrl, postUrl, ambilUrl }) => {
                 toast.success(response.data.message, {
                     id: toastLoading,
                     duration: 3000,
+                    className: "dark:bg-boxdark dark:text-white"
                 });
                 setSimpananPrev(response.data.sebelum);
                 if (response.data.simpanan) {
@@ -112,6 +114,7 @@ const TransactionSimpanan = ({ type, directUrl, postUrl, ambilUrl }) => {
             toast.error(response.message, {
                 id: toastLoading,
                 duration: 3000,
+                className: "dark:bg-boxdark dark:text-white"
             });
             setProcess(false);
             return setStep(1);
@@ -120,13 +123,14 @@ const TransactionSimpanan = ({ type, directUrl, postUrl, ambilUrl }) => {
             toast.error(error.response.data.message, {
                 id: toastLoading,
                 duration: 3000,
+                className: "dark:bg-boxdark dark:text-white"
             });
         }
     };
     const searchMember = async (e) => {
         e.preventDefault();
         setProcess(true);
-        const toastLoading = toast.loading("Loading...");
+        const toastLoading = toast.loading("Loading...", { className: "dark:bg-boxdark dark:text-white" });
 
         try {
             const response = await axios.post(directUrl, data, {
@@ -140,16 +144,17 @@ const TransactionSimpanan = ({ type, directUrl, postUrl, ambilUrl }) => {
                 toast.success(response.data.message, {
                     id: toastLoading,
                     duration: 3000,
+                    className: "dark:bg-boxdark dark:text-white"
                 });
 
                 setMember(response.data.member);
-                console.log(response.data)
                 return setProcess(false);
             }
 
             toast.error(response.message, {
                 id: toastLoading,
                 duration: 3000,
+                className: "dark:bg-boxdark dark:text-white"
             });
             setProcess(false);
             return setStep(1);
@@ -158,6 +163,7 @@ const TransactionSimpanan = ({ type, directUrl, postUrl, ambilUrl }) => {
             toast.error(error.response.data.message, {
                 id: toastLoading,
                 duration: 3000,
+                className: "dark:bg-boxdark dark:text-white"
             });
         }
     };

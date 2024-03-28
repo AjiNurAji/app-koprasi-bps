@@ -36,7 +36,7 @@ const SetAdArt = () => {
         if (!data.file) return setError(null);
 
         if (!data.file?.type.includes("pdf")) {
-            toast.error("File harus berbentuk PDF!")
+            toast.error("File harus berbentuk PDF!", { className: "dark:bg-boxdark dark:text-white" })
             return setError("File harus berbentuk PDF!")
         };
         setError(null);

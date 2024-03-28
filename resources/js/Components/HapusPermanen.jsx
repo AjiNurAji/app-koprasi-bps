@@ -15,7 +15,9 @@ const HapusPermanen = ({ id }) => {
                     <span className="text-lg">
                         Yakin ingin menghapus permanen anggota ini?
                     </span>
-                    <small className="text-danger text-xs">* seluruh data atas nama anggota akan ikut terhapus!</small>
+                    <small className="text-danger text-xs">
+                        * seluruh data atas nama anggota akan ikut terhapus!
+                    </small>
                     <div className="flex w-full items-center justify-center gap-2">
                         <button
                             className="bg-success w-full rounded-md px-3 py-1 text-white text-sm"
@@ -37,6 +39,7 @@ const HapusPermanen = ({ id }) => {
             ),
             {
                 icon: null,
+                className: "dark:bg-boxdark dark:text-white",
             }
         );
     };
@@ -44,23 +47,32 @@ const HapusPermanen = ({ id }) => {
     const process = async () => {
         if (!yesOrNo) return;
 
-        const loading = toast.loading("Loading...");
-        const response = await axios.delete(route("delete_permanen_member", id));
+        const loading = toast.loading("Loading...", {
+            className: "dark:bg-boxdark dark:text-white",
+        });
+        const response = await axios.delete(
+            route("delete_permanen_member", id)
+        );
 
         if (response.data) {
             toast.success(response.data.message, {
                 id: loading,
                 duration: 3000,
+                className: "dark:bg-boxdark dark:text-white",
             });
             router.get("members");
         } else {
-            toast.error(response.message, { id: loading, duration: 3000 });
+            toast.error(response.message, {
+                id: loading,
+                duration: 3000,
+                className: "dark:bg-boxdark dark:text-white",
+            });
         }
-    }
+    };
 
     useEffect(() => {
-        process()
-    }, [yesOrNo])
+        process();
+    }, [yesOrNo]);
 
     return (
         <div className="flex w-full justify-center items-center">
