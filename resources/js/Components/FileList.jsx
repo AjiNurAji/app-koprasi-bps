@@ -19,13 +19,17 @@ const FileList = ({ data }) => {
     const [popup, setPopup] = useState(false);
     const [type, setType] = useState("");
     const [globalFilter, setGlobalFilter] = useState("");
+    const [rowSelection, setRowSelection] = useState({});
 
     const table = useReactTable({
         data: datas,
         columns: columnFileList,
         state: {
             globalFilter,
+            rowSelection
         },
+        onRowSelectionChange: setRowSelection,
+        enableRowSelection: true,
         getCoreRowModel: getCoreRowModel(),
         getPaginationRowModel: getPaginationRowModel(),
         getFilteredRowModel: getFilteredRowModel(),

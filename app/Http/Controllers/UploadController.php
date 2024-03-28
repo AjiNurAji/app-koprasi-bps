@@ -55,6 +55,12 @@ class UploadController extends Controller
 
             foreach ($request->file("files") as $i => $file) {
                 $fileName = $file->getClientOriginalName();
+                
+                // cek filename sudah ada atau belum
+                $check = Files::where("filename", $fileName)->get();
+
+                if (sizeof($check)) return response()->json(["message" => $fileName . " Sudah ada!"], 500);
+
                 $path = $file->storeAs("/laporan-rat", $fileName);
 
                 Files::create([

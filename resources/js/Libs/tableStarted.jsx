@@ -16,6 +16,7 @@ import {
     BsFillFileEarmarkWordFill,
 } from "react-icons/bs";
 import { ImSvg } from "react-icons/im";
+import CheckboxFiles from "@/Components/Table/ChekboxFiles";
 
 const columnHelper = createColumnHelper();
 
@@ -862,15 +863,37 @@ export const columnsPinjaman = [
 ];
 
 export const columnFileList = [
+    columnHelper.accessor("", {
+        id: "select",
+        header: ({ table }) => (
+            <CheckboxFiles
+                indeterminate={table.getIsSomeRowsSelected()}
+                {...{
+                    checked: table.getIsAllRowsSelected(),
+                    onChange: table.getToggleAllRowsSelectedHandler(),
+                }}
+            />
+        ),
+        cell: ({ row }) => (
+            <span className="flex justify-center items-center">
+                <CheckboxFiles
+                    indeterminate={row.getIsSomeSelected()}
+                    {...{
+                        checked: row.getIsSelected(),
+                        onChange: row.getToggleSelectedHandler(),
+                    }}
+                />
+            </span>
+        ),
+    }),
+
     columnHelper.accessor("filename", {
         id: "filename",
         cell: (data) => (
             <span className="block w-max py-2 px-4 text-sm font-medium text-start text-black dark:text-white">
                 <div className="flex items-center">
                     <span className="w-10 inline-block h-auto">
-                        {data.row.original.mimeType.includes(
-                              "svg"
-                          ) ? (
+                        {data.row.original.mimeType.includes("svg") ? (
                             <span className="w-full inline-block text-warning text-xl">
                                 <ImSvg />
                             </span>
@@ -934,7 +957,7 @@ export const columnFileList = [
                 {data.getValue()}
             </span>
         ),
-        header: "Diupload Oleh",
+        header: "Pemilik",
         enableSorting: false,
     }),
 
@@ -949,20 +972,20 @@ export const columnFileList = [
         enableSorting: false,
     }),
 
-    columnHelper.accessor("created_at", {
-        id: "created_at",
+    columnHelper.accessor("updated_at", {
+        id: "updated_at",
         cell: (data) => (
             <span className="block py-2 px-4 font-medium text-sm text-black dark:text-white">
                 {new Date(data.getValue()).toLocaleDateString("in-ID", {
                     dateStyle: "short",
                 })}{" "}
-                {new Date(data.getValue()).toLocaleTimeString("in-ID", {
+                {new Date(data.getValue()).toLocaleTimeString("en-ID", {
                     timeStyle: "medium",
                     hourCycle: "h24",
                 })}
             </span>
         ),
-        header: "Tanggal Upload",
+        header: "Diubah Pada",
     }),
 
     columnHelper.accessor("id_file", {
@@ -974,7 +997,7 @@ export const columnFileList = [
                 filename={data.row.original.filename}
             />
         ),
-        header: "Action",
+        header: "Aksi",
         enableSorting: false,
     }),
 ];

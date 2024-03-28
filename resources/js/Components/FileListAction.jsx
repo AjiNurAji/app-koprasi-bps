@@ -77,6 +77,7 @@ const FileListAction = ({ id, path, filename }) => {
             ),
             {
                 icon: null,
+                className: "dark:bg-boxdark dark:text-white",
             }
         );
     };
@@ -84,19 +85,26 @@ const FileListAction = ({ id, path, filename }) => {
     const process = async () => {
         if (!yesOrNo) return;
 
-        const loading = toast.loading("Loading...");
+        const loading = toast.loading("Loading...", {
+            className: "dark:bg-boxdark dark:text-white",
+        });
         const response = await axios.delete(route("file_delete", id));
 
         if (response.data) {
             toast.success(response.data.message, {
                 id: loading,
                 duration: 3000,
+                className: "dark:bg-boxdark dark:text-white",
             });
             setYesOrNo(false);
             router.get("laporan-rat");
         } else {
             setYesOrNo(false);
-            toast.error(response.message, { id: loading, duration: 3000 });
+            toast.error(response.message, {
+                id: loading,
+                duration: 3000,
+                className: "dark:bg-boxdark dark:text-white",
+            });
         }
     };
 

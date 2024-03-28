@@ -13,6 +13,7 @@ import {
 } from "react-icons/bs";
 import { GrClearOption } from "react-icons/gr";
 import { ImSvg } from "react-icons/im";
+import { MdClose } from "react-icons/md";
 
 const FileInput = ({
     fileType,
@@ -147,8 +148,8 @@ const FileInput = ({
                                             )}
 
                                             {file[0].type.includes("pdf") && (
-                                                <span className="w-20 h-auto mb-3 text-danger">
-                                                    <BsFillFileEarmarkPdfFill className="!w-full" width="auto" height="auto" />
+                                                <span className="w-20 flex justify-center items-center text-5xl h-auto mb-3 text-danger">
+                                                    <BsFillFileEarmarkPdfFill />
                                                 </span>
                                             )}
                                         </>
@@ -210,12 +211,12 @@ const FileInput = ({
                 />
             </label>
             {multiple && data.length ? (
-                <div className="w-full h-45 overflow-x-hidden rounded-md pr-2 mt-3">
-                    <div className="w-full flex flex-col justify-center items-start gap-3">
+                <div className="w-full h-full max-h-45 overflow-x-hidden rounded-md pr-2 mt-3">
+                    <div className="w-full flex flex-col justify-center items-start">
                         {Object.entries(data).map((item, i) => (
                             <div
                                 key={i}
-                                className="flex xsm:flex-row flex-col w-full gap-2 h-auto justify-center xsm:justify-start items-center px-2 py-1 shadow-md rounded-md bg-stroke dark:bg-strokedark"
+                                className="flex xsm:flex-row my-2 flex-col w-full gap-2 h-auto justify-center xsm:justify-start items-center px-2 py-1 shadow-md rounded-md bg-stroke dark:bg-strokedark"
                             >
                                 <div className="w-10 h-10">
                                     {item[1].type.includes("svg") ? (
