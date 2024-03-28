@@ -7,11 +7,12 @@ import {
     getFilteredRowModel,
     getSortedRowModel,
 } from "@tanstack/react-table";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import PaginationTable from "./PaginationTable";
 import { HiArrowsUpDown } from "react-icons/hi2";
 import SearchTable from "./SearchTable";
 import ButtonTambahData from "../ButtonTambahData";
+
 
 const TableMember = ({ data }) => {
     const [datas, setDatas] = useState([...data]);

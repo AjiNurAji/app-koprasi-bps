@@ -66,7 +66,7 @@ const Team = ({ auth }) => {
                             key={i + 1}
                             className="bg-white shadow-md dark:bg-black rounded-md border p-4 border-stroke dark:border-strokedark flex justify-start items-start flex-col gap-3"
                         >
-                            <div className="overflow-hidden w-full h-50 rounded-md">
+                            <div className="overflow-hidden w-full h-70 rounded-md">
                                 <img
                                     src={item.image}
                                     alt={item.nama}
